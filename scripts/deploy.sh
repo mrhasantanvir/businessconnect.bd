@@ -1,12 +1,15 @@
 #!/bin/bash
 
 # --- BusinessConnect.bd Zero-Downtime Deployment Script ---
-APP_NAME="business-connect-prod"
+APP_NAME="businessconnect-prod"
 BRANCH="main"
 LOG_FILE="./deployment.log"
+PROJECT_PATH="/www/wwwroot/businessconnect.bd"
 
 echo "----------------------------------------------------" >> $LOG_FILE
 echo "🚀 Deployment started at $(date)" | tee -a $LOG_FILE
+
+cd $PROJECT_PATH || { echo "❌ Could not find project directory"; exit 1; }
 
 # 1. Fetch latest code
 echo "📥 Syncing with $BRANCH branch..." | tee -a $LOG_FILE
