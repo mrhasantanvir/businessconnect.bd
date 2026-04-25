@@ -84,9 +84,9 @@ async function main() {
 
   // 5. Staff Members (assigned to GadgetGear)
   const staffMembers = [
-    { email: "rahim@businessconnect.bd", name: "Rahim Uddin", jobRole: "Warehouse Lead", attendance: 98, basePay: 25000, commission: 4200 },
-    { email: "sumaiya@businessconnect.bd", name: "Sumaiya Akhter", jobRole: "Customer Support", attendance: 100, basePay: 18000, commission: 5100 },
-    { email: "kamal@businessconnect.bd", name: "Kamal Hossain", jobRole: "Delivery Rider", attendance: 92, basePay: 15000, commission: 8400 },
+    { email: "rahim@businessconnect.bd", name: "Rahim Uddin", jobRole: "Warehouse Lead", attendance: 98, baseSalary: 25000, commission: 4200 },
+    { email: "sumaiya@businessconnect.bd", name: "Sumaiya Akhter", jobRole: "Customer Support", attendance: 100, baseSalary: 18000, commission: 5100 },
+    { email: "kamal@businessconnect.bd", name: "Kamal Hossain", jobRole: "Delivery Rider", attendance: 92, baseSalary: 15000, commission: 8400 },
   ];
 
   for (const staff of staffMembers) {
@@ -106,7 +106,7 @@ async function main() {
             create: {
               jobRole: staff.jobRole,
               attendance: staff.attendance,
-              basePay: staff.basePay,
+              baseSalary: staff.baseSalary,
               commission: staff.commission,
             },
           },
