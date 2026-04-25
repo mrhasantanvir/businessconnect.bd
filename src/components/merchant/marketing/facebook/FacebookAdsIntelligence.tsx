@@ -234,6 +234,8 @@ export default function FacebookAdsIntelligence({
       )}
     </div>
   );
+}
+
 function MetricCard({ title, value, trend, isPositive, icon: Icon }: any) {
   return (
     <div className="bg-white  border border-gray-100  rounded-3xl p-5 md:p-6 shadow-sm group hover:border-indigo-500/30 transition-all">
