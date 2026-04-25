@@ -1,0 +1,223 @@
+"use client";
+
+import React, { useState } from "react";
+import { 
+  ShieldCheck, 
+  Settings, 
+  MessageSquare, 
+  Phone, 
+  Save, 
+  RefreshCw, 
+  KeyRound, 
+  PlusCircle, 
+  TrendingUp,
+  ArrowLeft
+} from "lucide-react";
+import Link from "next/link";
+import { updateMerchantCredentialsAction, addMerchantCreditsAction } from "./actions";
+
+export function MerchantSettingsClient({ merchant }: { merchant: any }) {
+  const [loading, setLoading] = useState(false);
+  const [topupLoading, setTopupLoading] = useState<string | null>(null);
+  
+  // Credentials State
+  const [creds, setCreds] = useState({
+    sipUsername: merchant.sipConfig?.username || "",
+    sipPassword: merchant.sipConfig?.password || "",
+    sipDomain: merchant.sipConfig?.domain || "",
+    sipPort: merchant.sipConfig?.port?.toString() || "5060",
+    smsRate: merchant.smsRate || 0.50,
+    sipRate: merchant.sipRate || 1.00,
+  });
+
+  // Top-up State
+  const [topup, setTopup] = useState({ type: "SMS", amount: 100 });
+
+  const handleSaveCreds = async () => {
+    setLoading(true);
+    const res = await updateMerchantCredentialsAction(merchant.id, creds);
+    if (res.success) alert("Credentials Updated!");
+    else alert(`Error: ${res.error}`);
+    setLoading(false);
+  };
+
+  const handleTopup = async () => {
+    setTopupLoading(topup.type);
+    const res = await addMerchantCreditsAction(merchant.id, topup.type as "SMS" | "SIP", topup.amount);
+    if (res.success) {
+      alert(`${topup.type} Balance Increased!`);
+      // Update local state if needed or revalidate will handle it
+    }
+    setTopupLoading(null);
+  };
+
+  return (
+    <div className="max-w-6xl mx-auto space-y-12 pb-20 animate-in fade-in duration-700">
+      
+      {/* Header */}
+      <div className="flex items-center gap-6">
+         <Link href="/admin/merchants" className="p-4 bg-white border border-slate-100 rounded-[24px] hover:bg-slate-50 transition-all shadow-sm">
+            <ArrowLeft className="w-6 h-6 text-slate-900" />
+         </Link>
+         <div>
+            <h1 className="text-4xl font-black text-slate-900 tracking-tighter uppercase italic">Manage <span className="text-blue-600">{merchant.name}</span></h1>
+            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mt-1">Resource & Credential Control Center</p>
+         </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+         
+         {/* Credentials Form */}
+         <div className="lg:col-span-2 space-y-8">
+            <div className="bg-white border border-slate-100 rounded-[48px] p-10 space-y-10 shadow-sm">
+               <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center text-white">
+                     <KeyRound className="w-6 h-6" />
+                  </div>
+                  <div>
+                     <h2 className="text-xl font-black text-slate-900 uppercase italic">Core Credentials</h2>
+                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Configure platform-level connectivity</p>
+                  </div>
+               </div>
+
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-3">
+                     <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">SIP Username</label>
+                     <input 
+                        value={creds.sipUsername}
+                        onChange={e => setCreds({...creds, sipUsername: e.target.value})}
+                        className="w-full h-14 px-6 bg-slate-50 border-none rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-blue-100 transition-all" 
+                     />
+                  </div>
+                  <div className="space-y-3">
+                     <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">SIP Password</label>
+                     <input 
+                        type="password"
+                        value={creds.sipPassword}
+                        onChange={e => setCreds({...creds, sipPassword: e.target.value})}
+                        className="w-full h-14 px-6 bg-slate-50 border-none rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-blue-100 transition-all" 
+                     />
+                  </div>
+                  <div className="space-y-3">
+                     <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">SIP Domain</label>
+                     <input 
+                        value={creds.sipDomain}
+                        onChange={e => setCreds({...creds, sipDomain: e.target.value})}
+                        className="w-full h-14 px-6 bg-slate-50 border-none rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-blue-100 transition-all" 
+                     />
+                  </div>
+                  <div className="space-y-3">
+                     <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">SIP Port</label>
+                     <input 
+                        value={creds.sipPort}
+                        onChange={e => setCreds({...creds, sipPort: e.target.value})}
+                        className="w-full h-14 px-6 bg-slate-50 border-none rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-blue-100 transition-all" 
+                     />
+                  </div>
+                  <div className="space-y-3">
+                     <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">SMS Rate (Per SMS)</label>
+                     <input 
+                        type="number"
+                        step="0.01"
+                        value={creds.smsRate}
+                        onChange={e => setCreds({...creds, smsRate: parseFloat(e.target.value)})}
+                        className="w-full h-14 px-6 bg-slate-50 border-none rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-blue-100 transition-all" 
+                     />
+                  </div>
+                  <div className="space-y-3">
+                     <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">SIP Rate (Per Minute)</label>
+                     <input 
+                        type="number"
+                        step="0.01"
+                        value={creds.sipRate}
+                        onChange={e => setCreds({...creds, sipRate: parseFloat(e.target.value)})}
+                        className="w-full h-14 px-6 bg-slate-50 border-none rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-blue-100 transition-all" 
+                     />
+                  </div>
+               </div>
+
+               <button 
+                  onClick={handleSaveCreds}
+                  disabled={loading}
+                  className="w-full h-16 bg-blue-600 text-white rounded-[24px] font-black text-xs uppercase tracking-[0.3em] shadow-xl shadow-blue-100 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50"
+               >
+                  {loading ? <RefreshCw className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+                  Synchronize Credentials
+               </button>
+            </div>
+         </div>
+
+         {/* Credit Management Sidebar */}
+         <div className="space-y-8">
+            <div className="bg-slate-900 rounded-[48px] p-10 text-white space-y-10 shadow-2xl relative overflow-hidden">
+               <TrendingUp className="absolute bottom-[-20px] right-[-20px] w-40 h-40 opacity-5" />
+               <div className="relative z-10 space-y-8">
+                  <div className="flex items-center gap-4">
+                     <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center">
+                        <PlusCircle className="w-6 h-6 text-blue-400" />
+                     </div>
+                     <div>
+                        <h3 className="text-xl font-black uppercase italic">Sell Credits</h3>
+                        <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Top up merchant balance</p>
+                     </div>
+                  </div>
+
+                  <div className="space-y-6">
+                     <div className="flex gap-4">
+                        {["SMS", "SIP"].map((t) => (
+                           <button 
+                              key={t}
+                              onClick={() => setTopup({...topup, type: t})}
+                              className={`flex-1 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest border transition-all ${
+                                 topup.type === t ? 'bg-blue-600 border-blue-500 shadow-lg' : 'bg-white/5 border-transparent text-slate-400 hover:bg-white/10'
+                              }`}
+                           >
+                              {t}
+                           </button>
+                        ))}
+                     </div>
+
+                     <div className="space-y-3">
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Amount to Add</label>
+                        <input 
+                           type="number"
+                           value={topup.amount}
+                           onChange={e => setTopup({...topup, amount: parseInt(e.target.value) || 0})}
+                           className="w-full h-14 px-6 bg-white text-slate-900 text-slate-900/10 border-none rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-blue-400 transition-all text-white" 
+                        />
+                     </div>
+
+                     <button 
+                        onClick={handleTopup}
+                        disabled={!!topupLoading}
+                        className="w-full py-5 bg-white text-slate-900 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:scale-[1.05] active:scale-95 transition-all shadow-xl disabled:opacity-50 flex items-center justify-center gap-2"
+                     >
+                        {topupLoading === topup.type ? <RefreshCw className="w-4 h-4 animate-spin" /> : <ShieldCheck className="w-4 h-4" />}
+                        Execute Top-up
+                     </button>
+                  </div>
+
+                  <div className="pt-8 border-t border-white/5 space-y-6">
+                     <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                           <MessageSquare className="w-4 h-4 text-blue-400" />
+                           <span className="text-[10px] font-bold text-slate-400 uppercase">Current SMS</span>
+                        </div>
+                        <span className="text-xl font-black">৳{merchant.smsBalance.toLocaleString()}</span>
+                     </div>
+                     <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                           <Phone className="w-4 h-4 text-emerald-400" />
+                           <span className="text-[10px] font-bold text-slate-400 uppercase">Current SIP</span>
+                        </div>
+                        <span className="text-xl font-black">{merchant.sipBalance.toLocaleString()}</span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+      </div>
+    </div>
+  );
+}

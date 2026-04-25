@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  allowedDevOrigins: ['businessconnect.bd', '*.businessconnect.bd'],
 };
 
 export default nextConfig;

@@ -1,0 +1,57 @@
+import React from "react";
+import { db as prisma } from "@/lib/db";
+import { getSession } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import { Box, MapPin, Truck } from "lucide-react";
+import { UnifiedLogisticsHub } from "./UnifiedLogisticsHub";
+
+export default async function MerchantLogisticsPage() {
+  const session = await getSession();
+  if (!session || !session.merchantStoreId) redirect("/login");
+
+  const configs = await prisma.courierConfig.findMany({
+    where: { merchantStoreId: session.merchantStoreId }
+  });
+
+  return (
+    <div className="min-h-screen bg-[#F8FAFC]">
+      <div className="p-8 md:p-12 space-y-12 max-w-7xl mx-auto pb-20">
+        
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-gray-200 pb-10">
+           <div>
+              <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-indigo-600 mb-2">
+                 <Truck className="w-4 h-4" /> Logistics Intelligence Layer
+              </div>
+              <h1 className="text-4xl font-black text-gray-900 tracking-tighter uppercase italic">
+                 Logistics <span className="text-indigo-600">Control</span> Center
+              </h1>
+              <p className="text-gray-500 text-sm font-medium mt-2 italic opacity-80">
+                Manage automated courier APIs and zone-based pricing strategies in one unified hub.
+              </p>
+           </div>
+        </div>
+
+        {/* Info Card */}
+        <div className="bg-indigo-600 rounded-[40px] p-10 relative overflow-hidden shadow-2xl shadow-indigo-200 text-white">
+          <div className="absolute right-0 top-0 opacity-10 pointer-events-none text-white">
+             <MapPin className="w-64 h-64 -mt-10 -mr-10" />
+          </div>
+          <div className="relative z-10 space-y-4">
+            <h2 className="text-2xl font-black uppercase italic tracking-tight">Hyper-Local Product Rules (Geo-Fencing)</h2>
+            <p className="text-indigo-100 font-medium max-w-2xl leading-relaxed text-sm">
+              You can explicitly route individual products to specific couriers and districts right inside the "Add Product" module! 
+              For example, you can enforce that "Rajshahi Mangoes" are strictly delivered via "STEADFAST" and only to "Dhaka, Rajshahi" districts. 
+              These global API keys power those intelligent routing rules.
+            </p>
+          </div>
+        </div>
+
+        {/* The Unified Hub Component */}
+        <UnifiedLogisticsHub existingConfigs={configs} />
+        
+      </div>
+    </div>
+  );
+}
+

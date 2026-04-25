@@ -1,0 +1,1192 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id                  String               @id @default(cuid())
+  email               String               @unique
+  name                String?
+  phone               String?
+  password            String
+  role                String               @default("MERCHANT")
+  customRoleId        String?
+  customRole          Role?                @relation(fields: [customRoleId], references: [id])
+  isOnboarded         Boolean              @default(false)
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  merchantStoreId     String?
+  callLogs            CallLog[]
+  customer            Customer?
+  customerProfile     CustomerProfile?
+  assignedIncidents   Incident[]           @relation("AssignedIncidents")
+  reportedIncidents   Incident[]           @relation("ReportedIncidents")
+  incidentActivities  IncidentActivity[]
+  incidentMessages    IncidentMessage[]
+  inventoryLogs       InventoryLog[]
+  driverOrders        Order[]              @relation("DriverOrders")
+  orderActivities     OrderActivity[]
+  paymentTransactions PaymentTransaction[]
+  staffProfile        StaffProfile?
+  staffWorkLogs       StaffWorkLog[]
+  commissions         StaffCommission[]
+  staffPayouts         CommissionPayout[]
+  sipStatus           String               @default("OFFLINE")
+  lastActiveAt        DateTime             @default(now())
+  auditedCalls        CallLog[]            @relation("CallAuditor")
+  branchId            String?
+  branch              Branch?              @relation(fields: [branchId], references: [id])
+  merchantStore       MerchantStore?       @relation(fields: [merchantStoreId], references: [id])
+  chatMessages        InternalMessage[]
+  moderationAlerts    ChatModerationAlert[]
+  chatMemberships     ChatChannelMember[]
+}
+
+model MerchantStore {
+  id                   String                @id @default(cuid())
+  name                 String
+  slug                 String                @unique @default(cuid())
+  logo                 String?
+  plan                 String                @default("STARTER")
+  subscriptionPlanId   String?
+  subscriptionExpiry   DateTime?
+  subscriptionStatus   String                @default("TRIAL")
+  createdAt            DateTime              @default(now())
+  smsBalance           Float                 @default(0)
+  sipBalance           Float                 @default(0)
+  aiBalance            Float                 @default(0)
+  smsRate              Float                 @default(0.50)
+  sipRate              Float                 @default(1.00)
+  aiRate               Int                   @default(1)
+  customDomain         String?               @unique
+  selectedTheme        String                @default("THEME_1")
+  brandColor           String                @default("#1E40AF")
+  welcomeMessage       String?
+  favicon              String?
+  themeConfig          String?
+  earningsBalance      Float                 @default(0)
+  address              String?
+  phone                String?
+  fbPage               String?
+  igProfile            String?
+  isOnboarded          Boolean               @default(false)
+  description          String?
+  isVatEnabled         Boolean               @default(false)
+  vatRate              Float                 @default(5.0)
+  binNumber            String?
+  reviewPointsReward   Int                   @default(10)
+  abandonedCarts       AbandonedCart[]
+  aiTransactions       AiTransaction[]
+  brands               Brand[]
+  callLogs             CallLog[]
+  categories           Category[]
+  coupons              Coupon[]
+  courierConfigs       CourierConfig[]
+  customers            Customer[]
+  facebookConfig       FacebookConfig?
+  flashSales           FlashSale[]
+  googleSheetsConfig   GoogleSheetsConfig?
+  incidents            Incident[]
+  inventoryLogs        InventoryLog[]
+  knowledgeBase        KnowledgeBase[]
+  marketingCampaigns   MarketingCampaign[]
+  subscriptionPlan     SubscriptionPlan?     @relation(fields: [subscriptionPlanId], references: [id])
+  orders               Order[]
+  paymentConfigs       PaymentConfig[]
+  transactions         PaymentTransaction[]
+  payoutRequests       PayoutRequest[]
+  products             Product[]
+  reportSubscriptions  ReportSubscription[]
+  returnRequests       ReturnRequest[]
+  shippingRates        ShippingRate[]
+  sipConfig            SipConfig?
+  smsConfigs           SmsConfig[]
+  stockTransfers       StockTransfer[]
+  unifiedConversations UnifiedConversation[]
+  users                User[]
+  warehouses           Warehouse[]
+  wcConfig             WcConfig?
+  commissionRules      CommissionRule[]
+  staffCommissions     StaffCommission[]
+  staffPayouts         CommissionPayout[]
+  branches             Branch[]
+  accountCategories    AccountCategory[]
+  ledgerTransactions   LedgerTransaction[]
+  budgets              Budget[]
+  recurringTransactions RecurringTransaction[]
+  businessAccounts     BusinessAccount[]
+  staffProfiles        StaffProfile[]
+  roles                Role[]
+  // Tracking & Analytics
+  googleAnalyticsId    String?
+  gtmId                String?
+  fbPixelId            String?
+  msClarityId          String?
+  customScripts        String?
+  chatChannels         ChatChannel[]
+  moderationAlerts     ChatModerationAlert[]
+}
+
+model Branch {
+  id              String        @id @default(cuid())
+  name            String
+  address         String?
+  phone           String?
+  managerId       String?
+  merchantStoreId String
+  isActive        Boolean       @default(true)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id], onDelete: Cascade)
+  users           User[]
+  orders          Order[]
+  warehouses      Warehouse[]
+  ledgerTransactions LedgerTransaction[]
+  budgets         Budget[]
+  recurringTransactions RecurringTransaction[]
+  businessAccounts     BusinessAccount[]
+}
+
+model ProductReview {
+  id            String        @id @default(cuid())
+  rating        Int           @default(5)
+  comment       String?
+  isVerified    Boolean       @default(false)
+  merchantReply String?
+  createdAt     DateTime      @default(now())
+  productId     String
+  customerId    String
+  customer      Customer      @relation(fields: [customerId], references: [id])
+  product       Product       @relation(fields: [productId], references: [id])
+  images        ReviewImage[]
+}
+
+model ReviewImage {
+  id       String        @id @default(cuid())
+  url      String
+  reviewId String
+  review   ProductReview @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+}
+
+model MarketingCampaign {
+  id               String        @id @default(cuid())
+  name             String
+  type             String        @default("SMS")
+  status           String        @default("DRAFT")
+  content          String
+  targetCriteria   String?
+  scheduledAt      DateTime?
+  totalTarget      Int           @default(0)
+  sentCount        Int           @default(0)
+  totalCost        Float         @default(0)
+  revenueGenerated Float         @default(0)
+  merchantStoreId  String
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  logs             CampaignLog[]
+  coupons          Coupon[]
+  merchantStore    MerchantStore @relation(fields: [merchantStoreId], references: [id])
+}
+
+model Coupon {
+  id              String             @id @default(cuid())
+  code            String             @unique
+  discountValue   Float
+  type            String             @default("PERCENTAGE")
+  usageCount      Int                @default(0)
+  maxUsage        Int?
+  expiryDate      DateTime?
+  merchantStoreId String
+  campaignId      String?
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  campaign        MarketingCampaign? @relation(fields: [campaignId], references: [id])
+  merchantStore   MerchantStore      @relation(fields: [merchantStoreId], references: [id])
+  orders          Order[]
+}
+
+model CampaignLog {
+  id         String            @id @default(cuid())
+  campaignId String
+  customerId String
+  status     String
+  error      String?
+  createdAt  DateTime          @default(now())
+  campaign   MarketingCampaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+}
+
+model UnifiedConversation {
+  id              String           @id @default(cuid())
+  merchantStoreId String
+  externalId      String
+  source          String
+  customerName    String?
+  customerAvatar  String?
+  lastMessage     String?
+  lastMessageAt   DateTime         @default(now())
+  isAiEnabled     Boolean          @default(true)
+  status          String           @default("OPEN")
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  merchantStore   MerchantStore    @relation(fields: [merchantStoreId], references: [id])
+  messages        UnifiedMessage[]
+
+  @@unique([merchantStoreId, externalId, source])
+}
+
+model UnifiedMessage {
+  id             String              @id @default(cuid())
+  conversationId String
+  senderId       String
+  senderName     String?
+  content        String
+  type           String              @default("TEXT")
+  direction      String
+  isAiGenerated  Boolean             @default(false)
+  createdAt      DateTime            @default(now())
+  conversation   UnifiedConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+}
+
+model KnowledgeBase {
+  id              String        @id @default(cuid())
+  merchantStoreId String
+  fileName        String
+  fileUrl         String
+  fileType        String
+  content         String?
+  isIndexed       Boolean       @default(false)
+  createdAt       DateTime      @default(now())
+  merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
+}
+
+model FacebookConfig {
+  id                String        @id @default(cuid())
+  merchantStoreId   String        @unique
+  pageId            String?
+  accessToken       String?
+  isActive          Boolean       @default(false)
+  autoReplyComments Boolean       @default(true)
+  keywordDmEnabled  Boolean       @default(true)
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  adAccountId       String?
+  capiToken         String?
+  pixelId           String?
+  testEventCode     String?
+  merchantStore     MerchantStore @relation(fields: [merchantStoreId], references: [id])
+}
+
+model AiTransaction {
+  id              String        @id @default(cuid())
+  merchantStoreId String
+  amount          Float
+  type            String
+  description     String?
+  createdAt       DateTime      @default(now())
+  merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
+}
+
+model Warehouse {
+  id              String           @id @default(cuid())
+  name            String
+  location        String?
+  isDefault       Boolean          @default(false)
+  merchantStoreId String
+  branchId        String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @default(now()) @updatedAt
+  logs            InventoryLog[]
+  returnRequests  ReturnRequest[]
+  transfersTo     StockTransfer[]  @relation("TransferToWarehouse")
+  transfersFrom   StockTransfer[]  @relation("TransferFromWarehouse")
+  branch          Branch?          @relation(fields: [branchId], references: [id])
+  merchantStore   MerchantStore    @relation(fields: [merchantStoreId], references: [id])
+  stocks          WarehouseStock[]
+}
+
+model WarehouseStock {
+  id          String    @id @default(cuid())
+  warehouseId String
+  productId   String
+  quantity    Int       @default(0)
+  updatedAt   DateTime  @default(now()) @updatedAt
+  binLocation String?
+  product     Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  warehouse   Warehouse @relation(fields: [warehouseId], references: [id], onDelete: Cascade)
+
+  @@unique([warehouseId, productId])
+}
+
+model InventoryLog {
+  id              String        @id @default(cuid())
+  merchantStoreId String
+  warehouseId     String
+  productId       String
+  type            String
+  quantity        Int
+  previousStock   Int
+  newStock        Int
+  reason          String?
+  referenceId     String?
+  userId          String
+  createdAt       DateTime      @default(now())
+  user            User          @relation(fields: [userId], references: [id])
+  product         Product       @relation(fields: [productId], references: [id])
+  warehouse       Warehouse     @relation(fields: [warehouseId], references: [id])
+  merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
+}
+
+model StockTransfer {
+  id              String        @id @default(cuid())
+  merchantStoreId String
+  fromWarehouseId String
+  toWarehouseId   String
+  status          String        @default("PENDING")
+  items           String
+  approvedBy      String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  toWarehouse     Warehouse     @relation("TransferToWarehouse", fields: [toWarehouseId], references: [id])
+  fromWarehouse   Warehouse     @relation("TransferFromWarehouse", fields: [fromWarehouseId], references: [id])
+  merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
+}
+
+model ChatChannel {
+  id              String        @id @default(cuid())
+  name            String?
+  participant1Id  String?
+  participant2Id  String?
+  type            String        @default("ORDER")
+  orderId         String?       @unique
+  order           Order?        @relation(fields: [orderId], references: [id])
+  merchantStoreId String
+  store           MerchantStore @relation(fields: [merchantStoreId], references: [id])
+  members         ChatChannelMember[]
+  messages        InternalMessage[]
+  createdAt       DateTime      @default(now())
+}
+
+model ChatChannelMember {
+  id        String      @id @default(cuid())
+  channelId String
+  userId    String
+  role      String      @default("MEMBER") // ADMIN, MEMBER
+  createdAt DateTime    @default(now())
+  channel   ChatChannel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([channelId, userId])
+}
+
+// model InternalMessage... (skipping enum)
+
+model InternalMessage {
+  id              String       @id @default(cuid())
+  channelId       String
+  channel         ChatChannel  @relation(fields: [channelId], references: [id])
+  senderId        String
+  sender          User         @relation(fields: [senderId], references: [id])
+  content         String
+  attachmentUrls  String?      // JSON stringified array of URLs
+  isFlagged       Boolean      @default(false)
+  flagReason      String?
+  aiModerationLog String?      // Full JSON response from AI
+  createdAt       DateTime     @default(now())
+}
+
+model ChatModerationAlert {
+  id              String       @id @default(cuid())
+  merchantStoreId String
+  store           MerchantStore @relation(fields: [merchantStoreId], references: [id])
+  senderId        String
+  sender          User         @relation(fields: [senderId], references: [id])
+  messageContent  String
+  aiReason        String
+  severity        String       @default("LOW") // LOW, MEDIUM, HIGH
+  createdAt       DateTime     @default(now())
+}
+
+model ReturnRequest {
+  id              String        @id @default(cuid())
+  merchantStoreId String
+  orderId         String
+  warehouseId     String?
+  status          String        @default("NEW")
+  reason          String
+  items           String
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  warehouse       Warehouse?    @relation(fields: [warehouseId], references: [id])
+  order           Order         @relation(fields: [orderId], references: [id])
+  merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
+}
+
+model SubscriptionPlan {
+  id           String          @id @default(cuid())
+  name         String          @unique
+  badgeColor   String          @default("gray")
+  monthlyPrice Float           @default(0)
+  maxProducts  Int             @default(100)
+  maxStaff     Int             @default(2)
+  featuresData String          @default("{}")
+  isActive     Boolean         @default(true)
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  stores       MerchantStore[]
+}
+
+model CourierConfig {
+  id                  String        @id @default(cuid())
+  providerName        String
+  apiKey              String?
+  apiSecret           String?
+  type                String        @default("API")
+  trackingUrlTemplate String?
+  isActive            Boolean       @default(true)
+  merchantStoreId     String
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+  merchantStore       MerchantStore @relation(fields: [merchantStoreId], references: [id], onDelete: Cascade)
+
+  @@unique([merchantStoreId, providerName])
+}
+
+model Category {
+  id              String        @id @default(cuid())
+  name            String
+  slug            String        @unique
+  description     String?
+  image           String?
+  isFeatured      Boolean       @default(false)
+  seoTitle        String?
+  seoDescription  String?
+  parentId        String?
+  merchantStoreId String
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @default(now()) @updatedAt
+  merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
+  parent          Category?     @relation("SubCategories", fields: [parentId], references: [id])
+  children        Category[]    @relation("SubCategories")
+  products        Product[]
+}
+
+model Role {
+  id              String         @id @default(cuid())
+  name            String
+  permissions     String         @default("[]") // JSON string of permission keys
+  merchantStoreId String
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  merchantStore   MerchantStore  @relation(fields: [merchantStoreId], references: [id], onDelete: Cascade)
+  users           User[]
+}
+
+
+model Brand {
+  id              String        @id @default(cuid())
+  name            String
+  slug            String        @unique
+  logo            String?
+  description     String?
+  website         String?
+  isFeatured      Boolean       @default(false)
+  seoTitle        String?
+  seoDescription  String?
+  merchantStoreId String
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @default(now()) @updatedAt
+  merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
+  products        Product[]
+}
+
+model StaffProfile {
+  id              String           @id @default(cuid())
+  userId          String           @unique
+  merchantStoreId String?
+  jobRole         String
+  wageType        String           @default("MONTHLY") // HOURLY, WEEKLY, MONTHLY
+  baseSalary      Float            @default(0)
+  currency        String           @default("BDT")
+  
+  // High-Tech Monitoring
+  attendance      Int              @default(0)
+  totalMinutesWorked Int           @default(0)
+  avgActivityScore Float           @default(0)
+  
+  // Agreement & Status
+  status          String           @default("ONBOARDING") // ONBOARDING, ACTIVE, SUSPENDED, TERMINATED
+  onboardingStep  Int              @default(1)
+  agreementSigned Boolean          @default(false)
+  signedAt        DateTime?
+  
+  // Personal Details
+  address         String?
+  reference       String?
+  nidNumber       String?
+  emergencyContact String?
+  submittedAt     DateTime?
+  approvedAt      DateTime?
+  approvedBy      String? // Admin/Merchant userId
+  
+  // Relations
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  merchantStore   MerchantStore?   @relation(fields: [merchantStoreId], references: [id])
+  documents       StaffDocument[]
+  workLogs        StaffWorkLog[]
+  incrementRules  IncrementRule[]
+  payouts         CommissionPayout[]
+  commissions     StaffCommission[]
+  hasAcceptedChatPolicy Boolean @default(false)
+  chatPolicyAcceptedAt DateTime?
+}
+
+model StaffDocument {
+  id             String       @id @default(cuid())
+  staffProfileId String
+  name           String       // NID, Certificate, etc.
+  url            String
+  isVerified     Boolean      @default(false)
+  staffProfile   StaffProfile @relation(fields: [staffProfileId], references: [id], onDelete: Cascade)
+}
+
+model StaffWorkLog {
+  id              String               @id @default(cuid())
+  staffProfileId  String
+  userId          String?
+  startTime       DateTime             @default(now())
+  endTime         DateTime?
+  totalMinutes    Int                  @default(0)
+  activityScore   Float                @default(0)
+  status          String               @default("ACTIVE")
+  merchantStoreId String
+  staffProfile    StaffProfile         @relation(fields: [staffProfileId], references: [id], onDelete: Cascade)
+  user            User?                @relation(fields: [userId], references: [id])
+  activityFrames  StaffActivityFrame[]
+}
+
+model StaffActivityFrame {
+  id            String       @id @default(cuid())
+  workLogId     String
+  keyboardHits  Int          @default(0)
+  mouseClicks   Int          @default(0)
+  activityScore Float        @default(0)
+  screenshotUrl String?
+  createdAt     DateTime     @default(now())
+  workLog       StaffWorkLog @relation(fields: [workLogId], references: [id], onDelete: Cascade)
+}
+
+model IncrementRule {
+  id              String       @id @default(cuid())
+  staffProfileId  String
+  conditionType   String       // SALES_TARGET, ACTIVITY_SCORE
+  conditionValue  Float        // e.g. 1000000 (10 lac sales) or 90 (activity score)
+  incrementPercent Float
+  isApplied       Boolean      @default(false)
+  staffProfile    StaffProfile @relation(fields: [staffProfileId], references: [id], onDelete: Cascade)
+}
+
+model CustomerProfile {
+  id            String  @id @default(cuid())
+  userId        String  @unique
+  loyaltyPoints Int     @default(0)
+  totalOrders   Int     @default(0)
+  savedAddress  String?
+  user          User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Product {
+  id                String           @id @default(cuid())
+  name              String
+  slug              String           @unique
+  description       String?
+  sku               String?
+  barcode           String?          @unique
+  price             Float
+  purchasePrice     Float            @default(0)
+  originalPrice     Float            @default(0)
+  discountPrice     Float            @default(0)
+  stock             Int              @default(0)
+  isFreeDelivery    Boolean          @default(false)
+  categoryId        String?
+  brandId           String?
+  unitType          String           @default("piece")
+  unitWeight        Float?
+  isHomeDelivery    Boolean          @default(true)
+  isCollectionPoint Boolean          @default(false)
+  allowedCouriers   String?
+  allowedDistricts  String?
+  preferredCourier  String?
+  shippingType      String           @default("GENERAL")
+  paymentPolicy     String           @default("COD")
+  partialAmount     Float            @default(0)
+  seoTitle          String?
+  seoDescription    String?
+  seoKeywords       String?
+  schemaConfig      String?
+  image             String?
+  externalSource    String?
+  externalId        String?          @unique
+  syncMetadata      String?
+  merchantStoreId   String
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @default(now()) @updatedAt
+  flashSaleItems    FlashSaleItem[]
+  inventoryLogs     InventoryLog[]
+  orderItems        OrderItem[]
+  merchantStore     MerchantStore    @relation(fields: [merchantStoreId], references: [id])
+  brand             Brand?           @relation(fields: [brandId], references: [id])
+  category          Category?        @relation(fields: [categoryId], references: [id])
+  reviews           ProductReview[]
+  warehouseStocks   WarehouseStock[]
+
+  @@unique([merchantStoreId, sku], name: "merchantStoreId_sku")
+}
+
+model FlashSale {
+  id              String          @id @default(cuid())
+  merchantStoreId String
+  name            String
+  description     String?
+  startTime       DateTime
+  endTime         DateTime
+  status          String          @default("PENDING")
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  merchantStore   MerchantStore   @relation(fields: [merchantStoreId], references: [id])
+  items           FlashSaleItem[]
+}
+
+model FlashSaleItem {
+  id          String    @id @default(cuid())
+  flashSaleId String
+  productId   String
+  salePrice   Float
+  stockLimit  Int
+  soldCount   Int       @default(0)
+  product     Product   @relation(fields: [productId], references: [id])
+  flashSale   FlashSale @relation(fields: [flashSaleId], references: [id], onDelete: Cascade)
+
+  @@unique([flashSaleId, productId])
+}
+
+model Customer {
+  id              String          @id @default(cuid())
+  name            String?
+  phone           String
+  email           String?
+  merchantStoreId String
+  userId          String?         @unique
+  totalSpend      Float           @default(0)
+  orderCount      Int             @default(0)
+  loyaltyPoints   Int             @default(0)
+  tags            String          @default("NEW")
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  user            User?           @relation(fields: [userId], references: [id])
+  merchantStore   MerchantStore   @relation(fields: [merchantStoreId], references: [id])
+  orders          Order[]
+  reviews         ProductReview[]
+
+  @@unique([merchantStoreId, phone])
+}
+
+model Order {
+  id                  String          @id @default(cuid())
+  total               Float
+  status              String          @default("PENDING")
+  paymentStatus       String          @default("UNPAID")
+  advancePaid         Float           @default(0)
+  source              String          @default("LOCAL")
+  externalId          String?
+  skipInventory       Boolean         @default(false)
+  confirmedAt         DateTime?
+  shippedAt           DateTime?
+  platformFee         Float           @default(0)
+  merchantStoreId     String
+  confirmationType    String          @default("PENDING")
+  isRedirected        Boolean         @default(false)
+  redirectedToOrderId String?
+  originalOrderId     String?
+  customerEntityId    String?
+  appliedCouponId     String?
+  originCampaignId    String?
+  customerId          String?
+  customerName        String?
+  customerEmail       String?
+  customerPhone       String?
+  deliveryAddress     String?
+  assignedDriverId    String?
+  branchId            String?
+  deliveryStatus      String          @default("PENDING")
+  cashCollected       Float           @default(0)
+  preferredCourier    String?
+  courierTrxId        String?
+  trackingCode        String?
+  createdAt           DateTime        @default(now())
+  reconciledAt        DateTime?
+  callLogs            CallLog[]
+  assignedDriver      User?           @relation("DriverOrders", fields: [assignedDriverId], references: [id])
+  appliedCoupon       Coupon?         @relation(fields: [appliedCouponId], references: [id])
+  customerEntity      Customer?       @relation(fields: [customerEntityId], references: [id])
+  branch              Branch?         @relation(fields: [branchId], references: [id])
+  merchantStore       MerchantStore   @relation(fields: [merchantStoreId], references: [id])
+  activities          OrderActivity[]
+  items               OrderItem[]
+  returnRequests      ReturnRequest[]
+  shipments           Shipment[]
+  commissions         StaffCommission[]
+  chatChannel         ChatChannel?
+}
+
+model OrderActivity {
+  id        String   @id @default(cuid())
+  orderId   String
+  userId    String?
+  type      String
+  message   String
+  createdAt DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [id])
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+model CallLog {
+  id              String        @id @default(cuid())
+  merchantStoreId String
+  userId          String
+  orderId         String?
+  from            String
+  to              String
+  duration        Int           @default(0)
+  recordingUrl    String?
+  direction       String        @default("OUTBOUND")
+  status          String        @default("COMPLETED")
+  aiSummary       String?
+  sentiment       String?       @default("NEUTRAL") // POSITIVE, NEUTRAL, NEGATIVE
+  transcription   String?
+  callType        String        @default("VOICE") // VOICE, VIDEO
+  isMissed        Boolean       @default(false)
+  auditNote       String?
+  rating          Int?          @default(0) // 1-5 stars
+  auditedAt       DateTime?
+  auditedById     String?
+  createdAt       DateTime      @default(now())
+  order           Order?        @relation(fields: [orderId], references: [id])
+  user            User          @relation(fields: [userId], references: [id])
+  auditedBy       User?         @relation("CallAuditor", fields: [auditedById], references: [id])
+  merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
+}
+
+model OrderItem {
+  id              String         @id @default(cuid())
+  orderId         String
+  productId       String?
+  quantity        Int
+  shippedQuantity Int            @default(0)
+  price           Float
+  name            String?
+  product         Product?       @relation(fields: [productId], references: [id])
+  order           Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  shipmentItems   ShipmentItem[]
+}
+
+model Shipment {
+  id           String         @id @default(cuid())
+  orderId      String
+  courierName  String?
+  trackingCode String?
+  status       String         @default("SHIPPED")
+  createdAt    DateTime       @default(now())
+  shippedAt    DateTime       @default(now())
+  order        Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  items        ShipmentItem[]
+}
+
+model ShipmentItem {
+  id          String    @id @default(cuid())
+  shipmentId  String
+  orderItemId String
+  quantity    Int
+  orderItem   OrderItem @relation(fields: [orderItemId], references: [id])
+  shipment    Shipment  @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
+}
+
+model Incident {
+  id              String             @id @default(cuid())
+  number          String             @unique
+  subject         String
+  description     String
+  category        String             @default("TECHNICAL")
+  priority        String             @default("MEDIUM")
+  impact          String             @default("3")
+  urgency         String             @default("3")
+  status          String             @default("NEW")
+  contactPhone    String?
+  resolutionCode  String?
+  resolutionNotes String?
+  resolvedAt      DateTime?
+  closedAt        DateTime?
+  merchantStoreId String
+  userId          String
+  assignedToId    String?
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  assignedTo      User?              @relation("AssignedIncidents", fields: [assignedToId], references: [id])
+  user            User               @relation("ReportedIncidents", fields: [userId], references: [id])
+  merchantStore   MerchantStore      @relation(fields: [merchantStoreId], references: [id])
+  activities      IncidentActivity[]
+  messages        IncidentMessage[]
+}
+
+model IncidentActivity {
+  id         String   @id @default(cuid())
+  incidentId String
+  userId     String?
+  type       String
+  message    String
+  createdAt  DateTime @default(now())
+  user       User?    @relation(fields: [userId], references: [id])
+  incident   Incident @relation(fields: [incidentId], references: [id], onDelete: Cascade)
+}
+
+model IncidentMessage {
+  id            String   @id @default(cuid())
+  incidentId    String
+  userId        String
+  content       String
+  isInternal    Boolean  @default(false)
+  attachmentUrl String?
+  createdAt     DateTime @default(now())
+  user          User     @relation(fields: [userId], references: [id])
+  incident      Incident @relation(fields: [incidentId], references: [id], onDelete: Cascade)
+}
+
+model SystemSettings {
+  id                  String   @id @default("GLOBAL")
+  isLiveChatEnabled   Boolean  @default(true)
+  isFraudCheckEnabled Boolean  @default(true)
+  smsActiveProvider   String   @default("FIREBASE")
+  smsApiKey           String?
+  smsSenderId         String?
+  smsApiUrl           String?
+  pusherAppId         String?
+  pusherKey           String?
+  pusherSecret        String?
+  pusherCluster       String?
+  smtpHost            String?
+  smtpPort            Int?     @default(587)
+  smtpUser            String?
+  smtpPass            String?
+  smtpFrom            String?
+  whatsappToken       String?
+  whatsappPhoneId     String?
+  openaiApiKey        String?
+  openaiModel         String   @default("gpt-4o")
+  openRouterKey       String?
+  openRouterModel     String   @default("openai/gpt-3.5-turbo")
+  geminiKey           String?
+  geminiModel         String   @default("gemini-1.5-pro")
+  aiProviderPriority  String   @default("OPENROUTER,OPENAI,GEMINI")
+  googleVisionKey     String?
+  fbAppSecret         String?
+  aiCreditPrice       Float    @default(0.50)
+  updatedAt           DateTime @updatedAt
+  googleClientId      String?
+  googleClientSecret  String?
+  googleRedirectUri   String?  @default("http://localhost:3030/api/auth/google/callback")
+  fbAppId             String?
+  fbRedirectUri       String?  @default("http://localhost:3030/api/auth/facebook/callback")
+}
+
+model PaymentTransaction {
+  id              String        @id @default(cuid())
+  merchantStoreId String
+  userId          String?
+  amount          Float
+  credits         Float         @default(0)
+  currency        String        @default("BDT")
+  paymentMethod   String        @default("UNSPECIFIED")
+  type            String
+  status          String        @default("PENDING")
+  trxId           String?       @unique
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  user            User?         @relation(fields: [userId], references: [id])
+  merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
+}
+
+model AbandonedCart {
+  id                 String        @id @default(cuid())
+  merchantStoreId    String
+  customerPhone      String?
+  customerEmail      String?
+  customerName       String?
+  cartData           String?
+  source             String        @default("WEB")
+  lastReminderSentAt DateTime?
+  status             String        @default("PENDING")
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+  merchantStore      MerchantStore @relation(fields: [merchantStoreId], references: [id])
+
+  @@index([merchantStoreId])
+  @@index([status])
+}
+
+model PayoutRequest {
+  id              String        @id @default(cuid())
+  merchantStoreId String
+  amount          Float
+  method          String
+  details         String
+  status          String        @default("PENDING")
+  processedAt     DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
+}
+
+model WcConfig {
+  id              String        @id @default(cuid())
+  merchantStoreId String        @unique
+  websiteUrl      String
+  consumerKey     String?
+  consumerSecret  String?
+  webhookSecret   String        @default(cuid())
+  deductInventory Boolean       @default(true)
+  isActive        Boolean       @default(true)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
+}
+
+model GoogleSheetsConfig {
+  id              String        @id @default(cuid())
+  merchantStoreId String        @unique
+  accessToken     String?
+  refreshToken    String?
+  expiryDate      BigInt?
+  spreadsheetId   String?
+  sheetName       String        @default("Orders")
+  isActive        Boolean       @default(false)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
+}
+
+model ReportSubscription {
+  id              String        @id @default(cuid())
+  merchantStoreId String
+  reportType      String        @default("SALES")
+  frequency       String        @default("WEEKLY")
+  email           String
+  isActive        Boolean       @default(true)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  lastSentAt      DateTime?
+  merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
+}
+
+model ShippingRate {
+  id                       String        @id @default(cuid())
+  merchantStoreId          String
+  courierName              String
+  courierLogo              String?
+  insideDhaka              Float         @default(60)
+  outsideDhaka             Float         @default(120)
+  subDhaka                 Float         @default(100)
+  perKgInsideDhaka         Float         @default(0)
+  perKgOutsideDhaka        Float         @default(0)
+  perLiterInsideDhaka      Float         @default(0)
+  perLiterOutsideDhaka     Float         @default(0)
+  homeDeliveryInsideDhaka  Float         @default(0)
+  homeDeliveryOutsideDhaka Float         @default(0)
+  baseWeightKg             Float         @default(1)
+  extraWeightFee           Float         @default(20)
+  liquidSurcharge          Float         @default(0)
+  fragileSurcharge         Float         @default(0)
+  isActive                 Boolean       @default(true)
+  createdAt                DateTime      @default(now())
+  updatedAt                DateTime      @updatedAt
+  merchantStore            MerchantStore @relation(fields: [merchantStoreId], references: [id])
+
+  @@unique([merchantStoreId, courierName])
+}
+
+model PaymentConfig {
+  id              String        @id @default(cuid())
+  merchantStoreId String
+  provider        String
+  apiKey          String?
+  apiSecret       String?
+  merchantId      String?
+  publicKey       String?
+  privateKey      String?
+  storeId         String?
+  storePass       String?
+  isTestMode      Boolean       @default(true)
+  isActive        Boolean       @default(true)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id], onDelete: Cascade)
+
+  @@unique([merchantStoreId, provider])
+}
+
+model SmsConfig {
+  id              String        @id @default(cuid())
+  merchantStoreId String
+  provider        String
+  apiKey          String?
+  senderId        String?
+  apiUrl          String?
+  isActive        Boolean       @default(true)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id], onDelete: Cascade)
+
+  @@unique([merchantStoreId, provider])
+}
+
+model SipConfig {
+  id              String        @id @default(cuid())
+  merchantStoreId String        @unique
+  username        String
+  password        String
+  domain          String
+  port            Int           @default(5060)
+  isActive        Boolean       @default(true)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id], onDelete: Cascade)
+}
+
+
+model CommissionRule {
+  id              String        @id @default(cuid())
+  merchantStoreId String
+  name            String
+  type            String        @default("PERCENTAGE") // PERCENTAGE, FIXED
+  value           Float
+  thresholdAmount Float         @default(0) // Minimum sales to trigger bonus
+  bonusValue      Float         @default(0) // Extra bonus if threshold met
+  isRecurring     Boolean       @default(false)
+  isActive        Boolean       @default(true)
+  merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
+}
+
+model StaffCommission {
+  id              String        @id @default(cuid())
+  userId          String
+  staffProfileId  String?
+  orderId         String
+  merchantStoreId String
+  amount          Float
+  type            String        @default("SALE") // SALE, BONUS, RECURRING
+  status          String        @default("PENDING") // PENDING, APPROVED, PAID
+  earnedAt        DateTime      @default(now())
+  user            User          @relation(fields: [userId], references: [id])
+  staffProfile    StaffProfile? @relation(fields: [staffProfileId], references: [id])
+  order           Order?        @relation(fields: [orderId], references: [id])
+  merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
+}
+
+model CommissionPayout {
+  id              String        @id @default(cuid())
+  userId          String
+  staffProfileId  String?
+  merchantStoreId String
+  amount          Float
+  method          String
+  reference       String?
+  status          String        @default("COMPLETED")
+  paidAt          DateTime      @default(now())
+  user            User          @relation(fields: [userId], references: [id])
+  staffProfile    StaffProfile? @relation(fields: [staffProfileId], references: [id])
+  merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
+}
+
+model AccountCategory {
+  id              String              @id @default(cuid())
+  name            String
+  type            String              @default("EXPENSE") // INCOME, EXPENSE
+  merchantStoreId String
+  merchantStore   MerchantStore       @relation(fields: [merchantStoreId], references: [id], onDelete: Cascade)
+  transactions    LedgerTransaction[]
+  budgets         Budget[]
+  recurringTransactions RecurringTransaction[]
+}
+
+model LedgerTransaction {
+  id              String                 @id @default(cuid())
+  amount          Float
+  type            String                 @default("EXPENSE") // INCOME, EXPENSE
+  description     String?
+  date            DateTime               @default(now())
+  branchId        String?
+  categoryId      String
+  accountId       String?
+  merchantStoreId String
+  referenceId     String?
+  branch          Branch?                @relation(fields: [branchId], references: [id])
+  category        AccountCategory        @relation(fields: [categoryId], references: [id])
+  account         BusinessAccount?       @relation(fields: [accountId], references: [id])
+  merchantStore   MerchantStore          @relation(fields: [merchantStoreId], references: [id], onDelete: Cascade)
+  attachments     AccountingAttachment[]
+}
+
+model BusinessAccount {
+  id              String              @id @default(cuid())
+  name            String
+  type            String              @default("BANK") // BANK, CASH
+  balance         Float               @default(0)
+  accountNumber   String?
+  bankName        String?
+  branchId        String?
+  merchantStoreId String
+  branch          Branch?             @relation(fields: [branchId], references: [id])
+  merchantStore   MerchantStore       @relation(fields: [merchantStoreId], references: [id], onDelete: Cascade)
+  transactions    LedgerTransaction[]
+}
+
+model AccountingAttachment {
+  id            String            @id @default(cuid())
+  url           String
+  transactionId String
+  transaction   LedgerTransaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+}
+
+model Budget {
+  id              String          @id @default(cuid())
+  amount          Float
+  period          String          @default("MONTHLY")
+  startDate       DateTime
+  endDate         DateTime
+  branchId        String?
+  categoryId      String
+  merchantStoreId String
+  branch          Branch?         @relation(fields: [branchId], references: [id])
+  category        AccountCategory @relation(fields: [categoryId], references: [id])
+  merchantStore   MerchantStore   @relation(fields: [merchantStoreId], references: [id], onDelete: Cascade)
+
+  @@unique([merchantStoreId, branchId, categoryId, startDate])
+}
+
+model RecurringTransaction {
+  id              String          @id @default(cuid())
+  amount          Float
+  type            String
+  description     String?
+  frequency       String          @default("MONTHLY") // WEEKLY, MONTHLY, YEARLY
+  nextRunDate     DateTime
+  isActive        Boolean         @default(true)
+  branchId        String?
+  categoryId      String
+  merchantStoreId String
+  branch          Branch?         @relation(fields: [branchId], references: [id])
+  category        AccountCategory @relation(fields: [categoryId], references: [id])
+  merchantStore   MerchantStore   @relation(fields: [merchantStoreId], references: [id], onDelete: Cascade)
+}

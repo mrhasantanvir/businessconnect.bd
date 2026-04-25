@@ -1,0 +1,39 @@
+"use client";
+
+import React, { useTransition } from "react";
+import { Loader2 } from "lucide-react";
+import { initiateRechargeAction } from "@/app/merchant/billing/actions";
+
+interface RechargeButtonProps {
+  type: "SMS" | "SIP" | "SUBSCRIPTION_RENEW" | "SUBSCRIPTION_UPGRADE";
+  amount: number;
+  credits: number;
+  planId?: string;
+  label?: string;
+  className?: string;
+}
+
+export function RechargeButton({ type, amount, credits, planId, label = "Buy via bKash", className }: RechargeButtonProps) {
+  const [isPending, startTransition] = useTransition();
+
+  const handleRecharge = () => {
+    startTransition(async () => {
+      try {
+        await initiateRechargeAction(type, amount, credits, planId);
+      } catch (error: any) {
+        alert(error.message || "Failed to initiate transaction");
+      }
+    });
+  };
+
+  return (
+    <button
+      onClick={handleRecharge}
+      disabled={isPending}
+      className={`flex items-center justify-center gap-2 px-4 py-1.5 rounded-lg text-sm font-medium shadow-sm transition-all disabled:opacity-75 ${className}`}
+    >
+      {isPending && <Loader2 className="w-4 h-4 animate-spin" />}
+      {isPending ? "Connecting..." : label}
+    </button>
+  );
+}

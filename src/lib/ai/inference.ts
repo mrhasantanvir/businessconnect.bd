@@ -1,0 +1,126 @@
+import { OpenAI } from "openai";
+import { db as prisma } from "@/lib/db";
+
+/**
+ * AI Inference Engine with SaaS Credit Deduction Layer
+ */
+export async function generateAiResponse(data: {
+  merchantStoreId: string,
+  prompt: string,
+  context?: string,
+  model?: string
+}) {
+  const store = await prisma.merchantStore.findUnique({
+    where: { id: data.merchantStoreId },
+    select: { aiBalance: true, aiRate: true }
+  });
+
+  if (!store || store.aiBalance < store.aiRate) {
+    throw new Error("INSUFFICIENT_AI_CREDIT: Please top-up to resume AI services.");
+  }
+
+  // Fetch Global Master Keys
+  const settings = await prisma.systemSettings.findUnique({ where: { id: "GLOBAL" } });
+  if (!settings?.openaiApiKey) throw new Error("SYSTEM_ERROR: AI Gateway not configured by Administrator.");
+
+  const openai = new OpenAI({ apiKey: settings.openaiApiKey });
+
+  const response = await openai.chat.completions.create({
+    model: data.model || "gpt-4o",
+    messages: [
+      { role: "system", content: "You are a professional shop assistant for a business. Use the following context to answer customers accurately. Context: " + (data.context || "Standard Retail") },
+      { role: "user", content: data.prompt }
+    ]
+  });
+
+  const aiContent = response.choices[0].message.content;
+
+  // SaaS Logic: Deduct Credit
+  await prisma.$transaction([
+    prisma.merchantStore.update({
+      where: { id: data.merchantStoreId },
+      data: { aiBalance: { decrement: store.aiRate } }
+    }),
+    prisma.aiTransaction.create({
+      data: {
+        merchantStoreId: data.merchantStoreId,
+        amount: -store.aiRate,
+        type: "USAGE",
+        description: `AI Chat: ${data.model || "gpt-4o"}`
+      }
+    })
+  ]);
+
+  return aiContent;
+}
+
+/**
+ * Image Intelligence using Google Vision API
+ */
+export async function analyzeImageWithVision(data: {
+  merchantStoreId: string,
+  imageUrl: string
+}) {
+  const store = await prisma.merchantStore.findUnique({
+    where: { id: data.merchantStoreId },
+    select: { aiBalance: true, aiRate: true }
+  });
+
+  const visionCost = (store?.aiRate || 1) * 5; // Vision costs 5x of standard chat
+
+  if (!store || store.aiBalance < visionCost) {
+    throw new Error("INSUFFICIENT_AI_CREDIT: Image Intelligence requires more units.");
+  }
+
+  const settings = await prisma.systemSettings.findUnique({ where: { id: "GLOBAL" } });
+  if (!settings?.googleVisionKey) throw new Error("SYSTEM_ERROR: Google Vision Gateway missing.");
+
+  // Real Google Vision Implementation
+  try {
+    const response = await fetch(
+      `https://vision.googleapis.com/v1/images:annotate?key=${settings.googleVisionKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          requests: [
+            {
+              image: { source: { imageUri: data.imageUrl } },
+              features: [
+                { type: 'LABEL_DETECTION', maxResults: 10 },
+                { type: 'IMAGE_PROPERTIES', maxResults: 1 },
+                { type: 'OBJECT_LOCALIZATION', maxResults: 5 }
+              ]
+            }
+          ]
+        })
+      }
+    );
+
+    const result = await response.json();
+    const labels = result.responses[0]?.labelAnnotations?.map((l: any) => l.description).join(", ") || "Unknown items";
+    const objects = result.responses[0]?.localizedObjectAnnotations?.map((o: any) => o.name).join(", ");
+    
+    const description = `Detected: ${labels}. ${objects ? `Objects found: ${objects}.` : ""}`;
+
+    await prisma.$transaction([
+      prisma.merchantStore.update({
+        where: { id: data.merchantStoreId },
+        data: { aiBalance: { decrement: visionCost } }
+      }),
+      prisma.aiTransaction.create({
+        data: {
+          merchantStoreId: data.merchantStoreId,
+          amount: -visionCost,
+          type: "USAGE",
+          description: `Visual Scan: Google Vision Intelligence`
+        }
+      })
+    ]);
+
+    return description;
+  } catch (error) {
+    console.error("Vision API Error:", error);
+    return "Could not analyze image. Defaulting to standard description.";
+  }
+}
