@@ -32,7 +32,7 @@ npx prisma generate
 echo "♻️ Reloading PM2 instances..." | tee -a $LOG_FILE
 pm2 reload $APP_NAME --update-env || { 
     echo "⚠️ PM2 reload failed. Attempting to start new instance..." | tee -a $LOG_FILE
-    pm2 start npm --name "$APP_NAME" -- start
+    pm2 start npm --name "$APP_NAME" -- start -- -p 3050
 }
 
 echo "✅ Deployment completed successfully at $(date)" | tee -a $LOG_FILE
