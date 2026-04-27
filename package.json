@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev -p 3050",
     "tunnel": "cloudflared tunnel --config ./cloudflared/config.yml run businessconnect",
-    "build": "next build --no-turbo",
+    "build": "next build",
     "start": "next start -p 3050",
     "lint": "eslint"
   },
