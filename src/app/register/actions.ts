@@ -30,7 +30,7 @@ export async function sendOtpAction(phone: string) {
   const smsResult = await CommunicationService.sendSms("SYSTEM", phone, `Your BusinessConnect verification code is: ${otp}`);
   
   if (!smsResult.success) {
-    return { error: "Failed to send OTP. Please try again later." };
+    return { error: smsResult.error || "Failed to send OTP. Please try again later." };
   }
 
   return { success: true, message: "OTP sent to your phone" };
