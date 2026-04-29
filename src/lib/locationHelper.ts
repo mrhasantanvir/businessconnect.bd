@@ -14,14 +14,16 @@ export interface Division {
 }
 
 export const getDivisions = () => {
-  return (bdLocations as Division[]).map(d => ({
+  const data = (bdLocations as any).default || bdLocations;
+  return (data as Division[]).map(d => ({
     name: d.division,
     bnName: d.divisionbn
   }));
 };
 
 export const getDistrictsByDivision = (divisionName: string) => {
-  const div = (bdLocations as Division[]).find(
+  const data = (bdLocations as any).default || bdLocations;
+  const div = (data as Division[]).find(
     d => d.division.toLowerCase() === divisionName.toLowerCase()
   );
   return div ? div.districts.map(dist => ({
@@ -31,8 +33,9 @@ export const getDistrictsByDivision = (divisionName: string) => {
 };
 
 export const getAllDistricts = () => {
+  const data = (bdLocations as any).default || bdLocations;
   const allDistricts: string[] = [];
-  (bdLocations as Division[]).forEach(div => {
+  (data as Division[]).forEach(div => {
     div.districts.forEach(dist => {
       allDistricts.push(dist.district);
     });
@@ -41,7 +44,8 @@ export const getAllDistricts = () => {
 };
 
 export const getUpazilasByDistrict = (districtName: string) => {
-  for (const div of (bdLocations as Division[])) {
+  const data = (bdLocations as any).default || bdLocations;
+  for (const div of (data as Division[])) {
     const dist = div.districts.find(
       d => d.district.toLowerCase() === districtName.toLowerCase()
     );

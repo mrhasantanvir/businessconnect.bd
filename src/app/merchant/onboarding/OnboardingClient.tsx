@@ -2,8 +2,18 @@
 
 import React, { useState, useEffect } from "react";
 import { 
-  ArrowRight, ArrowLeft, Sparkles, Phone, Facebook, Instagram,
-  Store, MapPin, Palette, CheckCircle2, Box, Globe
+  ArrowRight, 
+  ArrowLeft, 
+  Sparkles, 
+  Phone, 
+  Facebook, 
+  Instagram,
+  Store, 
+  MapPin, 
+  Palette, 
+  CheckCircle2, 
+  Box, 
+  Globe 
 } from "lucide-react";
 import { completeOnboardingAction } from "./actions";
 import { toast } from "sonner";
@@ -15,6 +25,26 @@ export function OnboardingClient() {
   const [loading, setLoading] = useState(false);
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
+
+  const [formData, setFormData] = useState({
+    name: "",
+    slug: "",
+    phone: "",
+    address: "",
+    fbPage: "",
+    igProfile: "",
+    selectedTheme: "MODERN_LIGHT",
+    division: "",
+    district: "",
+    upazila: ""
+  });
+
+  const [divisions, setDivisions] = useState<{name: string, bnName: string}[]>([]);
+  const [districts, setDistricts] = useState<{name: string, upazilas: string[]}[]>([]);
+  const [upazilas, setUpazilas] = useState<string[]>([]);
+
+  const [isBuilding, setIsBuilding] = useState(false);
+  const [buildProgress, setBuildProgress] = useState(0);
 
   useEffect(() => {
     setMounted(true);
@@ -36,26 +66,6 @@ export function OnboardingClient() {
       setFormData(prev => ({ ...prev, upazila: "" }));
     }
   }, [formData.district]);
-
-  const [formData, setFormData] = useState({
-    name: "",
-    slug: "",
-    phone: "",
-    address: "",
-    fbPage: "",
-    igProfile: "",
-    selectedTheme: "MODERN_LIGHT",
-    division: "",
-    district: "",
-    upazila: ""
-  });
-
-  const [divisions, setDivisions] = useState<{name: string, bnName: string}[]>([]);
-  const [districts, setDistricts] = useState<{name: string, upazilas: string[]}[]>([]);
-  const [upazilas, setUpazilas] = useState<string[]>([]);
-
-  const [isBuilding, setIsBuilding] = useState(false);
-  const [buildProgress, setBuildProgress] = useState(0);
 
   const nextStep = () => setStep(s => s + 1);
   const prevStep = () => setStep(s => s - 1);
