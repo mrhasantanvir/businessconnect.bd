@@ -152,6 +152,7 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
         { icon: Activity, label: "Billings", href: "/admin/billing", roles: ["SUPER_ADMIN"] },
         { icon: Package, label: "Subscriptions", href: "/admin/subscriptions", roles: ["SUPER_ADMIN"] },
         { icon: Zap, label: "System Updates", href: "/admin/system/update", roles: ["SUPER_ADMIN"] },
+        { icon: Settings, label: "Global Settings", href: "/admin/settings", roles: ["SUPER_ADMIN"] },
         { icon: Layout, label: t("business_profile"), href: "/merchant/storefront", roles: ["MERCHANT"] },
           { icon: Share2, label: t("settings"), roles: ["MERCHANT"], subItems: [
              { label: t("storefront_themes"), href: "/merchant/settings/themes" },

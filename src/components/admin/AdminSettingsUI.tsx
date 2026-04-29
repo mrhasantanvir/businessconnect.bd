@@ -137,7 +137,7 @@ export function AdminSettingsUI() {
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 bg-white border border-[#E5E7EB] rounded-none shadow-xl overflow-hidden min-h-[500px]">
+        <div className="flex-1 bg-white border border-[#E5E7EB] rounded-none shadow-xl overflow-visible min-h-[500px]">
            <div className="p-8">
               {activeTab === "GENERAL" && (
                 <GeneralSettings 
