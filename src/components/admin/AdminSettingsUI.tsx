@@ -208,7 +208,7 @@ function TabButton({ active, onClick, icon: Icon, label, sub }: any) {
       onClick={onClick}
       className={`w-full flex items-center gap-4 p-4 transition-all rounded-none text-left border ${
         active 
-          ? "bg-white text-slate-900 text-slate-900 border border-slate-100 text-white border-[#0F172A] shadow-lg translate-x-1" 
+          ? "bg-[#0F172A] text-white border-[#0F172A] shadow-lg translate-x-1" 
           : "bg-white text-[#64748B] border-[#E5E7EB] hover:bg-gray-50"
       }`}
     >
@@ -220,7 +220,7 @@ function TabButton({ active, onClick, icon: Icon, label, sub }: any) {
       <div>
         <div className="text-sm font-black tracking-tight">{label}</div>
         <div className={`text-[10px] font-bold uppercase tracking-wider ${
-          active ? "text-white/50" : "text-[#A1A1AA]"
+          active ? "text-white/60" : "text-[#A1A1AA]"
         }`}>{sub}</div>
       </div>
     </button>
