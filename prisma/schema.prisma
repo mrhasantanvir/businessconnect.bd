@@ -903,6 +903,10 @@ model SystemSettings {
   googleVisionKey     String?
   fbAppSecret         String?
   aiCreditPrice       Float    @default(0.50)
+  siteTitle           String   @default("BusinessConnect.bd")
+  siteDescription     String?
+  metaKeywords        String?
+  ogImage             String?
   updatedAt           DateTime @updatedAt
   googleClientId      String?
   googleClientSecret  String?

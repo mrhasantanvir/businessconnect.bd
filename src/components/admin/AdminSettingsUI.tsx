@@ -5,11 +5,11 @@ import {
   Settings, MessageSquare, Mail, Bell, 
   Smartphone, Save, ShieldCheck, Database, 
   CheckCircle2, AlertCircle, Loader2, Globe,
-  MessageCircle, DollarSign
+  MessageCircle, DollarSign, Search
 } from "lucide-react";
 import { getSystemSettingsAction, updateSystemSettingsAction } from "@/app/admin/settings/actions";
 
-type Tab = "GENERAL" | "SMS" | "REALTIME" | "MAIL" | "WHATSAPP" | "PRICING" | "GOOGLE";
+type Tab = "GENERAL" | "SMS" | "REALTIME" | "MAIL" | "WHATSAPP" | "PRICING" | "GOOGLE" | "SEO";
 
 export function AdminSettingsUI() {
   const [activeTab, setActiveTab] = useState<Tab>("GENERAL");
@@ -127,6 +127,13 @@ export function AdminSettingsUI() {
             label="Google Cloud" 
             sub="App Sync Keys"
           />
+          <TabButton 
+            active={activeTab === "SEO"} 
+            onClick={() => setActiveTab("SEO")} 
+            icon={Search} 
+            label="SEO & Branding" 
+            sub="Meta & Social"
+          />
         </div>
 
         {/* Content Area */}
@@ -176,6 +183,13 @@ export function AdminSettingsUI() {
               )}
               {activeTab === "GOOGLE" && (
                 <GoogleSettings 
+                  settings={settings} 
+                  onSave={handleSave} 
+                  saving={saving} 
+                />
+              )}
+              {activeTab === "SEO" && (
+                <SeoSettings 
                   settings={settings} 
                   onSave={handleSave} 
                   saving={saving} 
@@ -547,6 +561,54 @@ function GoogleSettings({ settings, onSave, saving }: any) {
       >
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
         Save Master Credentials
+      </button>
+    </div>
+  );
+}
+
+function SeoSettings({ settings, onSave, saving }: any) {
+  const [title, setTitle] = useState(settings?.siteTitle ?? "BusinessConnect.bd");
+  const [desc, setDesc] = useState(settings?.siteDescription ?? "");
+  const [keywords, setKeywords] = useState(settings?.metaKeywords ?? "");
+  const [ogImage, setOgImage] = useState(settings?.ogImage ?? "");
+
+  return (
+    <div className="space-y-8 max-w-3xl">
+      <div className="space-y-4">
+        <h3 className="text-xl font-black text-[#0F172A] flex items-center gap-2">
+           <Search className="w-6 h-6" /> SEO & Platform Branding
+        </h3>
+        <p className="text-sm text-[#64748B]">Manage how the platform appears in Google search results and social media shares.</p>
+      </div>
+
+      <div className="space-y-6">
+        <Input label="Global Site Title" value={title} onChange={setTitle} placeholder="e.g. BusinessConnect - The Ultimate OS" />
+        <Input label="Meta Description" value={desc} onChange={setDesc} multiline placeholder="Describe your platform for search engines..." />
+        <Input label="Meta Keywords (Comma separated)" value={keywords} onChange={setKeywords} placeholder="business, platform, automation, bangladesh" />
+        <Input label="Social Share Image (URL)" value={ogImage} onChange={setOgImage} placeholder="https://example.com/og-image.jpg" />
+      </div>
+
+      <div className="p-6 bg-slate-50 border border-slate-100 rounded-none">
+         <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Google Preview</div>
+         <div className="space-y-1">
+            <div className="text-blue-700 text-xl font-medium hover:underline cursor-pointer truncate">{title}</div>
+            <div className="text-green-700 text-sm truncate">https://businessconnect.bd</div>
+            <div className="text-slate-600 text-sm line-clamp-2">{desc || "Enter a description to see a preview of how this page will appear in search results."}</div>
+         </div>
+      </div>
+
+      <button
+        disabled={saving}
+        onClick={() => onSave({ 
+          siteTitle: title,
+          siteDescription: desc,
+          metaKeywords: keywords,
+          ogImage: ogImage
+        })}
+        className="px-6 py-3 bg-white text-slate-900 text-slate-900 border border-slate-100 text-white font-black text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50"
+      >
+        {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+        Update SEO Metadata
       </button>
     </div>
   );
