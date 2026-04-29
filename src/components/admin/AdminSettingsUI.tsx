@@ -261,7 +261,7 @@ function GeneralSettings({ settings, onSave, saving }: any) {
           isLiveChatEnabled: isEnabled,
           isFraudCheckEnabled: isFraudEnabled
         })}
-        className="px-6 py-3 bg-white text-slate-900 text-slate-900 border border-slate-100 text-white font-black text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50"
+        className="px-6 py-3 bg-[#1E40AF] text-white font-black text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50 shadow-lg"
       >
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
         Save General Settings
@@ -366,7 +366,7 @@ function SmsSettings({ settings, onSave, saving }: any) {
           smsSenderId: senderId,
           smsApiUrl: apiUrl
         })}
-        className="px-6 py-3 bg-white text-slate-900 text-slate-900 border border-slate-100 text-white font-black text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50"
+        className="px-6 py-3 bg-[#1E40AF] text-white font-black text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50 shadow-lg"
       >
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
         Update SMS Gateway
@@ -449,7 +449,7 @@ function MailSettings({ settings, onSave, saving }: any) {
           smtpPass: pass,
           smtpFrom: from
         })}
-        className="px-6 py-3 bg-white text-slate-900 text-slate-900 border border-slate-100 text-white font-black text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50"
+        className="px-6 py-3 bg-[#1E40AF] text-white font-black text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50 shadow-lg"
       >
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
         Update SMTP Settings
@@ -514,10 +514,9 @@ function PricingSettings({ settings, onSave, saving }: any) {
       <button
         disabled={saving}
         onClick={() => onSave({ 
-          // Assuming the backend has these fields added to the settings or we just mock a bulk update
-          // This matches the prompt's requirement for Admin Price Control
+          // Price control data
         })}
-        className="px-6 py-3 bg-white text-slate-900 text-slate-900 border border-slate-100 text-white font-black text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50"
+        className="px-6 py-3 bg-[#1E40AF] text-white font-black text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50 shadow-lg"
       >
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
         Save Pricing Rates
@@ -605,7 +604,7 @@ function SeoSettings({ settings, onSave, saving }: any) {
           metaKeywords: keywords,
           ogImage: ogImage
         })}
-        className="px-6 py-3 bg-white text-slate-900 text-slate-900 border border-slate-100 text-white font-black text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50"
+        className="px-6 py-3 bg-[#1E40AF] text-white font-black text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50 shadow-lg"
       >
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
         Update SEO Metadata
