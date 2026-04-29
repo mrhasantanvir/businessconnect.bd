@@ -2,8 +2,9 @@ import React from "react";
 import { db as prisma } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { Users, Store, ShieldCheck, Settings, CreditCard, MessageSquare, Phone } from "lucide-react";
+import { Users, Store, ShieldCheck, Settings, CreditCard, MessageSquare, Phone, FileText, ExternalLink } from "lucide-react";
 import { ActivationButton } from "./ActivationButton";
+import Link from "next/link";
 
 export default async function AdminMerchantsPage() {
   const session = await getSession();
@@ -74,11 +75,23 @@ export default async function AdminMerchantsPage() {
 
               {m.activationStatus === "PENDING" && (
                 <div className="space-y-4">
-                   <div className="flex gap-2">
-                      {m.tradeLicenseUrl && <div className="text-[8px] font-black uppercase px-2 py-1 bg-slate-100 rounded text-slate-500">Trade License</div>}
-                      {m.nidFrontUrl && <div className="text-[8px] font-black uppercase px-2 py-1 bg-slate-100 rounded text-slate-500">NID Front</div>}
-                      {m.nidBackUrl && <div className="text-[8px] font-black uppercase px-2 py-1 bg-slate-100 rounded text-slate-500">NID Back</div>}
-                   </div>
+                    <div className="flex flex-wrap gap-2">
+                       {m.tradeLicenseUrl && (
+                         <a href={m.tradeLicenseUrl} target="_blank" rel="noopener noreferrer" className="text-[8px] font-black uppercase px-2 py-1 bg-blue-50 hover:bg-blue-100 rounded text-blue-600 flex items-center gap-1 transition-colors">
+                           <FileText className="w-2.5 h-2.5" /> Trade License <ExternalLink className="w-2 h-2" />
+                         </a>
+                       )}
+                       {m.nidFrontUrl && (
+                         <a href={m.nidFrontUrl} target="_blank" rel="noopener noreferrer" className="text-[8px] font-black uppercase px-2 py-1 bg-blue-50 hover:bg-blue-100 rounded text-blue-600 flex items-center gap-1 transition-colors">
+                           <FileText className="w-2.5 h-2.5" /> NID Front <ExternalLink className="w-2 h-2" />
+                         </a>
+                       )}
+                       {m.nidBackUrl && (
+                         <a href={m.nidBackUrl} target="_blank" rel="noopener noreferrer" className="text-[8px] font-black uppercase px-2 py-1 bg-blue-50 hover:bg-blue-100 rounded text-blue-600 flex items-center gap-1 transition-colors">
+                           <FileText className="w-2.5 h-2.5" /> NID Back <ExternalLink className="w-2 h-2" />
+                         </a>
+                       )}
+                    </div>
                    <ActivationButton storeId={m.id} />
                 </div>
               )}
