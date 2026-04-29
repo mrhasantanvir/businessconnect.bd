@@ -10,14 +10,14 @@ async function main() {
       where: { id: "GLOBAL" },
       update: {
         smsActiveProvider: "SSLCOMMERZ",
-        smsApiKey: "TDZFVUpTZDUyWWpvN0JlYkJnTHBXOXhIZjAyVUNkRFg=",
+        smsApiKey: "L4EUJSd52Yjo7BebBgLpW9xHf02UCdDX",
         smsSenderId: "RAJBRAND",
         smsApiUrl: "https://smsplus.sslwireless.com/api/v3/send-sms"
       },
       create: {
         id: "GLOBAL",
         smsActiveProvider: "SSLCOMMERZ",
-        smsApiKey: "TDZFVUpTZDUyWWpvN0JlYkJnTHBXOXhIZjAyVUNkRFg=",
+        smsApiKey: "L4EUJSd52Yjo7BebBgLpW9xHf02UCdDX",
         smsSenderId: "RAJBRAND",
         smsApiUrl: "https://smsplus.sslwireless.com/api/v3/send-sms"
       },
