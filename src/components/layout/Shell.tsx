@@ -40,7 +40,8 @@ import {
   Star,
   Globe,
   Database,
-  X
+  X,
+  Settings
 } from "lucide-react";
 import { FileSpreadsheet } from "lucide-react";
 import Link from "next/link";
