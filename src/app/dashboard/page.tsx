@@ -35,10 +35,13 @@ export default async function DashboardPage() {
     }
   });
 
-  // Redirect merchants to merchant onboarding if incomplete
+  // Redesign: No longer redirecting immediately to onboarding
+  // We will show a prompt in the dashboard instead
+  /*
   if (session.role === "MERCHANT" && store && store.isOnboarded === false) {
     redirect("/merchant/onboarding");
   }
+  */
 
   // Redirect staff to staff onboarding if incomplete or pending
   if (session.role === "STAFF") {

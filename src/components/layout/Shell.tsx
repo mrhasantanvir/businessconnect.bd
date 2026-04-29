@@ -256,7 +256,23 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
 
         <nav className="flex-1 py-4 flex flex-col gap-1 px-3 overflow-y-auto">
           {NAVIGATION.map((group) => {
-            const visibleItems = group.items.filter(item => item.roles.includes(role));
+            const isInactiveMerchant = user?.role === "MERCHANT" && user?.activationStatus !== "ACTIVE";
+            
+            const visibleItems = group.items.filter(item => {
+              const isRoleAllowed = item.roles.includes(role);
+              if (!isRoleAllowed) return false;
+              
+              // If inactive merchant, restrict access to certain groups/items
+              if (isInactiveMerchant) {
+                // Allow Dashboard, Catalog (for adding products), and Profile
+                const allowedLabels = [t("dashboard"), t("catalog"), t("business_profile"), "Support Hub"];
+                const isAllowed = allowedLabels.includes(item.label) || group.group === "Support Hub";
+                if (!isAllowed) return false;
+              }
+              
+              return true;
+            });
+            
             if (visibleItems.length === 0) return null;
 
             return (
@@ -360,6 +376,33 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
 
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col h-full overflow-hidden relative pt-14 lg:pt-0">
+        
+        {/* Activation Status Banner */}
+        {user?.role === "MERCHANT" && user?.activationStatus !== "ACTIVE" && (
+          <div className="bg-[#FFFBEB] border-b border-amber-100 px-8 py-3 flex items-center justify-between animate-in slide-in-from-top duration-500">
+             <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center">
+                   <AlertTriangle className="w-4 h-4 text-amber-600" />
+                </div>
+                <div>
+                   <h4 className="text-[10px] font-black text-amber-900 uppercase tracking-widest">
+                      {user?.activationStatus === "PENDING" ? "Account Pending Activation" : "Activation Rejected"}
+                   </h4>
+                   <p className="text-[10px] text-amber-700 font-medium uppercase mt-0.5">
+                      {user?.activationStatus === "PENDING" 
+                         ? "Our admin team is reviewing your documents. You can add products but cannot take orders yet."
+                         : "Please re-upload valid documents in the onboarding section."}
+                   </p>
+                </div>
+             </div>
+             <Link 
+               href="/merchant/onboarding" 
+               className="bg-amber-600 text-white text-[9px] font-black uppercase tracking-widest px-4 py-2 rounded-lg hover:bg-amber-700 transition-all shadow-sm"
+             >
+                {user?.activationStatus === "PENDING" ? "View Submission" : "Re-Onboard Now"}
+             </Link>
+          </div>
+        )}
         {/* Transparent Glass-morphism Header */}
         <header className="h-14 w-full bg-white sticky top-0 z-40 flex items-center justify-between px-4 lg:px-8 border-b border-[#E5E7EB]/50 shrink-0">
           <div className="flex items-center gap-4 lg:hidden">

@@ -5,9 +5,9 @@ import { encrypt } from "@/lib/auth";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { CommunicationService } from "@/services/CommunicationService";
 
-// Mock OTP storage (In production, use Redis or a DB table)
-const otpStore = new Map<string, { otp: string; expires: number }>();
+// In-memory storage replaced by DB for production stability (PM2/Multi-process)
 
 export async function sendOtpAction(phone: string) {
   if (!phone) return { error: "Phone number is required" };
@@ -15,39 +15,52 @@ export async function sendOtpAction(phone: string) {
   // Generate a 6-digit OTP
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
   
-  // Store OTP with 5-minute expiry
-  otpStore.set(phone, {
-    otp,
-    expires: Date.now() + 5 * 60 * 1000
+  // Store OTP in DB with 5-minute expiry
+  await prisma.otp.deleteMany({ where: { phone } }); // Clear old ones
+  await prisma.otp.create({
+    data: {
+      phone,
+      otp,
+      expiresAt: new Date(Date.now() + 5 * 60 * 1000)
+    }
   });
 
-  console.log(`[SMS GATEWAY] Sending OTP ${otp} to ${phone}`);
+  console.log(`[SYSTEM] Attempting to send OTP ${otp} to ${phone}`);
   
-  // Here you would integrate with a real SMS API like Twilio, Infobip, or a local BD gateway
+  const smsResult = await CommunicationService.sendSms("SYSTEM", phone, `Your BusinessConnect verification code is: ${otp}`);
+  
+  if (!smsResult.success) {
+    return { error: "Failed to send OTP. Please try again later." };
+  }
+
   return { success: true, message: "OTP sent to your phone" };
 }
 
 export async function verifyOtpAction(phone: string, otp: string) {
-  const record = otpStore.get(phone);
+  const record = await prisma.otp.findFirst({
+    where: { phone, otp },
+    orderBy: { createdAt: 'desc' }
+  });
   
-  if (!record) return { error: "No OTP found for this number" };
-  if (record.expires < Date.now()) return { error: "OTP expired" };
-  if (record.otp !== otp) return { error: "Invalid OTP" };
+  if (!record) return { error: "Invalid OTP code" };
+  if (record.expiresAt < new Date()) return { error: "OTP has expired" };
 
-  // Mark as verified (in session or a temporary store)
+  // OTP is valid, we can delete it now
+  await prisma.otp.delete({ where: { id: record.id } });
+
   return { success: true };
 }
 
 export async function registerAction(formData: FormData) {
-  const name = formData.get("name") as string;
-  const email = formData.get("email") as string;
+  const name = formData.get("name") as string || "Merchant User";
+  const email = formData.get("email") as string || null;
   const password = formData.get("password") as string;
-  const storeName = formData.get("storeName") as string;
+  const storeName = formData.get("storeName") as string || "My Store";
   const phone = formData.get("phone") as string;
   const isPhoneVerified = formData.get("isPhoneVerified") === "true";
 
-  if (!name || !email || !password || !storeName || !phone) {
-    return { error: "All fields are required" };
+  if (!password || !phone) {
+    return { error: "Phone and password are required" };
   }
 
   if (!isPhoneVerified) {
@@ -55,12 +68,22 @@ export async function registerAction(formData: FormData) {
   }
 
   try {
-    const existingUser = await prisma.user.findUnique({
-      where: { email },
+    // Check if phone already exists
+    const existingUserByPhone = await prisma.user.findFirst({
+      where: { phone },
     });
 
-    if (existingUser) {
-      return { error: "A user with this email already exists" };
+    if (existingUserByPhone) {
+      return { error: "A user with this phone number already exists" };
+    }
+
+    if (email) {
+      const existingUserByEmail = await prisma.user.findUnique({
+        where: { email },
+      });
+      if (existingUserByEmail) {
+        return { error: "A user with this email already exists" };
+      }
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -69,9 +92,10 @@ export async function registerAction(formData: FormData) {
       const store = await tx.merchantStore.create({
         data: {
           name: storeName,
-          slug: storeName.toLowerCase().replace(/\s+/g, "-") + "-" + Math.random().toString(36).substring(2, 7),
+          slug: (storeName.toLowerCase().replace(/\s+/g, "-") || "store") + "-" + Math.random().toString(36).substring(2, 7),
           isOnboarded: false,
-          address: "", // Initial empty
+          address: "", 
+          activationStatus: "PENDING",
         },
       });
 
@@ -79,6 +103,7 @@ export async function registerAction(formData: FormData) {
         data: {
           name,
           email,
+          phone,
           password: hashedPassword,
           role: "MERCHANT",
           merchantStoreId: store.id,
@@ -93,6 +118,7 @@ export async function registerAction(formData: FormData) {
     const session = await encrypt({
       userId: result.user.id,
       email: result.user.email,
+      phone: result.user.phone,
       role: result.user.role,
       merchantStoreId: result.store.id,
       expires,
@@ -111,5 +137,5 @@ export async function registerAction(formData: FormData) {
     return { error: "Something went wrong. Please try again." };
   }
 
-  redirect("/merchant/onboarding");
+  redirect("/dashboard");
 }

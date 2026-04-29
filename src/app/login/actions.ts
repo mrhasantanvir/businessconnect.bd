@@ -7,16 +7,22 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function loginAction(formData: FormData) {
-  const email = formData.get("email") as string;
+  const identifier = formData.get("email") as string; // Could be email or phone
   const password = formData.get("password") as string;
 
-  if (!email || !password) {
-    return { error: "Email and password are required" };
+  if (!identifier || !password) {
+    return { error: "Credentials are required" };
   }
 
   try {
-    const user = await prisma.user.findUnique({
-      where: { email },
+    const user = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { email: identifier },
+          { phone: identifier }
+        ]
+      },
+      include: { customRole: true }
     });
 
     if (!user) {
@@ -29,22 +35,16 @@ export async function loginAction(formData: FormData) {
       return { error: "Invalid credentials" };
     }
 
-    const userWithRole = await prisma.user.findUnique({
-      where: { email },
-      include: { customRole: true }
-    });
-
-    if (!userWithRole) return { error: "User not found" };
-
     // Create the session
     const expires = new Date(Date.now() + 2 * 60 * 60 * 1000); // 2 hours from now
     const session = await encrypt({
-      userId: userWithRole.id,
-      email: userWithRole.email,
-      role: userWithRole.role,
-      customRoleId: userWithRole.customRoleId,
-      permissions: userWithRole.customRole?.permissions || [],
-      merchantStoreId: userWithRole.merchantStoreId,
+      userId: user.id,
+      email: user.email,
+      phone: user.phone,
+      role: user.role,
+      customRoleId: user.customRoleId,
+      permissions: user.customRole?.permissions || [],
+      merchantStoreId: user.merchantStoreId,
       expires,
     });
 
@@ -56,20 +56,16 @@ export async function loginAction(formData: FormData) {
       sameSite: "lax",
       path: "/",
     });
-  } catch (error) {
+
+    if (user.role === "SUPER_ADMIN") {
+      redirect("/admin");
+    } else {
+      redirect("/dashboard"); 
+    }
+  } catch (error: any) {
+    if (error.message === "NEXT_REDIRECT") throw error;
     console.error("Login error:", error);
     return { error: "Something went wrong. Please try again." };
-  }
-
-  // Find the correct dashboard based on role
-  const user = await prisma.user.findUnique({ where: { email } });
-  
-  if (user?.role === "SUPER_ADMIN") {
-    redirect("/admin");
-  } else if (user?.role === "STAFF") {
-    redirect("/dashboard"); // Use central dashboard which handles further redirects
-  } else {
-    redirect("/dashboard"); 
   }
 }
 

@@ -61,16 +61,16 @@ export default function LoginPage() {
             )}
 
             <div className="space-y-2">
-              <label className="text-xs font-bold text-[#64748B] uppercase tracking-wider ml-1">Email Address</label>
+              <label className="text-xs font-bold text-[#64748B] uppercase tracking-wider ml-1">Email or Phone Number</label>
               <div className="relative group">
                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#A1A1AA] group-focus-within:text-[#1E40AF] transition-colors" />
                 <input
-                  type="email"
+                  type="text"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full bg-[#F8F9FA] border border-[#E5E7EB] rounded-2xl py-3.5 pl-12 pr-4 outline-none focus:border-[#1E40AF] focus:ring-4 focus:ring-[#1E40AF]/5 transition-all font-medium text-[#0F172A]"
-                  placeholder="name@business.bd"
+                  placeholder="Email or +880..."
                 />
               </div>
             </div>

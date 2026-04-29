@@ -15,6 +15,15 @@ export async function createPosOrderAction(data: {
     const session = await getSession();
     if (!session || !session.merchantStoreId) return { success: false, error: "Unauthorized" };
 
+    const store = await prisma.merchantStore.findUnique({
+        where: { id: session.merchantStoreId },
+        select: { activationStatus: true }
+    });
+
+    if (store?.activationStatus !== "ACTIVE") {
+        return { success: false, error: "Account not activated. Please complete onboarding and wait for admin approval." };
+    }
+
     try {
         const order = await prisma.order.create({
             data: {

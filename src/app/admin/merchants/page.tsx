@@ -3,7 +3,7 @@ import { db as prisma } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { Users, Store, ShieldCheck, Settings, CreditCard, MessageSquare, Phone } from "lucide-react";
-import Link from "next/link";
+import { ActivationButton } from "./ActivationButton";
 
 export default async function AdminMerchantsPage() {
   const session = await getSession();
@@ -32,14 +32,18 @@ export default async function AdminMerchantsPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
          {merchants.map((m) => (
-           <div key={m.id} className="bg-white border border-slate-100 rounded-[40px] p-8 space-y-8 shadow-sm hover:shadow-2xl transition-all group">
+           <div key={m.id} className={`bg-white border rounded-[40px] p-8 space-y-8 shadow-sm hover:shadow-2xl transition-all group ${m.activationStatus === "PENDING" ? "border-amber-200 ring-4 ring-amber-50" : "border-slate-100"}`}>
               <div className="flex items-start justify-between">
                  <div className="w-16 h-16 rounded-[24px] bg-slate-900 flex items-center justify-center text-white text-2xl font-black italic shadow-xl">
                     {m.name.charAt(0)}
                  </div>
                  <div className="flex flex-col items-end gap-2">
-                    <span className="px-4 py-1.5 bg-blue-50 text-blue-600 text-[10px] font-black rounded-full uppercase tracking-widest">
-                       {m.plan}
+                    <span className={`px-4 py-1.5 text-[10px] font-black rounded-full uppercase tracking-widest ${
+                       m.activationStatus === "ACTIVE" ? "bg-green-50 text-green-600" :
+                       m.activationStatus === "PENDING" ? "bg-amber-50 text-amber-600" :
+                       "bg-red-50 text-red-600"
+                    }`}>
+                       {m.activationStatus || m.plan}
                     </span>
                     <span className="text-[10px] font-bold text-slate-400">ID: {m.id.slice(-6).toUpperCase()}</span>
                  </div>
@@ -48,6 +52,7 @@ export default async function AdminMerchantsPage() {
               <div>
                  <h3 className="text-2xl font-black text-slate-900 tracking-tight uppercase italic">{m.name}</h3>
                  <p className="text-[11px] font-bold text-slate-400 mt-1 uppercase tracking-widest">{m.slug}.businessconnect.bd</p>
+                 {m.businessType && <p className="text-[10px] font-black text-blue-600 uppercase mt-2">Type: {m.businessType}</p>}
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -67,6 +72,17 @@ export default async function AdminMerchantsPage() {
                  </div>
               </div>
 
+              {m.activationStatus === "PENDING" && (
+                <div className="space-y-4">
+                   <div className="flex gap-2">
+                      {m.tradeLicenseUrl && <div className="text-[8px] font-black uppercase px-2 py-1 bg-slate-100 rounded text-slate-500">Trade License</div>}
+                      {m.nidFrontUrl && <div className="text-[8px] font-black uppercase px-2 py-1 bg-slate-100 rounded text-slate-500">NID Front</div>}
+                      {m.nidBackUrl && <div className="text-[8px] font-black uppercase px-2 py-1 bg-slate-100 rounded text-slate-500">NID Back</div>}
+                   </div>
+                   <ActivationButton storeId={m.id} />
+                </div>
+              )}
+
               <div className="pt-8 border-t border-slate-50 flex items-center justify-between">
                  <div className="flex items-center gap-4">
                     <div className="flex flex-col">
@@ -80,7 +96,7 @@ export default async function AdminMerchantsPage() {
                     </div>
                  </div>
                  <Link 
-                   href={`/admin/merchants/${m.id}/settings`}
+                   href={`/admin/merchants/${m.id}`}
                    className="p-3 bg-slate-900 text-white rounded-2xl hover:scale-110 active:scale-95 transition-all shadow-lg"
                  >
                     <Settings className="w-5 h-5" />

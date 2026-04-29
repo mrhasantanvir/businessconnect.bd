@@ -7,12 +7,16 @@ import { redirect } from "next/navigation";
 
 export async function completeOnboardingAction(data: {
   name?: string;
-  slug?: string;
+  businessType?: string;
   phone?: string;
   address?: string;
-  fbPage?: string;
-  igProfile?: string;
-  selectedTheme?: string;
+  division?: string;
+  district?: string;
+  upazila?: string;
+  tradeLicenseUrl?: string;
+  nidFrontUrl?: string;
+  nidBackUrl?: string;
+  employeeCount?: number;
 }) {
   const session = await getSession();
   if (!session || !session.merchantStoreId) {
@@ -22,8 +26,19 @@ export async function completeOnboardingAction(data: {
   await prisma.merchantStore.update({
     where: { id: session.merchantStoreId },
     data: {
-      ...data,
+      name: data.name,
+      businessType: data.businessType,
+      phone: data.phone,
+      address: data.address,
+      division: data.division,
+      district: data.district,
+      upazila: data.upazila,
+      tradeLicenseUrl: data.tradeLicenseUrl,
+      nidFrontUrl: data.nidFrontUrl,
+      nidBackUrl: data.nidBackUrl,
+      employeeCount: data.employeeCount,
       isOnboarded: true,
+      activationStatus: "PENDING",
     },
   });
 

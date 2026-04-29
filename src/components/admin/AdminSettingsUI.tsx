@@ -263,9 +263,9 @@ function SmsSettings({ settings, onSave, saving }: any) {
   const [apiUrl, setApiUrl] = useState(settings?.smsApiUrl ?? "");
 
   const providers = [
+    { id: "SSLCOMMERZ", name: "SSL Commerz (SSL Wireless)" },
     { id: "FIREBASE", name: "Firebase Auth Flow" },
     { id: "ELITBUZZ", name: "ElitBuzz BD" },
-    { id: "SSLWIRELESS", name: "SSL Wireless" },
     { id: "GREENWEB", name: "GreenWeb BD" },
     { id: "BULKSMSBD", name: "BulkSMSBD" },
     { id: "INFOBIP", name: "Infobip Global" },
@@ -278,6 +278,17 @@ function SmsSettings({ settings, onSave, saving }: any) {
            <Smartphone className="w-6 h-6" /> SMS Gateway Configuration
         </h3>
         <p className="text-sm text-[#64748B]">Select and configure your active SMS provider for OTPs and notifications.</p>
+        
+        {provider === "SSLCOMMERZ" && (
+          <div className="p-4 bg-blue-50 border border-blue-100 rounded-none text-xs text-[#1E40AF] space-y-2">
+            <p className="font-bold flex items-center gap-2 italic uppercase tracking-widest">
+              <ShieldCheck className="w-4 h-4" /> SSLCommerz Integration Active
+            </p>
+            <p>This provider is currently used for <strong>Merchant Phone Verification (OTP)</strong>.</p>
+            <p>• <strong>API Key / Token</strong>: Use the Secret Token provided by SSL Wireless.</p>
+            <p>• <strong>Sender ID / Masking</strong>: Use your approved SID (e.g., RAJBRAND).</p>
+          </div>
+        )}
       </div>
 
       <div className="space-y-2">

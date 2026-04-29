@@ -9,7 +9,7 @@ datasource db {
 
 model User {
   id                  String               @id @default(cuid())
-  email               String               @unique
+  email               String?              @unique
   name                String?
   phone               String?
   password            String
@@ -70,10 +70,20 @@ model MerchantStore {
   themeConfig          String?
   earningsBalance      Float                 @default(0)
   address              String?
+  division             String?
+  district             String?
+  upazila              String?
   phone                String?
   fbPage               String?
   igProfile            String?
   isOnboarded          Boolean               @default(false)
+  businessType         String?
+  tradeLicenseUrl      String?
+  nidFrontUrl          String?
+  nidBackUrl           String?
+  employeeCount        Int                   @default(1)
+  activationStatus     String                @default("PENDING") // PENDING, ACTIVE, REJECTED
+  activationDate       DateTime?
   description          String?
   isVatEnabled         Boolean               @default(false)
   vatRate              Float                 @default(5.0)
@@ -1189,4 +1199,13 @@ model RecurringTransaction {
   branch          Branch?         @relation(fields: [branchId], references: [id])
   category        AccountCategory @relation(fields: [categoryId], references: [id])
   merchantStore   MerchantStore   @relation(fields: [merchantStoreId], references: [id], onDelete: Cascade)
+}
+model Otp {
+  id        String   @id @default(cuid())
+  phone     String
+  otp       String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([phone])
 }

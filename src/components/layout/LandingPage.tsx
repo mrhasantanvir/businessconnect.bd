@@ -43,9 +43,9 @@ export function LandingPageContent() {
           </div>
 
           <div className="flex items-center gap-4">
-            <Link href="/login" className="hidden sm:block text-sm font-semibold text-gray-500 hover:text-[#1E40AF]">Sign in</Link>
+            <Link href="/login" className="text-sm font-bold text-[#1E40AF] px-3 py-2">Sign in</Link>
             <Link 
-              href="/login" 
+              href="/register" 
               className="hidden sm:block bg-[#1E40AF] text-white px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-[#1E3A8A] transition-all shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20"
             >
               Get started
