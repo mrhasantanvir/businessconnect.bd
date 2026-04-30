@@ -229,10 +229,14 @@ function MerchantActionDropdown({ storeId, currentStatus, isArchived, onReupload
   };
 
   return (
-    <div className="relative">
+    <div className="relative" onClick={(e) => e.stopPropagation()}>
       <button 
         type="button"
-        onClick={() => setOpen(!open)}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setOpen(!open);
+        }}
         disabled={loading}
         className="px-4 py-2.5 bg-blue-600 text-white rounded-xl font-black uppercase text-[9px] tracking-widest hover:bg-blue-700 transition-all shadow-md shadow-blue-500/20 disabled:opacity-50 flex items-center justify-center gap-2 min-w-[100px]"
       >
@@ -240,7 +244,7 @@ function MerchantActionDropdown({ storeId, currentStatus, isArchived, onReupload
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-100 rounded-xl shadow-xl z-20 overflow-hidden animate-in fade-in slide-in-from-top-2">
+        <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-100 rounded-xl shadow-xl z-20 overflow-hidden animate-in fade-in slide-in-from-top-2" onClick={(e) => e.stopPropagation()}>
            {!isArchived ? (
              <>
                 {currentStatus !== "ACTIVE" && (
