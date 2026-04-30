@@ -7,7 +7,6 @@ import {
   CheckCircle2, AlertCircle, Loader2, Globe,
   MessageCircle, DollarSign, Search, Cloud
 } from "lucide-react";
-} from "lucide-react";
 import { getSystemSettingsAction, updateSystemSettingsAction, getEmailTemplatesAction, updateEmailTemplateAction } from "@/app/admin/settings/actions";
 
 type Tab = "GENERAL" | "SMS" | "REALTIME" | "MAIL" | "WHATSAPP" | "PRICING" | "GOOGLE" | "SEO" | "STORAGE" | "EMAIL_TEMPLATES";
