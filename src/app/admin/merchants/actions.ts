@@ -45,7 +45,7 @@ async function sendMerchantEmail(storeId: string, templateType: string, customMe
       from: `"${settings.siteTitle}" <${settings.smtpFrom || settings.smtpUser}>`,
       to: merchantUser.email,
       subject: template.subject,
-      text: body,
+      html: body,
     });
     console.log(`Email sent to ${merchantUser.email} for ${templateType}`);
   } catch (error) {
