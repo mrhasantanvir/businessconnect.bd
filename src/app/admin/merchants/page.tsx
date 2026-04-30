@@ -76,17 +76,35 @@ export default async function AdminMerchantsPage() {
               <div className="space-y-4">
                   <div className="flex flex-wrap gap-2">
                      {m.tradeLicenseUrl && (
-                       <a href={m.tradeLicenseUrl} target="_blank" rel="noopener noreferrer" className="text-[8px] font-black uppercase px-2 py-1 bg-blue-50 hover:bg-blue-100 rounded text-blue-600 flex items-center gap-1 transition-colors">
+                       <a 
+                         href={m.tradeLicenseUrl === "mock_id" ? "#" : m.tradeLicenseUrl} 
+                         target={m.tradeLicenseUrl === "mock_id" ? "_self" : "_blank"} 
+                         rel="noopener noreferrer" 
+                         title={m.tradeLicenseUrl === "mock_id" ? "Cloud storage pending integration" : "View Document"}
+                         className="text-[8px] font-black uppercase px-2 py-1 bg-blue-50 hover:bg-blue-100 rounded text-blue-600 flex items-center gap-1 transition-colors"
+                       >
                          <FileText className="w-2.5 h-2.5" /> Trade License <ExternalLink className="w-2 h-2" />
                        </a>
                      )}
                      {m.nidFrontUrl && (
-                       <a href={m.nidFrontUrl} target="_blank" rel="noopener noreferrer" className="text-[8px] font-black uppercase px-2 py-1 bg-blue-50 hover:bg-blue-100 rounded text-blue-600 flex items-center gap-1 transition-colors">
+                       <a 
+                         href={m.nidFrontUrl === "mock_id" ? "#" : m.nidFrontUrl} 
+                         target={m.nidFrontUrl === "mock_id" ? "_self" : "_blank"} 
+                         rel="noopener noreferrer" 
+                         title={m.nidFrontUrl === "mock_id" ? "Cloud storage pending integration" : "View Document"}
+                         className="text-[8px] font-black uppercase px-2 py-1 bg-blue-50 hover:bg-blue-100 rounded text-blue-600 flex items-center gap-1 transition-colors"
+                       >
                          <FileText className="w-2.5 h-2.5" /> NID Front <ExternalLink className="w-2 h-2" />
                        </a>
                      )}
                      {m.nidBackUrl && (
-                       <a href={m.nidBackUrl} target="_blank" rel="noopener noreferrer" className="text-[8px] font-black uppercase px-2 py-1 bg-blue-50 hover:bg-blue-100 rounded text-blue-600 flex items-center gap-1 transition-colors">
+                       <a 
+                         href={m.nidBackUrl === "mock_id" ? "#" : m.nidBackUrl} 
+                         target={m.nidBackUrl === "mock_id" ? "_self" : "_blank"} 
+                         rel="noopener noreferrer" 
+                         title={m.nidBackUrl === "mock_id" ? "Cloud storage pending integration" : "View Document"}
+                         className="text-[8px] font-black uppercase px-2 py-1 bg-blue-50 hover:bg-blue-100 rounded text-blue-600 flex items-center gap-1 transition-colors"
+                       >
                          <FileText className="w-2.5 h-2.5" /> NID Back <ExternalLink className="w-2 h-2" />
                        </a>
                      )}
