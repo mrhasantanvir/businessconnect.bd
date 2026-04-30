@@ -44,6 +44,8 @@ model User {
   chatMessages        InternalMessage[]
   moderationAlerts    ChatModerationAlert[]
   chatMemberships     ChatChannelMember[]
+  isArchived          Boolean              @default(false)
+  archivedAt          DateTime?
 }
 
 model MerchantStore {
@@ -141,6 +143,8 @@ model MerchantStore {
   customScripts        String?
   chatChannels         ChatChannel[]
   moderationAlerts     ChatModerationAlert[]
+  isArchived          Boolean              @default(false)
+  archivedAt          DateTime?
 }
 
 model Branch {
