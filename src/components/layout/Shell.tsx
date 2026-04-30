@@ -261,6 +261,7 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
             const isInactiveMerchant = user?.role === "MERCHANT" && user?.activationStatus !== "ACTIVE";
             
             const visibleItems = group.items.filter(item => {
+              if (!item.roles) return false;
               return item.roles.includes(role);
             });
             
