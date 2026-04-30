@@ -13,12 +13,12 @@ export async function placeOrderAction(data: {
   deliveryAddress: string;
   items: { productId: string; quantity: number; price: number }[];
 }) {
-  const store = await prisma.merchantStore.findUnique({
+  const storeStatus = await prisma.merchantStore.findUnique({
     where: { id: data.merchantStoreId },
     select: { activationStatus: true }
   });
 
-  if (store?.activationStatus !== "ACTIVE") {
+  if (storeStatus?.activationStatus !== "ACTIVE") {
     throw new Error("This store is currently not taking orders (Pending Verification).");
   }
 
