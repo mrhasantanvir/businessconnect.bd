@@ -4,6 +4,7 @@ import { db as prisma } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { notifyAdminMerchantAction } from "@/lib/notifications/admin";
 
 export async function completeOnboardingAction(data: {
   name?: string;
@@ -44,5 +45,13 @@ export async function completeOnboardingAction(data: {
 
   revalidatePath("/dashboard");
   revalidatePath("/merchant/onboarding");
+
+  // Notify Admin
+  try {
+    await notifyAdminMerchantAction(data.name || "Unknown Store", session.name || "Unknown Merchant", "ONBOARDING");
+  } catch (err) {
+    console.error("Failed to notify admin:", err);
+  }
+
   return { success: true };
 }
