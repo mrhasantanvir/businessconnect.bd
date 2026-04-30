@@ -89,6 +89,7 @@ export async function archiveMerchantAction(storeId: string) {
     if (!session || session.role !== "SUPER_ADMIN") throw new Error("Unauthorized");
 
     const now = new Date();
+    console.log(`ARCHIVING STORE: ${storeId}`);
     await prisma.$transaction([
       prisma.merchantStore.update({
         where: { id: storeId },
@@ -101,6 +102,8 @@ export async function archiveMerchantAction(storeId: string) {
     ]);
 
     revalidatePath("/admin/merchants");
+    revalidatePath("/admin/merchants", "page");
+    revalidatePath("/dashboard");
     return { success: true };
   } catch (error: any) {
     return { success: false, error: error.message };
