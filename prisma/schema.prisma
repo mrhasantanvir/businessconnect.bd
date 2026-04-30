@@ -82,8 +82,10 @@ model MerchantStore {
   nidFrontUrl          String?
   nidBackUrl           String?
   employeeCount        Int                   @default(1)
-  activationStatus     String                @default("PENDING") // PENDING, ACTIVE, REJECTED
+  activationStatus     String                @default("PENDING") // PENDING, ACTIVE, REJECTED, DOCUMENTS_REJECTED
   activationDate       DateTime?
+  reuploadMessage      String?               @db.Text
+  missingDocuments     String?               // JSON array string of missing document types
   description          String?
   isVatEnabled         Boolean               @default(false)
   vatRate              Float                 @default(5.0)
@@ -1221,4 +1223,15 @@ model Otp {
   createdAt DateTime @default(now())
 
   @@index([phone])
+}
+
+model EmailTemplate {
+  id        String   @id @default(cuid())
+  type      String   @unique // e.g., "STORE_ACTIVATED", "STORE_REJECTED", "DOCUMENTS_REUPLOAD"
+  name      String   // e.g., "Store Activation Email"
+  subject   String
+  body      String   @db.Text
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

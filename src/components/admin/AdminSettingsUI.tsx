@@ -7,9 +7,10 @@ import {
   CheckCircle2, AlertCircle, Loader2, Globe,
   MessageCircle, DollarSign, Search, Cloud
 } from "lucide-react";
-import { getSystemSettingsAction, updateSystemSettingsAction } from "@/app/admin/settings/actions";
+} from "lucide-react";
+import { getSystemSettingsAction, updateSystemSettingsAction, getEmailTemplatesAction, updateEmailTemplateAction } from "@/app/admin/settings/actions";
 
-type Tab = "GENERAL" | "SMS" | "REALTIME" | "MAIL" | "WHATSAPP" | "PRICING" | "GOOGLE" | "SEO" | "STORAGE";
+type Tab = "GENERAL" | "SMS" | "REALTIME" | "MAIL" | "WHATSAPP" | "PRICING" | "GOOGLE" | "SEO" | "STORAGE" | "EMAIL_TEMPLATES";
 
 export function AdminSettingsUI() {
   const [activeTab, setActiveTab] = useState<Tab>("GENERAL");
@@ -18,10 +19,14 @@ export function AdminSettingsUI() {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
+  const [templates, setTemplates] = useState<any[]>([]);
+
   useEffect(() => {
     async function load() {
       const data = await getSystemSettingsAction();
+      const tmpls = await getEmailTemplatesAction();
       setSettings(data);
+      setTemplates(tmpls);
       setLoading(false);
     }
     load();
@@ -141,6 +146,13 @@ export function AdminSettingsUI() {
             label="Cloud Storage" 
             sub="CDN & Buckets"
           />
+          <TabButton 
+            active={activeTab === "EMAIL_TEMPLATES"} 
+            onClick={() => setActiveTab("EMAIL_TEMPLATES")} 
+            icon={Mail} 
+            label="Email Templates" 
+            sub="Auto Responses"
+          />
         </div>
 
         {/* Content Area */}
@@ -207,6 +219,11 @@ export function AdminSettingsUI() {
                   settings={settings} 
                   onSave={handleSave} 
                   saving={saving} 
+                />
+              )}
+              {activeTab === "EMAIL_TEMPLATES" && (
+                <EmailTemplateSettings 
+                  templates={templates} 
                 />
               )}
            </div>
@@ -716,6 +733,83 @@ function CloudStorageSettings({ settings, onSave, saving }: any) {
       >
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
         Save Storage Configuration
+      </button>
+    </div>
+  );
+}
+
+function EmailTemplateSettings({ templates: initialTemplates }: any) {
+  const [templates, setTemplates] = useState<any[]>(initialTemplates || []);
+  const [activeTemplate, setActiveTemplate] = useState<any>(templates[0] || null);
+  const [saving, setSaving] = useState(false);
+
+  const handleSave = async () => {
+    if (!activeTemplate) return;
+    setSaving(true);
+    const res = await updateEmailTemplateAction(activeTemplate.id, {
+      subject: activeTemplate.subject,
+      body: activeTemplate.body
+    });
+    if (res.success) {
+      setTemplates(templates.map(t => t.id === activeTemplate.id ? res.template : t));
+      alert("Template saved successfully!");
+    } else {
+      alert("Failed to save template.");
+    }
+    setSaving(false);
+  };
+
+  if (!activeTemplate) return <div className="p-4 text-sm text-gray-500">No templates found.</div>;
+
+  return (
+    <div className="space-y-8 max-w-3xl">
+      <div className="space-y-4">
+        <h3 className="text-xl font-black text-[#0F172A] flex items-center gap-2">
+           <Mail className="w-6 h-6 text-[#1E40AF]" /> Automated Email Responses
+        </h3>
+        <p className="text-sm text-[#64748B]">Customize the emails sent to merchants when their application is approved, rejected, or needs document reupload.</p>
+      </div>
+
+      <div className="flex gap-2 pb-4 border-b border-gray-100 overflow-x-auto">
+        {templates.map(t => (
+          <button
+            key={t.id}
+            onClick={() => setActiveTemplate(t)}
+            className={`px-4 py-2 text-xs font-bold rounded-full whitespace-nowrap transition-colors ${
+              activeTemplate.id === t.id ? "bg-[#1E40AF] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+            }`}
+          >
+            {t.name}
+          </button>
+        ))}
+      </div>
+
+      <div className="space-y-6">
+        <Input 
+          label="Email Subject" 
+          value={activeTemplate.subject} 
+          onChange={(val: string) => setActiveTemplate({...activeTemplate, subject: val})} 
+        />
+        <div className="space-y-2">
+          <label className="text-[10px] font-black uppercase tracking-widest text-[#64748B]">Email Body</label>
+          <textarea 
+            value={activeTemplate.body}
+            onChange={(e) => setActiveTemplate({...activeTemplate, body: e.target.value})}
+            rows={10}
+            className="w-full p-4 bg-gray-50 border border-gray-200 rounded-none focus:outline-none focus:ring-2 focus:ring-[#1E40AF] text-sm font-mono"
+            placeholder="Available variables: {{store_name}}, {{merchant_name}}, {{missing_documents}}, {{message}}"
+          />
+          <p className="text-[10px] text-gray-500 font-medium">Use {"{{store_name}}"}, {"{{merchant_name}}"}, {"{{missing_documents}}"}, or {"{{message}}"} to insert dynamic variables.</p>
+        </div>
+      </div>
+
+      <button
+        disabled={saving}
+        onClick={handleSave}
+        className="px-6 py-3 bg-[#1E40AF] text-white font-black text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50 shadow-lg"
+      >
+        {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+        Save Template
       </button>
     </div>
   );
