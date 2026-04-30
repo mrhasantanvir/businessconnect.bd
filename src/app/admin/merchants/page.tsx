@@ -11,6 +11,7 @@ export default async function AdminMerchantsPage() {
 
   const merchants = await prisma.merchantStore.findMany({
     include: {
+        users: { where: { role: "MERCHANT" }, take: 1 },
         _count: { select: { users: true, orders: true } }
     },
     orderBy: { createdAt: "desc" }
