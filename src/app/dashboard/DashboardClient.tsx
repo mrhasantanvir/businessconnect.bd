@@ -9,6 +9,7 @@ import { NewIncidentModal } from "@/components/support/NewIncidentModal";
 import ResourceWalletWidget from "@/components/merchant/ResourceWalletWidget";
 import { useLanguage } from "@/context/LanguageContext";
 import { ChatLiveMonitor } from "@/components/merchant/ai/ChatLiveMonitor";
+import { OnboardingClient } from "@/app/merchant/onboarding/OnboardingClient";
 
 function FormattedDate({ date }: { date: string | Date }) {
   const [mounted, setMounted] = React.useState(false);
@@ -47,17 +48,29 @@ export default function MerchantDashboard({
   daysLeft 
 }: any) {
   const { t } = useLanguage();
+  const needsOnboarding = session.role === "MERCHANT" && store && store.isOnboarded === false;
 
   return (
-    <div className="w-full max-w-7xl mx-auto space-y-4 md:space-y-8 animate-in fade-in duration-500 pb-20 px-4 md:px-0">
-      
-      {/* Dynamic Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-[#0F172A] tracking-tight">{store?.name}</h1>
-          <p className="text-[#64748B] text-xs md:text-sm font-medium mt-1">Hello {session.name}, manage your resources and orders.</p>
+    <>
+      {needsOnboarding && (
+        <div className="fixed inset-0 z-50 bg-[#0F172A]/40 backdrop-blur-md flex items-center justify-center overflow-y-auto p-4 md:p-8">
+          <div className="w-full max-w-4xl relative">
+            <div className="absolute -top-12 left-0 w-full text-center">
+               <h2 className="text-white font-black text-xl tracking-widest uppercase">Complete Store Setup to Continue</h2>
+            </div>
+            <OnboardingClient />
+          </div>
         </div>
-        <div className="flex flex-col md:flex-row items-center gap-4">
+      )}
+      <div className={`w-full max-w-7xl mx-auto space-y-4 md:space-y-8 animate-in fade-in duration-500 pb-20 px-4 md:px-0 ${needsOnboarding ? 'blur-md pointer-events-none select-none opacity-50' : ''}`}>
+        
+        {/* Dynamic Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <h1 className="text-2xl md:text-3xl font-extrabold text-[#0F172A] tracking-tight">{store?.name}</h1>
+            <p className="text-[#64748B] text-xs md:text-sm font-medium mt-1">Hello {session.name}, manage your resources and orders.</p>
+          </div>
+          <div className="flex flex-col md:flex-row items-center gap-4">
            <ResourceWalletWidget 
              smsBalance={store?.smsBalance || 0} 
              sipBalance={store?.sipBalance || 0} 
@@ -156,6 +169,7 @@ export default function MerchantDashboard({
         </div>
       </section>
     </div>
+    </>
   );
 }
 

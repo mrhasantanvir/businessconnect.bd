@@ -119,7 +119,7 @@ export function OnboardingClient() {
           if (progress >= 100) {
             clearInterval(interval);
             toast.success("Store successfully activated!");
-            router.push("/dashboard");
+            window.location.href = "/dashboard";
           }
         }, 100);
       }

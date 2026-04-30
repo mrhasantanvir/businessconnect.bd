@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Box, ArrowRight, Lock, Sparkles, Phone, CheckCircle2, ShieldCheck, RefreshCw } from "lucide-react";
+import { Box, ArrowRight, Lock, Sparkles, Phone, CheckCircle2, ShieldCheck, RefreshCw, Mail, UserSquare2 } from "lucide-react";
 import Link from "next/link";
 import { registerAction, sendOtpAction, verifyOtpAction } from "./actions";
 import { toast } from "sonner";
@@ -148,9 +148,37 @@ export default function RegisterPage() {
                )}
             </div>
 
-            {/* Step 2: Password */}
+            {/* Step 2: Name, Email & Password */}
             {isVerified && (
                <div className="space-y-6 animate-in slide-in-from-bottom-4 duration-500">
+                  <div className="space-y-2">
+                     <label className="text-[10px] font-black text-[#64748B] uppercase tracking-[0.2em] ml-1">Owner Name</label>
+                     <div className="relative group">
+                        <UserSquare2 className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-[#A1A1AA] group-focus-within:text-[#1E40AF] transition-colors" />
+                        <input
+                           type="text"
+                           name="name"
+                           required
+                           className="w-full bg-[#F8F9FA] border-2 border-transparent focus:border-[#1E40AF]/10 focus:bg-white rounded-3xl py-5 pl-14 pr-4 outline-none transition-all font-bold text-[#0F172A]"
+                           placeholder="Full Name"
+                        />
+                     </div>
+                  </div>
+
+                  <div className="space-y-2">
+                     <label className="text-[10px] font-black text-[#64748B] uppercase tracking-[0.2em] ml-1">Email Address</label>
+                     <div className="relative group">
+                        <Mail className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-[#A1A1AA] group-focus-within:text-[#1E40AF] transition-colors" />
+                        <input
+                           type="email"
+                           name="email"
+                           required
+                           className="w-full bg-[#F8F9FA] border-2 border-transparent focus:border-[#1E40AF]/10 focus:bg-white rounded-3xl py-5 pl-14 pr-4 outline-none transition-all font-bold text-[#0F172A]"
+                           placeholder="you@example.com"
+                        />
+                     </div>
+                  </div>
+
                   <div className="space-y-2">
                      <label className="text-[10px] font-black text-[#64748B] uppercase tracking-[0.2em] ml-1">Secure Password</label>
                      <div className="relative group">
