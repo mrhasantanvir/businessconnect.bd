@@ -907,6 +907,15 @@ model SystemSettings {
   siteDescription     String?
   metaKeywords        String?
   ogImage             String?
+  
+  // Cloud Storage Settings
+  storageProvider     String   @default("LOCAL") // "LOCAL", "S3", "WASABI", "AZURE", "GCP"
+  storageBucket       String?
+  storageEndpoint     String?
+  storageAccessKey    String?
+  storageSecretKey    String?
+  storageCdnUrl       String?
+
   updatedAt           DateTime @updatedAt
   googleClientId      String?
   googleClientSecret  String?

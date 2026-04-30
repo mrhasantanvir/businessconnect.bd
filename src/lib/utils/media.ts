@@ -3,7 +3,7 @@
  * This ensures seamless transitioning between local storage and a Cloud CDN.
  */
 
-export function getMediaUrl(path?: string | null): string {
+export function getMediaUrl(path?: string | null, dynamicCdnUrl?: string | null): string {
   if (!path) return "";
   
   // If the path is already a full URL or a mock_id, return it as is
@@ -11,8 +11,8 @@ export function getMediaUrl(path?: string | null): string {
     return path;
   }
 
-  // Check if a CDN URL is configured in the environment
-  const cdnUrl = process.env.NEXT_PUBLIC_CDN_URL;
+  // Use the dynamic CDN URL from the database, or fallback to the environment variable
+  const cdnUrl = dynamicCdnUrl || process.env.NEXT_PUBLIC_CDN_URL;
   
   if (cdnUrl) {
     // Ensure the CDN URL doesn't end with a slash, and the path starts with a slash

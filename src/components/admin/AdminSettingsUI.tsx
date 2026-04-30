@@ -5,11 +5,11 @@ import {
   Settings, MessageSquare, Mail, Bell, 
   Smartphone, Save, ShieldCheck, Database, 
   CheckCircle2, AlertCircle, Loader2, Globe,
-  MessageCircle, DollarSign, Search
+  MessageCircle, DollarSign, Search, Cloud
 } from "lucide-react";
 import { getSystemSettingsAction, updateSystemSettingsAction } from "@/app/admin/settings/actions";
 
-type Tab = "GENERAL" | "SMS" | "REALTIME" | "MAIL" | "WHATSAPP" | "PRICING" | "GOOGLE" | "SEO";
+type Tab = "GENERAL" | "SMS" | "REALTIME" | "MAIL" | "WHATSAPP" | "PRICING" | "GOOGLE" | "SEO" | "STORAGE";
 
 export function AdminSettingsUI() {
   const [activeTab, setActiveTab] = useState<Tab>("GENERAL");
@@ -134,6 +134,13 @@ export function AdminSettingsUI() {
             label="SEO & Branding" 
             sub="Meta & Social"
           />
+          <TabButton 
+            active={activeTab === "STORAGE"} 
+            onClick={() => setActiveTab("STORAGE")} 
+            icon={Cloud} 
+            label="Cloud Storage" 
+            sub="CDN & Buckets"
+          />
         </div>
 
         {/* Content Area */}
@@ -190,6 +197,13 @@ export function AdminSettingsUI() {
               )}
               {activeTab === "SEO" && (
                 <SeoSettings 
+                  settings={settings} 
+                  onSave={handleSave} 
+                  saving={saving} 
+                />
+              )}
+              {activeTab === "STORAGE" && (
+                <CloudStorageSettings 
                   settings={settings} 
                   onSave={handleSave} 
                   saving={saving} 
@@ -608,6 +622,100 @@ function SeoSettings({ settings, onSave, saving }: any) {
       >
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
         Update SEO Metadata
+      </button>
+    </div>
+  );
+}
+
+function CloudStorageSettings({ settings, onSave, saving }: any) {
+  const [provider, setProvider] = useState(settings?.storageProvider ?? "LOCAL");
+  const [bucket, setBucket] = useState(settings?.storageBucket ?? "");
+  const [endpoint, setEndpoint] = useState(settings?.storageEndpoint ?? "");
+  const [accessKey, setAccessKey] = useState(settings?.storageAccessKey ?? "");
+  const [secretKey, setSecretKey] = useState(settings?.storageSecretKey ?? "");
+  const [cdnUrl, setCdnUrl] = useState(settings?.storageCdnUrl ?? "");
+
+  const providers = [
+    { id: "LOCAL", name: "Local Server Disk" },
+    { id: "WASABI", name: "Wasabi Hot Storage" },
+    { id: "S3", name: "Amazon S3" },
+    { id: "AZURE", name: "Azure Blob Storage" },
+    { id: "GCP", name: "Google Cloud Storage" },
+  ];
+
+  return (
+    <div className="space-y-8 max-w-3xl">
+      <div className="space-y-4">
+        <h3 className="text-xl font-black text-[#0F172A] flex items-center gap-2">
+           <Cloud className="w-6 h-6 text-[#1E40AF]" /> Cloud Storage & CDN
+        </h3>
+        <p className="text-sm text-[#64748B]">Configure where merchant documents and product images are stored and served from.</p>
+        
+        {provider === "LOCAL" && (
+          <div className="p-4 bg-amber-50 border border-amber-100 rounded-none text-xs text-amber-800 space-y-1">
+            <p className="font-bold">⚠️ Warning: Using Local Storage</p>
+            <p>Files are currently being saved to the local Ubuntu server. This is not recommended for production scaling.</p>
+          </div>
+        )}
+      </div>
+
+      <div className="space-y-2">
+        <label className="text-[10px] font-black uppercase tracking-widest text-[#64748B]">Storage Provider</label>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+          {providers.map((p) => (
+            <button
+              key={p.id}
+              onClick={() => setProvider(p.id)}
+              className={`p-4 border rounded-none text-left transition-all ${
+                provider === p.id 
+                  ? "border-[#1E40AF] bg-blue-50/50 ring-1 ring-[#1E40AF]" 
+                  : "border-gray-200 hover:border-gray-300"
+              }`}
+            >
+              <div className="text-xs font-bold text-[#0F172A]">{p.name}</div>
+              <div className="text-[9px] text-[#A1A1AA] uppercase font-black mt-1">
+                {provider === p.id ? "Active" : "Select"}
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {provider !== "LOCAL" && (
+        <div className="space-y-6 pt-4 border-t border-gray-100">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Input label="Bucket / Container Name" value={bucket} onChange={setBucket} placeholder="e.g. businessconnect-assets" />
+            <Input label="Endpoint URL (Optional)" value={endpoint} onChange={setEndpoint} placeholder="e.g. s3.ap-southeast-1.wasabisys.com" />
+            <Input label="Access Key ID" value={accessKey} onChange={setAccessKey} />
+            <Input label="Secret Access Key" value={secretKey} onChange={setSecretKey} type="password" />
+          </div>
+          
+          <div className="space-y-2 pt-4">
+             <Input 
+               label="CDN Domain URL (Required for serving images)" 
+               value={cdnUrl} 
+               onChange={setCdnUrl} 
+               placeholder="e.g. https://cdn.businessconnect.bd" 
+             />
+             <p className="text-[10px] text-gray-500 font-medium">Do not include a trailing slash. All image paths will be prefixed with this URL.</p>
+          </div>
+        </div>
+      )}
+
+      <button
+        disabled={saving}
+        onClick={() => onSave({ 
+          storageProvider: provider,
+          storageBucket: bucket,
+          storageEndpoint: endpoint,
+          storageAccessKey: accessKey,
+          storageSecretKey: secretKey,
+          storageCdnUrl: cdnUrl
+        })}
+        className="px-6 py-3 bg-[#1E40AF] text-white font-black text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50 shadow-lg"
+      >
+        {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+        Save Storage Configuration
       </button>
     </div>
   );

@@ -18,6 +18,10 @@ export default async function AdminMerchantsPage() {
     orderBy: { createdAt: "desc" }
   });
 
+  const settings = await prisma.systemSettings.findUnique({
+    where: { id: "GLOBAL" }
+  });
+
   return (
     <div className="max-w-7xl mx-auto space-y-10 pb-20">
       <div className="flex items-end justify-between">
@@ -78,7 +82,7 @@ export default async function AdminMerchantsPage() {
                   <div className="flex flex-wrap gap-2">
                      {m.tradeLicenseUrl && (
                        <a 
-                         href={m.tradeLicenseUrl === "mock_id" ? "#" : getMediaUrl(m.tradeLicenseUrl)} 
+                         href={m.tradeLicenseUrl === "mock_id" ? "#" : getMediaUrl(m.tradeLicenseUrl, settings?.storageCdnUrl)} 
                          target={m.tradeLicenseUrl === "mock_id" ? "_self" : "_blank"} 
                          rel="noopener noreferrer" 
                          title={m.tradeLicenseUrl === "mock_id" ? "Cloud storage pending integration" : "View Document"}
@@ -89,7 +93,7 @@ export default async function AdminMerchantsPage() {
                      )}
                      {m.nidFrontUrl && (
                        <a 
-                         href={m.nidFrontUrl === "mock_id" ? "#" : getMediaUrl(m.nidFrontUrl)} 
+                         href={m.nidFrontUrl === "mock_id" ? "#" : getMediaUrl(m.nidFrontUrl, settings?.storageCdnUrl)} 
                          target={m.nidFrontUrl === "mock_id" ? "_self" : "_blank"} 
                          rel="noopener noreferrer" 
                          title={m.nidFrontUrl === "mock_id" ? "Cloud storage pending integration" : "View Document"}
@@ -100,7 +104,7 @@ export default async function AdminMerchantsPage() {
                      )}
                      {m.nidBackUrl && (
                        <a 
-                         href={m.nidBackUrl === "mock_id" ? "#" : getMediaUrl(m.nidBackUrl)} 
+                         href={m.nidBackUrl === "mock_id" ? "#" : getMediaUrl(m.nidBackUrl, settings?.storageCdnUrl)} 
                          target={m.nidBackUrl === "mock_id" ? "_self" : "_blank"} 
                          rel="noopener noreferrer" 
                          title={m.nidBackUrl === "mock_id" ? "Cloud storage pending integration" : "View Document"}
