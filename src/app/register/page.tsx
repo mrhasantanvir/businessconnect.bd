@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useActionState } from "react";
 import { Box, ArrowRight, Lock, Sparkles, Phone, CheckCircle2, ShieldCheck, RefreshCw, Mail, UserSquare2 } from "lucide-react";
 import Link from "next/link";
 import { registerAction, sendOtpAction, verifyOtpAction } from "./actions";
@@ -8,12 +8,14 @@ import { toast } from "sonner";
 
 export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
   const [otpLoading, setOtpLoading] = useState(false);
+
+  // useActionState for handling Server Action errors
+  const [state, formAction, isPending] = useActionState(registerAction, null);
 
   async function handleSendOtp() {
     if (!phone) return toast.error("Please enter your phone number");
@@ -77,10 +79,10 @@ export default function RegisterPage() {
             <p className="text-[#64748B] text-sm font-medium">Verify your phone to start your business journey.</p>
           </div>
 
-          <form action={registerAction} className="space-y-8">
-            {error && (
+          <form action={formAction} className="space-y-8">
+            {state?.error && (
               <div className="bg-[#FEF2F2] border border-[#FEE2E2] text-[#DC2626] text-sm p-4 rounded-3xl animate-in fade-in slide-in-from-top-2 duration-300 font-bold">
-                {error}
+                {state.error}
               </div>
             )}
 
@@ -97,8 +99,8 @@ export default function RegisterPage() {
                            required
                            value={phone}
                            onChange={(e) => setPhone(e.target.value)}
-                           disabled={isVerified}
-                           className="w-full bg-[#F8F9FA] border-2 border-transparent focus:border-[#1E40AF]/10 focus:bg-white rounded-3xl py-5 pl-14 pr-4 outline-none transition-all font-bold text-[#0F172A] placeholder:text-slate-300 disabled:opacity-50"
+                           readOnly={isVerified}
+                           className="w-full bg-[#F8F9FA] border-2 border-transparent focus:border-[#1E40AF]/10 focus:bg-white rounded-3xl py-5 pl-14 pr-4 outline-none transition-all font-bold text-[#0F172A] placeholder:text-slate-300 read-only:opacity-70"
                            placeholder="+880 1XXX XXXXXX"
                         />
                      </div>
@@ -198,10 +200,15 @@ export default function RegisterPage() {
 
                   <button
                      type="submit"
-                     className="w-full bg-[#1E40AF] text-white py-6 rounded-3xl font-black text-lg flex items-center justify-center gap-3 shadow-2xl shadow-[#1E40AF]/20 hover:bg-[#1E3A8A] hover:scale-[1.02] active:scale-[0.98] transition-all group"
+                     disabled={isPending}
+                     className="w-full bg-[#1E40AF] text-white py-6 rounded-3xl font-black text-lg flex items-center justify-center gap-3 shadow-2xl shadow-[#1E40AF]/20 hover:bg-[#1E3A8A] hover:scale-[1.02] active:scale-[0.98] transition-all group disabled:opacity-70"
                   >
-                     Complete Registration
-                     <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                     {isPending ? <RefreshCw className="w-6 h-6 animate-spin" /> : (
+                       <>
+                         Complete Registration
+                         <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                       </>
+                     )}
                   </button>
                </div>
             )}

@@ -51,7 +51,7 @@ export async function verifyOtpAction(phone: string, otp: string) {
   return { success: true };
 }
 
-export async function registerAction(formData: FormData) {
+export async function registerAction(prevState: any, formData: FormData) {
   const name = formData.get("name") as string || "Merchant User";
   const email = formData.get("email") as string || null;
   const password = formData.get("password") as string;
