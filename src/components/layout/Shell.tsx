@@ -41,7 +41,8 @@ import {
   Globe,
   Database,
   X,
-  Settings
+  Settings,
+  User
 } from "lucide-react";
 import { FileSpreadsheet } from "lucide-react";
 import Link from "next/link";
@@ -180,6 +181,12 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
          { icon: MessageSquare, label: "Customer Care", href: "/support", roles: ["MERCHANT", "STAFF"] },
          { icon: AlertCircle, label: "Tickets", href: "/support/incidents", roles: ["MERCHANT", "STAFF"] },
          { icon: PhoneCall, label: "Platform Chat", href: "/support/platform-chat", roles: ["MERCHANT", "STAFF"] },
+       ]
+    },
+    {
+       group: "Account Security",
+       items: [
+         { icon: User, label: "Profile Settings", href: "/settings/profile", roles: ["MERCHANT", "SUPER_ADMIN", "STAFF"] },
        ]
     }
   ];
