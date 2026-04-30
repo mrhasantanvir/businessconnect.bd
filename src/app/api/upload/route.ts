@@ -6,8 +6,9 @@ export async function POST(request: NextRequest) {
     const formData = await request.formData();
     const file = formData.get("file") as File;
 
-    if (!file || !file.type.startsWith("image/")) {
-      return NextResponse.json({ error: "Invalid file" }, { status: 400 });
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
+    if (!file || !allowedTypes.includes(file.type)) {
+      return NextResponse.json({ error: "Invalid file type (Images and PDFs allowed)" }, { status: 400 });
     }
 
     if (file.size > 5 * 1024 * 1024) {
