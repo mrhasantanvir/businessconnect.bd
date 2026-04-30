@@ -96,38 +96,38 @@ export default function StaffWorkspace({ profile, activeLog: initialLog }: { pro
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] p-8 space-y-8 animate-in fade-in duration-1000">
+    <div className="min-h-screen bg-[#F8FAFC] p-4 md:p-6 space-y-4 md:space-y-6 animate-in fade-in duration-1000">
       
       {/* Upper Status Bar */}
       <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
-         <div className="flex items-center gap-4">
-            <div className="w-16 h-16 bg-white border-4 border-indigo-100 rounded-[24px] flex items-center justify-center shadow-xl shadow-indigo-100 overflow-hidden group">
+         <div className="flex items-center gap-3">
+            <div className="w-12 h-12 bg-white border-2 border-indigo-100 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-100/50 overflow-hidden group">
                <img src={profile.user.image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile.user.name}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
             </div>
             <div>
-               <h1 className="text-3xl font-black text-slate-900 tracking-tighter italic uppercase">{profile.user.name}<span className="text-indigo-600">.</span>NODE</h1>
-               <div className="flex items-center gap-2 mt-1">
-                  <div className="px-3 py-1 bg-slate-900 text-[#BEF264] text-[9px] font-black uppercase tracking-widest rounded-full">{profile.jobRole}</div>
-                  <div className={`w-2 h-2 rounded-full ${activeLog ? 'bg-emerald-500 animate-pulse' : 'bg-slate-300'}`} />
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">{activeLog ? 'Live Session Active' : 'Offline'}</span>
+               <h1 className="text-xl font-black text-slate-900 tracking-tight uppercase italic">{profile.user.name}<span className="text-indigo-600">.</span>NODE</h1>
+               <div className="flex items-center gap-2 mt-0.5">
+                  <div className="px-2 py-0.5 bg-slate-900 text-[#BEF264] text-[8px] font-black uppercase tracking-widest rounded-full">{profile.jobRole}</div>
+                  <div className={`w-1.5 h-1.5 rounded-full ${activeLog ? 'bg-emerald-500 animate-pulse' : 'bg-slate-300'}`} />
+                  <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tight">{activeLog ? 'Live Session' : 'Offline'}</span>
                </div>
             </div>
          </div>
 
-         <div className="flex items-center gap-4">
-            <div className={`p-6 bg-white border-2 rounded-[32px] transition-all flex flex-col items-center min-w-[240px] shadow-sm ${activeLog ? 'border-emerald-500 shadow-lg shadow-emerald-50' : 'border-slate-100'}`}>
-               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 flex items-center gap-2">
-                  <Timer className="w-3 h-3" /> Session Timer
+         <div className="flex items-center gap-3">
+            <div className={`px-4 py-2 bg-white border rounded-2xl transition-all flex flex-col items-center min-w-[140px] ${activeLog ? 'border-emerald-500 shadow-lg shadow-emerald-50' : 'border-slate-100'}`}>
+               <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-0.5 flex items-center gap-1">
+                  <Timer className="w-2.5 h-2.5" /> Session
                </p>
-               <p className={`text-4xl font-black tracking-tighter italic ${activeLog ? 'text-emerald-600' : 'text-slate-300'}`}>
+               <p className={`text-xl font-black tracking-tight italic ${activeLog ? 'text-emerald-600' : 'text-slate-300'}`}>
                   {formatTime(elapsedTime)}
                </p>
             </div>
             <button 
                onClick={toggleWork}
-               className={`w-20 h-20 rounded-[32px] flex items-center justify-center transition-all shadow-2xl group active:scale-95 ${activeLog ? 'bg-rose-500 hover:bg-rose-600 shadow-rose-100' : 'bg-slate-900 hover:bg-black shadow-slate-200'}`}
+               className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all shadow-xl group active:scale-95 ${activeLog ? 'bg-rose-500 hover:bg-rose-600' : 'bg-slate-900 hover:bg-black'}`}
             >
-               {activeLog ? <Square className="w-8 h-8 text-white" /> : <Play className="w-8 h-8 text-[#BEF264] fill-current" />}
+               {activeLog ? <Square className="w-5 h-5 text-white" /> : <Play className="w-5 h-5 text-[#BEF264] fill-current" />}
             </button>
          </div>
       </div>
@@ -139,69 +139,67 @@ export default function StaffWorkspace({ profile, activeLog: initialLog }: { pro
          <div className="lg:col-span-8 space-y-8">
             
             {/* Real-time Pulse Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-               <div className="p-8 bg-white border border-slate-100 rounded-[40px] shadow-sm group hover:border-indigo-200 transition-all">
-                  <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 mb-6 group-hover:scale-110 transition-transform">
-                     <Zap className="w-6 h-6" />
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+               <div className="p-5 bg-white border border-slate-100 rounded-3xl shadow-sm group hover:border-indigo-200 transition-all">
+                  <div className="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 mb-4 group-hover:scale-110 transition-transform">
+                     <Zap className="w-5 h-5" />
                   </div>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 italic">Efficiency Score</p>
-                  <p className="text-4xl font-black text-slate-900 tracking-tighter italic">{activityScore.toFixed(0)}%</p>
-                  <div className="mt-4 w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1 italic">Efficiency</p>
+                  <p className="text-2xl font-black text-slate-900 tracking-tight italic">{activityScore.toFixed(0)}%</p>
+                  <div className="mt-3 w-full h-1 bg-slate-100 rounded-full overflow-hidden">
                      <div className="h-full bg-indigo-600 transition-all duration-1000" style={{ width: `${activityScore}%` }} />
                   </div>
                </div>
 
-               <div className="p-8 bg-white border border-slate-100 rounded-[40px] shadow-sm group hover:border-[#BEF264] transition-all">
-                  <div className="w-12 h-12 bg-[#BEF264]/20 rounded-2xl flex items-center justify-center text-green-700 mb-6 group-hover:scale-110 transition-transform">
-                     <BarChart3 className="w-6 h-6" />
+               <div className="p-5 bg-white border border-slate-100 rounded-3xl shadow-sm group hover:border-[#BEF264] transition-all">
+                  <div className="w-10 h-10 bg-[#BEF264]/20 rounded-xl flex items-center justify-center text-green-700 mb-4 group-hover:scale-110 transition-transform">
+                     <BarChart3 className="w-5 h-5" />
                   </div>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 italic">Pending Commission</p>
-                  <p className="text-4xl font-black text-slate-900 tracking-tighter italic">৳4,250</p>
-                  <div className="mt-4 flex items-center gap-1 text-[10px] font-bold text-emerald-600 uppercase tracking-tight">
-                     <ArrowUpRight className="w-3 h-3" /> 12% Growth this week
+                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1 italic">Commission</p>
+                  <p className="text-2xl font-black text-slate-900 tracking-tight italic">৳4,250</p>
+                  <div className="mt-3 flex items-center gap-1 text-[9px] font-bold text-emerald-600 uppercase tracking-tight">
+                     <ArrowUpRight className="w-2.5 h-2.5" /> 12% Growth
                   </div>
                </div>
 
-               <div className="p-8 bg-slate-900 text-white rounded-[40px] shadow-2xl shadow-indigo-100 group relative overflow-hidden">
-                  <div className="absolute top-0 right-0 p-12 bg-indigo-600/20 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2" />
-                  <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center text-[#BEF264] mb-6 relative z-10">
-                     <ShieldCheck className="w-6 h-6" />
+               <div className="p-5 bg-slate-900 text-white rounded-3xl shadow-lg group relative overflow-hidden">
+                  <div className="absolute top-0 right-0 p-8 bg-indigo-600/20 rounded-full blur-2xl transform translate-x-1/2 -translate-y-1/2" />
+                  <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center text-[#BEF264] mb-4 relative z-10">
+                     <ShieldCheck className="w-5 h-5" />
                   </div>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 italic relative z-10">Compliance Level</p>
-                  <p className="text-4xl font-black text-white tracking-tighter italic relative z-10 uppercase">High</p>
-                  <div className="mt-4 flex items-center gap-2 relative z-10">
-                     <div className="px-3 py-1 bg-[#BEF264] text-slate-900 text-[9px] font-black uppercase tracking-tight rounded-full">Secure Node</div>
+                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1 italic relative z-10">Compliance</p>
+                  <p className="text-2xl font-black text-white tracking-tight italic relative z-10 uppercase">High</p>
+                  <div className="mt-3 flex items-center gap-2 relative z-10">
+                     <div className="px-2 py-0.5 bg-[#BEF264] text-slate-900 text-[8px] font-black uppercase tracking-tight rounded-full">Secure</div>
                   </div>
                </div>
             </div>
 
             {/* Performance Visualization Simulation */}
-            <div className="bg-white border border-slate-100 rounded-[48px] p-10 shadow-sm overflow-hidden relative group">
-               <div className="absolute top-0 right-0 p-16 bg-indigo-50/50 rounded-full blur-3xl transform translate-x-1/3 -translate-y-1/3" />
+            <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm overflow-hidden relative group">
                <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-10">
+                  <div className="flex items-center justify-between mb-6">
                      <div>
-                        <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tight italic">Activity Pulse</h2>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1 italic">Interactions tracked via background engine</p>
+                        <h2 className="text-lg font-black text-slate-900 uppercase tracking-tight italic">Activity Pulse</h2>
+                        <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5 italic">Background engine tracking</p>
                      </div>
-                     <div className="flex items-center gap-6">
-                        <div className="flex items-center gap-2">
-                           <Keyboard className="w-4 h-4 text-slate-300" />
-                           <span className="text-[11px] font-black text-slate-900 uppercase">{interactions.hits} Keys</span>
+                     <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-1.5">
+                           <Keyboard className="w-3 h-3 text-slate-300" />
+                           <span className="text-[10px] font-black text-slate-900 uppercase">{interactions.hits} Keys</span>
                         </div>
-                        <div className="flex items-center gap-2">
-                           <MousePointer2 className="w-4 h-4 text-slate-300" />
-                           <span className="text-[11px] font-black text-slate-900 uppercase">{interactions.clicks} Clicks</span>
+                        <div className="flex items-center gap-1.5">
+                           <MousePointer2 className="w-3 h-3 text-slate-300" />
+                           <span className="text-[10px] font-black text-slate-900 uppercase">{interactions.clicks} Clicks</span>
                         </div>
                      </div>
                   </div>
 
-                  <div className="h-64 flex items-end gap-2 px-2">
-                     {/* Simulating a graph */}
+                  <div className="h-40 flex items-end gap-1.5 px-1">
                      {[40, 65, 45, 80, 55, 90, 75, 40, 60, 85, 30, 50, 70, 95, 60].map((val, i) => (
-                        <div key={i} className="flex-1 bg-slate-50 rounded-t-xl relative group/bar hover:bg-indigo-100 transition-all cursor-crosshair">
+                        <div key={i} className="flex-1 bg-slate-50 rounded-t-lg relative group/bar hover:bg-indigo-100 transition-all cursor-crosshair">
                            <div 
-                              className={`absolute bottom-0 left-0 right-0 rounded-t-xl transition-all duration-1000 ${val > 80 ? 'bg-indigo-600' : 'bg-slate-300 group-hover/bar:bg-indigo-400'}`} 
+                              className={`absolute bottom-0 left-0 right-0 rounded-t-lg transition-all duration-1000 ${val > 80 ? 'bg-indigo-600' : 'bg-slate-300 group-hover/bar:bg-indigo-400'}`} 
                               style={{ height: `${val}%` }} 
                            />
                         </div>
@@ -222,8 +220,8 @@ export default function StaffWorkspace({ profile, activeLog: initialLog }: { pro
                      <Target className="w-6 h-6" />
                   </div>
                   <div>
-                     <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight italic text-lg leading-none">Today's Missions</h3>
-                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1 italic">High priority task queue</p>
+                     <h3 className="text-base font-black text-slate-900 uppercase tracking-tight italic leading-none">Today's Missions</h3>
+                      <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5 italic">Priority queue</p>
                   </div>
                </div>
 

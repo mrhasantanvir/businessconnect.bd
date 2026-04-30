@@ -109,7 +109,7 @@ export default async function AdminMerchantsPage() {
                     </div>
                  </div>
                  <Link 
-                   href={`/admin/merchants/${m.id}`}
+                   href={`/admin/merchants/${m.id}/settings`}
                    className="p-3 bg-slate-900 text-white rounded-2xl hover:scale-110 active:scale-95 transition-all shadow-lg"
                  >
                     <Settings className="w-5 h-5" />

@@ -4,9 +4,11 @@ import React, { useState } from "react";
 import { updateMerchantStatusAction } from "./actions";
 import { toast } from "sonner";
 import { RefreshCw, CheckCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export function ActivationButton({ storeId }: { storeId: string }) {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleActivate = async () => {
     if (!confirm("Are you sure you want to activate this merchant?")) return;
@@ -16,6 +18,7 @@ export function ActivationButton({ storeId }: { storeId: string }) {
       const res = await updateMerchantStatusAction(storeId, "ACTIVE");
       if (res.success) {
         toast.success("Merchant activated successfully!");
+        router.refresh();
       }
     } catch (error: any) {
       toast.error(error.message);
