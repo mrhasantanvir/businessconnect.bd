@@ -28,6 +28,10 @@ export function OnboardingClient() {
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
 
+  const [tradeLicenseFile, setTradeLicenseFile] = useState<File | null>(null);
+  const [nidFrontFile, setNidFrontFile] = useState<File | null>(null);
+  const [nidBackFile, setNidBackFile] = useState<File | null>(null);
+
   const [formData, setFormData] = useState({
     name: "",
     businessType: "",
@@ -79,7 +83,33 @@ export function OnboardingClient() {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const res = await completeOnboardingAction(formData);
+      // 1. Upload files first if they exist
+      const uploadFile = async (file: File) => {
+        const fd = new FormData();
+        fd.append("file", file);
+        const res = await fetch("/api/upload/documents", { method: "POST", body: fd });
+        if (!res.ok) {
+           const errorData = await res.json().catch(() => ({}));
+           throw new Error(errorData.error || "File upload failed");
+        }
+        const data = await res.json();
+        return data.url;
+      };
+
+      const finalData = { ...formData };
+      
+      if (tradeLicenseFile) {
+         finalData.tradeLicenseUrl = await uploadFile(tradeLicenseFile);
+      }
+      if (nidFrontFile) {
+         finalData.nidFrontUrl = await uploadFile(nidFrontFile);
+      }
+      if (nidBackFile) {
+         finalData.nidBackUrl = await uploadFile(nidBackFile);
+      }
+
+      // 2. Complete onboarding with real URLs
+      const res = await completeOnboardingAction(finalData);
       if (res.success) {
         setIsBuilding(true);
         let progress = 0;
@@ -259,7 +289,10 @@ export function OnboardingClient() {
                         className="hidden" 
                         onChange={(e) => {
                           const file = e.target.files?.[0];
-                          if (file) setFormData({...formData, tradeLicenseUrl: "mock_id", tradeLicenseName: file.name});
+                          if (file) {
+                             setTradeLicenseFile(file);
+                             setFormData({...formData, tradeLicenseName: file.name});
+                          }
                         }} 
                       />
                     </label>
@@ -283,7 +316,10 @@ export function OnboardingClient() {
                           className="hidden" 
                           onChange={(e) => {
                             const file = e.target.files?.[0];
-                            if (file) setFormData({...formData, nidFrontUrl: "mock_id", nidFrontName: file.name});
+                            if (file) {
+                               setNidFrontFile(file);
+                               setFormData({...formData, nidFrontName: file.name});
+                            }
                           }} 
                         />
                       </label>
@@ -303,7 +339,10 @@ export function OnboardingClient() {
                           className="hidden" 
                           onChange={(e) => {
                             const file = e.target.files?.[0];
-                            if (file) setFormData({...formData, nidBackUrl: "mock_id", nidBackName: file.name});
+                            if (file) {
+                               setNidBackFile(file);
+                               setFormData({...formData, nidBackName: file.name});
+                            }
                           }} 
                         />
                       </label>
