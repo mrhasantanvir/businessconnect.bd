@@ -231,11 +231,12 @@ function MerchantActionDropdown({ storeId, currentStatus, isArchived, onReupload
   return (
     <div className="relative">
       <button 
+        type="button"
         onClick={() => setOpen(!open)}
         disabled={loading}
-        className="px-4 py-2.5 bg-blue-600 text-white rounded-xl font-black uppercase text-[9px] tracking-widest hover:bg-blue-700 transition-all shadow-md shadow-blue-500/20 disabled:opacity-50 flex items-center justify-center gap-2"
+        className="px-4 py-2.5 bg-blue-600 text-white rounded-xl font-black uppercase text-[9px] tracking-widest hover:bg-blue-700 transition-all shadow-md shadow-blue-500/20 disabled:opacity-50 flex items-center justify-center gap-2 min-w-[100px]"
       >
-        {loading ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : "Manage Status"}
+        {loading ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : "Actions"}
       </button>
 
       {open && (
