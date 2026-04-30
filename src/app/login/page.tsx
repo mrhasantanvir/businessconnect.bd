@@ -34,10 +34,10 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         {/* Logo & Brand */}
         <div className="flex flex-col items-center mb-8">
-          <Link href="/landing" className="flex items-center gap-2 mb-4 group">
+          <div className="flex items-center gap-2 mb-4 group">
             <Box className="w-10 h-10 text-[#1E40AF] group-hover:scale-110 transition-transform" />
             <span className="font-extrabold tracking-tight text-2xl text-[#0F172A]">Businessconnect.bd</span>
-          </Link>
+          </div>
           <div className="flex items-center gap-1.5 px-3 py-1 bg-[#F0FDF4] border border-[#BBF7D0] rounded-full">
             <Sparkles className="w-3.5 h-3.5 text-[#16A34A]" />
             <span className="text-[10px] uppercase font-bold tracking-widest text-[#16A34A]">AI-First Business OS</span>
