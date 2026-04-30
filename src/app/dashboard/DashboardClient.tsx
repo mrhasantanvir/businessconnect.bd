@@ -10,6 +10,7 @@ import ResourceWalletWidget from "@/components/merchant/ResourceWalletWidget";
 import { useLanguage } from "@/context/LanguageContext";
 import { ChatLiveMonitor } from "@/components/merchant/ai/ChatLiveMonitor";
 import { OnboardingClient } from "@/app/merchant/onboarding/OnboardingClient";
+import Link from "next/link";
 
 function FormattedDate({ date }: { date: string | Date }) {
   const [mounted, setMounted] = React.useState(false);
