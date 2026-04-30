@@ -13,6 +13,15 @@ export async function placeOrderAction(data: {
   deliveryAddress: string;
   items: { productId: string; quantity: number; price: number }[];
 }) {
+  const store = await prisma.merchantStore.findUnique({
+    where: { id: data.merchantStoreId },
+    select: { activationStatus: true }
+  });
+
+  if (store?.activationStatus !== "ACTIVE") {
+    throw new Error("This store is currently not taking orders (Pending Verification).");
+  }
+
   if (!data.items || data.items.length === 0) {
     throw new Error("Cannot place an empty order.");
   }

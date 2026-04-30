@@ -261,18 +261,7 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
             const isInactiveMerchant = user?.role === "MERCHANT" && user?.activationStatus !== "ACTIVE";
             
             const visibleItems = group.items.filter(item => {
-              const isRoleAllowed = item.roles.includes(role);
-              if (!isRoleAllowed) return false;
-              
-              // If inactive merchant, restrict access to certain groups/items
-              if (isInactiveMerchant) {
-                // Allow Dashboard, Catalog (for adding products), and Profile
-                const allowedLabels = [t("dashboard"), t("catalog"), t("business_profile"), "Support Hub"];
-                const isAllowed = allowedLabels.includes(item.label) || group.group === "Support Hub";
-                if (!isAllowed) return false;
-              }
-              
-              return true;
+              return item.roles.includes(role);
             });
             
             if (visibleItems.length === 0) return null;
