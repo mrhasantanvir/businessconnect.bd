@@ -89,11 +89,20 @@ export default function MerchantDashboard({
       )}
 
       {isPending && !needsOnboarding && !isArchived && (
-        <div className="bg-amber-600 text-white py-3 px-6 text-center animate-in slide-in-from-top duration-500">
-          <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] flex items-center justify-center gap-3">
+        <div className={`${store?.activationStatus === "DOCUMENTS_REJECTED" ? "bg-rose-600" : "bg-amber-600"} text-white py-3 px-6 text-center animate-in slide-in-from-top duration-500`}>
+          <div className="flex items-center justify-center gap-3">
              <Sparkles className="w-4 h-4 animate-pulse" />
-             Store Verification Pending. You can explore features, but sales & order management are restricted.
-          </p>
+             <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em]">
+               {store?.activationStatus === "DOCUMENTS_REJECTED" 
+                 ? `Action Required: ${store.reuploadMessage || "Please re-upload your documents."}`
+                 : "Store Verification Pending. You can explore features, but sales & order management are restricted."}
+             </p>
+             {store?.activationStatus === "DOCUMENTS_REJECTED" && (
+                <Link href="/merchant/settings/documents" className="bg-white text-rose-600 px-3 py-1 rounded-full text-[9px] font-black hover:bg-rose-50 transition-colors ml-2">
+                   UPLOAD NOW
+                </Link>
+             )}
+          </div>
         </div>
       )}
 

@@ -60,6 +60,7 @@ export async function updateMerchantStatusAction(storeId: string, status: string
       throw new Error("Unauthorized");
     }
 
+    console.log(`UPDATING MERCHANT STATUS: ${storeId} to ${status}`);
     await prisma.merchantStore.update({
       where: { id: storeId },
       data: {

@@ -209,6 +209,7 @@ function MerchantActionDropdown({ storeId, currentStatus, isArchived, onReupload
     if (!confirm(`Are you sure you want to ${action.toLowerCase()} this merchant?`)) return;
     
     setLoading(true);
+    const toastId = toast.loading(`Processing ${action.toLowerCase()}...`);
     try {
       let res;
       if (action === "ARCHIVE") res = await archiveMerchantAction(storeId);
@@ -216,14 +217,14 @@ function MerchantActionDropdown({ storeId, currentStatus, isArchived, onReupload
       else res = await updateMerchantStatusAction(storeId, action, null, null);
 
       if (res.success) {
-        toast.success(`Action ${action.toLowerCase()} completed successfully!`);
+        toast.success(`Action ${action.toLowerCase()} completed successfully!`, { id: toastId });
         router.refresh();
-        setTimeout(() => window.location.reload(), 500);
+        setTimeout(() => window.location.reload(), 800);
       } else {
-        toast.error(res.error);
+        toast.error(res.error || "Action failed", { id: toastId });
       }
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.message || "An error occurred", { id: toastId });
     } finally {
       setLoading(false);
     }
@@ -245,28 +246,28 @@ function MerchantActionDropdown({ storeId, currentStatus, isArchived, onReupload
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-100 rounded-xl shadow-xl z-20 overflow-hidden animate-in fade-in slide-in-from-top-2" onClick={(e) => e.stopPropagation()}>
+        <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-100 rounded-xl shadow-xl z-30 overflow-hidden animate-in fade-in slide-in-from-top-2" onClick={(e) => e.stopPropagation()}>
            {!isArchived ? (
              <>
                 {currentStatus !== "ACTIVE" && (
-                  <button onClick={() => handleAction("ACTIVE")} className="w-full text-left px-4 py-3 hover:bg-gray-50 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-green-600 border-b border-gray-50">
+                  <button type="button" onClick={() => handleAction("ACTIVE")} className="w-full text-left px-4 py-3 hover:bg-gray-50 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-green-600 border-b border-gray-50">
                     <CheckCircle className="w-3.5 h-3.5" /> Activate
                   </button>
                 )}
-                <button onClick={() => handleAction("REUPLOAD")} className="w-full text-left px-4 py-3 hover:bg-gray-50 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-amber-600 border-b border-gray-50">
+                <button type="button" onClick={() => handleAction("REUPLOAD")} className="w-full text-left px-4 py-3 hover:bg-gray-50 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-amber-600 border-b border-gray-50">
                   <UploadCloud className="w-3.5 h-3.5" /> Request Reupload
                 </button>
                 {currentStatus !== "REJECTED" && (
-                  <button onClick={() => handleAction("REJECTED")} className="w-full text-left px-4 py-3 hover:bg-gray-50 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-red-600 border-b border-gray-50">
+                  <button type="button" onClick={() => handleAction("REJECTED")} className="w-full text-left px-4 py-3 hover:bg-gray-50 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-red-600 border-b border-gray-50">
                     <XCircle className="w-3.5 h-3.5" /> Reject
                   </button>
                 )}
-                <button onClick={() => handleAction("ARCHIVE")} className="w-full text-left px-4 py-3 hover:bg-amber-50 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-amber-700">
+                <button type="button" onClick={() => handleAction("ARCHIVE")} className="w-full text-left px-4 py-3 hover:bg-amber-50 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-amber-700">
                   <Box className="w-3.5 h-3.5" /> Archive Store
                 </button>
              </>
            ) : (
-             <button onClick={() => handleAction("REACTIVATE")} className="w-full text-left px-4 py-3 hover:bg-green-50 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-green-600">
+             <button type="button" onClick={() => handleAction("REACTIVATE")} className="w-full text-left px-4 py-3 hover:bg-green-50 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-green-600">
                <CheckCircle className="w-3.5 h-3.5" /> Reactivate Store
              </button>
            )}
