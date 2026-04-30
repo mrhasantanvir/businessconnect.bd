@@ -19,6 +19,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid secret or store ID" }, { status: 403 });
     }
 
+    if (config.merchantStore.activationStatus !== "ACTIVE") {
+      return NextResponse.json({ error: "Store not active. Synchronization paused until approval." }, { status: 403 });
+    }
+
     const contentType = req.headers.get("content-type") || "";
     let body;
     if (contentType.includes("application/json")) {

@@ -218,6 +218,7 @@ function MerchantActionDropdown({ storeId, currentStatus, isArchived, onReupload
       if (res.success) {
         toast.success(`Action ${action.toLowerCase()} completed successfully!`);
         router.refresh();
+        setTimeout(() => window.location.reload(), 500);
       } else {
         toast.error(res.error);
       }

@@ -77,7 +77,30 @@ export function OnboardingClient() {
     }
   }, [formData.district]);
 
-  const nextStep = () => setStep(s => s + 1);
+  const validateStep = () => {
+    if (step === 1) {
+      if (!formData.name.trim()) return "Please enter your business name.";
+      if (!formData.businessType) return "Please select a business type.";
+      if (!formData.division) return "Please select a division.";
+      if (!formData.district) return "Please select a district.";
+      if (!formData.address.trim()) return "Please enter your full address.";
+    }
+    if (step === 2) {
+      if (!tradeLicenseFile && !formData.tradeLicenseUrl) return "Please upload your Trade License.";
+      if (!nidFrontFile && !formData.nidFrontUrl) return "Please upload NID Front.";
+      if (!nidBackFile && !formData.nidBackUrl) return "Please upload NID Back.";
+    }
+    return null;
+  };
+
+  const nextStep = () => {
+    const error = validateStep();
+    if (error) {
+      toast.error(error);
+      return;
+    }
+    setStep(s => s + 1);
+  };
   const prevStep = () => setStep(s => s - 1);
 
   const handleSubmit = async () => {
@@ -201,8 +224,8 @@ export function OnboardingClient() {
             </div>
             
             <div className="space-y-5">
-               <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Official Business Name</label>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Official Business Name <span className="text-red-500">*</span></label>
                   <input 
                     value={formData.name}
                     onChange={e => setFormData({...formData, name: e.target.value})}
@@ -212,7 +235,7 @@ export function OnboardingClient() {
                </div>
 
                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Business Type</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Business Type <span className="text-red-500">*</span></label>
                   <select 
                     value={formData.businessType}
                     onChange={e => setFormData({...formData, businessType: e.target.value})}
@@ -229,7 +252,7 @@ export function OnboardingClient() {
 
                <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Division</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Division <span className="text-red-500">*</span></label>
                       <select 
                         value={formData.division}
                         onChange={e => setFormData({...formData, division: e.target.value})}
@@ -240,7 +263,7 @@ export function OnboardingClient() {
                       </select>
                   </div>
                   <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">District</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">District <span className="text-red-500">*</span></label>
                       <select 
                         value={formData.district}
                         onChange={e => setFormData({...formData, district: e.target.value})}
@@ -254,7 +277,7 @@ export function OnboardingClient() {
                </div>
 
                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Full Business Address</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Full Business Address <span className="text-red-500">*</span></label>
                   <textarea 
                     value={formData.address}
                     onChange={e => setFormData({...formData, address: e.target.value})}
@@ -279,7 +302,7 @@ export function OnboardingClient() {
                <div className="space-y-3 p-6 bg-slate-50 rounded-[32px] border-2 border-dashed border-slate-200 hover:border-indigo-600/20 transition-all group">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest">Trade License</h4>
+                      <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest">Trade License <span className="text-red-500">*</span></h4>
                       <p className="text-[10px] text-slate-400 font-medium uppercase mt-1">PDF or Image (Max 5MB)</p>
                     </div>
                     <label className="cursor-pointer bg-white p-3 rounded-2xl shadow-sm hover:shadow-md transition-all">
@@ -308,7 +331,7 @@ export function OnboardingClient() {
                   <div className="space-y-3 p-6 bg-slate-50 rounded-[32px] border-2 border-dashed border-slate-200 hover:border-indigo-600/20 transition-all">
                     <div className="flex flex-col items-center text-center">
                       <UserSquare2 className="w-8 h-8 text-slate-300 mb-3" />
-                      <h4 className="text-[10px] font-black text-slate-900 uppercase tracking-widest">NID Front</h4>
+                      <h4 className="text-[10px] font-black text-slate-900 uppercase tracking-widest">NID Front <span className="text-red-500">*</span></h4>
                       <label className="mt-4 cursor-pointer bg-white px-4 py-2 rounded-xl shadow-sm text-[10px] font-black uppercase tracking-widest text-indigo-600 border border-indigo-50">
                         {formData.nidFrontName ? "Change" : "Upload"}
                         <input 
@@ -331,7 +354,7 @@ export function OnboardingClient() {
                   <div className="space-y-3 p-6 bg-slate-50 rounded-[32px] border-2 border-dashed border-slate-200 hover:border-indigo-600/20 transition-all">
                     <div className="flex flex-col items-center text-center">
                       <UserSquare2 className="w-8 h-8 text-slate-300 mb-3" />
-                      <h4 className="text-[10px] font-black text-slate-900 uppercase tracking-widest">NID Back</h4>
+                      <h4 className="text-[10px] font-black text-slate-900 uppercase tracking-widest">NID Back <span className="text-red-500">*</span></h4>
                       <label className="mt-4 cursor-pointer bg-white px-4 py-2 rounded-xl shadow-sm text-[10px] font-black uppercase tracking-widest text-indigo-600 border border-indigo-50">
                         {formData.nidBackName ? "Change" : "Upload"}
                         <input 
@@ -418,7 +441,7 @@ export function OnboardingClient() {
         )}
 
         {/* Navigation Buttons */}
-        {step < 5 && (
+        {step < 4 && (
           <div className="flex gap-4 pt-16">
             {step > 1 && (
               <button 

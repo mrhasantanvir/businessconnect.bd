@@ -50,6 +50,7 @@ export default function MerchantDashboard({
   const { t } = useLanguage();
   const needsOnboarding = session.role === "MERCHANT" && store && store.isOnboarded === false;
   const isArchived = store?.isArchived === true;
+  const isPending = store?.activationStatus !== "ACTIVE";
 
   return (
     <>
@@ -86,6 +87,16 @@ export default function MerchantDashboard({
           </div>
         </div>
       )}
+
+      {isPending && !needsOnboarding && !isArchived && (
+        <div className="bg-amber-600 text-white py-3 px-6 text-center animate-in slide-in-from-top duration-500">
+          <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] flex items-center justify-center gap-3">
+             <Sparkles className="w-4 h-4 animate-pulse" />
+             Store Verification Pending. You can explore features, but sales & order management are restricted.
+          </p>
+        </div>
+      )}
+
       <div className={`w-full max-w-7xl mx-auto space-y-4 md:space-y-8 animate-in fade-in duration-500 pb-20 px-4 md:px-0 ${(needsOnboarding || isArchived) ? 'blur-md pointer-events-none select-none opacity-50' : ''}`}>
         
         {/* Dynamic Header */}
