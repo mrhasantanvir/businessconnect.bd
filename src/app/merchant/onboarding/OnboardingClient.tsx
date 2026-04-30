@@ -303,16 +303,21 @@ export function OnboardingClient() {
                   <div className="flex items-center justify-between">
                     <div>
                       <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest">Trade License <span className="text-red-500">*</span></h4>
-                      <p className="text-[10px] text-slate-400 font-medium uppercase mt-1">PDF or Image (Max 5MB)</p>
+                      <p className="text-[10px] text-slate-400 font-medium uppercase mt-1">PDF or Image (Max 2MB)</p>
                     </div>
                     <label className="cursor-pointer bg-white p-3 rounded-2xl shadow-sm hover:shadow-md transition-all">
                       <Upload className="w-5 h-5 text-indigo-600" />
                       <input 
                         type="file" 
                         className="hidden" 
+                        accept="image/*,.pdf"
                         onChange={(e) => {
                           const file = e.target.files?.[0];
                           if (file) {
+                             if (file.size > 2 * 1024 * 1024) {
+                               toast.error("File size exceeds 2MB limit.");
+                               return;
+                             }
                              setTradeLicenseFile(file);
                              setFormData({...formData, tradeLicenseName: file.name});
                           }
@@ -332,14 +337,20 @@ export function OnboardingClient() {
                     <div className="flex flex-col items-center text-center">
                       <UserSquare2 className="w-8 h-8 text-slate-300 mb-3" />
                       <h4 className="text-[10px] font-black text-slate-900 uppercase tracking-widest">NID Front <span className="text-red-500">*</span></h4>
-                      <label className="mt-4 cursor-pointer bg-white px-4 py-2 rounded-xl shadow-sm text-[10px] font-black uppercase tracking-widest text-indigo-600 border border-indigo-50">
+                      <p className="text-[8px] text-slate-400 uppercase tracking-tighter mb-2">Max 2MB</p>
+                      <label className="mt-2 cursor-pointer bg-white px-4 py-2 rounded-xl shadow-sm text-[10px] font-black uppercase tracking-widest text-indigo-600 border border-indigo-50">
                         {formData.nidFrontName ? "Change" : "Upload"}
                         <input 
                           type="file" 
                           className="hidden" 
+                          accept="image/*"
                           onChange={(e) => {
                             const file = e.target.files?.[0];
                             if (file) {
+                               if (file.size > 2 * 1024 * 1024) {
+                                  toast.error("File size exceeds 2MB limit.");
+                                  return;
+                               }
                                setNidFrontFile(file);
                                setFormData({...formData, nidFrontName: file.name});
                             }
@@ -355,14 +366,20 @@ export function OnboardingClient() {
                     <div className="flex flex-col items-center text-center">
                       <UserSquare2 className="w-8 h-8 text-slate-300 mb-3" />
                       <h4 className="text-[10px] font-black text-slate-900 uppercase tracking-widest">NID Back <span className="text-red-500">*</span></h4>
-                      <label className="mt-4 cursor-pointer bg-white px-4 py-2 rounded-xl shadow-sm text-[10px] font-black uppercase tracking-widest text-indigo-600 border border-indigo-50">
+                      <p className="text-[8px] text-slate-400 uppercase tracking-tighter mb-2">Max 2MB</p>
+                      <label className="mt-2 cursor-pointer bg-white px-4 py-2 rounded-xl shadow-sm text-[10px] font-black uppercase tracking-widest text-indigo-600 border border-indigo-50">
                         {formData.nidBackName ? "Change" : "Upload"}
                         <input 
                           type="file" 
                           className="hidden" 
+                          accept="image/*"
                           onChange={(e) => {
                             const file = e.target.files?.[0];
                             if (file) {
+                               if (file.size > 2 * 1024 * 1024) {
+                                  toast.error("File size exceeds 2MB limit.");
+                                  return;
+                               }
                                setNidBackFile(file);
                                setFormData({...formData, nidBackName: file.name});
                             }
