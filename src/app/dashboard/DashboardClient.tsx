@@ -49,10 +49,34 @@ export default function MerchantDashboard({
 }: any) {
   const { t } = useLanguage();
   const needsOnboarding = session.role === "MERCHANT" && store && store.isOnboarded === false;
+  const isArchived = store?.isArchived === true;
 
   return (
     <>
-      {needsOnboarding && (
+      {isArchived && (
+        <div className="fixed inset-0 z-50 bg-[#0F172A] flex items-center justify-center p-4 text-center">
+          <div className="max-w-md w-full bg-white rounded-[48px] p-10 md:p-14 shadow-2xl border-t-8 border-amber-500 animate-in zoom-in duration-500">
+             <div className="w-20 h-20 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-8">
+                <Box className="w-10 h-10 text-amber-600" />
+             </div>
+             <h2 className="text-3xl font-black text-[#0F172A] tracking-tighter uppercase italic mb-4">Account Archived</h2>
+             <p className="text-slate-500 font-medium text-sm mb-8 leading-relaxed">
+                Your store has been archived due to 6 months of inactivity or manual request. 
+                Please complete a payment to reactivate your account or contact support.
+             </p>
+             <div className="space-y-4">
+                <button className="w-full bg-[#1E40AF] text-white py-5 rounded-2xl font-black text-xs uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-xl shadow-blue-500/20">
+                   Pay for Reactivation
+                </button>
+                <button className="w-full bg-slate-100 text-slate-500 py-5 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-slate-200 transition-all">
+                   Contact Support
+                </button>
+             </div>
+          </div>
+        </div>
+      )}
+
+      {needsOnboarding && !isArchived && (
         <div className="fixed inset-0 z-50 bg-[#0F172A]/40 backdrop-blur-md flex items-center justify-center overflow-y-auto p-4 md:p-8">
           <div className="w-full max-w-4xl relative">
             <div className="absolute -top-12 left-0 w-full text-center">
@@ -62,7 +86,7 @@ export default function MerchantDashboard({
           </div>
         </div>
       )}
-      <div className={`w-full max-w-7xl mx-auto space-y-4 md:space-y-8 animate-in fade-in duration-500 pb-20 px-4 md:px-0 ${needsOnboarding ? 'blur-md pointer-events-none select-none opacity-50' : ''}`}>
+      <div className={`w-full max-w-7xl mx-auto space-y-4 md:space-y-8 animate-in fade-in duration-500 pb-20 px-4 md:px-0 ${(needsOnboarding || isArchived) ? 'blur-md pointer-events-none select-none opacity-50' : ''}`}>
         
         {/* Dynamic Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">

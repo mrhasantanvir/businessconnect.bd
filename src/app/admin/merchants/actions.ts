@@ -83,3 +83,73 @@ export async function updateMerchantStatusAction(storeId: string, status: string
   }
 }
 
+export async function archiveMerchantAction(storeId: string) {
+  try {
+    const session = await getSession();
+    if (!session || session.role !== "SUPER_ADMIN") throw new Error("Unauthorized");
+
+    const now = new Date();
+    await prisma.$transaction([
+      prisma.merchantStore.update({
+        where: { id: storeId },
+        data: { isArchived: true, archivedAt: now }
+      }),
+      prisma.user.updateMany({
+        where: { merchantStoreId: storeId },
+        data: { isArchived: true, archivedAt: now }
+      })
+    ]);
+
+    revalidatePath("/admin/merchants");
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}
+
+export async function reactivateMerchantAction(storeId: string) {
+  try {
+    const session = await getSession();
+    if (!session || session.role !== "SUPER_ADMIN") throw new Error("Unauthorized");
+
+    await prisma.$transaction([
+      prisma.merchantStore.update({
+        where: { id: storeId },
+        data: { isArchived: false, archivedAt: null }
+      }),
+      prisma.user.updateMany({
+        where: { merchantStoreId: storeId },
+        data: { isArchived: false, archivedAt: null }
+      })
+    ]);
+
+    revalidatePath("/admin/merchants");
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}
+
+export async function updateMerchantPhoneAction(userId: string, newPhone: string) {
+  try {
+    const session = await getSession();
+    if (!session || session.role !== "SUPER_ADMIN") throw new Error("Unauthorized");
+
+    // Check if phone already in use
+    const existing = await prisma.user.findFirst({
+      where: { phone: newPhone, id: { not: userId } }
+    });
+    if (existing) throw new Error("This phone number is already used by another account.");
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: { phone: newPhone }
+    });
+
+    revalidatePath("/admin/merchants");
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}
+
