@@ -73,28 +73,29 @@ export default async function AdminMerchantsPage() {
                  </div>
               </div>
 
-              {m.activationStatus === "PENDING" && (
-                <div className="space-y-4">
-                    <div className="flex flex-wrap gap-2">
-                       {m.tradeLicenseUrl && (
-                         <a href={m.tradeLicenseUrl} target="_blank" rel="noopener noreferrer" className="text-[8px] font-black uppercase px-2 py-1 bg-blue-50 hover:bg-blue-100 rounded text-blue-600 flex items-center gap-1 transition-colors">
-                           <FileText className="w-2.5 h-2.5" /> Trade License <ExternalLink className="w-2 h-2" />
-                         </a>
-                       )}
-                       {m.nidFrontUrl && (
-                         <a href={m.nidFrontUrl} target="_blank" rel="noopener noreferrer" className="text-[8px] font-black uppercase px-2 py-1 bg-blue-50 hover:bg-blue-100 rounded text-blue-600 flex items-center gap-1 transition-colors">
-                           <FileText className="w-2.5 h-2.5" /> NID Front <ExternalLink className="w-2 h-2" />
-                         </a>
-                       )}
-                       {m.nidBackUrl && (
-                         <a href={m.nidBackUrl} target="_blank" rel="noopener noreferrer" className="text-[8px] font-black uppercase px-2 py-1 bg-blue-50 hover:bg-blue-100 rounded text-blue-600 flex items-center gap-1 transition-colors">
-                           <FileText className="w-2.5 h-2.5" /> NID Back <ExternalLink className="w-2 h-2" />
-                         </a>
-                       )}
-                    </div>
-                   <ActivationButton storeId={m.id} />
-                </div>
-              )}
+              <div className="space-y-4">
+                  <div className="flex flex-wrap gap-2">
+                     {m.tradeLicenseUrl && (
+                       <a href={m.tradeLicenseUrl} target="_blank" rel="noopener noreferrer" className="text-[8px] font-black uppercase px-2 py-1 bg-blue-50 hover:bg-blue-100 rounded text-blue-600 flex items-center gap-1 transition-colors">
+                         <FileText className="w-2.5 h-2.5" /> Trade License <ExternalLink className="w-2 h-2" />
+                       </a>
+                     )}
+                     {m.nidFrontUrl && (
+                       <a href={m.nidFrontUrl} target="_blank" rel="noopener noreferrer" className="text-[8px] font-black uppercase px-2 py-1 bg-blue-50 hover:bg-blue-100 rounded text-blue-600 flex items-center gap-1 transition-colors">
+                         <FileText className="w-2.5 h-2.5" /> NID Front <ExternalLink className="w-2 h-2" />
+                       </a>
+                     )}
+                     {m.nidBackUrl && (
+                       <a href={m.nidBackUrl} target="_blank" rel="noopener noreferrer" className="text-[8px] font-black uppercase px-2 py-1 bg-blue-50 hover:bg-blue-100 rounded text-blue-600 flex items-center gap-1 transition-colors">
+                         <FileText className="w-2.5 h-2.5" /> NID Back <ExternalLink className="w-2 h-2" />
+                       </a>
+                     )}
+                  </div>
+                  
+                  {m.activationStatus === "PENDING" && (
+                    <ActivationButton storeId={m.id} />
+                  )}
+              </div>
 
               <div className="pt-8 border-t border-slate-50 flex items-center justify-between">
                  <div className="flex items-center gap-4">
