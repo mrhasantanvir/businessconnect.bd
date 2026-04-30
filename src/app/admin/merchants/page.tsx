@@ -36,111 +36,116 @@ export default async function AdminMerchantsPage() {
          </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-         {merchants.map((m) => (
-           <div key={m.id} className={`bg-white border rounded-[40px] p-8 space-y-8 shadow-sm hover:shadow-2xl transition-all group ${m.activationStatus === "PENDING" ? "border-amber-200 ring-4 ring-amber-50" : "border-slate-100"}`}>
-              <div className="flex items-start justify-between">
-                 <div className="w-16 h-16 rounded-[24px] bg-slate-900 flex items-center justify-center text-white text-2xl font-black italic shadow-xl">
-                    {m.name.charAt(0)}
-                 </div>
-                 <div className="flex flex-col items-end gap-2">
-                    <span className={`px-4 py-1.5 text-[10px] font-black rounded-full uppercase tracking-widest ${
-                       m.activationStatus === "ACTIVE" ? "bg-green-50 text-green-600" :
-                       m.activationStatus === "PENDING" ? "bg-amber-50 text-amber-600" :
-                       "bg-red-50 text-red-600"
+      <div className="bg-white rounded-[32px] border border-slate-100 shadow-sm overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse min-w-[800px]">
+            <thead>
+              <tr className="bg-slate-50 border-b border-slate-100 text-[10px] uppercase tracking-widest text-slate-400">
+                <th className="p-6 font-black whitespace-nowrap">Merchant Identity</th>
+                <th className="p-6 font-black whitespace-nowrap">Status</th>
+                <th className="p-6 font-black whitespace-nowrap">Balances</th>
+                <th className="p-6 font-black whitespace-nowrap">Metrics</th>
+                <th className="p-6 font-black whitespace-nowrap">Documents</th>
+                <th className="p-6 font-black text-right whitespace-nowrap">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {merchants.map((m) => (
+                <tr key={m.id} className="hover:bg-slate-50/50 transition-colors group">
+                  {/* Merchant Identity Column */}
+                  <td className="p-6">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-[16px] bg-slate-900 flex items-center justify-center text-white text-xl font-black italic shadow-md shrink-0">
+                        {m.name.charAt(0)}
+                      </div>
+                      <div>
+                        <div className="text-sm font-black text-slate-900 tracking-tight uppercase italic flex items-center gap-2">
+                           {m.name}
+                           {m.businessType && <span className="text-[8px] px-2 py-0.5 bg-blue-50 text-blue-600 rounded-full">{m.businessType}</span>}
+                        </div>
+                        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">{m.slug}.businessconnect.bd</div>
+                        <div className="text-[9px] font-bold text-slate-300 mt-1">ID: {m.id.slice(-6).toUpperCase()}</div>
+                      </div>
+                    </div>
+                  </td>
+                  
+                  {/* Status Column */}
+                  <td className="p-6">
+                    <span className={`inline-flex px-3 py-1.5 text-[9px] font-black rounded-full uppercase tracking-widest ${
+                       m.activationStatus === "ACTIVE" ? "bg-green-50 text-green-600 border border-green-100" :
+                       m.activationStatus === "PENDING" ? "bg-amber-50 text-amber-600 border border-amber-100" :
+                       "bg-red-50 text-red-600 border border-red-100"
                     }`}>
                        {m.activationStatus || m.plan}
                     </span>
-                    <span className="text-[10px] font-bold text-slate-400">ID: {m.id.slice(-6).toUpperCase()}</span>
-                 </div>
-              </div>
+                  </td>
 
-              <div>
-                 <h3 className="text-2xl font-black text-slate-900 tracking-tight uppercase italic">{m.name}</h3>
-                 <p className="text-[11px] font-bold text-slate-400 mt-1 uppercase tracking-widest">{m.slug}.businessconnect.bd</p>
-                 {m.businessType && <p className="text-[10px] font-black text-blue-600 uppercase mt-2">Type: {m.businessType}</p>}
-              </div>
+                  {/* Balances Column */}
+                  <td className="p-6">
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center gap-2">
+                         <MessageSquare className="w-3.5 h-3.5 text-slate-400" />
+                         <span className="text-xs font-black text-slate-700 tracking-tighter">৳{m.smsBalance.toLocaleString()}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                         <Phone className="w-3.5 h-3.5 text-slate-400" />
+                         <span className="text-xs font-black text-slate-700 tracking-tighter">{m.sipBalance.toLocaleString()}</span>
+                      </div>
+                    </div>
+                  </td>
 
-              <div className="grid grid-cols-2 gap-4">
-                 <div className="bg-slate-50 p-4 rounded-2xl">
-                    <div className="flex items-center gap-2 text-slate-400 mb-1">
-                       <MessageSquare className="w-3 h-3" />
-                       <span className="text-[9px] font-black uppercase">SMS Credits</span>
+                  {/* Metrics Column */}
+                  <td className="p-6">
+                    <div className="flex items-center gap-5">
+                      <div className="flex flex-col">
+                         <span className="text-sm font-black text-slate-900">{m._count.orders}</span>
+                         <span className="text-[8px] font-bold text-slate-400 uppercase tracking-widest">Orders</span>
+                      </div>
+                      <div className="w-px h-6 bg-slate-200" />
+                      <div className="flex flex-col">
+                         <span className="text-sm font-black text-slate-900">{m._count.users}</span>
+                         <span className="text-[8px] font-bold text-slate-400 uppercase tracking-widest">Staff</span>
+                      </div>
                     </div>
-                    <div className="text-lg font-black text-slate-900 tracking-tighter">৳{m.smsBalance.toLocaleString()}</div>
-                 </div>
-                 <div className="bg-slate-50 p-4 rounded-2xl">
-                    <div className="flex items-center gap-2 text-slate-400 mb-1">
-                       <Phone className="w-3 h-3" />
-                       <span className="text-[9px] font-black uppercase">SIP Minutes</span>
-                    </div>
-                    <div className="text-lg font-black text-slate-900 tracking-tighter">{m.sipBalance.toLocaleString()}</div>
-                 </div>
-              </div>
+                  </td>
 
-              <div className="space-y-4">
-                  <div className="flex flex-wrap gap-2">
-                     {m.tradeLicenseUrl && (
-                       <a 
-                         href={m.tradeLicenseUrl === "mock_id" ? "#" : getMediaUrl(m.tradeLicenseUrl, settings?.storageCdnUrl)} 
-                         target={m.tradeLicenseUrl === "mock_id" ? "_self" : "_blank"} 
-                         rel="noopener noreferrer" 
-                         title={m.tradeLicenseUrl === "mock_id" ? "Cloud storage pending integration" : "View Document"}
-                         className="text-[8px] font-black uppercase px-2 py-1 bg-blue-50 hover:bg-blue-100 rounded text-blue-600 flex items-center gap-1 transition-colors"
-                       >
-                         <FileText className="w-2.5 h-2.5" /> Trade License <ExternalLink className="w-2 h-2" />
-                       </a>
-                     )}
-                     {m.nidFrontUrl && (
-                       <a 
-                         href={m.nidFrontUrl === "mock_id" ? "#" : getMediaUrl(m.nidFrontUrl, settings?.storageCdnUrl)} 
-                         target={m.nidFrontUrl === "mock_id" ? "_self" : "_blank"} 
-                         rel="noopener noreferrer" 
-                         title={m.nidFrontUrl === "mock_id" ? "Cloud storage pending integration" : "View Document"}
-                         className="text-[8px] font-black uppercase px-2 py-1 bg-blue-50 hover:bg-blue-100 rounded text-blue-600 flex items-center gap-1 transition-colors"
-                       >
-                         <FileText className="w-2.5 h-2.5" /> NID Front <ExternalLink className="w-2 h-2" />
-                       </a>
-                     )}
-                     {m.nidBackUrl && (
-                       <a 
-                         href={m.nidBackUrl === "mock_id" ? "#" : getMediaUrl(m.nidBackUrl, settings?.storageCdnUrl)} 
-                         target={m.nidBackUrl === "mock_id" ? "_self" : "_blank"} 
-                         rel="noopener noreferrer" 
-                         title={m.nidBackUrl === "mock_id" ? "Cloud storage pending integration" : "View Document"}
-                         className="text-[8px] font-black uppercase px-2 py-1 bg-blue-50 hover:bg-blue-100 rounded text-blue-600 flex items-center gap-1 transition-colors"
-                       >
-                         <FileText className="w-2.5 h-2.5" /> NID Back <ExternalLink className="w-2 h-2" />
-                       </a>
-                     )}
-                  </div>
-                  
-                  {m.activationStatus === "PENDING" && (
-                    <ActivationButton storeId={m.id} />
-                  )}
-              </div>
+                  {/* Documents Column */}
+                  <td className="p-6">
+                    <div className="flex flex-col gap-2">
+                       {m.tradeLicenseUrl && (
+                         <a href={m.tradeLicenseUrl === "mock_id" ? "#" : getMediaUrl(m.tradeLicenseUrl, settings?.storageCdnUrl)} target={m.tradeLicenseUrl === "mock_id" ? "_self" : "_blank"} rel="noopener noreferrer" className="text-[9px] font-black uppercase px-2 py-1.5 bg-blue-50 hover:bg-blue-100 rounded-lg text-blue-600 flex items-center gap-1.5 w-max transition-colors">
+                           <FileText className="w-3 h-3" /> Trade License <ExternalLink className="w-2.5 h-2.5" />
+                         </a>
+                       )}
+                       {m.nidFrontUrl && (
+                         <a href={m.nidFrontUrl === "mock_id" ? "#" : getMediaUrl(m.nidFrontUrl, settings?.storageCdnUrl)} target={m.nidFrontUrl === "mock_id" ? "_self" : "_blank"} rel="noopener noreferrer" className="text-[9px] font-black uppercase px-2 py-1.5 bg-blue-50 hover:bg-blue-100 rounded-lg text-blue-600 flex items-center gap-1.5 w-max transition-colors">
+                           <FileText className="w-3 h-3" /> NID Front <ExternalLink className="w-2.5 h-2.5" />
+                         </a>
+                       )}
+                       {m.nidBackUrl && (
+                         <a href={m.nidBackUrl === "mock_id" ? "#" : getMediaUrl(m.nidBackUrl, settings?.storageCdnUrl)} target={m.nidBackUrl === "mock_id" ? "_self" : "_blank"} rel="noopener noreferrer" className="text-[9px] font-black uppercase px-2 py-1.5 bg-blue-50 hover:bg-blue-100 rounded-lg text-blue-600 flex items-center gap-1.5 w-max transition-colors">
+                           <FileText className="w-3 h-3" /> NID Back <ExternalLink className="w-2.5 h-2.5" />
+                         </a>
+                       )}
+                    </div>
+                  </td>
 
-              <div className="pt-8 border-t border-slate-50 flex items-center justify-between">
-                 <div className="flex items-center gap-4">
-                    <div className="flex flex-col">
-                       <span className="text-[10px] font-black text-slate-900">{m._count.orders}</span>
-                       <span className="text-[8px] font-bold text-slate-400 uppercase">Orders</span>
+                  {/* Actions Column */}
+                  <td className="p-6">
+                    <div className="flex items-center justify-end gap-3">
+                       {m.activationStatus === "PENDING" && (
+                         <ActivationButton storeId={m.id} />
+                       )}
+                       <Link href={`/admin/merchants/${m.id}/settings`} className="p-3 bg-slate-900 text-white rounded-xl hover:scale-110 active:scale-95 transition-all shadow-md">
+                          <Settings className="w-4 h-4" />
+                       </Link>
                     </div>
-                    <div className="w-px h-6 bg-slate-100" />
-                    <div className="flex flex-col">
-                       <span className="text-[10px] font-black text-slate-900">{m._count.users}</span>
-                       <span className="text-[8px] font-bold text-slate-400 uppercase">Staff</span>
-                    </div>
-                 </div>
-                 <Link 
-                   href={`/admin/merchants/${m.id}/settings`}
-                   className="p-3 bg-slate-900 text-white rounded-2xl hover:scale-110 active:scale-95 transition-all shadow-lg"
-                 >
-                    <Settings className="w-5 h-5" />
-                 </Link>
-              </div>
-           </div>
-         ))}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
