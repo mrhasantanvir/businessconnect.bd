@@ -790,14 +790,51 @@ function EmailTemplateSettings({ templates: initialTemplates }: any) {
           value={activeTemplate.subject} 
           onChange={(val: string) => setActiveTemplate({...activeTemplate, subject: val})} 
         />
-        <div className="space-y-2">
-          <label className="text-[10px] font-black uppercase tracking-widest text-[#64748B]">Email Body (HTML Supported)</label>
-          <RichEditor 
-            value={activeTemplate.body}
-            onChange={(val) => setActiveTemplate({...activeTemplate, body: val})}
-            placeholder="Write your beautiful email template here..."
-          />
-          <p className="text-[10px] text-gray-500 font-medium mt-2">Available Variables: {"{{store_name}}"}, {"{{merchant_name}}"}, {"{{missing_documents}}"}, {"{{message}}"}, {"{{due_amount}}"}, {"{{due_date}}"}, {"{{plan_name}}"}</p>
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <label className="text-[10px] font-black uppercase tracking-widest text-[#64748B]">Email Body</label>
+            <div className="flex bg-gray-100 p-1 rounded-lg">
+               <button 
+                 onClick={() => setActiveTemplate({...activeTemplate, _mode: "HTML"})}
+                 className={`px-3 py-1.5 text-[10px] font-black uppercase rounded-md transition-all ${activeTemplate._mode !== "PREVIEW" ? "bg-white text-blue-600 shadow-sm" : "text-gray-500"}`}
+               >
+                 HTML Source
+               </button>
+               <button 
+                 onClick={() => setActiveTemplate({...activeTemplate, _mode: "PREVIEW"})}
+                 className={`px-3 py-1.5 text-[10px] font-black uppercase rounded-md transition-all ${activeTemplate._mode === "PREVIEW" ? "bg-white text-blue-600 shadow-sm" : "text-gray-500"}`}
+               >
+                 Live Preview
+               </button>
+            </div>
+          </div>
+
+          {activeTemplate._mode === "PREVIEW" ? (
+             <div className="w-full bg-slate-50 border border-slate-200 rounded-xl overflow-hidden shadow-inner p-4 min-h-[400px] flex justify-center items-start">
+                <div 
+                  className="w-full max-w-2xl bg-white shadow-sm border border-slate-100 rounded-lg overflow-hidden"
+                  dangerouslySetInnerHTML={{ __html: activeTemplate.body }} 
+                />
+             </div>
+          ) : (
+             <textarea 
+               value={activeTemplate.body}
+               onChange={(e) => setActiveTemplate({...activeTemplate, body: e.target.value})}
+               rows={16}
+               className="w-full p-4 bg-[#0F172A] text-[#38BDF8] border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1E40AF] text-sm font-mono leading-relaxed"
+               placeholder="Write your HTML template here..."
+               spellCheck={false}
+             />
+          )}
+
+          <div className="bg-blue-50 p-4 rounded-xl border border-blue-100">
+             <p className="text-[10px] font-black uppercase text-blue-600 mb-2">Available Variables:</p>
+             <div className="flex flex-wrap gap-2">
+                {["{{store_name}}", "{{merchant_name}}", "{{missing_documents}}", "{{message}}", "{{due_amount}}", "{{due_date}}", "{{plan_name}}"].map(v => (
+                  <span key={v} className="bg-white text-blue-700 px-2 py-1 rounded-md text-[10px] font-mono border border-blue-200">{v}</span>
+                ))}
+             </div>
+          </div>
         </div>
       </div>
 
