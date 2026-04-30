@@ -471,20 +471,53 @@ function MailSettings({ settings, onSave, saving }: any) {
         <Input label="Default From Email" value={from} onChange={setFrom} />
       </div>
 
-      <button
-        disabled={saving}
-        onClick={() => onSave({ 
-          smtpHost: host,
-          smtpPort: port,
-          smtpUser: user,
-          smtpPass: pass,
-          smtpFrom: from
-        })}
-        className="px-6 py-3 bg-[#1E40AF] text-white font-black text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50 shadow-lg"
-      >
-        {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-        Update SMTP Settings
-      </button>
+      <div className="flex flex-col md:flex-row gap-4 pt-4 border-t border-gray-100">
+        <button
+          disabled={saving}
+          onClick={() => onSave({ 
+            smtpHost: host,
+            smtpPort: port,
+            smtpUser: user,
+            smtpPass: pass,
+            smtpFrom: from
+          })}
+          className="px-6 py-3 bg-[#1E40AF] text-white font-black text-sm rounded-none hover:bg-black transition-all flex items-center justify-center gap-2 disabled:opacity-50 shadow-lg"
+        >
+          {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+          Update SMTP Settings
+        </button>
+
+        <div className="flex-1 flex gap-2">
+           <input 
+             type="email" 
+             placeholder="Enter email to test..." 
+             className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-none focus:outline-none focus:ring-2 focus:ring-[#1E40AF] text-sm font-mono"
+             id="test-email-input"
+           />
+           <button
+             onClick={async () => {
+               const input = document.getElementById('test-email-input') as HTMLInputElement;
+               const email = input.value;
+               if (!email) return alert('Please enter an email address first.');
+               
+               const btn = document.getElementById('test-btn');
+               if (btn) btn.innerHTML = 'Sending...';
+               
+               const { testSmtpConnectionAction } = await import('@/app/admin/settings/actions');
+               const res = await testSmtpConnectionAction(email);
+               
+               if (btn) btn.innerHTML = 'Send Test Email';
+               
+               if (res.success) alert('Test email sent successfully! Please check your inbox.');
+               else alert('Failed to send test email: ' + res.error);
+             }}
+             id="test-btn"
+             className="px-6 py-3 bg-white text-[#1E40AF] border border-[#1E40AF] font-black text-sm rounded-none hover:bg-gray-50 transition-all whitespace-nowrap"
+           >
+             Send Test Email
+           </button>
+        </div>
+      </div>
     </div>
   );
 }

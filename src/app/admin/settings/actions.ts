@@ -47,6 +47,52 @@ export async function updateSystemSettingsAction(data: any) {
   }
 }
 
+import nodemailer from "nodemailer";
+
+export async function testSmtpConnectionAction(testEmail: string) {
+  try {
+    const session = await getSession();
+    if (!session || session.role !== "SUPER_ADMIN") {
+      throw new Error("Unauthorized");
+    }
+
+    const settings = await prisma.systemSettings.findUnique({ where: { id: "GLOBAL" } });
+    if (!settings?.smtpHost || !settings?.smtpUser || !settings?.smtpPass) {
+      return { success: false, error: "SMTP settings are incomplete." };
+    }
+
+    const transporter = nodemailer.createTransport({
+      host: settings.smtpHost,
+      port: settings.smtpPort || 587,
+      secure: settings.smtpPort === 465,
+      auth: {
+        user: settings.smtpUser,
+        pass: settings.smtpPass,
+      },
+    });
+
+    await transporter.verify();
+
+    await transporter.sendMail({
+      from: `"${settings.siteTitle}" <${settings.smtpFrom || settings.smtpUser}>`,
+      to: testEmail,
+      subject: "SMTP Test - BusinessConnect",
+      html: `
+        <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;">
+           <h2 style="color: #1e40af; margin-top: 0;">SMTP Test Successful 🎉</h2>
+           <p style="color: #334155;">Your email configuration on <strong>BusinessConnect</strong> is working perfectly!</p>
+           <p style="color: #64748b; font-size: 12px; margin-top: 20px;">This is an automated test message.</p>
+        </div>
+      `,
+    });
+
+    return { success: true };
+  } catch (error: any) {
+    console.error("SMTP Test Error:", error);
+    return { success: false, error: error.message || "Failed to connect to SMTP server." };
+  }
+}
+
 export async function getEmailTemplatesAction() {
   try {
     const templates = await prisma.emailTemplate.findMany();
