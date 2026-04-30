@@ -8,6 +8,7 @@ import {
   MessageCircle, DollarSign, Search, Cloud
 } from "lucide-react";
 import { getSystemSettingsAction, updateSystemSettingsAction, getEmailTemplatesAction, updateEmailTemplateAction } from "@/app/admin/settings/actions";
+import { RichEditor } from "@/components/ui/RichEditor";
 
 type Tab = "GENERAL" | "SMS" | "REALTIME" | "MAIL" | "WHATSAPP" | "PRICING" | "GOOGLE" | "SEO" | "STORAGE" | "EMAIL_TEMPLATES";
 
@@ -790,15 +791,13 @@ function EmailTemplateSettings({ templates: initialTemplates }: any) {
           onChange={(val: string) => setActiveTemplate({...activeTemplate, subject: val})} 
         />
         <div className="space-y-2">
-          <label className="text-[10px] font-black uppercase tracking-widest text-[#64748B]">Email Body</label>
-          <textarea 
+          <label className="text-[10px] font-black uppercase tracking-widest text-[#64748B]">Email Body (HTML Supported)</label>
+          <RichEditor 
             value={activeTemplate.body}
-            onChange={(e) => setActiveTemplate({...activeTemplate, body: e.target.value})}
-            rows={10}
-            className="w-full p-4 bg-gray-50 border border-gray-200 rounded-none focus:outline-none focus:ring-2 focus:ring-[#1E40AF] text-sm font-mono"
-            placeholder="Available variables: {{store_name}}, {{merchant_name}}, {{missing_documents}}, {{message}}"
+            onChange={(val) => setActiveTemplate({...activeTemplate, body: val})}
+            placeholder="Write your beautiful email template here..."
           />
-          <p className="text-[10px] text-gray-500 font-medium">Use {"{{store_name}}"}, {"{{merchant_name}}"}, {"{{missing_documents}}"}, or {"{{message}}"} to insert dynamic variables.</p>
+          <p className="text-[10px] text-gray-500 font-medium mt-2">Available Variables: {"{{store_name}}"}, {"{{merchant_name}}"}, {"{{missing_documents}}"}, {"{{message}}"}, {"{{due_amount}}"}, {"{{due_date}}"}, {"{{plan_name}}"}</p>
         </div>
       </div>
 
