@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { Users, Store, ShieldCheck, Settings, CreditCard, MessageSquare, Phone, FileText, ExternalLink } from "lucide-react";
 import { ActivationButton } from "./ActivationButton";
 import Link from "next/link";
+import { getMediaUrl } from "@/lib/utils/media";
 
 export default async function AdminMerchantsPage() {
   const session = await getSession();
@@ -77,7 +78,7 @@ export default async function AdminMerchantsPage() {
                   <div className="flex flex-wrap gap-2">
                      {m.tradeLicenseUrl && (
                        <a 
-                         href={m.tradeLicenseUrl === "mock_id" ? "#" : m.tradeLicenseUrl} 
+                         href={m.tradeLicenseUrl === "mock_id" ? "#" : getMediaUrl(m.tradeLicenseUrl)} 
                          target={m.tradeLicenseUrl === "mock_id" ? "_self" : "_blank"} 
                          rel="noopener noreferrer" 
                          title={m.tradeLicenseUrl === "mock_id" ? "Cloud storage pending integration" : "View Document"}
@@ -88,7 +89,7 @@ export default async function AdminMerchantsPage() {
                      )}
                      {m.nidFrontUrl && (
                        <a 
-                         href={m.nidFrontUrl === "mock_id" ? "#" : m.nidFrontUrl} 
+                         href={m.nidFrontUrl === "mock_id" ? "#" : getMediaUrl(m.nidFrontUrl)} 
                          target={m.nidFrontUrl === "mock_id" ? "_self" : "_blank"} 
                          rel="noopener noreferrer" 
                          title={m.nidFrontUrl === "mock_id" ? "Cloud storage pending integration" : "View Document"}
@@ -99,7 +100,7 @@ export default async function AdminMerchantsPage() {
                      )}
                      {m.nidBackUrl && (
                        <a 
-                         href={m.nidBackUrl === "mock_id" ? "#" : m.nidBackUrl} 
+                         href={m.nidBackUrl === "mock_id" ? "#" : getMediaUrl(m.nidBackUrl)} 
                          target={m.nidBackUrl === "mock_id" ? "_self" : "_blank"} 
                          rel="noopener noreferrer" 
                          title={m.nidBackUrl === "mock_id" ? "Cloud storage pending integration" : "View Document"}
