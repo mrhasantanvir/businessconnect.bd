@@ -77,6 +77,8 @@ export async function updateMerchantStatusAction(storeId: string, status: string
     if (status === "DOCUMENTS_REJECTED") sendMerchantEmail(storeId, "DOCUMENTS_REUPLOAD", message, missingDocs);
 
     revalidatePath("/admin/merchants");
+    revalidatePath("/admin/merchants", "layout");
+    revalidatePath("/admin/merchants", "page");
     revalidatePath("/dashboard");
     return { success: true };
   } catch (error: any) {
