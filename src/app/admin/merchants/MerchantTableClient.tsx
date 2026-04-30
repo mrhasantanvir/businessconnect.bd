@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { MessageSquare, Phone, FileText, ExternalLink, Settings, MoreVertical, CheckCircle, XCircle, UploadCloud, RefreshCw } from "lucide-react";
+import { MessageSquare, Phone, FileText, ExternalLink, Settings, MoreVertical, CheckCircle, XCircle, UploadCloud, RefreshCw, Box } from "lucide-react";
 import Link from "next/link";
 import { getMediaUrl } from "@/lib/utils/media";
 import { DocumentViewerModal } from "@/components/ui/DocumentViewerModal";
