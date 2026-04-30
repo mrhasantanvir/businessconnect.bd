@@ -2,10 +2,10 @@
 
 import React from "react";
 import dynamic from "next/dynamic";
-import "react-quill/dist/quill.snow.css";
+import "react-quill-new/dist/quill.snow.css";
 
 // Dynamic import with SSR disabled to prevent hydration errors
-const ReactQuill = dynamic(() => import("react-quill"), {
+const ReactQuill = dynamic(() => import("react-quill-new"), {
   ssr: false,
   loading: () => <div className="h-64 w-full bg-slate-50 animate-pulse rounded-lg border border-slate-200"></div>
 });
