@@ -21,6 +21,8 @@ model User {
   currentSessionId    String?
   onboardingToken     String?              @unique
   onboardingTokenExpires DateTime?
+  resetToken          String?              @unique
+  resetTokenExpires   DateTime?
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
   merchantStoreId     String?
