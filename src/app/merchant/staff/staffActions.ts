@@ -127,21 +127,78 @@ export async function activateStaffAction(staffId: string) {
     }
   });
 
+  // Notify Staff
+  if (staff.user?.email) {
+    try {
+      await sendEmail({
+        to: staff.user.email,
+        subject: "Onboarding Approved - Welcome to the Team!",
+        html: `
+          <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 8px; padding: 24px;">
+            <h2 style="color: #1E40AF; margin-top: 0;">Congratulations!</h2>
+            <p>Hello <strong>${staff.user.name}</strong>,</p>
+            <p>Your onboarding documents have been reviewed and approved. Your account is now fully <strong>ACTIVE</strong>.</p>
+            <p>You can now access all features of the staff dashboard and start your work.</p>
+            <a href="${process.env.NEXT_PUBLIC_APP_URL}/dashboard" style="display: inline-block; background: #1E40AF; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 10px;">Go to Dashboard</a>
+            <p style="color: #94A3B8; font-size: 12px; margin-top: 24px; border-top: 1px solid #f1f5f9; padding-top: 16px;">
+              BusinessConnect.bd Administrative Team
+            </p>
+          </div>
+        `
+      });
+    } catch (err) {
+      console.error("Failed to notify staff of activation:", err);
+    }
+  }
+
   revalidatePath("/merchant/staff");
   return { success: true };
 }
 
-export async function requestReuploadAction(staffId: string, reason: string) {
+export async function requestReuploadAction(staffId: string, reason: string, missingDocs: string[]) {
   const session = await getSession();
   if (!session || session.role !== "MERCHANT") throw new Error("Unauthorized");
 
-  await prisma.staffProfile.update({
+  const profile = await prisma.staffProfile.update({
     where: { id: staffId },
     data: { 
       status: "ONBOARDING",
-      rejectionReason: reason
-    }
+      rejectionReason: reason,
+      missingDocuments: JSON.stringify(missingDocs)
+    },
+    include: { user: true, merchantStore: true }
   });
+
+  // Send Email Notification
+  if (profile.user?.email) {
+    try {
+      await sendEmail({
+        to: profile.user.email,
+        subject: `Re-upload Documents Required - ${profile.merchantStore?.name}`,
+        html: `
+          <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 8px; padding: 24px;">
+            <h2 style="color: #1E40AF; margin-top: 0;">Documents Re-upload Required</h2>
+            <p>Hello <strong>${profile.user.name}</strong>,</p>
+            <p>Your documents for <strong>${profile.merchantStore?.name}</strong> need to be re-uploaded for the following reason:</p>
+            <div style="background: #FEF2F2; border-left: 4px solid #EF4444; padding: 12px; margin: 16px 0;">
+              <p style="margin: 0; color: #991B1B; font-weight: 500;">${reason}</p>
+            </div>
+            <p><strong>Please re-upload the following:</strong></p>
+            <ul style="color: #475569;">
+              ${missingDocs.map(d => `<li>${d}</li>`).join('')}
+            </ul>
+            <p>Please login to your dashboard to complete the onboarding:</p>
+            <a href="${process.env.NEXT_PUBLIC_APP_URL}/login" style="display: inline-block; background: #1E40AF; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 10px;">Login & Re-upload</a>
+            <p style="color: #94A3B8; font-size: 12px; margin-top: 24px; border-top: 1px solid #f1f5f9; pt: 16px;">
+              BusinessConnect Staff Onboarding System
+            </p>
+          </div>
+        `
+      });
+    } catch (error) {
+      console.error("Failed to send email:", error);
+    }
+  }
 
   revalidatePath("/merchant/staff");
   return { success: true };
@@ -288,6 +345,180 @@ export async function terminateStaffAction(userId: string) {
     }
   });
   
+  // Notify Staff
+  const staff = await prisma.user.findUnique({
+    where: { id: userId },
+    include: { merchantStore: true }
+  });
+
+  if (staff?.email) {
+    try {
+      await sendEmail({
+        to: staff.email,
+        subject: `Account Notice: ${staff.merchantStore?.name}`,
+        html: `
+          <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 8px; padding: 24px;">
+            <h2 style="color: #EF4444; margin-top: 0;">Account Status Update</h2>
+            <p>Hello <strong>${staff.name}</strong>,</p>
+            <p>This is to inform you that your staff account at <strong>${staff.merchantStore?.name}</strong> has been <strong>TERMINATED</strong> by the administrator.</p>
+            <p>You will no longer be able to access the staff dashboard. If you believe this is an error, please contact your merchant administrator.</p>
+            <p style="color: #94A3B8; font-size: 12px; margin-top: 24px; border-top: 1px solid #f1f5f9; padding-top: 16px;">
+              BusinessConnect.bd Administrative Notification
+            </p>
+          </div>
+        `
+      });
+    } catch (err) {
+      console.error("Failed to notify staff of termination:", err);
+    }
+  }
+
   revalidatePath("/merchant/staff");
   return { success: true };
+}
+
+export async function rejoinStaffAction(userId: string, data: {
+  jobRole: string;
+  roleId: string;
+  baseSalary: number;
+  wageType: string;
+}) {
+  const session = await getSession();
+  if (!session || session.role !== "MERCHANT") throw new Error("Unauthorized");
+
+  await prisma.user.update({
+    where: { id: userId, merchantStoreId: session.merchantStoreId },
+    data: { 
+      isActive: true,
+      customRoleId: data.roleId || null,
+      staffProfile: {
+        update: { 
+          status: "ACTIVE",
+          jobRole: data.jobRole,
+          baseSalary: data.baseSalary,
+          wageType: data.wageType,
+          approvedAt: new Date(), // Reset approval date to rejoin date
+          approvedBy: session.userId
+        }
+      }
+    }
+  });
+
+  // Notify Staff
+  const staff = await prisma.user.findUnique({
+    where: { id: userId },
+    include: { merchantStore: true }
+  });
+
+  if (staff?.email) {
+    try {
+      await sendEmail({
+        to: staff.email,
+        subject: "Welcome Back! Your Account has been Reactivated",
+        html: `
+          <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 8px; padding: 24px;">
+            <h2 style="color: #059669; margin-top: 0;">Welcome Back!</h2>
+            <p>Hello <strong>${staff.name}</strong>,</p>
+            <p>We are excited to have you back at <strong>${staff.merchantStore?.name}</strong>. Your account has been <strong>REACTIVATED</strong> with the following terms:</p>
+            <div style="background: #F0FDF4; padding: 16px; border-radius: 8px; margin: 20px 0;">
+              <p style="margin: 0; font-size: 13px; color: #166534;"><strong>New Designation:</strong> ${data.jobRole}</p>
+              <p style="margin: 5px 0 0 0; font-size: 13px; color: #166534;"><strong>Effective Date:</strong> ${new Date().toLocaleDateString()}</p>
+            </div>
+            <p>You can now login and resume your duties.</p>
+            <a href="${process.env.NEXT_PUBLIC_APP_URL}/dashboard" style="display: inline-block; background: #059669; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 10px;">Login to Dashboard</a>
+            <p style="color: #94A3B8; font-size: 12px; margin-top: 24px; border-top: 1px solid #f1f5f9; padding-top: 16px;">
+              BusinessConnect.bd Administrative Team
+            </p>
+          </div>
+        `
+      });
+    } catch (err) {
+      console.error("Failed to notify staff of rejoin:", err);
+    }
+  }
+  
+  revalidatePath("/merchant/staff");
+  return { success: true };
+}
+
+export async function deleteStaffInvitationAction(userId: string) {
+  const session = await getSession();
+  if (!session || session.role !== "MERCHANT") throw new Error("Unauthorized");
+
+  // Only allow deleting if not ACTIVE
+  const staff = await prisma.staffProfile.findUnique({
+    where: { userId }
+  });
+
+  if (!staff) throw new Error("Staff not found");
+  if (staff.status === "ACTIVE") throw new Error("Cannot delete an active staff member. Use termination instead.");
+
+  await prisma.user.delete({
+    where: { id: userId, merchantStoreId: session.merchantStoreId }
+  });
+
+  revalidatePath("/merchant/staff");
+  return { success: true };
+}
+export async function getStaffDevicesAction(userId: string) {
+  const session = await getSession();
+  if (!session || session.role !== "MERCHANT") throw new Error("Unauthorized");
+
+  const devices = await prisma.staffDevice.findMany({
+    where: { userId },
+    include: { license: true },
+    orderBy: { createdAt: "desc" }
+  });
+
+  return devices;
+}
+
+export async function authorizeDeviceAction(staffDeviceId: string) {
+  const session = await getSession();
+  if (!session || session.role !== "MERCHANT") throw new Error("Unauthorized");
+
+  const device = await prisma.staffDevice.findUnique({
+    where: { id: staffDeviceId },
+    include: { user: { include: { staffProfile: true } } }
+  });
+
+  if (!device) throw new Error("Device not found");
+  if (device.isAuthorized) return { success: true };
+
+  // Fetch global pricing settings
+  const settings = await prisma.systemSettings.findUnique({
+    where: { id: "GLOBAL" }
+  });
+
+  // Check how many devices are already authorized for this user
+  const authorizedCount = await prisma.staffDevice.count({
+    where: { userId: device.userId, isAuthorized: true }
+  });
+
+  // Use global settings or defaults
+  const basePrice = settings?.staffSubscriptionPrice ?? 300;
+  const additionalPrice = settings?.additionalDevicePrice ?? 250;
+  
+  const price = authorizedCount === 0 ? basePrice : additionalPrice;
+
+  await prisma.$transaction([
+    prisma.staffDevice.update({
+      where: { id: staffDeviceId },
+      data: { 
+        isAuthorized: true, 
+        authorizedAt: new Date() 
+      }
+    }),
+    prisma.deviceLicense.create({
+      data: {
+        staffDeviceId: staffDeviceId,
+        merchantStoreId: session.merchantStoreId!,
+        price: price,
+        activatedAt: new Date()
+      }
+    })
+  ]);
+
+  revalidatePath("/merchant/staff");
+  return { success: true, price };
 }

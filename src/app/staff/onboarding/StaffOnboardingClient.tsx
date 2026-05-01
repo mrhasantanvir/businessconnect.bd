@@ -16,13 +16,18 @@ import {
   ShieldCheck,
   Building2,
   Phone,
-  Banknote
+  Banknote,
+  AlertCircle
 } from "lucide-react";
 import { processNIDAction, submitStaffOnboardingAction } from "./actions";
 import { toast } from "sonner";
 
 export function StaffOnboardingClient({ profile, storeName }: { profile: any, storeName: string }) {
-  const [step, setStep] = useState(profile.onboardingStep || 1);
+  const missingDocs = profile.missingDocuments ? JSON.parse(profile.missingDocuments) : [];
+  
+  // If there are missing documents, we reset to step 1 to allow re-upload
+  const initialStep = missingDocs.length > 0 ? 1 : (profile.onboardingStep || 1);
+  const [step, setStep] = useState(initialStep > 3 ? 3 : initialStep);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -35,6 +40,8 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
   const [formData, setFormData] = useState({
     nidNumber: profile.nidNumber || "",
     dob: profile.dob ? new Date(profile.dob).toISOString().split('T')[0] : "",
+    fatherName: profile.fatherName || "",
+    motherName: profile.motherName || "",
     permanentAddress: profile.permanentAddress || "",
     currentAddress: profile.currentAddress || "",
     nidFrontUrl: profile.nidFrontUrl || "",
@@ -76,7 +83,9 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
             ...prev,
             nidNumber: info.nidNumber || prev.nidNumber,
             permanentAddress: info.permanentAddress || prev.permanentAddress,
-            dob: info.dob || prev.dob
+            dob: info.dob || prev.dob,
+            fatherName: info.fatherName || prev.fatherName,
+            motherName: info.motherName || prev.motherName
           }));
           toast.success("NID information extracted!");
         }
@@ -112,7 +121,7 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
     }
   };
 
-  if (submitted) {
+  if (submitted || (profile.onboardingStep >= 4 && missingDocs.length === 0)) {
     return (
       <div className="max-w-md w-full bg-white border border-gray-100 rounded-[4px] p-8 text-center space-y-6 shadow-sm animate-in fade-in zoom-in duration-300">
          <div className="w-16 h-16 bg-green-50 rounded-[4px] flex items-center justify-center mx-auto mb-4">
@@ -146,6 +155,24 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
            ))}
         </div>
       </div>
+
+      {/* Re-upload Notice */}
+      {missingDocs.length > 0 && (
+        <div className="mb-8 bg-red-50 border border-red-100 rounded-[4px] p-5 shadow-sm animate-in shake duration-500">
+          <div className="flex items-center gap-2 mb-3">
+            <AlertCircle className="w-4 h-4 text-red-600" />
+            <h3 className="text-[11px] font-black text-red-600 uppercase tracking-widest leading-none">Correction Required</h3>
+          </div>
+          <p className="text-[12px] font-medium text-red-800 mb-4 leading-relaxed">{profile.rejectionReason}</p>
+          <div className="flex flex-wrap gap-2">
+            {missingDocs.map((doc: string) => (
+              <span key={doc} className="px-3 py-1.5 bg-white border border-red-200 text-red-600 text-[9px] font-bold uppercase tracking-widest rounded-[2px]">
+                RE-UPLOAD: {doc}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Steps */}
       <div className="bg-white border border-gray-100 rounded-[4px] p-6 md:p-8 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -209,6 +236,27 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
                     value={formData.dob}
                     onChange={e => setFormData({...formData, dob: e.target.value})}
                     className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-4 py-2.5 text-sm font-medium outline-none focus:border-indigo-600 transition-all"
+                  />
+               </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+               <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Father's Name</label>
+                  <input 
+                    value={formData.fatherName}
+                    onChange={e => setFormData({...formData, fatherName: e.target.value})}
+                    className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-4 py-2.5 text-sm font-medium outline-none focus:border-indigo-600 transition-all"
+                    placeholder="Enter Father's Name"
+                  />
+               </div>
+               <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Mother's Name</label>
+                  <input 
+                    value={formData.motherName}
+                    onChange={e => setFormData({...formData, motherName: e.target.value})}
+                    className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-4 py-2.5 text-sm font-medium outline-none focus:border-indigo-600 transition-all"
+                    placeholder="Enter Mother's Name"
                   />
                </div>
             </div>
@@ -387,4 +435,8 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
       </p>
     </div>
   );
+}
+
+function cn(...inputs: any[]) {
+  return inputs.filter(Boolean).join(" ");
 }

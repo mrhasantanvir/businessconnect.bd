@@ -587,29 +587,37 @@ function WhatsAppSettings({ settings, onSave, saving }: any) {
 }
 
 function PricingSettings({ settings, onSave, saving }: any) {
-  // Ideally these might map to SystemSettings if global, or just be an interface for bulk updates.
-  // For demonstration, let's assume we are saving default global rates to the DB settings or just showing the UI.
-  const [globalSmsRate, setGlobalSmsRate] = useState(settings?.globalSmsRate ?? 0.50);
-  const [globalSipRate, setGlobalSipRate] = useState(settings?.globalSipRate ?? 1.00);
+  const [smsRate, setSmsRate] = useState(settings?.smsRate ?? 0.50);
+  const [sipRate, setSipRate] = useState(settings?.sipRate ?? 1.00);
+  const [aiPrice, setAiPrice] = useState(settings?.aiCreditPrice ?? 0.50);
+  const [staffPrice, setStaffPrice] = useState(settings?.staffSubscriptionPrice ?? 300);
+  const [devicePrice, setDevicePrice] = useState(settings?.additionalDevicePrice ?? 250);
 
   return (
     <div className="space-y-8 max-w-2xl">
       <div className="space-y-4">
         <h3 className="text-xl font-black text-[#0F172A] flex items-center gap-2">
-           <DollarSign className="w-6 h-6" /> Reource Pricing Control
+           <DollarSign className="w-6 h-6" /> Resource Pricing Control
         </h3>
-        <p className="text-sm text-[#64748B]">Set the global rates for SMS credits and SIP (Call Minute) usage for merchants. This defines your margin.</p>
+        <p className="text-sm text-[#64748B]">Set global base rates for platform resources. These values act as defaults for new merchants.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Input label="Global SMS Rate (BDT/SMS)" value={globalSmsRate} onChange={setGlobalSmsRate} type="number" />
-        <Input label="Global SIP Rate (BDT/Min)" value={globalSipRate} onChange={setGlobalSipRate} type="number" />
+        <Input label="Global SMS Rate (BDT/SMS)" value={smsRate} onChange={(v: any) => setSmsRate(parseFloat(v))} type="number" />
+        <Input label="Global SIP Rate (BDT/Min)" value={sipRate} onChange={(v: any) => setSipRate(parseFloat(v))} type="number" />
+        <Input label="AI Credit Price (BDT/1k)" value={aiPrice} onChange={(v: any) => setAiPrice(parseFloat(v))} type="number" />
+        <Input label="Staff Base Price (1st Device)" value={staffPrice} onChange={(v: any) => setStaffPrice(parseFloat(v))} type="number" />
+        <Input label="Additional Device Price" value={devicePrice} onChange={(v: any) => setDevicePrice(parseFloat(v))} type="number" />
       </div>
 
       <button
         disabled={saving}
         onClick={() => onSave({ 
-          // Price control data
+          smsRate,
+          sipRate,
+          aiCreditPrice: aiPrice,
+          staffSubscriptionPrice: staffPrice,
+          additionalDevicePrice: devicePrice
         })}
         className="px-6 py-3 bg-[#1E40AF] text-white font-black text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50 shadow-lg"
       >

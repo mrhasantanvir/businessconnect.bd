@@ -48,14 +48,21 @@ export async function manualBalanceAdjustAction(
   return { success: true };
 }
 
-export async function updateStaffPriceAction(price: number) {
+export async function updateStaffPriceAction(staffPrice: number, devicePrice: number) {
   const session = await getSession();
   if (!session || session.role !== "SUPER_ADMIN") throw new Error("Unauthorized");
 
   await prisma.systemSettings.upsert({
      where: { id: "GLOBAL" },
-     update: { staffSubscriptionPrice: price },
-     create: { id: "GLOBAL", staffSubscriptionPrice: price }
+     update: { 
+       staffSubscriptionPrice: staffPrice,
+       additionalDevicePrice: devicePrice
+     },
+     create: { 
+       id: "GLOBAL", 
+       staffSubscriptionPrice: staffPrice,
+       additionalDevicePrice: devicePrice
+     }
   });
 
   revalidatePath("/admin/billing");

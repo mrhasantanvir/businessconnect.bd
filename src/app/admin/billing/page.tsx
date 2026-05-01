@@ -134,23 +134,36 @@ export default async function AdminBillingControlPage(props: Props) {
             </div>
             <form action={async (formData) => {
                "use server";
-               const price = parseFloat(formData.get("price") as string);
-               await updateStaffPriceAction(price);
-            }} className="space-y-4">
+               const staffPrice = parseFloat(formData.get("staffPrice") as string);
+               const devicePrice = parseFloat(formData.get("devicePrice") as string);
+               await updateStaffPriceAction(staffPrice, devicePrice);
+            }} className="space-y-6">
                <div>
-                  <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block">Per-User Monthly Rate (BDT)</label>
+                  <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block">Per-User Base Rate (1st Device)</label>
                   <div className="relative">
                      <span className="absolute left-4 top-1/2 -translate-y-1/2 font-black text-slate-400 text-lg">৳</span>
                      <input 
-                       name="price"
+                       name="staffPrice"
                        type="number" 
                        defaultValue={sysSettings?.staffSubscriptionPrice || 300}
                        className="w-full pl-10 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl font-black text-slate-900 text-xl outline-none focus:ring-4 focus:ring-indigo-50 transition-all"
                      />
                   </div>
                </div>
+               <div>
+                  <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block">Additional Device Rate (BDT)</label>
+                  <div className="relative">
+                     <span className="absolute left-4 top-1/2 -translate-y-1/2 font-black text-slate-400 text-lg">৳</span>
+                     <input 
+                       name="devicePrice"
+                       type="number" 
+                       defaultValue={sysSettings?.additionalDevicePrice || 250}
+                       className="w-full pl-10 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl font-black text-slate-900 text-xl outline-none focus:ring-4 focus:ring-indigo-50 transition-all"
+                     />
+                  </div>
+               </div>
                <button className="w-full py-4 bg-indigo-600 text-white font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-100">
-                  Update Price Policy
+                  Update Pricing Policy
                </button>
             </form>
          </div>

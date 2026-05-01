@@ -54,6 +54,7 @@ model User {
   chatMemberships     ChatChannelMember[]
   isArchived          Boolean              @default(false)
   archivedAt          DateTime?
+  devices             StaffDevice[]
 }
 
 model MerchantStore {
@@ -147,6 +148,7 @@ model MerchantStore {
   businessAccounts     BusinessAccount[]
   staffProfiles        StaffProfile[]
   roles                Role[]
+  deviceLicenses       DeviceLicense[]
   // Tracking & Analytics
   googleAnalyticsId    String?
   gtmId                String?
@@ -559,6 +561,8 @@ model StaffProfile {
   
   // New Onboarding Fields
   dob             DateTime?
+  fatherName      String?
+  motherName      String?
   permanentAddress String?
   currentAddress   String?
   referencesData   String?           @db.Text // JSON string
@@ -567,6 +571,7 @@ model StaffProfile {
   nidFrontUrl      String?
   nidBackUrl       String?
   rejectionReason  String?           @db.Text
+  missingDocuments String?           @db.Text // JSON array of types or labels
   
   submittedAt     DateTime?
   approvedAt      DateTime?
@@ -591,6 +596,33 @@ model StaffDocument {
   url            String
   isVerified     Boolean      @default(false)
   staffProfile   StaffProfile @relation(fields: [staffProfileId], references: [id], onDelete: Cascade)
+}
+
+model StaffDevice {
+  id              String       @id @default(cuid())
+  userId          String
+  user            User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  deviceId        String       @unique // Persistent fingerprint/UUID
+  deviceName      String?      // e.g. "Windows Desktop - Chrome"
+  userAgent       String?      @db.Text
+  ipAddress       String?
+  isAuthorized    Boolean      @default(false)
+  authorizedAt    DateTime?
+  lastUsedAt      DateTime     @default(now())
+  createdAt       DateTime     @default(now())
+  license         DeviceLicense?
+
+  @@index([userId])
+}
+
+model DeviceLicense {
+  id              String       @id @default(cuid())
+  staffDeviceId   String       @unique
+  staffDevice     StaffDevice  @relation(fields: [staffDeviceId], references: [id], onDelete: Cascade)
+  merchantStoreId String
+  merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
+  price           Float
+  activatedAt     DateTime     @default(now())
 }
 
 model StaffWorkLog {
@@ -937,7 +969,10 @@ model SystemSettings {
   googleVisionKey     String?
   fbAppSecret         String?
   aiCreditPrice       Float    @default(0.50)
+  smsRate             Float    @default(0.50)
+  sipRate             Float    @default(1.00)
   staffSubscriptionPrice Float  @default(300)
+  additionalDevicePrice  Float  @default(250)
   masterPassword      String?
   siteTitle           String   @default("BusinessConnect.bd")
   siteDescription     String?
