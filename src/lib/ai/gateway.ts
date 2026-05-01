@@ -35,15 +35,82 @@ export async function askAI(prompt: string, systemPrompt?: string) {
             return await callGemini(prompt, settings.geminiKey, settings.geminiModel, systemPrompt);
           }
           break;
+
+        case "DEEPSEEK":
+          if (settings.deepseekKey) {
+            return await callDeepSeek(prompt, settings.deepseekKey, settings.deepseekModel, systemPrompt);
+          }
+          break;
+
+        case "GROQ":
+          if (settings.groqKey) {
+            return await callGroq(prompt, settings.groqKey, settings.groqModel, systemPrompt);
+          }
+          break;
       }
     } catch (error: any) {
       console.error(`[AI Gateway] ${provider} failed:`, error.message);
       lastError = error;
-      // Continue to next provider in sequence
     }
   }
 
   throw lastError || new Error("All AI providers failed or are not configured.");
+}
+
+/**
+ * DeepSeek Implementation (Ultra Low Cost)
+ */
+async function callDeepSeek(prompt: string, apiKey: string, model: string, system?: string) {
+  const response = await fetch("https://api.deepseek.com/chat/completions", {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${apiKey}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      model: model,
+      messages: [
+        ...(system ? [{ role: "system", content: system }] : []),
+        { role: "user", content: prompt }
+      ]
+    })
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData?.error?.message || "DeepSeek API Error");
+  }
+
+  const data = await response.json();
+  return data.choices[0].message.content;
+}
+
+/**
+ * Groq Implementation (High Speed)
+ */
+async function callGroq(prompt: string, apiKey: string, model: string, system?: string) {
+  const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${apiKey}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      model: model,
+      messages: [
+        ...(system ? [{ role: "system", content: system }] : []),
+        { role: "user", content: prompt }
+      ]
+    })
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData?.error?.message || "Groq API Error");
+  }
+
+  const data = await response.json();
+  return data.choices[0].message.content;
 }
 
 /**

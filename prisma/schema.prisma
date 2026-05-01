@@ -929,7 +929,11 @@ model SystemSettings {
   openRouterModel     String   @default("openai/gpt-3.5-turbo")
   geminiKey           String?
   geminiModel         String   @default("gemini-1.5-pro")
-  aiProviderPriority  String   @default("OPENROUTER,OPENAI,GEMINI")
+  deepseekKey         String?
+  deepseekModel       String   @default("deepseek-chat")
+  groqKey             String?
+  groqModel           String   @default("llama-3.1-70b-versatile")
+  aiProviderPriority  String   @default("OPENAI,GEMINI,DEEPSEEK,OPENROUTER")
   googleVisionKey     String?
   fbAppSecret         String?
   aiCreditPrice       Float    @default(0.50)
