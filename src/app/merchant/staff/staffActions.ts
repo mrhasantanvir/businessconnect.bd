@@ -10,7 +10,8 @@ import { sendEmail } from "@/lib/mail";
 export async function createStaffAction(data: {
   name: string;
   email: string;
-  role: string;
+  roleId?: string;
+  jobRole: string;
   wageType: string;
   baseSalary: number;
 }) {
@@ -44,11 +45,12 @@ export async function createStaffAction(data: {
       password: hashedPassword,
       role: "STAFF",
       merchantStoreId: merchantStoreId,
+      customRoleId: data.roleId,
       isActive: true, // User can login but status is ONBOARDING
       staffProfile: {
         create: {
           merchantStoreId: merchantStoreId,
-          jobRole: data.role,
+          jobRole: data.jobRole,
           wageType: data.wageType,
           baseSalary: data.baseSalary,
           status: "ONBOARDING",
@@ -63,10 +65,10 @@ export async function createStaffAction(data: {
     to: data.email,
     subject: `Invitation to join ${merchantStore.name} on BusinessConnect.bd`,
     html: `
-      <div style="font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; rounded: 12px;">
+      <div style="font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 12px;">
         <h2 style="color: #1E40AF;">Welcome to the Team!</h2>
         <p>Hi <strong>${data.name}</strong>,</p>
-        <p>You have been invited to join <strong>${merchantStore.name}</strong> as a <strong>${data.role}</strong>.</p>
+        <p>You have been invited to join <strong>${merchantStore.name}</strong> as a <strong>${data.jobRole}</strong>.</p>
         <div style="background: #F8F9FA; padding: 20px; border-radius: 12px; margin: 20px 0;">
           <p style="margin: 0; color: #64748B; font-size: 12px; text-transform: uppercase; font-weight: bold;">Your Credentials</p>
           <p style="margin: 10px 0 5px 0;"><strong>Email:</strong> ${data.email}</p>
@@ -96,7 +98,8 @@ export async function getStaffListAction() {
       merchantStoreId: merchantStoreId
     },
     include: {
-      staffProfile: true
+      staffProfile: true,
+      customRole: true
     },
     orderBy: { createdAt: "desc" }
   });
@@ -140,6 +143,63 @@ export async function requestReuploadAction(staffId: string, reason: string) {
     }
   });
 
+  revalidatePath("/merchant/staff");
+  return { success: true };
+}
+
+// ROLE ACTIONS
+export async function getRolesAction() {
+  const session = await getSession();
+  if (!session || session.role !== "MERCHANT") throw new Error("Unauthorized");
+  
+  return await prisma.role.findMany({
+    where: { merchantStoreId: session.merchantStoreId },
+    include: { _count: { select: { users: true } } }
+  });
+}
+
+export async function createRoleAction(data: { name: string; permissions: string[] }) {
+  const session = await getSession();
+  if (!session || session.role !== "MERCHANT") throw new Error("Unauthorized");
+  
+  await prisma.role.create({
+    data: {
+      name: data.name,
+      permissions: JSON.stringify(data.permissions),
+      merchantStoreId: session.merchantStoreId!
+    }
+  });
+  
+  revalidatePath("/merchant/staff");
+  return { success: true };
+}
+
+export async function updateRoleAction(id: string, data: { name: string; permissions: string[] }) {
+  const session = await getSession();
+  if (!session || session.role !== "MERCHANT") throw new Error("Unauthorized");
+  
+  await prisma.role.update({
+    where: { id },
+    data: {
+      name: data.name,
+      permissions: JSON.stringify(data.permissions)
+    }
+  });
+  
+  revalidatePath("/merchant/staff");
+  return { success: true };
+}
+
+export async function deleteRoleAction(id: string) {
+  const session = await getSession();
+  if (!session || session.role !== "MERCHANT") throw new Error("Unauthorized");
+  
+  // Check if any users are assigned to this role
+  const userCount = await prisma.user.count({ where: { customRoleId: id } });
+  if (userCount > 0) throw new Error("Cannot delete role with assigned staff");
+
+  await prisma.role.delete({ where: { id } });
+  
   revalidatePath("/merchant/staff");
   return { success: true };
 }

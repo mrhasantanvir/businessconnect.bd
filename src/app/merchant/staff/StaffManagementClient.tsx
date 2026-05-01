@@ -20,11 +20,14 @@ import {
   Building2,
   Phone
 } from "lucide-react";
-import { createStaffAction, activateStaffAction, requestReuploadAction } from "./staffActions";
+import { createStaffAction, activateStaffAction, requestReuploadAction, getRolesAction } from "./staffActions";
 import { toast } from "sonner";
+import { MerchantRoleManagement } from "@/components/merchant/MerchantRoleManagement";
 
 export function StaffManagementClient({ initialStaff }: { initialStaff: any[] }) {
+  const [activeTab, setActiveTab] = useState<"STAFF" | "ROLES">("STAFF");
   const [staff, setStaff] = useState(initialStaff);
+  const [roles, setRoles] = useState<any[]>([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [selectedStaff, setSelectedStaff] = useState<any>(null);
@@ -34,10 +37,19 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
   const [newStaff, setNewStaff] = useState({
     name: "",
     email: "",
-    role: "Sales Executive",
+    jobRole: "Sales Executive",
+    roleId: "",
     wageType: "MONTHLY",
     baseSalary: 15000
   });
+
+  useEffect(() => {
+    async function loadRoles() {
+      const data = await getRolesAction();
+      setRoles(data);
+    }
+    loadRoles();
+  }, []);
 
   async function handleAddStaff(e: React.FormEvent) {
     e.preventDefault();
@@ -47,7 +59,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
       if (res.success) {
         toast.success("Invitation sent to staff!");
         setIsAddModalOpen(false);
-        setNewStaff({ name: "", email: "", role: "Sales Executive", wageType: "MONTHLY", baseSalary: 15000 });
+        setNewStaff({ name: "", email: "", jobRole: "Sales Executive", roleId: "", wageType: "MONTHLY", baseSalary: 15000 });
         // Refresh would happen via revalidatePath, but for UI we might want to reload
         window.location.reload();
       }
@@ -151,8 +163,32 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
         </button>
       </div>
 
-      {/* Staff Table */}
-      <div className="bg-white border border-gray-100 rounded-[4px] overflow-hidden shadow-sm">
+      {/* Tabs */}
+      <div className="flex items-center gap-1 bg-gray-100/50 p-1 rounded-[4px] w-fit">
+        <button 
+          onClick={() => setActiveTab("STAFF")}
+          className={cn(
+            "px-6 py-2 text-[10px] font-black uppercase tracking-widest transition-all rounded-[4px]",
+            activeTab === "STAFF" ? "bg-white text-indigo-600 shadow-sm" : "text-gray-400 hover:text-gray-600"
+          )}
+        >
+          Staff Directory
+        </button>
+        <button 
+          onClick={() => setActiveTab("ROLES")}
+          className={cn(
+            "px-6 py-2 text-[10px] font-black uppercase tracking-widest transition-all rounded-[4px]",
+            activeTab === "ROLES" ? "bg-white text-indigo-600 shadow-sm" : "text-gray-400 hover:text-gray-600"
+          )}
+        >
+          Security Roles
+        </button>
+      </div>
+
+      {activeTab === "ROLES" ? (
+        <MerchantRoleManagement />
+      ) : (
+        <div className="bg-white border border-gray-100 rounded-[4px] overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead className="bg-gray-50 border-b border-gray-100">
@@ -211,6 +247,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
           </table>
         </div>
       </div>
+      )}
 
       {/* Add Staff Modal */}
       {isAddModalOpen && (
@@ -252,21 +289,31 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                        />
                     </div>
                  </div>
-
-                 <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Job Role</label>
-                    <select 
-                      value={newStaff.role}
-                      onChange={e => setNewStaff({...newStaff, role: e.target.value})}
-                      className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-3 py-2 text-sm font-medium outline-none focus:border-indigo-600 transition-all appearance-none"
-                    >
-                       <option value="Sales Executive">Sales Executive</option>
-                       <option value="Support Agent">Support Agent</option>
-                       <option value="Inventory Manager">Inventory Manager</option>
-                       <option value="Delivery Person">Delivery Person</option>
-                       <option value="Store Admin">Store Admin</option>
-                    </select>
-                 </div>
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Job Designation</label>
+                      <input 
+                        required
+                        value={newStaff.jobRole}
+                        onChange={e => setNewStaff({...newStaff, jobRole: e.target.value})}
+                        className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-3 py-2 text-sm font-medium outline-none focus:border-indigo-600 transition-all"
+                        placeholder="Sales Executive"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Security Role</label>
+                      <select 
+                        value={newStaff.roleId}
+                        onChange={e => setNewStaff({...newStaff, roleId: e.target.value})}
+                        className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-3 py-2 text-sm font-medium outline-none focus:border-indigo-600 transition-all appearance-none"
+                      >
+                        <option value="">Default Permissions</option>
+                        {roles.map(r => (
+                          <option key={r.id} value={r.id}>{r.name}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
 
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
@@ -442,4 +489,8 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
       )}
     </div>
   );
+}
+
+function cn(...inputs: any[]) {
+  return inputs.filter(Boolean).join(" ");
 }
