@@ -1,21 +1,33 @@
 "use client";
 
 import React, { useState } from "react";
-import { Box, ArrowRight, Lock, Mail, Eye, EyeOff, Sparkles } from "lucide-react";
+import { Box, ArrowRight, Lock, Mail, Eye, EyeOff, Sparkles, ShieldCheck, ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { loginAction } from "./actions";
+import { loginAction, complete2FALoginAction } from "./actions";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [twoFactorCode, setTwoFactorCode] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [requires2FA, setRequires2FA] = useState(false);
+  const [userIdFor2FA, setUserIdFor2FA] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
     setLoading(true);
+
+    if (requires2FA) {
+      const result = await complete2FALoginAction(userIdFor2FA, twoFactorCode);
+      if (result?.error) {
+        setError(result.error);
+        setLoading(false);
+      }
+      return;
+    }
 
     const formData = new FormData();
     formData.append("email", email);
@@ -26,7 +38,77 @@ export default function LoginPage() {
     if (result?.error) {
       setError(result.error);
       setLoading(false);
+    } else if (result?.requires2FA) {
+      setRequires2FA(true);
+      setUserIdFor2FA(result.userId);
+      setLoading(false);
     }
+  }
+
+  if (requires2FA) {
+    return (
+      <div className="min-h-screen bg-[#F8F9FA] flex items-center justify-center p-4">
+        <div className="w-full max-w-md">
+          <div className="flex flex-col items-center mb-8">
+            <div className="flex items-center gap-2 mb-4 group">
+              <Box className="w-10 h-10 text-[#1E40AF] group-hover:scale-110 transition-transform" />
+              <span className="font-extrabold tracking-tight text-2xl text-[#0F172A]">Businessconnect.bd</span>
+            </div>
+          </div>
+
+          <div className="bg-white border border-[#E5E7EB] rounded-[32px] p-8 md:p-10 shadow-2xl shadow-[#1E40AF]/5 relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1.5 bg-[#BEF264]"></div>
+            
+            <div className="mb-8">
+              <div className="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center mb-6">
+                <ShieldCheck className="w-8 h-8 text-[#1E40AF]" />
+              </div>
+              <h1 className="text-2xl font-extrabold text-[#0F172A] mb-2 tracking-tight">Two-Step Verification</h1>
+              <p className="text-[#64748B] text-sm font-medium">Enter the 6-digit code from your authenticator app.</p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {error && (
+                <div className="bg-[#FEF2F2] border border-[#FEE2E2] text-[#DC2626] text-sm p-4 rounded-2xl animate-in fade-in slide-in-from-top-2 duration-300">
+                  {error}
+                </div>
+              )}
+
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-[#64748B] uppercase tracking-wider ml-1">Authenticator Code</label>
+                <input
+                  type="text"
+                  required
+                  autoFocus
+                  maxLength={6}
+                  value={twoFactorCode}
+                  onChange={(e) => setTwoFactorCode(e.target.value.replace(/\D/g, ''))}
+                  className="w-full bg-[#F8F9FA] border border-[#E5E7EB] rounded-2xl py-4 text-center text-3xl font-black tracking-[0.5em] outline-none focus:border-[#1E40AF] focus:ring-4 focus:ring-[#1E40AF]/5 transition-all text-[#0F172A]"
+                  placeholder="000000"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading || twoFactorCode.length !== 6}
+                className="w-full bg-[#1E40AF] text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-[#1E40AF]/20 hover:bg-[#1E3A8A] transition-all disabled:opacity-70"
+              >
+                {loading ? "Verifying..." : "Verify & Log in"}
+                {!loading && <ArrowRight className="w-5 h-5" />}
+              </button>
+
+              <button 
+                type="button"
+                onClick={() => setRequires2FA(false)}
+                className="w-full text-sm font-bold text-[#64748B] hover:text-[#1E40AF] transition-colors flex items-center justify-center gap-2"
+              >
+                <ArrowLeft className="w-4 h-4" /> Back to Login
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (

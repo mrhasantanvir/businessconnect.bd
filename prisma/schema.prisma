@@ -23,6 +23,8 @@ model User {
   onboardingTokenExpires DateTime?
   resetToken          String?              @unique
   resetTokenExpires   DateTime?
+  twoFactorSecret     String?
+  isTwoFactorEnabled  Boolean              @default(false)
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
   merchantStoreId     String?

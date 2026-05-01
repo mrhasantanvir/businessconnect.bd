@@ -177,6 +177,7 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
        group: "Account Security",
        items: [
          { icon: User, label: "Profile Settings", href: "/settings/profile", roles: ["MERCHANT", "SUPER_ADMIN", "STAFF"] },
+         { icon: ShieldCheck, label: "Security & 2FA", href: "/settings/security", roles: ["MERCHANT", "SUPER_ADMIN", "STAFF"] },
        ]
     }
   ];
