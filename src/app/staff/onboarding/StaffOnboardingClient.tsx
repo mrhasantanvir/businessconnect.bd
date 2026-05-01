@@ -75,20 +75,18 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
       const url = await handleFileUpload(file, `nid_${side}`);
       setFormData(prev => ({ ...prev, [`nid${side.charAt(0).toUpperCase() + side.slice(1)}Url`]: url }));
       
-      if (side === 'front') {
-        toast.info("Extracting information from NID...");
-        const info: any = await processNIDAction(url);
-        if (!info.error) {
-          setFormData(prev => ({
-            ...prev,
-            nidNumber: info.nidNumber || prev.nidNumber,
-            permanentAddress: info.permanentAddress || prev.permanentAddress,
-            dob: info.dob || prev.dob,
-            fatherName: info.fatherName || prev.fatherName,
-            motherName: info.motherName || prev.motherName
-          }));
-          toast.success("NID information extracted!");
-        }
+      toast.info(`Extracting information from NID ${side}...`);
+      const info: any = await processNIDAction(url);
+      if (!info.error) {
+        setFormData(prev => ({
+          ...prev,
+          nidNumber: info.nidNumber || prev.nidNumber,
+          permanentAddress: info.permanentAddress || prev.permanentAddress,
+          dob: info.dob || prev.dob,
+          fatherName: info.fatherName || prev.fatherName,
+          motherName: info.motherName || prev.motherName
+        }));
+        toast.success(`NID ${side} information extracted!`);
       }
     } catch (error) {
       toast.error("Failed to process NID");

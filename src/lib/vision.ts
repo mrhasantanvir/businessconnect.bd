@@ -1,18 +1,108 @@
+import { OpenAI } from "openai";
+import { db as prisma } from "@/lib/db";
 import vision from "@google-cloud/vision";
+import fs from "fs/promises";
+import path from "path";
 
-// Creates a client
-const client = new vision.ImageAnnotatorClient({
+// Google Vision Client (Legacy/Fallback)
+const googleClient = new vision.ImageAnnotatorClient({
   credentials: process.env.GOOGLE_VISION_CREDENTIALS 
     ? JSON.parse(process.env.GOOGLE_VISION_CREDENTIALS) 
     : undefined,
   keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS,
 });
 
+/**
+ * Extracts NID information using AI.
+ * Prioritizes OpenAI GPT-4o if configured in SystemSettings.
+ * Falls back to Google Vision API if OpenAI is unavailable.
+ */
 export async function extractNIDInfo(imageUrl: string) {
   try {
-    // In a real production environment, imageUrl would be an S3/Cloudinary URL or local path
-    // For this example, we assume Google Vision can access it
-    const [result] = await client.textDetection(imageUrl);
+    const settings = await prisma.systemSettings.findUnique({
+      where: { id: "GLOBAL" }
+    });
+
+    if (settings?.openaiApiKey) {
+      return await extractWithOpenAI(imageUrl, settings.openaiApiKey, settings.openaiModel || "gpt-4o");
+    }
+
+    return await extractWithGoogle(imageUrl);
+  } catch (error) {
+    console.error("Extraction Error:", error);
+    return { error: "Failed to extract information from NID" };
+  }
+}
+
+async function extractWithOpenAI(imageUrl: string, apiKey: string, model: string) {
+  try {
+    const openai = new OpenAI({ apiKey });
+
+    let imageContent: string;
+
+    // Handle local paths for OpenAI by converting to base64
+    if (imageUrl.startsWith("/")) {
+      const filePath = path.join(process.cwd(), "public", imageUrl);
+      const buffer = await fs.readFile(filePath);
+      const ext = path.extname(filePath).slice(1) || "jpeg";
+      imageContent = `data:image/${ext};base64,${buffer.toString("base64")}`;
+    } else {
+      imageContent = imageUrl;
+    }
+
+    const response = await openai.chat.completions.create({
+      model: model,
+      messages: [
+        {
+          role: "user",
+          content: [
+            { 
+              type: "text", 
+              text: "Extract the following information from this NID (National ID) card image. Respond ONLY with a JSON object containing these keys: name (English full name), nidNumber (the long identification number), dob (Date of birth in YYYY-MM-DD format), fatherName (English), motherName (English), and permanentAddress (Full address in English). If any field is not clear, leave it as an empty string. The NID might be in Bengali, please translate the values to English." 
+            },
+            {
+              type: "image_url",
+              image_url: {
+                url: imageContent,
+              },
+            },
+          ],
+        },
+      ],
+      response_format: { type: "json_object" }
+    });
+
+    const content = response.choices[0].message.content;
+    if (!content) throw new Error("No response from OpenAI");
+
+    const data = JSON.parse(content);
+    return {
+      ...data,
+      rawText: content,
+      provider: "openai"
+    };
+  } catch (error) {
+    console.error("OpenAI Extraction Error:", error);
+    // Fallback to Google Vision if OpenAI fails
+    return await extractWithGoogle(imageUrl);
+  }
+}
+
+async function extractWithGoogle(imageUrl: string) {
+  try {
+    // In a production environment with relative URLs, we'd need a full URL for Google Vision
+    // or provide the image as a buffer.
+    let requestPayload: any;
+    
+    if (imageUrl.startsWith("/")) {
+      const filePath = path.join(process.cwd(), "public", imageUrl);
+      const buffer = await fs.readFile(filePath);
+      requestPayload = { image: { content: buffer } };
+    } else {
+      requestPayload = { image: { source: { imageUri: imageUrl } } };
+    }
+
+    const [result] = await googleClient.textDetection(requestPayload);
     const detections = result.textAnnotations;
     
     if (!detections || detections.length === 0) {
@@ -21,9 +111,7 @@ export async function extractNIDInfo(imageUrl: string) {
 
     const fullText = detections[0].description || "";
     
-    // Simple extraction logic for NID (this needs to be refined for Bengali/English formats)
-    // NID formats vary, but we can look for keywords like "Name", "Permanent Address", "Date of Birth"
-    
+    // Very basic parsing for Google Vision (fragile)
     const info = {
       name: "",
       fatherName: "",
@@ -31,87 +119,23 @@ export async function extractNIDInfo(imageUrl: string) {
       nidNumber: "",
       dob: "",
       permanentAddress: "",
-      rawText: fullText
+      rawText: fullText,
+      provider: "google"
     };
 
     const lines = fullText.split('\n');
-    
-    // Improved Extraction Strategy
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i].trim();
-      
-      // 1. Name Extraction
-      if (!info.name) {
-        if (line.match(/^Name[:\s]/i)) {
-          info.name = line.replace(/^Name[:\s]+/i, "").trim();
-        } else if (line.includes("নাম") && lines[i+1] && !lines[i+1].includes(":")) {
-          // If Bengali label, check next line for English name
-          info.name = lines[i+1].trim();
-        }
-      }
-
-      // 2. Father's Name
-      if (!info.fatherName) {
-        if (line.match(/^Father[''s]* Name[:\s]/i) || line.match(/^Father[:\s]/i)) {
-          info.fatherName = line.replace(/^Father[''s]* Name[:\s]+/i, "").replace(/^Father[:\s]+/i, "").trim();
-        } else if ((line.includes("পিতা") || line.includes("পিতা/স্বামী")) && lines[i+1] && !lines[i+1].includes(":")) {
-          info.fatherName = lines[i+1].trim();
-        }
-      }
-
-      // 3. Mother's Name
-      if (!info.motherName) {
-        if (line.match(/^Mother[''s]* Name[:\s]/i) || line.match(/^Mother[:\s]/i)) {
-          info.motherName = line.replace(/^Mother[''s]* Name[:\s]+/i, "").replace(/^Mother[:\s]+/i, "").trim();
-        } else if (line.includes("মাতা") && lines[i+1] && !lines[i+1].includes(":")) {
-          info.motherName = lines[i+1].trim();
-        }
-      }
-
-      // 4. Date of Birth
-      if (!info.dob) {
-        const dobMatch = line.match(/Date of Birth[:\s]+(\d{1,2} [A-Za-z]{3} \d{4})/i);
-        if (dobMatch) {
-          info.dob = dobMatch[1];
-        } else if (line.includes("জন্ম তারিখ") || line.includes("Date of Birth")) {
-          const dateMatch = line.match(/\d{1,2} [A-Za-z]{3} \d{4}/) || line.match(/\d{4}-\d{2}-\d{2}/);
-          if (dateMatch) info.dob = dateMatch[0];
-        }
-      }
-
-      // 5. NID Number
-      if (!info.nidNumber) {
-        const nidMatch = line.match(/ID NO[:\s]+(\d+)/i) || line.match(/NID NO[:\s]+(\d+)/i) || line.match(/(\d{10,17})/);
-        if (nidMatch) {
-          info.nidNumber = nidMatch[1] || nidMatch[0];
-        }
-      }
-
-      // 6. Address
-      if (!info.permanentAddress) {
-        if (line.toLowerCase().includes("address") || line.toLowerCase().includes("ঠিকানা")) {
-          // Address is usually the next few lines
-          let addr = "";
-          if (lines[i+1]) addr += lines[i+1].trim();
-          if (lines[i+2] && !lines[i+2].includes(":")) addr += ", " + lines[i+2].trim();
-          info.permanentAddress = addr;
-        }
-      }
-    }
-
-    // Fallback for Name if still empty (search for capitalized line near the top)
-    if (!info.name && lines.length > 2) {
-      for (let i = 0; i < Math.min(lines.length, 5); i++) {
-        if (lines[i].match(/^[A-Z\s]{5,25}$/) && !lines[i].includes("BANGLADESH")) {
-          info.name = lines[i].trim();
-          break;
-        }
-      }
+      if (line.includes("নাম") && lines[i+1]) info.name = lines[i+1].trim();
+      if (line.includes("পিতা") && lines[i+1]) info.fatherName = lines[i+1].trim();
+      if (line.includes("মাতা") && lines[i+1]) info.motherName = lines[i+1].trim();
+      if (line.match(/\d{1,2} [A-Za-z]{3} \d{4}/)) info.dob = line.match(/\d{1,2} [A-Za-z]{3} \d{4}/)?.[0] || "";
+      if (line.match(/(\d{10,17})/)) info.nidNumber = line.match(/(\d{10,17})/)?.[0] || "";
     }
 
     return info;
   } catch (error) {
-    console.error("Vision API Error:", error);
-    return { error: "Failed to extract information from NID" };
+    console.error("Google Vision Error:", error);
+    return { error: "Failed to extract info" };
   }
 }
