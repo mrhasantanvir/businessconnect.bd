@@ -5,7 +5,6 @@ import { getSession } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import { upsertCustomerFromOrder, syncCustomerLoyaltyAction } from "../customers/actions";
 import { createSteadfastOrder, checkSteadfastStatusByConsignmentId } from "@/lib/logistics/steadfast";
-import { processOrderCommission } from "../staff/actions";
 
 /**
  * Advanced Order Confirmation: 
@@ -415,12 +414,7 @@ export async function completeDeliveryAction(orderId: string) {
      console.error("[Accounting Engine Failed]:", err);
   }
 
-  // [Elite ERP] Process Sales Commission for Staff
-  try {
-     await processOrderCommission(orderId);
-  } catch (err) {
-     console.error("[Commission Engine Failed]:", err);
-  }
+  // [Elite ERP] Sales Commission processing removed (Staff module decommissioned)
 
   // [ROI Engine] Facebook Conversions API (CAPI) Integration
   const fbConfig = await prisma.facebookConfig.findUnique({
