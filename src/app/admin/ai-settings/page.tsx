@@ -10,7 +10,8 @@ import {
   TrendingUp, 
   DollarSign,
   CloudLightning,
-  BrainCircuit
+  BrainCircuit,
+  Zap
 } from "lucide-react";
 
 export default async function AiSettingsPage() {
