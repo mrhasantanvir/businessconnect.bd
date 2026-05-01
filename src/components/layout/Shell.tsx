@@ -269,7 +269,7 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
           </div>
           {(isSidebarExpanded || isMobileMenuOpen) && (
             <span className="ml-2.5 font-bold text-xs text-[#0F172A] uppercase tracking-tight flex-1">
-              Business<span className="text-[#1E40AF]">Connect</span>
+              Business<span className="text-[#1E40AF]">Connect</span> <span className="text-[8px] bg-indigo-100 px-1 rounded">V2.1</span>
             </span>
           )}
           {isMobileMenuOpen && (
