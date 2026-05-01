@@ -27,7 +27,8 @@ import {
   requestReuploadAction, 
   getRolesAction,
   resendInvitationAction,
-  updateStaffInfoAction 
+  updateStaffInfoAction,
+  terminateStaffAction 
 } from "./staffActions";
 import { toast } from "sonner";
 import { MerchantRoleManagement } from "@/components/merchant/MerchantRoleManagement";
@@ -65,6 +66,24 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
   useEffect(() => {
     loadRoles();
   }, [loadRoles]);
+
+  async function handleTerminate(userId: string) {
+    if (!confirm("Are you sure you want to terminate this staff member? This will disable their account immediately.")) return;
+    setLoading(true);
+    try {
+      const res = await terminateStaffAction(userId);
+      if (res.success) {
+        toast.success("Staff member terminated");
+        setActiveMenuId(null);
+        // Update local state
+        setStaff(prev => prev.map(s => s.id === userId ? { ...s, staffProfile: { ...s.staffProfile, status: "TERMINATED" } } : s));
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   async function handleAddStaff(e: React.FormEvent) {
     e.preventDefault();
@@ -166,6 +185,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
       case "ONBOARDING": return "bg-amber-50 text-amber-600 border-amber-100";
       case "PENDING_APPROVAL": return "bg-indigo-50 text-indigo-600 border-indigo-100";
       case "REJECTED": return "bg-red-50 text-red-600 border-red-100";
+      case "TERMINATED": return "bg-red-100 text-red-700 border-red-200";
       default: return "bg-gray-50 text-gray-400 border-gray-100";
     }
   };
@@ -350,7 +370,10 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                                >
                                   <Mail className="w-3.5 h-3.5" /> RESEND INVITATION
                                </button>
-                               <button className="w-full px-4 py-2 text-left text-[11px] font-bold text-rose-600 hover:bg-rose-50 flex items-center gap-2">
+                               <button 
+                                 onClick={() => handleTerminate(member.id)}
+                                 className="w-full px-4 py-2 text-left text-[11px] font-bold text-rose-600 hover:bg-rose-50 flex items-center gap-2"
+                               >
                                   <X className="w-3.5 h-3.5" /> TERMINATE
                                </button>
                             </div>

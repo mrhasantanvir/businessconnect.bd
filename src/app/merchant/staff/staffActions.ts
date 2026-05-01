@@ -273,3 +273,21 @@ export async function updateStaffInfoAction(userId: string, data: {
   revalidatePath("/merchant/staff");
   return { success: true };
 }
+
+export async function terminateStaffAction(userId: string) {
+  const session = await getSession();
+  if (!session || session.role !== "MERCHANT") throw new Error("Unauthorized");
+  
+  await prisma.user.update({
+    where: { id: userId, merchantStoreId: session.merchantStoreId },
+    data: { 
+      isActive: false,
+      staffProfile: {
+        update: { status: "TERMINATED" }
+      }
+    }
+  });
+  
+  revalidatePath("/merchant/staff");
+  return { success: true };
+}
