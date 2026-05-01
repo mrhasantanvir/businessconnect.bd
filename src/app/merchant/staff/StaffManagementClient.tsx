@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { 
   Users, 
   UserPlus, 
@@ -52,13 +52,18 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
     baseSalary: 15000
   });
 
-  useEffect(() => {
-    async function loadRoles() {
+  const loadRoles = useCallback(async () => {
+    try {
       const data = await getRolesAction();
       setRoles(data);
+    } catch (error) {
+      console.error("Failed to load roles:", error);
     }
-    loadRoles();
   }, []);
+
+  useEffect(() => {
+    loadRoles();
+  }, [loadRoles]);
 
   async function handleAddStaff(e: React.FormEvent) {
     e.preventDefault();
@@ -233,7 +238,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
       </div>
 
       {activeTab === "ROLES" ? (
-        <MerchantRoleManagement />
+        <MerchantRoleManagement roles={roles} onUpdate={loadRoles} />
       ) : (
         <div className="bg-white border border-gray-100 rounded-[4px] overflow-hidden shadow-sm">
         <div className="overflow-x-auto">

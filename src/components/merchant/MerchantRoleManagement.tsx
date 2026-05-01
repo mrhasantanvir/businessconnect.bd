@@ -30,9 +30,8 @@ const AVAILABLE_PERMISSIONS = [
   { key: "settings.manage", label: "Store Settings", group: "Admin" },
 ];
 
-export function MerchantRoleManagement() {
-  const [roles, setRoles] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+export function MerchantRoleManagement({ roles, onUpdate }: { roles: any[], onUpdate: () => void }) {
+  const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [saving, setSaving] = useState(false);
   const [editingRole, setEditingRole] = useState<any>(null);
@@ -40,21 +39,6 @@ export function MerchantRoleManagement() {
     name: "",
     permissions: [] as string[]
   });
-
-  useEffect(() => {
-    loadRoles();
-  }, []);
-
-  async function loadRoles() {
-    try {
-      const data = await getRolesAction();
-      setRoles(data);
-    } catch (error) {
-      toast.error("Failed to load roles");
-    } finally {
-      setLoading(false);
-    }
-  }
 
   function handleOpenAdd() {
     setEditingRole(null);
@@ -84,7 +68,7 @@ export function MerchantRoleManagement() {
         toast.success("Role created");
       }
       setIsModalOpen(false);
-      loadRoles();
+      onUpdate();
     } catch (error: any) {
       toast.error(error.message);
     } finally {
@@ -97,7 +81,7 @@ export function MerchantRoleManagement() {
     try {
       await deleteRoleAction(id);
       toast.success("Role deleted");
-      loadRoles();
+      onUpdate();
     } catch (error: any) {
       toast.error(error.message);
     }
