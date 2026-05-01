@@ -15,8 +15,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "File too large (max 5MB)" }, { status: 400 });
     }
 
-    // Use the central StorageService, save into 'incidents' folder as per legacy code
-    const url = await StorageService.upload(file, "incidents");
+    const folder = (formData.get("folder") as string) || "incidents";
+    const url = await StorageService.upload(file, folder);
 
     return NextResponse.json({ url });
   } catch (error) {

@@ -5,21 +5,22 @@ import { Loader2 } from "lucide-react";
 import { initiateRechargeAction } from "@/app/merchant/billing/actions";
 
 interface RechargeButtonProps {
-  type: "SMS" | "SIP" | "SUBSCRIPTION_RENEW" | "SUBSCRIPTION_UPGRADE";
+  type: "SMS" | "SIP" | "SUBSCRIPTION_RENEW" | "SUBSCRIPTION_UPGRADE" | "INVOICE_PAY";
   amount: number;
-  credits: number;
+  credits?: number;
   planId?: string;
+  invoiceId?: string;
   label?: string;
   className?: string;
 }
 
-export function RechargeButton({ type, amount, credits, planId, label = "Buy via bKash", className }: RechargeButtonProps) {
+export function RechargeButton({ type, amount, credits = 0, planId, invoiceId, label = "Buy via bKash", className }: RechargeButtonProps) {
   const [isPending, startTransition] = useTransition();
 
   const handleRecharge = () => {
     startTransition(async () => {
       try {
-        await initiateRechargeAction(type, amount, credits, planId);
+        await initiateRechargeAction(type, amount, credits, planId, invoiceId);
       } catch (error: any) {
         alert(error.message || "Failed to initiate transaction");
       }

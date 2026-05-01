@@ -30,7 +30,7 @@ export default async function DashboardPage() {
     include: {
       subscriptionPlan: true,
       _count: {
-        select: { products: true, orders: true, users: { where: { role: "STAFF" } } }
+        select: { products: true, orders: true, branches: true }
       }
     }
   });
@@ -43,13 +43,14 @@ export default async function DashboardPage() {
   }
   */
 
-  // Redirect staff to staff onboarding if incomplete or pending
+  /* 
   if (session.role === "STAFF") {
     const profile = await prisma.staffProfile.findUnique({ where: { userId: session.userId } });
     if (!profile || profile.status === "ONBOARDING" || profile.status === "PENDING_APPROVAL") {
       redirect("/merchant/staff/onboarding");
     }
   }
+  */
 
   const recentOrders = await prisma.order.findMany({
     where: { merchantStoreId: storeId },

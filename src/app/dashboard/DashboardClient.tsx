@@ -154,8 +154,8 @@ export default function MerchantDashboard({
           icon={Box}
         />
         <MetricCard 
-          title="Staff" 
-          value={store?._count.users.toString() || "0"} 
+          title="Branches" 
+          value={store?._count.branches?.toString() || "0"} 
           trend="Active" 
           isPositive={true} 
           icon={Users}

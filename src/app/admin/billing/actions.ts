@@ -47,3 +47,18 @@ export async function manualBalanceAdjustAction(
   revalidatePath("/admin/billing");
   return { success: true };
 }
+
+export async function updateStaffPriceAction(price: number) {
+  const session = await getSession();
+  if (!session || session.role !== "SUPER_ADMIN") throw new Error("Unauthorized");
+
+  await prisma.systemSettings.upsert({
+     where: { id: "GLOBAL" },
+     update: { staffSubscriptionPrice: price },
+     create: { id: "GLOBAL", staffSubscriptionPrice: price }
+  });
+
+  revalidatePath("/admin/billing");
+  return { success: true };
+}
+

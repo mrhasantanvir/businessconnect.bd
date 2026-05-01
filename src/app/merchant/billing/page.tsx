@@ -12,7 +12,7 @@ export default async function MerchantBillingPage() {
 
   const store = await prisma.merchantStore.findUnique({
     where: { id: session.merchantStoreId },
-    include: { subscriptionPlan: true }
+    include: { subscriptionPlan: true, invoices: { orderBy: { createdAt: 'desc' }, take: 10 } }
   });
 
   const plans = await prisma.subscriptionPlan.findMany({
@@ -38,7 +38,76 @@ export default async function MerchantBillingPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
         {/* Main Content - Combo Packs & Topup */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="lg:col-span-2 space-y-8">
+          {/* New Monthly Staff Invoices */}
+          <div className="bg-white rounded-3xl shadow-2xl shadow-indigo-50/50 border border-indigo-50 p-8 overflow-hidden relative">
+            <div className="absolute top-0 right-0 p-32 bg-indigo-50/30 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2" />
+            
+            <div className="flex items-center justify-between mb-8 relative z-10">
+               <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-200">
+                     <Activity className="w-5 h-5" />
+                  </div>
+                  <div>
+                     <h2 className="text-xl font-black text-slate-900 uppercase tracking-tight italic">Staff Subscription <span className="text-indigo-600">Invoices</span></h2>
+                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Pay-per-User Model: ৳300/Staff/30 Days</p>
+                  </div>
+               </div>
+            </div>
+
+            <div className="space-y-4 relative z-10">
+               {store?.invoices.length === 0 ? (
+                 <div className="py-12 text-center bg-slate-50 rounded-[32px] border-2 border-dashed border-slate-100">
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">No invoices generated yet.</p>
+                 </div>
+               ) : (
+                 <div className="overflow-x-auto">
+                    <table className="w-full text-left">
+                       <thead>
+                          <tr className="border-b border-slate-100">
+                             <th className="py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Billing Cycle</th>
+                             <th className="py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Amount</th>
+                             <th className="py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Due Date</th>
+                             <th className="py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
+                             <th className="py-4 text-right"></th>
+                          </tr>
+                       </thead>
+                       <tbody className="divide-y divide-slate-50">
+                          {store?.invoices.map((inv: any) => (
+                             <tr key={inv.id} className="group hover:bg-slate-50/50 transition-colors">
+                                <td className="py-5">
+                                   <p className="text-sm font-black text-slate-900 uppercase tracking-tight italic">{inv.billingCycle}</p>
+                                </td>
+                                <td className="py-5">
+                                   <p className="text-sm font-black text-indigo-600 italic">৳{inv.amount.toLocaleString()}</p>
+                                </td>
+                                <td className="py-5">
+                                   <p className="text-xs font-bold text-slate-500 uppercase">{new Date(inv.dueDate).toLocaleDateString()}</p>
+                                </td>
+                                <td className="py-5">
+                                   <span className={`text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest ${inv.status === 'PAID' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
+                                      {inv.status}
+                                   </span>
+                                </td>
+                                <td className="py-5 text-right">
+                                   {inv.status === 'PENDING' && (
+                                      <RechargeButton 
+                                        type="INVOICE_PAY" 
+                                        amount={inv.amount} 
+                                        invoiceId={inv.id} 
+                                        className="bg-slate-900 text-white hover:bg-black rounded-xl text-[9px] font-black uppercase tracking-widest px-4 py-2" 
+                                        label="Pay Now" 
+                                      />
+                                   )}
+                                </td>
+                             </tr>
+                          ))}
+                       </tbody>
+                    </table>
+                 </div>
+               )}
+            </div>
+          </div>
           {/* SaaS Subscription Plans */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
             <div className="flex items-center gap-2 mb-6">

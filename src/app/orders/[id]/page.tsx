@@ -39,7 +39,6 @@ import { OrderFulfillmentHub } from "@/components/merchant/orders/OrderFulfillme
 import { getCombinedTrustInsightAction } from "@/app/merchant/orders/trustActions";
 import { CallAction } from "@/components/dialer/CallAction";
 import { CallAuditTimeline } from "@/components/dialer/CallAuditTimeline";
-import { OrderChatSidebar } from "@/app/merchant/staff/chat/OrderChatSidebar";
 
 export default async function OrderDetailPage({ params }: { params: { id: string } }) {
   const session = await getSession();
@@ -364,7 +363,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
       </div>
       
-      <OrderChatSidebar orderId={orderId} orderNumber={order.id} />
+      </div>
     </div>
   );
 }

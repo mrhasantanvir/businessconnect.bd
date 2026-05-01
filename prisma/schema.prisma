@@ -17,6 +17,10 @@ model User {
   customRoleId        String?
   customRole          Role?                @relation(fields: [customRoleId], references: [id])
   isOnboarded         Boolean              @default(false)
+  isActive            Boolean              @default(true)
+  currentSessionId    String?
+  onboardingToken     String?              @unique
+  onboardingTokenExpires DateTime?
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
   merchantStoreId     String?
@@ -88,6 +92,10 @@ model MerchantStore {
   activationDate       DateTime?
   reuploadMessage      String?               @db.Text
   missingDocuments     String?               // JSON array string of missing document types
+  billingDay           Int                   @default(30)
+  gracePeriodDays      Int                   @default(5)
+  invoices             Invoice[]
+  statusLogs           UserStatusLog[]
   description          String?
   isVatEnabled         Boolean               @default(false)
   vatRate              Float                 @default(5.0)
@@ -544,6 +552,18 @@ model StaffProfile {
   reference       String?
   nidNumber       String?
   emergencyContact String?
+  
+  // New Onboarding Fields
+  dob             DateTime?
+  permanentAddress String?
+  currentAddress   String?
+  referencesData   String?           @db.Text // JSON string
+  bankDetailsData  String?           @db.Text // JSON string
+  cvUrl            String?
+  nidFrontUrl      String?
+  nidBackUrl       String?
+  rejectionReason  String?           @db.Text
+  
   submittedAt     DateTime?
   approvedAt      DateTime?
   approvedBy      String? // Admin/Merchant userId
@@ -909,6 +929,7 @@ model SystemSettings {
   googleVisionKey     String?
   fbAppSecret         String?
   aiCreditPrice       Float    @default(0.50)
+  staffSubscriptionPrice Float  @default(300)
   siteTitle           String   @default("BusinessConnect.bd")
   siteDescription     String?
   metaKeywords        String?
@@ -1238,4 +1259,38 @@ model EmailTemplate {
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Invoice {
+  id              String        @id @default(cuid())
+  merchantStoreId String
+  amount          Float
+  status          String        @default("PENDING") // PENDING, PAID, OVERDUE, CANCELLED
+  billingCycle    String        // e.g., "2026-04"
+  dueDate         DateTime
+  paidAt          DateTime?
+  invoiceUrl      String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
+  items           InvoiceItem[]
+}
+
+model InvoiceItem {
+  id        String  @id @default(cuid())
+  invoiceId String
+  userId    String? // Optional: Link to the specific staff user if needed
+  name      String  // e.g., "Staff Subscription - Tanvir"
+  amount    Float
+  days      Int     // Number of days charged
+  invoice   Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+}
+
+model UserStatusLog {
+  id              String        @id @default(cuid())
+  userId          String
+  merchantStoreId String
+  status          String        // ACTIVE, DEACTIVE
+  timestamp       DateTime      @default(now())
+  merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
 }

@@ -7,7 +7,22 @@ export async function getSession() {
   const session = (await cookies()).get("session")?.value;
   if (!session) return null;
   try {
-    return await decrypt(session);
+    const payload = await decrypt(session);
+    if (!payload || !payload.userId) return null;
+
+    // Optional: Only check single session for non-SUPER_ADMIN or for everyone?
+    // Let's check for everyone to be strict.
+    const { db: prisma } = await import("./db");
+    const user = await prisma.user.findUnique({
+      where: { id: payload.userId as string },
+      select: { currentSessionId: true, isActive: true }
+    });
+
+    if (!user || (payload.sessionId && user.currentSessionId !== payload.sessionId)) {
+      return null;
+    }
+
+    return { ...payload, isActive: user.isActive };
   } catch (error) {
     console.error("Session decryption failed:", error);
     return null;

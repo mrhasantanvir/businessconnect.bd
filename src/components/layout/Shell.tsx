@@ -55,8 +55,7 @@ import { WebChatWidget } from "../chat/WebChatWidget";
 import { useSupport } from "@/context/SupportContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { Providers } from "./Providers";
-import { StaffTracker } from "../staff/StaffTracker";
-import { GlobalChatFloatingBar } from "@/app/merchant/staff/chat/GlobalChatFloatingBar";
+import { Providers } from "./Providers";
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -87,7 +86,6 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
       group: t("core_hub"),
       items: [
         { icon: LayoutDashboard, label: t("dashboard"), href: "/dashboard", roles: ["MERCHANT", "STAFF"] },
-        { icon: Zap, label: "Staff Portal", href: "/merchant/staff/dashboard", roles: ["MERCHANT", "STAFF"] },
         { icon: Activity, label: t("intelligence"), href: "/merchant/analytics", roles: ["MERCHANT", "STAFF"] },
         { icon: Database, label: t("data_insights"), roles: ["MERCHANT"], subItems: [
            { label: t("live_reports"), href: "/merchant/reports" },
@@ -142,7 +140,6 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
           { icon: Star, label: "Customer Reviews", href: "/merchant/reviews", roles: ["MERCHANT", "STAFF"] },
           { icon: PhoneCall, label: t("cloud_dialer"), href: "#", roles: ["MERCHANT", "STAFF"] },
           { icon: Users, label: t("customer_crm"), href: "/merchant/customers", roles: ["MERCHANT", "STAFF"] },
-          { icon: MessageSquare, label: "Internal Staff Chat", href: "/merchant/staff/chat", roles: ["MERCHANT", "STAFF"] },
       ]
     },
     {
@@ -151,8 +148,7 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
         { icon: Shield, label: "Admin Pulse", href: "/admin", roles: ["SUPER_ADMIN"] },
         { icon: Store, label: "Merchant Ecosystem", href: "/admin/merchants", roles: ["SUPER_ADMIN"] },
         { icon: Cpu, label: "Global AI", href: "/admin/ai-settings", roles: ["SUPER_ADMIN"] },
-        { icon: Activity, label: "Billings", href: "/admin/billing", roles: ["SUPER_ADMIN"] },
-        { icon: Package, label: "Subscriptions", href: "/admin/subscriptions", roles: ["SUPER_ADMIN"] },
+        { icon: Activity, label: "Revenue & Billing", href: "/admin/billing", roles: ["SUPER_ADMIN"] },
         { icon: Zap, label: "System Updates", href: "/admin/system/update", roles: ["SUPER_ADMIN"] },
         { icon: Settings, label: "Global Settings", href: "/admin/settings", roles: ["SUPER_ADMIN"] },
         { icon: Layout, label: t("business_profile"), href: "/merchant/storefront", roles: ["MERCHANT"] },
@@ -165,12 +161,6 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
             { label: "Google Sheets", href: "/merchant/settings/google-sheets" },
          ]},
         { icon: CreditCard, label: "Billing & Credits", href: "/merchant/billing", roles: ["MERCHANT"] },
-        { icon: Users, label: "Team Management", roles: ["MERCHANT"], subItems: [
-           { label: "Add & Manage Team", href: "/merchant/staff" },
-           { label: "Role & Permissions", href: "/merchant/settings/roles" },
-           { label: "Chat Audit Hub", href: "/merchant/staff/chat/audit" },
-           { label: "Performance Matrix", href: "/hr" },
-        ]},
         { icon: Building2, label: "Branches", href: "/merchant/branches", roles: ["MERCHANT"] },
         { icon: Wallet, label: "Accounting", href: "/merchant/accounting", roles: ["MERCHANT"] },
       ]
@@ -202,6 +192,33 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
 
   if (isGuestRoute) {
      return <>{children}</>;
+  }
+
+  if (user?.isActive === false) {
+    return (
+      <div className="fixed inset-0 bg-white z-[9999] flex items-center justify-center p-6 text-center">
+         <div className="max-w-md space-y-6">
+            <div className="w-20 h-20 bg-rose-50 text-rose-600 rounded-[32px] flex items-center justify-center mx-auto mb-8 animate-bounce shadow-2xl shadow-rose-100">
+               <Shield className="w-10 h-10" />
+            </div>
+            <h1 className="text-3xl font-black text-slate-900 tracking-tight uppercase italic leading-none">
+               Account <span className="text-rose-600">Restricted</span>
+            </h1>
+            <p className="text-slate-500 font-bold uppercase text-[10px] tracking-widest leading-relaxed">
+               আপনার অ্যাকাউন্টটি বর্তমানে ডি-অ্যাক্টিভ অবস্থায় আছে। পুনরায় অ্যাক্টিভ করার জন্য অনুগ্রহ করে আপনার শপ ওনার বা অ্যাডমিনের সাথে যোগাযোগ করুন।
+            </p>
+            <div className="pt-8">
+               <button 
+                 onClick={() => logoutAction()}
+                 className="inline-flex items-center gap-3 px-8 py-4 bg-slate-900 text-white font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-slate-800 transition-all shadow-2xl shadow-slate-200"
+               >
+                  <LogOut className="w-4 h-4" />
+                  Sign Out Securely
+               </button>
+            </div>
+         </div>
+      </div>
+    );
   }
 
   return (
@@ -378,27 +395,31 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
         
         {/* Activation Status Banner */}
         {user?.role === "MERCHANT" && user?.activationStatus !== "ACTIVE" && (
-          <div className="bg-[#FFFBEB] border-b border-amber-100 px-8 py-3 flex items-center justify-between animate-in slide-in-from-top duration-500">
+          <div className={cn("px-8 py-3 flex items-center justify-between animate-in slide-in-from-top duration-500 border-b", user?.activationStatus === "BILLING_RESTRICTED" ? "bg-rose-50 border-rose-100" : "bg-[#FFFBEB] border-amber-100")}>
              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center">
-                   <AlertTriangle className="w-4 h-4 text-amber-600" />
+                <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center", user?.activationStatus === "BILLING_RESTRICTED" ? "bg-rose-100" : "bg-amber-100")}>
+                   <AlertTriangle className={cn("w-4 h-4", user?.activationStatus === "BILLING_RESTRICTED" ? "text-rose-600" : "text-amber-600")} />
                 </div>
                 <div>
-                   <h4 className="text-[10px] font-black text-amber-900 uppercase tracking-widest">
-                      {user?.activationStatus === "PENDING" ? "Account Pending Activation" : "Activation Rejected"}
+                   <h4 className={cn("text-[10px] font-black uppercase tracking-widest", user?.activationStatus === "BILLING_RESTRICTED" ? "text-rose-900" : "text-amber-900")}>
+                      {user?.activationStatus === "PENDING" ? "Account Pending Activation" : 
+                       user?.activationStatus === "BILLING_RESTRICTED" ? "Billing Overdue - Restricted Access" : "Activation Rejected"}
                    </h4>
-                   <p className="text-[10px] text-amber-700 font-medium uppercase mt-0.5">
+                   <p className={cn("text-[10px] font-medium uppercase mt-0.5", user?.activationStatus === "BILLING_RESTRICTED" ? "text-rose-700" : "text-amber-700")}>
                       {user?.activationStatus === "PENDING" 
                          ? "Our admin team is reviewing your documents. You can add products but cannot take orders yet."
+                         : user?.activationStatus === "BILLING_RESTRICTED" 
+                         ? "You have overdue invoices. Please pay to restore full access to your store."
                          : "Please re-upload valid documents in the onboarding section."}
                    </p>
                 </div>
              </div>
              <Link 
-               href="/merchant/onboarding" 
-               className="bg-amber-600 text-white text-[9px] font-black uppercase tracking-widest px-4 py-2 rounded-lg hover:bg-amber-700 transition-all shadow-sm"
+               href={user?.activationStatus === "BILLING_RESTRICTED" ? "/merchant/billing" : "/merchant/onboarding"} 
+               className={cn("text-white text-[9px] font-black uppercase tracking-widest px-4 py-2 rounded-lg transition-all shadow-sm", user?.activationStatus === "BILLING_RESTRICTED" ? "bg-rose-600 hover:bg-rose-700" : "bg-amber-600 hover:bg-amber-700")}
              >
-                {user?.activationStatus === "PENDING" ? "View Submission" : "Re-Onboard Now"}
+                {user?.activationStatus === "PENDING" ? "View Submission" : 
+                 user?.activationStatus === "BILLING_RESTRICTED" ? "Pay Now" : "Re-Onboard Now"}
              </Link>
           </div>
         )}
@@ -504,15 +525,6 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
         {/* SIP Cloud Dialer */}
         {user?.id && (
           <SipDialer userId={user?.id} merchantStoreId={user?.merchantStoreId} />
-        )}
-
-        {/* Elite Staff Activity Tracker */}
-        {user?.id && (
-          <StaffTracker userId={user?.id} merchantStoreId={user?.merchantStoreId!} />
-        )}
-        {/* Global Staff Chat Listener & Bar */}
-        {user && (user.role === "MERCHANT" || user.role === "STAFF") && (
-          <GlobalChatFloatingBar userId={user.id} merchantStoreId={user.merchantStoreId} userName={user.name} />
         )}
       </main>
     </div>

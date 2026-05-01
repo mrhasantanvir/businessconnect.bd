@@ -3,6 +3,7 @@
 import { db as prisma } from "@/lib/db";
 import { encrypt } from "@/lib/auth";
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -35,6 +36,19 @@ export async function loginAction(formData: FormData) {
       return { error: "Invalid credentials" };
     }
 
+    if (!user.isActive) {
+      return { error: "Your account is deactivated. Please contact your administrator." };
+    }
+
+    // Generate a unique session ID for single device login
+    const sessionId = crypto.randomUUID();
+    
+    // Update user's current session in DB
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { currentSessionId: sessionId }
+    });
+
     // Create the session
     const expires = new Date(Date.now() + 2 * 60 * 60 * 1000); // 2 hours from now
     const session = await encrypt({
@@ -47,6 +61,7 @@ export async function loginAction(formData: FormData) {
       customRoleId: user.customRoleId,
       permissions: user.customRole?.permissions || [],
       merchantStoreId: user.merchantStoreId,
+      sessionId,
       expires,
     });
 

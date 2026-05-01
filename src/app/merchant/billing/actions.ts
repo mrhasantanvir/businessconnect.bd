@@ -5,10 +5,11 @@ import { getSession } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 
 export async function initiateRechargeAction(
-  type: "SMS" | "SIP" | "SUBSCRIPTION_RENEW" | "SUBSCRIPTION_UPGRADE",
+  type: "SMS" | "SIP" | "SUBSCRIPTION_RENEW" | "SUBSCRIPTION_UPGRADE" | "INVOICE_PAY",
   amount: number,
   credits: number,
-  planId?: string
+  planId?: string,
+  invoiceId?: string
 ) {
   const session = await getSession();
   if (!session || !session.merchantStoreId) throw new Error("Unauthorized");
@@ -72,6 +73,16 @@ export async function initiateRechargeAction(
           subscriptionExpiry: nextExpiry,
           subscriptionStatus: "ACTIVE",
           plan: plan.name // Sync legacy field
+        }
+      });
+    } else if (type === "INVOICE_PAY") {
+      if (!invoiceId) throw new Error("Invoice ID missing");
+      
+      await tx.invoice.update({
+        where: { id: invoiceId, merchantStoreId: storeId },
+        data: {
+          status: "PAID",
+          paidAt: new Date()
         }
       });
     }

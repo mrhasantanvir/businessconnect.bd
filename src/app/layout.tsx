@@ -28,9 +28,13 @@ export default async function RootLayout({
   if (session?.role === "MERCHANT" && session?.merchantStoreId) {
      const store = await prisma.merchantStore.findUnique({
         where: { id: session.merchantStoreId },
-        select: { activationStatus: true }
+        select: { activationStatus: true, invoices: { where: { status: 'PENDING', dueDate: { lt: new Date() } } } }
      });
      activationStatus = store?.activationStatus || "PENDING";
+     
+     if (store?.invoices && store.invoices.length > 0) {
+        activationStatus = "BILLING_RESTRICTED";
+     }
   }
 
   return (
