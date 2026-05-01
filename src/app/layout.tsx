@@ -25,6 +25,8 @@ export default async function RootLayout({
   const session = await getSession();
   let activationStatus = "ACTIVE"; // Default for staff/admin
   
+  let adminNotifications = 0;
+
   if (session?.role === "MERCHANT" && session?.merchantStoreId) {
      const store = await prisma.merchantStore.findUnique({
         where: { id: session.merchantStoreId },
@@ -35,13 +37,17 @@ export default async function RootLayout({
      if (store?.invoices && store.invoices.length > 0) {
         activationStatus = "BILLING_RESTRICTED";
      }
+  } else if (session?.role === "SUPER_ADMIN") {
+     const pendingOnboarding = await prisma.merchantStore.count({ where: { activationStatus: "PENDING" } });
+     const pendingDocs = await prisma.merchantStore.count({ where: { activationStatus: "DOCUMENTS_REJECTED" } });
+     adminNotifications = pendingOnboarding + pendingDocs;
   }
 
   return (
     <html lang="en" className={`${jakarta.variable} h-full`} suppressHydrationWarning>
       <body className="h-full antialiased font-sans">
         <Providers>
-          <Shell user={{ ...session, activationStatus }}>
+          <Shell user={{ ...session, activationStatus, adminNotifications }}>
             {children}
           </Shell>
           <Toaster position="top-right" richColors />

@@ -34,6 +34,14 @@ export default async function SuperAdminDashboard() {
   const creditsRevenue = (rawRevenue.find(r => r.type === "SMS_CREDIT")?._sum.amount || 0) + 
                          (rawRevenue.find(r => r.type === "SIP_CREDIT")?._sum.amount || 0);
 
+  const pendingOnboardingCount = await prisma.merchantStore.count({
+    where: { activationStatus: "PENDING" }
+  });
+
+  const pendingDocsCount = await prisma.merchantStore.count({
+    where: { activationStatus: "DOCUMENTS_REJECTED" }
+  });
+
   const recentUsers = await prisma.user.findMany({
     orderBy: { createdAt: "desc" },
     take: 8,
@@ -57,6 +65,44 @@ export default async function SuperAdminDashboard() {
            </div>
         </div>
       </div>
+
+      {(pendingOnboardingCount > 0 || pendingDocsCount > 0) && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in slide-in-from-top duration-700">
+          {pendingOnboardingCount > 0 && (
+            <div className="bg-[#1E40AF] text-white p-6 rounded-[32px] shadow-xl flex items-center justify-between border-4 border-white group hover:scale-[1.02] transition-all">
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center">
+                   <Store className="w-8 h-8" />
+                </div>
+                <div>
+                   <div className="text-2xl font-black">{pendingOnboardingCount} New Requests</div>
+                   <div className="text-[10px] font-bold uppercase tracking-widest opacity-80">Pending Merchant Activations</div>
+                </div>
+              </div>
+              <a href="/admin/merchants" className="bg-white text-[#1E40AF] px-6 py-2.5 rounded-full text-xs font-black hover:bg-[#BEF264] hover:text-black transition-all">
+                Review Now
+              </a>
+            </div>
+          )}
+
+          {pendingDocsCount > 0 && (
+            <div className="bg-[#DC2626] text-white p-6 rounded-[32px] shadow-xl flex items-center justify-between border-4 border-white group hover:scale-[1.02] transition-all">
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center">
+                   <ShieldAlert className="w-8 h-8" />
+                </div>
+                <div>
+                   <div className="text-2xl font-black">{pendingDocsCount} Doc Re-uploads</div>
+                   <div className="text-[10px] font-bold uppercase tracking-widest opacity-80">Verify corrected documents</div>
+                </div>
+              </div>
+              <a href="/admin/merchants" className="bg-white text-[#DC2626] px-6 py-2.5 rounded-full text-xs font-black hover:bg-black hover:text-white transition-all">
+                Verify Now
+              </a>
+            </div>
+          )}
+        </div>
+      )}
       
       {/* Platform Stats */}
       <section className="grid grid-cols-1 md:grid-cols-4 gap-6">

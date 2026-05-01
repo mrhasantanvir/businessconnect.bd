@@ -340,10 +340,22 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
                                 : "text-gray-500 hover:bg-gray-50"
                             )}
                           >
-                            <item.icon className="w-4 h-4 flex-shrink-0" />
-                            {(isSidebarExpanded || isMobileMenuOpen) && (
-                              <span className={cn("flex-1 text-[13px] font-medium", language === 'bn' && "text-sm")}>{item.label}</span>
-                            )}
+                             <item.icon className="w-4 h-4 flex-shrink-0" />
+                             {(isSidebarExpanded || isMobileMenuOpen) && (
+                               <div className="flex-1 flex items-center justify-between">
+                                 <span className={cn("text-[13px] font-medium", language === 'bn' && "text-sm")}>{item.label}</span>
+                                 {item.label === "Merchant Ecosystem" && user?.adminNotifications > 0 && (
+                                   <span className="bg-[#DC2626] text-white text-[10px] font-black px-1.5 py-0.5 rounded-full">
+                                     {user.adminNotifications}
+                                   </span>
+                                 )}
+                               </div>
+                             )}
+                             {!isSidebarExpanded && item.label === "Merchant Ecosystem" && user?.adminNotifications > 0 && (
+                               <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#DC2626] text-white text-[9px] font-black flex items-center justify-center rounded-full border border-white">
+                                 {user.adminNotifications}
+                               </span>
+                             )}
                           </Link>
                         )}
 
@@ -495,7 +507,14 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
 
             <button className="p-1.5 text-gray-500 hover:bg-gray-50 rounded-[4px] transition-colors relative">
               <Bell className="w-4 h-4" />
-              <span className="absolute top-1 right-1 w-1.5 h-1.5 bg-red-500 rounded-full border border-white"></span>
+              {user?.adminNotifications > 0 && (
+                <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] bg-red-500 text-white text-[10px] font-black flex items-center justify-center rounded-full border-2 border-white px-1">
+                  {user.adminNotifications}
+                </span>
+              )}
+              {user?.adminNotifications === 0 && (
+                <span className="absolute top-1 right-1 w-1.5 h-1.5 bg-red-500 rounded-full border border-white"></span>
+              )}
             </button>
             
             <div className="flex items-center gap-2 ml-1">
