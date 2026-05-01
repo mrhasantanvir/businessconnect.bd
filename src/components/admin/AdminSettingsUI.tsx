@@ -5,7 +5,8 @@ import {
   Settings, MessageSquare, Mail, Bell, 
   Smartphone, Save, ShieldCheck, Database, 
   CheckCircle2, AlertCircle, Loader2, Globe,
-  MessageCircle, DollarSign, Search, Cloud
+  MessageCircle, DollarSign, Search, Cloud,
+  Key, Shield
 } from "lucide-react";
 import { getSystemSettingsAction, updateSystemSettingsAction, getEmailTemplatesAction, updateEmailTemplateAction } from "@/app/admin/settings/actions";
 import { RichEditor } from "@/components/ui/RichEditor";
