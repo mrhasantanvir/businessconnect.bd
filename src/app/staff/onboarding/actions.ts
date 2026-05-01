@@ -23,6 +23,7 @@ export async function submitStaffOnboardingAction(data: {
   nidFrontUrl: string;
   nidBackUrl: string;
   cvUrl: string;
+  photoUrl?: string;
   references: { name: string; contact: string }[];
   bankDetails: {
     bankName: string;
@@ -43,6 +44,14 @@ export async function submitStaffOnboardingAction(data: {
   });
 
   if (!profile) throw new Error("Profile not found");
+
+  // Save profile photo to User.image so it's used everywhere
+  if (data.photoUrl) {
+    await prisma.user.update({
+      where: { id: session.userId },
+      data: { image: data.photoUrl }
+    });
+  }
 
   await prisma.staffProfile.update({
     where: { id: profile.id },

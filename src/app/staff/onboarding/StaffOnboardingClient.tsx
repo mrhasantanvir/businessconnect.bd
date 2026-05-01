@@ -36,7 +36,8 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
   const [files, setFiles] = useState<{ [key: string]: File | null }>({
     nidFront: null,
     nidBack: null,
-    cv: null
+    cv: null,
+    photo: null
   });
 
   const [formData, setFormData] = useState({
@@ -49,6 +50,7 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
     nidFrontUrl: profile.nidFrontUrl || "",
     nidBackUrl: profile.nidBackUrl || "",
     cvUrl: profile.cvUrl || "",
+    photoUrl: profile.user?.image || "",
     references: profile.referencesData ? JSON.parse(profile.referencesData) : [
       { name: "", contact: "" },
       { name: "", contact: "" }
@@ -79,6 +81,19 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
       toast.success(`${side === 'front' ? 'Front' : 'Back'} side uploaded!`);
     } catch (error) {
       toast.error("Failed to upload NID image");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePhotoUpload = async (file: File) => {
+    setLoading(true);
+    try {
+      const url = await handleFileUpload(file, "profile_photo");
+      setFormData(prev => ({ ...prev, photoUrl: url }));
+      toast.success("Profile photo uploaded!");
+    } catch (error) {
+      toast.error("Failed to upload photo");
     } finally {
       setLoading(false);
     }
@@ -241,17 +256,39 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
                      <input type="file" className="hidden" accept="image/*" onChange={(e) => e.target.files?.[0] && handleNIDUpload(e.target.files[0], 'back')} />
                   </label>
                </div>
-            </div>
+             </div>
 
-            <button 
-              onClick={startExtraction}
-              disabled={!formData.nidFrontUrl || !formData.nidBackUrl || loading}
-              className="w-full bg-indigo-600 text-white py-3.5 rounded-[4px] font-bold text-xs uppercase tracking-widest shadow-sm hover:bg-indigo-700 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
-            >
-              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <>Next: Extract Details <ArrowRight className="w-4 h-4" /></>}
-            </button>
-          </div>
-        )}
+             {/* Profile Photo Upload */}
+             <div className="space-y-2">
+               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Profile Photo <span className="text-indigo-400">(used as your avatar)</span></p>
+               <label className="flex items-center gap-4 cursor-pointer group">
+                 <div className="w-20 h-20 rounded-full border-2 border-dashed border-gray-200 group-hover:border-indigo-400 transition-all flex items-center justify-center overflow-hidden bg-gray-50 shrink-0">
+                   {formData.photoUrl ? (
+                     <img src={formData.photoUrl} className="w-full h-full object-cover" alt="Profile" />
+                   ) : (
+                     <div className="flex flex-col items-center gap-1">
+                       <Upload className="w-5 h-5 text-gray-300 group-hover:text-indigo-500 transition-colors" />
+                       <span className="text-[8px] text-gray-300 font-bold uppercase">Photo</span>
+                     </div>
+                   )}
+                 </div>
+                 <div>
+                   <p className="text-xs font-bold text-slate-700">{formData.photoUrl ? "✅ Photo uploaded — click to change" : "Click to upload your photo"}</p>
+                   <p className="text-[10px] text-gray-400 mt-0.5">JPG or PNG, clear face visible</p>
+                 </div>
+                 <input type="file" className="hidden" accept="image/jpeg,image/png,image/webp" onChange={(e) => e.target.files?.[0] && handlePhotoUpload(e.target.files[0])} />
+               </label>
+             </div>
+
+             <button 
+               onClick={startExtraction}
+               disabled={!formData.nidFrontUrl || !formData.nidBackUrl || loading}
+               className="w-full bg-indigo-600 text-white py-3.5 rounded-[4px] font-bold text-xs uppercase tracking-widest shadow-sm hover:bg-indigo-700 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+             >
+               {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <>Next: Extract Details <ArrowRight className="w-4 h-4" /></>}
+             </button>
+           </div>
+         )}
 
         {step === 2 && (
           <div className="space-y-6 animate-in fade-in slide-in-from-right-2 duration-300">
