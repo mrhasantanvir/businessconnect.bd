@@ -202,7 +202,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
     }
   }
 
-  }
+
 
   async function handleOpenDevices(member: any) {
     setSelectedStaff(member);
