@@ -308,6 +308,38 @@ export async function getEmailTemplatesAction() {
   }
 }
 
+import { extractNIDInfo } from "@/lib/vision";
+
+export async function testOpenAIConnectionAction(imageUrl?: string) {
+  try {
+    const session = await getSession();
+    if (!session || session.role !== "SUPER_ADMIN") throw new Error("Unauthorized");
+
+    const settings = await prisma.systemSettings.findUnique({ where: { id: "GLOBAL" } });
+    if (!settings?.openaiApiKey) {
+      return { success: false, error: "OpenAI API Key is not configured." };
+    }
+
+    // If no image provided, just do a simple chat completion test
+    if (!imageUrl) {
+      const { OpenAI } = require("openai");
+      const openai = new OpenAI({ apiKey: settings.openaiApiKey });
+      const response = await openai.chat.completions.create({
+        model: settings.openaiModel || "gpt-4o",
+        messages: [{ role: "user", content: "Hello, are you working? Respond with 'Yes, I am working!'" }],
+      });
+      return { success: true, message: response.choices[0].message.content };
+    }
+
+    // If image provided, test NID extraction
+    const result = await extractNIDInfo(imageUrl);
+    return { success: true, data: result };
+  } catch (error: any) {
+    console.error("OpenAI Test Error:", error);
+    return { success: false, error: error.message || "Failed to connect to OpenAI." };
+  }
+}
+
 export async function updateEmailTemplateAction(id: string, data: any) {
   try {
     const session = await getSession();
