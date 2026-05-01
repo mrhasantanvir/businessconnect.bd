@@ -60,8 +60,8 @@ export async function createStaffAction(data: {
     }
   });
 
-  // Send Invitation Email
-  await sendEmail({
+  // Send Invitation Email (Don't await to speed up response)
+  sendEmail({
     to: data.email,
     subject: `Invitation to join ${merchantStore.name} on BusinessConnect.bd`,
     html: `
@@ -79,10 +79,11 @@ export async function createStaffAction(data: {
         <p style="margin-top: 30px; font-size: 12px; color: #94A3B8;">This is an automated invitation from BusinessConnect.bd</p>
       </div>
     `
-  });
+  }).catch(err => console.error("Failed to send invitation email:", err));
 
   revalidatePath("/merchant/staff");
-  return { success: true };
+  return { success: true, staff: user };
+}
 }
 
 export async function getStaffListAction() {

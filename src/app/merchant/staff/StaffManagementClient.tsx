@@ -112,7 +112,9 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
         toast.success("Invitation sent to staff!");
         setIsAddModalOpen(false);
         setNewStaff({ name: "", email: "", jobRole: "Sales Executive", roleId: "", wageType: "MONTHLY", baseSalary: 15000 });
-        window.location.reload();
+        if (res.staff) {
+          setStaff(prev => [res.staff, ...prev]);
+        }
       }
     } catch (error: any) {
       toast.error(error.message);
