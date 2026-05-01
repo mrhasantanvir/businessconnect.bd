@@ -1,4 +1,3 @@
-import { OpenAI } from "openai";
 import { db as prisma } from "@/lib/db";
 import vision from "@google-cloud/vision";
 import fs from "fs/promises";
