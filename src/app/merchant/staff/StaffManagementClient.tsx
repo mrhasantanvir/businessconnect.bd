@@ -18,7 +18,8 @@ import {
   FileText,
   CreditCard,
   Building2,
-  Phone
+  Phone,
+  Edit3
 } from "lucide-react";
 import { 
   createStaffAction, 
