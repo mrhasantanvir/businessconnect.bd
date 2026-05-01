@@ -954,37 +954,34 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                               toast.success("NID data extracted! Saving to profile...");
                               // Auto-save extracted data to staff profile
                               await updateStaffInfoAction(selectedStaff.id, {
-                                name: result.data.name || selectedStaff.name,
+                                name: result.data.nameEn || result.data.name || selectedStaff.name,
                                 jobRole: selectedStaff.staffProfile.jobRole,
                                 roleId: selectedStaff.customRoleId || "",
                                 baseSalary: selectedStaff.staffProfile.baseSalary,
                                 wageType: selectedStaff.staffProfile.wageType,
                               });
-                              // Update local state
+                              // Update local state with all extracted fields
+                              const updater = (profile: any) => ({
+                                ...profile,
+                                nidNumber: result.data.nidNumber || profile?.nidNumber,
+                                nameEn: result.data.nameEn || profile?.nameEn,
+                                nameBn: result.data.nameBn || profile?.nameBn,
+                                fatherName: result.data.fatherName || profile?.fatherName,
+                                motherName: result.data.motherName || profile?.motherName,
+                                permanentAddress: result.data.permanentAddress || profile?.permanentAddress,
+                                dob: result.data.dob ? new Date(result.data.dob) : profile?.dob,
+                              });
                               setStaff(prev => prev.map(s => s.id === selectedStaff.id ? {
                                 ...s,
-                                name: result.data.name || s.name,
-                                staffProfile: {
-                                  ...s.staffProfile,
-                                  nidNumber: result.data.nidNumber || s.staffProfile?.nidNumber,
-                                  fatherName: result.data.fatherName || s.staffProfile?.fatherName,
-                                  motherName: result.data.motherName || s.staffProfile?.motherName,
-                                  permanentAddress: result.data.permanentAddress || s.staffProfile?.permanentAddress,
-                                  dob: result.data.dob ? new Date(result.data.dob) : s.staffProfile?.dob,
-                                }
+                                name: result.data.nameEn || result.data.name || s.name,
+                                staffProfile: updater(s.staffProfile)
                               } : s));
                               setSelectedStaff((prev: any) => ({
                                 ...prev,
-                                name: result.data.name || prev.name,
-                                staffProfile: {
-                                  ...prev.staffProfile,
-                                  nidNumber: result.data.nidNumber || prev.staffProfile?.nidNumber,
-                                  fatherName: result.data.fatherName || prev.staffProfile?.fatherName,
-                                  motherName: result.data.motherName || prev.staffProfile?.motherName,
-                                  permanentAddress: result.data.permanentAddress || prev.staffProfile?.permanentAddress,
-                                }
+                                name: result.data.nameEn || result.data.name || prev.name,
+                                staffProfile: updater(prev.staffProfile)
                               }));
-                              toast.success(`Profile updated: ${result.data.name || 'Name'} — NID: ${result.data.nidNumber || 'N/A'}`);
+                              toast.success(`✅ Saved: ${result.data.nameEn || 'Name'} — NID: ${result.data.nidNumber || 'N/A'}`);
                             } else {
                               toast.error(result.error || "Extraction failed");
                             }
@@ -999,6 +996,24 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                       >
                         {extracting ? <><Loader2 className="w-3.5 h-3.5 animate-spin" /> Extracting...</> : <><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg> Extract Info</>}
                       </button>
+                    </div>
+                  )}
+
+                  {/* Extracted Data Preview */}
+                  {extractedData && (
+                    <div className="bg-emerald-50 border border-emerald-200 rounded-[4px] p-4 space-y-3">
+                      <p className="text-[10px] font-black text-emerald-700 uppercase tracking-widest flex items-center gap-1.5">
+                        <CheckCircle2 className="w-3.5 h-3.5" /> Extracted Data (Auto-Saved)
+                      </p>
+                      <div className="grid grid-cols-2 gap-2">
+                        {extractedData.nameEn && <div className="bg-white rounded p-2 border border-emerald-100"><p className="text-[9px] text-gray-400 uppercase font-bold">English Name</p><p className="text-[11px] font-bold text-gray-900">{extractedData.nameEn}</p></div>}
+                        {extractedData.nameBn && <div className="bg-white rounded p-2 border border-emerald-100"><p className="text-[9px] text-gray-400 uppercase font-bold">বাংলা নাম</p><p className="text-[13px] font-bold text-gray-900">{extractedData.nameBn}</p></div>}
+                        {extractedData.nidNumber && <div className="bg-white rounded p-2 border border-emerald-100"><p className="text-[9px] text-gray-400 uppercase font-bold">NID Number</p><p className="text-[11px] font-bold text-gray-900">{extractedData.nidNumber}</p></div>}
+                        {extractedData.dob && <div className="bg-white rounded p-2 border border-emerald-100"><p className="text-[9px] text-gray-400 uppercase font-bold">Date of Birth</p><p className="text-[11px] font-bold text-gray-900">{extractedData.dob}</p></div>}
+                        {extractedData.fatherName && <div className="bg-white rounded p-2 border border-emerald-100"><p className="text-[9px] text-gray-400 uppercase font-bold">Father</p><p className="text-[11px] font-bold text-gray-900">{extractedData.fatherName}</p></div>}
+                        {extractedData.motherName && <div className="bg-white rounded p-2 border border-emerald-100"><p className="text-[9px] text-gray-400 uppercase font-bold">Mother</p><p className="text-[11px] font-bold text-gray-900">{extractedData.motherName}</p></div>}
+                        {extractedData.permanentAddress && <div className="bg-white rounded p-2 border border-emerald-100 col-span-2"><p className="text-[9px] text-gray-400 uppercase font-bold">Permanent Address</p><p className="text-[11px] font-bold text-gray-900">{extractedData.permanentAddress}</p></div>}
+                      </div>
                     </div>
                   )}
                </div>

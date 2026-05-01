@@ -543,7 +543,9 @@ export async function extractNIDDataAction(imageUrl: string) {
     return {
       success: true,
       data: {
-        name: result.name || "",
+        nameEn: result.nameEn || result.name || "",
+        nameBn: result.nameBn || "",
+        name: result.nameEn || result.name || "",
         nidNumber: result.nidNumber || "",
         dob: result.dob || "",
         fatherName: result.fatherName || "",

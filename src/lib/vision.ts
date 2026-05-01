@@ -73,7 +73,20 @@ async function extractWithOpenAI(imageUrl: string, apiKey: string, model: string
             content: [
               { 
                 type: "text", 
-                text: "Extract the following information from this NID (National ID) card image. Respond ONLY with a JSON object containing these keys: name (English full name), nidNumber (the long identification number), dob (Date of birth in YYYY-MM-DD format), fatherName (English), motherName (English), and permanentAddress (Full address in English). If any field is not clear, leave it as an empty string. The NID might be in Bengali, please translate the values to English." 
+                text: `You are an expert at reading Bangladeshi National ID (NID) cards. Extract ALL text from this NID card image and return a JSON object with these exact keys:
+- nameEn: Full name in ENGLISH (as printed in English on the card)
+- nameBn: Full name in BENGALI (বাংলা নাম, as printed in Bengali script)
+- nidNumber: The NID number (10, 13, or 17 digit number at the bottom or labeled as "ID No")
+- dob: Date of birth in YYYY-MM-DD format (look for "Date of Birth" or "জন্ম তারিখ")
+- fatherName: Father's name in English (look for "Father" or "পিতা")
+- motherName: Mother's name in English (look for "Mother" or "মাতা")
+- permanentAddress: Complete permanent address in English (look for "Address" or "স্থায়ী ঠিকানা" - include village/road, post office, district, all parts)
+
+Rules:
+- Translate Bengali text to English for fatherName, motherName, permanentAddress
+- Keep nameBn in Bengali script (do not translate)
+- If a field is unclear or not visible, return an empty string ""
+- Return ONLY valid JSON, no extra text` 
               },
               {
                 type: "image_url",
