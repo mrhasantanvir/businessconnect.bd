@@ -109,99 +109,99 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
     <div className="space-y-6">
       {/* Stats & Actions */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white border border-gray-100 rounded-[32px] p-6 shadow-sm">
-           <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center">
-                 <Users className="w-6 h-6" />
+        <div className="bg-white border border-gray-100 rounded-[4px] p-4 shadow-sm">
+           <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-[4px] flex items-center justify-center">
+                 <Users className="w-5 h-5" />
               </div>
               <div>
-                 <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Total Staff</p>
-                 <p className="text-2xl font-black text-[#0F172A]">{staff.length}</p>
+                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Total Staff</p>
+                 <p className="text-xl font-bold text-[#0F172A]">{staff.length}</p>
               </div>
            </div>
         </div>
-        <div className="bg-white border border-gray-100 rounded-[32px] p-6 shadow-sm">
-           <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-green-50 text-green-600 rounded-2xl flex items-center justify-center">
-                 <ShieldCheck className="w-6 h-6" />
+        <div className="bg-white border border-gray-100 rounded-[4px] p-4 shadow-sm">
+           <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-green-50 text-green-600 rounded-[4px] flex items-center justify-center">
+                 <ShieldCheck className="w-5 h-5" />
               </div>
               <div>
-                 <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Active</p>
-                 <p className="text-2xl font-black text-[#0F172A]">{staff.filter(s => s.staffProfile?.status === "ACTIVE").length}</p>
+                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Active</p>
+                 <p className="text-xl font-bold text-[#0F172A]">{staff.filter(s => s.staffProfile?.status === "ACTIVE").length}</p>
               </div>
            </div>
         </div>
-        <div className="bg-white border border-gray-100 rounded-[32px] p-6 shadow-sm">
-           <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center">
-                 <Clock className="w-6 h-6" />
+        <div className="bg-white border border-gray-100 rounded-[4px] p-4 shadow-sm">
+           <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-amber-50 text-amber-600 rounded-[4px] flex items-center justify-center">
+                 <Clock className="w-5 h-5" />
               </div>
               <div>
-                 <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Onboarding</p>
-                 <p className="text-2xl font-black text-[#0F172A]">{staff.filter(s => s.staffProfile?.status === "ONBOARDING").length}</p>
+                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Onboarding</p>
+                 <p className="text-xl font-bold text-[#0F172A]">{staff.filter(s => s.staffProfile?.status === "ONBOARDING").length}</p>
               </div>
            </div>
         </div>
         <button 
           onClick={() => setIsAddModalOpen(true)}
-          className="bg-[#1E40AF] text-white rounded-[32px] p-6 shadow-lg shadow-blue-500/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3"
+          className="bg-[#1E40AF] text-white rounded-[4px] p-4 shadow-sm hover:bg-[#1E3A8A] transition-all flex items-center justify-center gap-2"
         >
-          <UserPlus className="w-6 h-6" />
-          <span className="font-black text-xs uppercase tracking-widest">Invite New Staff</span>
+          <UserPlus className="w-5 h-5" />
+          <span className="font-bold text-xs uppercase tracking-widest">Invite Staff</span>
         </button>
       </div>
 
       {/* Staff Table */}
-      <div className="bg-white border border-gray-100 rounded-[40px] overflow-hidden shadow-sm">
+      <div className="bg-white border border-gray-100 rounded-[4px] overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
-          <table className="w-full text-left">
-            <thead className="bg-gray-50/50">
+          <table className="w-full text-left text-sm">
+            <thead className="bg-gray-50 border-b border-gray-100">
               <tr>
-                <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-widest">Staff Name</th>
-                <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-widest">Role</th>
-                <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-widest">Status</th>
-                <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-widest">Salary</th>
-                <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-widest text-right">Actions</th>
+                <th className="px-6 py-3 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Staff Name</th>
+                <th className="px-6 py-3 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Role</th>
+                <th className="px-6 py-3 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Status</th>
+                <th className="px-6 py-3 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Salary</th>
+                <th className="px-6 py-3 text-[10px] font-bold text-gray-500 uppercase tracking-widest text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
               {staff.map((member) => (
-                <tr key={member.id} className="hover:bg-gray-50/30 transition-colors group">
-                  <td className="px-8 py-5">
+                <tr key={member.id} className="hover:bg-gray-50/50 transition-colors group">
+                  <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 font-black text-xs">
+                      <div className="w-8 h-8 bg-indigo-50 rounded-[4px] flex items-center justify-center text-indigo-600 font-bold text-[10px]">
                         {member.name.substring(0, 2).toUpperCase()}
                       </div>
                       <div>
-                        <p className="text-sm font-black text-[#0F172A]">{member.name}</p>
-                        <p className="text-[10px] font-bold text-gray-400">{member.email}</p>
+                        <p className="text-[13px] font-bold text-[#0F172A]">{member.name}</p>
+                        <p className="text-[11px] font-medium text-gray-400">{member.email}</p>
                       </div>
                     </div>
                   </td>
-                  <td className="px-8 py-5">
-                    <p className="text-xs font-black text-[#0F172A]">{member.staffProfile?.jobRole}</p>
+                  <td className="px-6 py-4">
+                    <p className="text-[13px] font-medium text-[#0F172A]">{member.staffProfile?.jobRole}</p>
                   </td>
-                  <td className="px-8 py-5">
-                    <span className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border ${getStatusStyle(member.staffProfile?.status)}`}>
+                  <td className="px-6 py-4">
+                    <span className={`px-3 py-1 rounded-[4px] text-[10px] font-bold uppercase tracking-wider border ${getStatusStyle(member.staffProfile?.status)}`}>
                       {member.staffProfile?.status.replace('_', ' ')}
                     </span>
                   </td>
-                  <td className="px-8 py-5">
-                    <p className="text-xs font-black text-[#0F172A]">৳{member.staffProfile?.baseSalary.toLocaleString()}</p>
-                    <p className="text-[9px] font-bold text-gray-400 uppercase tracking-tight">{member.staffProfile?.wageType}</p>
+                  <td className="px-6 py-4">
+                    <p className="text-[13px] font-bold text-[#0F172A]">৳{member.staffProfile?.baseSalary.toLocaleString()}</p>
+                    <p className="text-[10px] font-medium text-gray-400 uppercase">{member.staffProfile?.wageType}</p>
                   </td>
-                  <td className="px-8 py-5 text-right">
+                  <td className="px-6 py-4 text-right">
                     {member.staffProfile?.status === "ONBOARDING" && member.staffProfile?.nidFrontUrl ? (
                       <button 
                         onClick={() => { setSelectedStaff(member); setIsReviewModalOpen(true); }}
-                        className="p-2 hover:bg-indigo-50 text-indigo-600 rounded-xl transition-all inline-flex items-center gap-2"
+                        className="p-1.5 hover:bg-indigo-50 text-indigo-600 rounded-[4px] transition-all inline-flex items-center gap-2"
                       >
-                        <Eye className="w-5 h-5" />
-                        <span className="text-[10px] font-black uppercase tracking-widest">Review Profile</span>
+                        <Eye className="w-4 h-4" />
+                        <span className="text-[10px] font-bold uppercase tracking-widest">Review</span>
                       </button>
                     ) : (
-                      <button className="p-2 hover:bg-gray-100 text-gray-400 rounded-xl transition-all">
-                        <MoreVertical className="w-5 h-5" />
+                      <button className="p-1.5 hover:bg-gray-100 text-gray-400 rounded-[4px] transition-all">
+                        <MoreVertical className="w-4 h-4" />
                       </button>
                     )}
                   </td>
@@ -214,51 +214,51 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
 
       {/* Add Staff Modal */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-           <div className="bg-white rounded-[40px] w-full max-w-lg p-8 md:p-10 shadow-2xl relative animate-in fade-in zoom-in duration-300">
-              <button onClick={() => setIsAddModalOpen(false)} className="absolute top-8 right-8 text-gray-400 hover:text-red-500 transition-colors">
-                 <X className="w-6 h-6" />
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-[2px] z-50 flex items-center justify-center p-4">
+           <div className="bg-white rounded-[4px] w-full max-w-lg p-6 md:p-8 shadow-xl relative animate-in fade-in zoom-in duration-200">
+              <button onClick={() => setIsAddModalOpen(false)} className="absolute top-6 right-6 text-gray-400 hover:text-red-500 transition-colors">
+                 <X className="w-5 h-5" />
               </button>
               
-              <div className="mb-8">
-                 <div className="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center mb-6">
-                    <UserPlus className="w-8 h-8 text-indigo-600" />
+              <div className="mb-6">
+                 <div className="w-12 h-12 bg-indigo-50 rounded-[4px] flex items-center justify-center mb-4">
+                    <UserPlus className="w-6 h-6 text-indigo-600" />
                  </div>
-                 <h2 className="text-2xl font-black text-[#0F172A] tracking-tight">Invite New Staff</h2>
-                 <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">Start the onboarding process</p>
+                 <h2 className="text-lg font-bold text-[#0F172A] tracking-tight">Invite New Staff</h2>
+                 <p className="text-xs font-medium text-gray-400 mt-1">Start the onboarding process</p>
               </div>
 
-              <form onSubmit={handleAddStaff} className="space-y-6">
+              <form onSubmit={handleAddStaff} className="space-y-5">
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                       <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Staff Name</label>
+                    <div className="space-y-1.5">
+                       <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Staff Name</label>
                        <input 
                          required
                          value={newStaff.name}
                          onChange={e => setNewStaff({...newStaff, name: e.target.value})}
-                         className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-4 py-3.5 text-sm font-bold outline-none focus:border-indigo-600 transition-all"
+                         className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-3 py-2 text-sm font-medium outline-none focus:border-indigo-600 transition-all"
                          placeholder="John Doe"
                        />
                     </div>
-                    <div className="space-y-2">
-                       <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Email ID</label>
+                    <div className="space-y-1.5">
+                       <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Email ID</label>
                        <input 
                          required
                          type="email"
                          value={newStaff.email}
                          onChange={e => setNewStaff({...newStaff, email: e.target.value})}
-                         className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-4 py-3.5 text-sm font-bold outline-none focus:border-indigo-600 transition-all"
+                         className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-3 py-2 text-sm font-medium outline-none focus:border-indigo-600 transition-all"
                          placeholder="staff@example.com"
                        />
                     </div>
                  </div>
 
-                 <div className="space-y-2">
-                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Job Role</label>
+                 <div className="space-y-1.5">
+                    <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Job Role</label>
                     <select 
                       value={newStaff.role}
                       onChange={e => setNewStaff({...newStaff, role: e.target.value})}
-                      className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-4 py-3.5 text-sm font-bold outline-none focus:border-indigo-600 transition-all appearance-none"
+                      className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-3 py-2 text-sm font-medium outline-none focus:border-indigo-600 transition-all appearance-none"
                     >
                        <option value="Sales Executive">Sales Executive</option>
                        <option value="Support Agent">Support Agent</option>
@@ -269,32 +269,32 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                  </div>
 
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                       <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Wage Type</label>
+                    <div className="space-y-1.5">
+                       <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Wage Type</label>
                        <select 
                          value={newStaff.wageType}
                          onChange={e => setNewStaff({...newStaff, wageType: e.target.value})}
-                         className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-4 py-3.5 text-sm font-bold outline-none focus:border-indigo-600 transition-all appearance-none"
+                         className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-3 py-2 text-sm font-medium outline-none focus:border-indigo-600 transition-all appearance-none"
                        >
                           <option value="MONTHLY">Monthly</option>
                           <option value="WEEKLY">Weekly</option>
                           <option value="HOURLY">Hourly</option>
                        </select>
                     </div>
-                    <div className="space-y-2">
-                       <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Base Salary (৳)</label>
+                    <div className="space-y-1.5">
+                       <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Base Salary (৳)</label>
                        <input 
                          type="number"
                          value={newStaff.baseSalary}
                          onChange={e => setNewStaff({...newStaff, baseSalary: parseInt(e.target.value)})}
-                         className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-4 py-3.5 text-sm font-bold outline-none focus:border-indigo-600 transition-all"
+                         className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-3 py-2 text-sm font-medium outline-none focus:border-indigo-600 transition-all"
                        />
                     </div>
                  </div>
 
                  <button 
                    disabled={loading}
-                   className="w-full bg-[#1E40AF] text-white py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-[#1E3A8A] transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20"
+                   className="w-full bg-[#1E40AF] text-white py-3 rounded-[4px] font-bold text-xs uppercase tracking-widest hover:bg-[#1E3A8A] transition-all flex items-center justify-center gap-2"
                  >
                    {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Send Invitation"}
                  </button>
@@ -305,47 +305,47 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
 
       {/* Review Onboarding Modal */}
       {isReviewModalOpen && selectedStaff && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-           <div className="bg-white rounded-[40px] w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl relative animate-in fade-in slide-in-from-bottom-8 duration-500">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-[2px] z-50 flex items-center justify-center p-4">
+           <div className="bg-white rounded-[4px] w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col shadow-xl relative animate-in fade-in slide-in-from-bottom-4 duration-300">
               {/* Header */}
-              <div className="p-8 border-b border-gray-50 flex items-center justify-between">
-                 <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 font-black text-xl">
+              <div className="p-5 border-b border-gray-100 flex items-center justify-between">
+                 <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-indigo-50 rounded-[4px] flex items-center justify-center text-indigo-600 font-bold text-sm">
                        {selectedStaff.name.substring(0, 2).toUpperCase()}
                     </div>
                     <div>
-                       <h2 className="text-2xl font-black text-[#0F172A] tracking-tight">{selectedStaff.name}</h2>
-                       <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Review Staff Onboarding Profile</p>
+                       <h2 className="text-lg font-bold text-[#0F172A] tracking-tight">{selectedStaff.name}</h2>
+                       <p className="text-[11px] font-medium text-gray-400 uppercase tracking-widest">Review Staff Profile</p>
                     </div>
                  </div>
                  <button onClick={() => setIsReviewModalOpen(false)} className="text-gray-400 hover:text-red-500 transition-colors">
-                    <X className="w-6 h-6" />
+                    <X className="w-5 h-5" />
                  </button>
               </div>
 
               {/* Content */}
-              <div className="flex-1 overflow-y-auto p-8 space-y-10">
+              <div className="flex-1 overflow-y-auto p-6 space-y-8">
                  {/* Documents Section */}
-                 <div className="space-y-6">
-                    <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[#0F172A]">
-                       <FileText className="w-4 h-4 text-indigo-600" /> Identity Documents
+                 <div className="space-y-4">
+                    <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-[#0F172A]">
+                       <FileText className="w-3.5 h-3.5 text-indigo-600" /> Identity Documents
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                       <div className="space-y-3">
-                          <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">NID Front Part</p>
-                          <div className="aspect-[1.6/1] bg-gray-50 rounded-3xl border border-gray-100 overflow-hidden group relative">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                       <div className="space-y-2">
+                          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">NID Front</p>
+                          <div className="aspect-[1.6/1] bg-gray-50 rounded-[4px] border border-gray-100 overflow-hidden group relative">
                              <img src={selectedStaff.staffProfile?.nidFrontUrl} alt="NID Front" className="w-full h-full object-cover" />
                              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                <a href={selectedStaff.staffProfile?.nidFrontUrl} target="_blank" className="bg-white text-[#0F172A] px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest">View Full Size</a>
+                                <a href={selectedStaff.staffProfile?.nidFrontUrl} target="_blank" className="bg-white text-[#0F172A] px-3 py-1.5 rounded-[2px] text-[10px] font-bold uppercase tracking-widest">View</a>
                              </div>
                           </div>
                        </div>
-                       <div className="space-y-3">
-                          <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">NID Back Part</p>
-                          <div className="aspect-[1.6/1] bg-gray-50 rounded-3xl border border-gray-100 overflow-hidden group relative">
+                       <div className="space-y-2">
+                          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">NID Back</p>
+                          <div className="aspect-[1.6/1] bg-gray-50 rounded-[4px] border border-gray-100 overflow-hidden group relative">
                              <img src={selectedStaff.staffProfile?.nidBackUrl} alt="NID Back" className="w-full h-full object-cover" />
                              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                <a href={selectedStaff.staffProfile?.nidBackUrl} target="_blank" className="bg-white text-[#0F172A] px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest">View Full Size</a>
+                                <a href={selectedStaff.staffProfile?.nidBackUrl} target="_blank" className="bg-white text-[#0F172A] px-3 py-1.5 rounded-[2px] text-[10px] font-bold uppercase tracking-widest">View</a>
                              </div>
                           </div>
                        </div>
@@ -353,39 +353,39 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                  </div>
 
                  {/* Profile Details */}
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                    <div className="space-y-6">
-                       <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[#0F172A]">
-                          <Building2 className="w-4 h-4 text-indigo-600" /> Address Details
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-4">
+                       <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-[#0F172A]">
+                          <Building2 className="w-3.5 h-3.5 text-indigo-600" /> Address Details
                        </div>
-                       <div className="space-y-4">
-                          <div className="bg-gray-50 p-5 rounded-2xl border border-gray-100">
-                             <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1">Permanent Address (AI Extracted)</p>
-                             <p className="text-xs font-bold text-[#0F172A]">{selectedStaff.staffProfile?.permanentAddress || "Not provided"}</p>
+                       <div className="space-y-3">
+                          <div className="bg-gray-50 p-4 rounded-[4px] border border-gray-100">
+                             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Permanent Address</p>
+                             <p className="text-[13px] font-medium text-[#0F172A]">{selectedStaff.staffProfile?.permanentAddress || "N/A"}</p>
                           </div>
-                          <div className="bg-gray-50 p-5 rounded-2xl border border-gray-100">
-                             <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1">Current Address</p>
-                             <p className="text-xs font-bold text-[#0F172A]">{selectedStaff.staffProfile?.currentAddress || "Not provided"}</p>
+                          <div className="bg-gray-50 p-4 rounded-[4px] border border-gray-100">
+                             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Current Address</p>
+                             <p className="text-[13px] font-medium text-[#0F172A]">{selectedStaff.staffProfile?.currentAddress || "N/A"}</p>
                           </div>
                        </div>
                     </div>
 
-                    <div className="space-y-6">
-                       <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[#0F172A]">
-                          <CreditCard className="w-4 h-4 text-indigo-600" /> Financial Info
+                    <div className="space-y-4">
+                       <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-[#0F172A]">
+                          <CreditCard className="w-3.5 h-3.5 text-indigo-600" /> Financial Info
                        </div>
-                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div className="bg-indigo-50/50 p-5 rounded-2xl border border-indigo-100">
-                             <p className="text-[9px] font-black text-indigo-600 uppercase tracking-widest mb-1">Bank Account</p>
-                             <p className="text-[10px] font-bold text-[#0F172A] leading-relaxed">
+                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          <div className="bg-indigo-50/50 p-4 rounded-[4px] border border-indigo-100">
+                             <p className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest mb-1">Bank Account</p>
+                             <p className="text-[12px] font-medium text-[#0F172A] leading-relaxed">
                                 {selectedStaff.staffProfile?.bankDetailsData ? JSON.parse(selectedStaff.staffProfile.bankDetailsData).accountName : "N/A"}
                              </p>
                           </div>
-                          <div className="bg-rose-50/50 p-5 rounded-2xl border border-rose-100">
-                             <p className="text-[9px] font-black text-rose-600 uppercase tracking-widest mb-1">Mobile Wallet</p>
-                             <div className="space-y-1">
-                                <p className="text-[10px] font-bold text-[#0F172A]">bKash: {selectedStaff.staffProfile?.bankDetailsData ? JSON.parse(selectedStaff.staffProfile.bankDetailsData).bkash : "N/A"}</p>
-                                <p className="text-[10px] font-bold text-[#0F172A]">Nagad: {selectedStaff.staffProfile?.bankDetailsData ? JSON.parse(selectedStaff.staffProfile.bankDetailsData).nagad : "N/A"}</p>
+                          <div className="bg-rose-50/50 p-4 rounded-[4px] border border-rose-100">
+                             <p className="text-[10px] font-bold text-rose-600 uppercase tracking-widest mb-1">Mobile Wallet</p>
+                             <div className="space-y-0.5">
+                                <p className="text-[11px] font-medium text-[#0F172A]">bKash: {selectedStaff.staffProfile?.bankDetailsData ? JSON.parse(selectedStaff.staffProfile.bankDetailsData).bkash : "N/A"}</p>
+                                <p className="text-[11px] font-medium text-[#0F172A]">Nagad: {selectedStaff.staffProfile?.bankDetailsData ? JSON.parse(selectedStaff.staffProfile.bankDetailsData).nagad : "N/A"}</p>
                              </div>
                           </div>
                        </div>
@@ -393,47 +393,47 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                  </div>
 
                  {/* CV Section */}
-                 <div className="bg-slate-900 rounded-3xl p-8 text-white flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                       <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center">
-                          <FileText className="w-6 h-6 text-[#BEF264]" />
+                 <div className="bg-slate-900 rounded-[4px] p-5 text-white flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                       <div className="w-10 h-10 bg-white/10 rounded-[4px] flex items-center justify-center">
+                          <FileText className="w-5 h-5 text-[#BEF264]" />
                        </div>
                        <div>
-                          <p className="text-lg font-black tracking-tight leading-none mb-1">Professional CV</p>
-                          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Candidate Resume File</p>
+                          <p className="text-sm font-bold tracking-tight">Professional CV</p>
+                          <p className="text-[10px] font-medium text-gray-400 uppercase tracking-widest">Candidate Resume</p>
                        </div>
                     </div>
-                    <a href={selectedStaff.staffProfile?.cvUrl} target="_blank" className="bg-[#BEF264] text-black px-6 py-3 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:scale-105 transition-all">Download CV</a>
+                    <a href={selectedStaff.staffProfile?.cvUrl} target="_blank" className="bg-[#BEF264] text-black px-4 py-2 rounded-[2px] font-bold text-[10px] uppercase tracking-widest hover:scale-105 transition-all">Download</a>
                  </div>
               </div>
 
               {/* Actions Footer */}
-              <div className="p-8 border-t border-gray-50 bg-gray-50/30">
-                 <div className="flex flex-col md:flex-row gap-6">
-                    <div className="flex-1 space-y-2">
-                       <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Rejection Reason / Re-upload Request</label>
+              <div className="p-6 border-t border-gray-50 bg-gray-50/30">
+                 <div className="flex flex-col md:flex-row gap-4">
+                    <div className="flex-1 space-y-1.5">
+                       <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Re-upload Reason</label>
                        <div className="flex gap-2">
                           <input 
                             value={rejectionReason}
                             onChange={e => setRejectionReason(e.target.value)}
-                            className="flex-1 bg-white border border-gray-100 rounded-2xl px-4 py-3 text-xs font-bold outline-none focus:border-red-500 transition-all"
-                            placeholder="e.g. NID image is blurry. Please upload again."
+                            className="flex-1 bg-white border border-gray-100 rounded-[4px] px-3 py-2 text-xs font-medium outline-none focus:border-red-500 transition-all"
+                            placeholder="Reason for re-upload..."
                           />
                           <button 
                             onClick={() => handleRequestReupload(selectedStaff.staffProfile?.id)}
                             disabled={loading || !rejectionReason}
-                            className="px-6 bg-red-50 text-red-600 rounded-2xl font-black text-[9px] uppercase tracking-widest hover:bg-red-100 transition-all disabled:opacity-50"
+                            className="px-4 bg-red-50 text-red-600 rounded-[4px] font-bold text-[10px] uppercase tracking-widest hover:bg-red-100 transition-all disabled:opacity-50"
                           >
-                            Request Re-upload
+                            Request
                           </button>
                        </div>
                     </div>
                     <button 
                       onClick={() => handleActivate(selectedStaff.staffProfile?.id)}
                       disabled={loading}
-                      className="md:w-64 bg-[#1E40AF] text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-[#1E3A8A] transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20"
+                      className="md:w-48 bg-indigo-600 text-white rounded-[4px] font-bold text-[10px] uppercase tracking-widest hover:bg-indigo-700 transition-all flex items-center justify-center gap-2"
                     >
-                      {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><ShieldCheck className="w-5 h-5" /> Activate Staff</>}
+                      {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <><ShieldCheck className="w-4 h-4" /> Activate</>}
                     </button>
                  </div>
               </div>

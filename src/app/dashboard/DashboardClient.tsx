@@ -56,21 +56,21 @@ export default function MerchantDashboard({
   return (
     <>
       {isArchived && (
-        <div className="fixed inset-0 z-50 bg-[#0F172A] flex items-center justify-center p-4 text-center">
-          <div className="max-w-md w-full bg-white rounded-[48px] p-10 md:p-14 shadow-2xl border-t-8 border-amber-500 animate-in zoom-in duration-500">
-             <div className="w-20 h-20 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-8">
-                <Box className="w-10 h-10 text-amber-600" />
+        <div className="fixed inset-0 z-50 bg-[#0F172A]/80 backdrop-blur-sm flex items-center justify-center p-4 text-center">
+          <div className="max-w-md w-full bg-white rounded-[4px] p-8 md:p-10 shadow-xl border-t-4 border-amber-500 animate-in zoom-in duration-300">
+             <div className="w-16 h-16 bg-amber-50 rounded-[4px] flex items-center justify-center mx-auto mb-6">
+                <Box className="w-8 h-8 text-amber-600" />
              </div>
-             <h2 className="text-3xl font-black text-[#0F172A] tracking-tighter uppercase italic mb-4">Account Archived</h2>
-             <p className="text-slate-500 font-medium text-sm mb-8 leading-relaxed">
-                Your store has been archived due to 6 months of inactivity or manual request. 
-                Please complete a payment to reactivate your account or contact support.
+             <h2 className="text-xl font-bold text-[#0F172A] tracking-tight uppercase mb-3">Account Archived</h2>
+             <p className="text-slate-500 font-medium text-xs mb-6 leading-relaxed">
+                Your store has been archived due to inactivity or manual request. 
+                Please complete a payment to reactivate your account.
              </p>
-             <div className="space-y-4">
-                <button className="w-full bg-[#1E40AF] text-white py-5 rounded-2xl font-black text-xs uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-xl shadow-blue-500/20">
-                   Pay for Reactivation
+             <div className="space-y-3">
+                <button className="w-full bg-[#1E40AF] text-white py-3 rounded-[4px] font-bold text-xs uppercase tracking-widest hover:bg-[#1E3A8A] transition-all">
+                   Reactivate Now
                 </button>
-                <button className="w-full bg-slate-100 text-slate-500 py-5 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-slate-200 transition-all">
+                <button className="w-full bg-slate-50 text-slate-500 py-3 rounded-[4px] font-bold text-xs uppercase tracking-widest hover:bg-slate-100 transition-all">
                    Contact Support
                 </button>
              </div>
@@ -90,17 +90,17 @@ export default function MerchantDashboard({
       )}
 
       {isPending && !needsOnboarding && !isArchived && (
-        <div className={`${store?.activationStatus === "DOCUMENTS_REJECTED" ? "bg-rose-600" : "bg-amber-600"} text-white py-3 px-6 text-center animate-in slide-in-from-top duration-500`}>
-          <div className="flex items-center justify-center gap-3">
-             <Sparkles className="w-4 h-4 animate-pulse" />
-             <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em]">
+        <div className={`${store?.activationStatus === "DOCUMENTS_REJECTED" ? "bg-rose-600" : "bg-amber-600"} text-white py-2 px-4 text-center animate-in slide-in-from-top duration-300`}>
+          <div className="flex items-center justify-center gap-2">
+             <Sparkles className="w-3.5 h-3.5" />
+             <p className="text-[10px] md:text-[11px] font-bold uppercase tracking-wider">
                {store?.activationStatus === "DOCUMENTS_REJECTED" 
                  ? `Action Required: ${store.reuploadMessage || "Please re-upload your documents."}`
-                 : "Store Verification Pending. You can explore features, but sales & order management are restricted."}
+                 : "Store Verification Pending. Full access is restricted."}
              </p>
              {store?.activationStatus === "DOCUMENTS_REJECTED" && (
-                <Link href="/merchant/settings/documents" className="bg-white text-rose-600 px-3 py-1 rounded-full text-[9px] font-black hover:bg-rose-50 transition-colors ml-2">
-                   UPLOAD NOW
+                <Link href="/merchant/settings/documents" className="bg-white text-rose-600 px-2.5 py-0.5 rounded-[2px] text-[10px] font-bold hover:bg-rose-50 transition-colors ml-2">
+                   FIX NOW
                 </Link>
              )}
           </div>
@@ -110,20 +110,20 @@ export default function MerchantDashboard({
       <div className={`w-full max-w-7xl mx-auto space-y-4 md:space-y-8 animate-in fade-in duration-500 pb-20 px-4 md:px-0 ${(needsOnboarding || isArchived) ? 'blur-md pointer-events-none select-none opacity-50' : ''}`}>
         
         {/* Dynamic Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl md:text-3xl font-extrabold text-[#0F172A] tracking-tight">{store?.name}</h1>
-            <p className="text-[#64748B] text-xs md:text-sm font-medium mt-1">Hello {session.name}, manage your resources and orders.</p>
+            <h1 className="text-xl md:text-2xl font-bold text-[#0F172A] tracking-tight">{store?.name}</h1>
+            <p className="text-[#64748B] text-[13px] font-medium mt-0.5">Hello {session.name}, manage your ecosystem.</p>
           </div>
-          <div className="flex flex-col md:flex-row items-center gap-4">
+          <div className="flex flex-col md:flex-row items-center gap-3">
            <ResourceWalletWidget 
              smsBalance={store?.smsBalance || 0} 
              sipBalance={store?.sipBalance || 0} 
              validityDays={daysLeft} 
            />
-           <div className="flex items-center gap-3">
-              <div className="bg-[#BEF264]/20 text-[#65A30D] px-4 py-2.5 rounded-none text-xs font-bold border border-[#BEF264]/40">
-                 Plan: {store?.subscriptionPlan?.name || store?.plan}
+           <div className="flex items-center gap-2">
+              <div className="bg-green-50 text-green-700 px-3 py-1.5 rounded-[4px] text-[11px] font-bold border border-green-100">
+                 {store?.subscriptionPlan?.name || store?.plan}
               </div>
               <NewIncidentModal />
            </div>
@@ -131,7 +131,7 @@ export default function MerchantDashboard({
       </div>
 
       {/* Top Metrics Grid */}
-      <section className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-6">
+      <section className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
         <MetricCard 
           title={t("total_sales")} 
           value={`৳ ${totalRevenue.toLocaleString('en-US')}`} 
@@ -142,7 +142,7 @@ export default function MerchantDashboard({
         <MetricCard 
           title={t("total_orders")} 
           value={totalSalesCount.toString()} 
-          trend="+84" 
+          trend="+12%" 
           isPositive={true} 
           icon={ShoppingCart}
         />
@@ -163,38 +163,38 @@ export default function MerchantDashboard({
       </section>
 
       {/* Main Grid: Data & Analytics */}
-      <section className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-8">
+      <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recent Orders Table */}
-        <div className="lg:col-span-2 bg-white border border-gray-100 rounded-2xl md:rounded-3xl overflow-hidden shadow-sm">
-           <div className="px-4 py-3 md:px-5 md:py-4 border-b border-gray-50 flex items-center justify-between bg-gray-50/50">
-              <h3 className="font-black text-[10px] md:text-xs text-[#0F172A] flex items-center gap-2 uppercase tracking-widest">
-                 <ShoppingBag className="w-4 h-4 text-indigo-600" />
+        <div className="lg:col-span-2 bg-white border border-gray-100 rounded-[4px] overflow-hidden shadow-sm">
+           <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
+              <h3 className="font-bold text-[11px] text-[#0F172A] flex items-center gap-2 uppercase tracking-wider">
+                 <ShoppingBag className="w-3.5 h-3.5 text-indigo-600" />
                  {t("recent_orders")}
               </h3>
-              <button className="text-[8px] md:text-[9px] font-black text-indigo-600 uppercase tracking-widest hover:underline">{t("view_all")}</button>
+              <button className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest hover:underline">{t("view_all")}</button>
            </div>
            <div className="overflow-x-auto">
-              <table className="w-full text-left min-w-[500px] md:min-w-0">
-                 <thead className="bg-gray-50/50 text-[8px] md:text-[9px] uppercase font-black text-gray-400 tracking-widest">
+              <table className="w-full text-left">
+                 <thead className="bg-gray-50 border-b border-gray-100 text-[10px] uppercase font-bold text-gray-500 tracking-widest">
                     <tr>
-                       <th className="px-4 md:px-6 py-3 md:py-4">{t("order_id")}</th>
-                       <th className="px-3 md:px-4 py-3 md:py-4">{t("date")}</th>
-                       <th className="px-3 md:px-4 py-3 md:py-4">{t("amount")}</th>
-                       <th className="px-4 md:px-6 py-3 md:py-4 text-center">{t("status")}</th>
+                       <th className="px-6 py-3">{t("order_id")}</th>
+                       <th className="px-4 py-3">{t("date")}</th>
+                       <th className="px-4 py-3">{t("amount")}</th>
+                       <th className="px-6 py-3 text-center">{t("status")}</th>
                     </tr>
                  </thead>
                  <tbody className="divide-y divide-gray-50">
                     {recentOrders.map((order: any) => (
-                      <tr key={order.id} className="hover:bg-gray-50/30 transition-colors">
-                        <td className="px-4 md:px-6 py-2.5 md:py-3 font-bold text-[10px] md:text-xs text-indigo-600 uppercase tracking-tight">#{order.id.slice(-6).toUpperCase()}</td>
-                        <td className="px-3 md:px-4 py-2.5 md:py-3 text-gray-500 font-bold text-[9px] md:text-[10px]">
+                      <tr key={order.id} className="hover:bg-gray-50/50 transition-colors">
+                        <td className="px-6 py-3.5 font-bold text-[13px] text-indigo-600 tracking-tight">#{order.id.slice(-6).toUpperCase()}</td>
+                        <td className="px-4 py-3.5 text-gray-500 font-medium text-[12px]">
                            <FormattedDate date={order.createdAt} />
                         </td>
-                        <td className="px-3 md:px-4 py-2.5 md:py-3 font-black text-[10px] md:text-xs text-[#0F172A]">
+                        <td className="px-4 py-3.5 font-bold text-[13px] text-[#0F172A]">
                            <FormattedAmount value={order.total} />
                         </td>
-                        <td className="px-4 md:px-6 py-2.5 md:py-3 text-center">
-                           <span className={`text-[7px] md:text-[8px] font-black px-1.5 md:px-2 py-0.5 rounded-full border ${
+                        <td className="px-6 py-3.5 text-center">
+                           <span className={`text-[10px] font-bold px-2 py-0.5 rounded-[2px] border ${
                              order.status === 'DELIVERED' ? 'border-green-100 text-green-600 bg-green-50' :
                              'border-amber-100 text-amber-600 bg-amber-50'
                            }`}>
@@ -223,21 +223,21 @@ function MetricCard({ title, value, trend, isPositive, icon: Icon }: { title: st
   React.useEffect(() => setMounted(true), []);
 
   return (
-    <div className="bg-white border border-gray-100 rounded-2xl p-4 md:p-5 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between group">
-      <div className="flex justify-between items-start mb-2 md:mb-4">
-         <div className="w-8 h-8 md:w-10 md:h-10 bg-gray-50 rounded-xl flex items-center justify-center text-gray-400 group-hover:text-indigo-600 transition-colors">
-            <Icon className="w-4 h-4 md:w-5 md:h-5" />
+    <div className="bg-white border border-gray-100 rounded-[4px] p-4 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between group">
+      <div className="flex justify-between items-start mb-3">
+         <div className="w-9 h-9 bg-gray-50 rounded-[4px] flex items-center justify-center text-gray-400 group-hover:text-indigo-600 transition-colors">
+            <Icon className="w-4 h-4" />
          </div>
-         <div className={`flex items-center text-[8px] md:text-[9px] font-black px-1.5 md:px-2 py-0.5 rounded-full border ${isPositive ? 'border-green-100 text-green-600 bg-green-50' : 'border-red-100 text-red-600 bg-red-50'}`}>
+         <div className={`flex items-center text-[10px] font-bold px-1.5 py-0.5 rounded-[2px] border ${isPositive ? 'border-green-100 text-green-600 bg-green-50' : 'border-red-100 text-red-600 bg-red-50'}`}>
             {trend}
          </div>
       </div>
       
       <div>
-         <div className="text-lg md:text-xl font-black text-[#0F172A] tracking-tight leading-none">
+         <div className="text-xl font-bold text-[#0F172A] tracking-tight leading-none">
             {!mounted ? "---" : value}
          </div>
-         <h3 className="text-gray-400 text-[8px] md:text-[10px] font-black uppercase tracking-widest mt-1.5">{title}</h3>
+         <h3 className="text-gray-400 text-[10px] font-bold uppercase tracking-widest mt-2">{title}</h3>
       </div>
     </div>
   );

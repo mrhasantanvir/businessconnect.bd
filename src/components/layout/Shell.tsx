@@ -199,22 +199,22 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
   if (user?.isActive === false) {
     return (
       <div className="fixed inset-0 bg-white z-[9999] flex items-center justify-center p-6 text-center">
-         <div className="max-w-md space-y-6">
-            <div className="w-20 h-20 bg-rose-50 text-rose-600 rounded-[32px] flex items-center justify-center mx-auto mb-8 animate-bounce shadow-2xl shadow-rose-100">
-               <Shield className="w-10 h-10" />
+         <div className="max-w-md space-y-4">
+            <div className="w-16 h-16 bg-rose-50 text-rose-600 rounded-[4px] flex items-center justify-center mx-auto mb-6 shadow-sm border border-rose-100">
+               <Shield className="w-8 h-8" />
             </div>
-            <h1 className="text-3xl font-black text-slate-900 tracking-tight uppercase italic leading-none">
+            <h1 className="text-xl font-bold text-slate-900 tracking-tight leading-none">
                Account <span className="text-rose-600">Restricted</span>
             </h1>
-            <p className="text-slate-500 font-bold uppercase text-[10px] tracking-widest leading-relaxed">
+            <p className="text-slate-500 font-medium text-xs leading-relaxed">
                আপনার অ্যাকাউন্টটি বর্তমানে ডি-অ্যাক্টিভ অবস্থায় আছে। পুনরায় অ্যাক্টিভ করার জন্য অনুগ্রহ করে আপনার শপ ওনার বা অ্যাডমিনের সাথে যোগাযোগ করুন।
             </p>
-            <div className="pt-8">
+            <div className="pt-4">
                <button 
                  onClick={() => logoutAction()}
-                 className="inline-flex items-center gap-3 px-8 py-4 bg-slate-900 text-white font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-slate-800 transition-all shadow-2xl shadow-slate-200"
+                 className="inline-flex items-center gap-2 px-6 py-2.5 bg-slate-900 text-white font-semibold text-xs rounded-[4px] hover:bg-slate-800 transition-all shadow-sm"
                >
-                  <LogOut className="w-4 h-4" />
+                  <LogOut className="w-3.5 h-3.5" />
                   Sign Out Securely
                </button>
             </div>
@@ -234,18 +234,18 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
       )}
       
       {/* Mobile Header (Hidden on Desktop) */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-white border-b border-[#E5E7EB] flex items-center justify-between px-6 z-40">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-gradient-to-tr from-[#1E40AF] to-blue-400 rounded-lg flex items-center justify-center">
-            <Box className="w-5 h-5 text-white" />
+      <div className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-white border-b border-[#E5E7EB] flex items-center justify-between px-4 z-40">
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 bg-[#1E40AF] rounded-[2px] flex items-center justify-center">
+            <Box className="w-4 h-4 text-white" />
           </div>
-          <span className="font-black text-sm uppercase tracking-tighter">Business<span className="text-[#1E40AF]">Connect</span></span>
+          <span className="font-bold text-xs uppercase tracking-tight">Business<span className="text-[#1E40AF]">Connect</span></span>
         </div>
         <button 
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-all"
+          className="p-1.5 hover:bg-gray-100 rounded-[4px] transition-all"
         >
-          {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
 
@@ -263,21 +263,21 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
         }}
       >
         {/* Logo Section */}
-        <div className="h-16 flex items-center px-6 border-b border-[#E5E7EB]">
-          <div className="w-8 h-8 bg-gradient-to-tr from-[#1E40AF] to-blue-400 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/20">
-            <Box className="w-5 h-5 text-white" />
+        <div className="h-14 flex items-center px-4 border-b border-[#E5E7EB]">
+          <div className="w-7 h-7 bg-[#1E40AF] rounded-[2px] flex items-center justify-center shadow-sm">
+            <Box className="w-4 h-4 text-white" />
           </div>
           {(isSidebarExpanded || isMobileMenuOpen) && (
-            <span className="ml-3 font-black text-sm text-[#0F172A] uppercase tracking-tighter flex-1">
-              Business<span className="text-[#1E40AF]">Connect</span>.BD
+            <span className="ml-2.5 font-bold text-xs text-[#0F172A] uppercase tracking-tight flex-1">
+              Business<span className="text-[#1E40AF]">Connect</span>
             </span>
           )}
           {isMobileMenuOpen && (
             <button 
               onClick={() => setIsMobileMenuOpen(false)}
-              className="lg:hidden p-2 text-gray-400 hover:text-red-500 transition-colors"
+              className="lg:hidden p-1.5 text-gray-400 hover:text-red-500 transition-colors"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
           )}
         </div>
@@ -294,14 +294,14 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
             if (visibleItems.length === 0) return null;
 
             return (
-              <div key={group.group} className="mb-4">
+              <div key={group.group} className="mb-2">
                 {(isSidebarExpanded || isMobileMenuOpen) && (
-                  <div className="px-4 py-2 text-[9px] font-black text-gray-400 uppercase tracking-[0.2em] mb-0.5">
+                  <div className="px-3 py-1.5 text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">
                     {group.group}
                   </div>
                 )}
                 
-                <div className="space-y-1">
+                <div className="space-y-0.5">
                   {visibleItems.map((item) => {
                     const hasSubItems = !!item.subItems;
                     const isExpanded = expandedCategories.includes(item.label);
@@ -313,17 +313,17 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
                           <button
                             onClick={() => toggleCategory(item.label)}
                             className={cn(
-                              "w-full flex items-center gap-3 px-4 py-2 rounded-xl transition-all group relative",
+                              "w-full flex items-center gap-2.5 px-3 py-1.5 rounded-[4px] transition-all group relative",
                               isActive 
                                 ? "bg-indigo-50 text-indigo-700" 
                                 : "text-gray-500 hover:bg-gray-50"
                             )}
                           >
-                            <item.icon className="w-5 h-5 flex-shrink-0" />
+                            <item.icon className="w-4 h-4 flex-shrink-0" />
                             {(isSidebarExpanded || isMobileMenuOpen) && (
                               <>
-                                <span className={cn("flex-1 text-xs font-semibold text-left", language === 'bn' && "text-sm")}>{item.label}</span>
-                                {isExpanded ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
+                                <span className={cn("flex-1 text-[13px] font-medium text-left", language === 'bn' && "text-sm")}>{item.label}</span>
+                                {isExpanded ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
                               </>
                             )}
                           </button>
@@ -334,30 +334,30 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
                               if (isMobileMenuOpen) setIsMobileMenuOpen(false);
                             }}
                             className={cn(
-                              "flex items-center gap-3 px-4 py-2 rounded-xl transition-all group relative",
+                              "flex items-center gap-2.5 px-3 py-1.5 rounded-[4px] transition-all group relative",
                               isActive 
-                                ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200" 
+                                ? "bg-indigo-600 text-white shadow-sm" 
                                 : "text-gray-500 hover:bg-gray-50"
                             )}
                           >
-                            <item.icon className="w-5 h-5 flex-shrink-0" />
+                            <item.icon className="w-4 h-4 flex-shrink-0" />
                             {(isSidebarExpanded || isMobileMenuOpen) && (
-                              <span className={cn("flex-1 text-xs font-semibold", language === 'bn' && "text-sm")}>{item.label}</span>
+                              <span className={cn("flex-1 text-[13px] font-medium", language === 'bn' && "text-sm")}>{item.label}</span>
                             )}
                           </Link>
                         )}
 
                         {/* Sub Items Rendering */}
                         {hasSubItems && isExpanded && (isSidebarExpanded || isMobileMenuOpen) && (
-                          <div className="mt-1 ml-9 border-l border-gray-100 space-y-0.5 py-0.5">
+                          <div className="mt-0.5 ml-8 border-l border-gray-100 space-y-0.5 py-0.5">
                             {item.subItems?.map(sub => (
                               <Link
                                 key={sub.label}
                                 href={sub.href}
                                 className={cn(
-                                  "block px-4 py-1 text-[10px] font-semibold transition-all relative",
+                                  "block px-3 py-1 text-[12px] font-medium transition-all relative",
                                   pathname === sub.href 
-                                    ? "text-indigo-600 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:bg-indigo-600 before:rounded-full before:-ml-[5px]"
+                                    ? "text-indigo-600 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-1 before:bg-indigo-600 before:rounded-full before:-ml-[4px]"
                                     : "text-gray-400 hover:text-indigo-600"
                                 )}
                               >
@@ -432,35 +432,31 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
           </div>
 
           {/* AI Omnibar */}
-          <div className="flex-1 max-w-2xl mx-auto flex items-center relative hidden md:flex h-full py-1.5">
-            <div className="w-full h-full bg-white/50 border border-[#E5E7EB] rounded-none px-4 flex items-center shadow-sm backdrop-blur-sm transition-all focus-within:ring-2 focus-within:ring-[#1E40AF]">
-              <Search className="w-4 h-4 text-[#A1A1AA] mr-3" />
+          <div className="flex-1 max-w-xl mx-auto flex items-center relative hidden md:flex h-full py-2.5">
+            <div className="w-full h-full bg-gray-50/50 border border-[#E5E7EB] rounded-[4px] px-3 flex items-center transition-all focus-within:bg-white focus-within:ring-1 focus-within:ring-indigo-600">
+              <Search className="w-3.5 h-3.5 text-gray-400 mr-2" />
               <input 
                 type="text" 
-                placeholder={role === 'SUPER_ADMIN' ? 'Search merchants or systems...' : 'Search in GadgetGear inventory...'}
-                className="flex-1 bg-transparent border-none outline-none text-sm text-[#0F172A] placeholder:text-[#A1A1AA]"
+                placeholder={role === 'SUPER_ADMIN' ? 'Search merchants...' : 'Search system...'}
+                className="flex-1 bg-transparent border-none outline-none text-[13px] text-[#0F172A] placeholder:text-gray-400"
               />
-              <button className="ml-2 group relative">
-                <Mic className="w-4 h-4 text-[#A1A1AA] group-hover:text-[#1E40AF] transition-colors" />
-                <span className="absolute -inset-1 rounded-none bg-[#BEF264]/20 animate-pulse group-hover:block hidden"></span>
-              </button>
             </div>
           </div>
 
-          <div className="flex items-center gap-4 ml-auto lg:ml-0">
+          <div className="flex items-center gap-3 ml-auto lg:ml-0">
             {/* System Pulse Ticker */}
-            <div className="hidden lg:flex items-center gap-2 bg-[#BEF264]/10 text-[#65A30D] px-3 py-1 rounded-none text-[10px] font-semibold w-max border border-[#BEF264]/20">
-              <span className="w-1.5 h-1.5 rounded-none bg-current animate-pulse"></span>
-              Pulse: Scaled
+            <div className="hidden lg:flex items-center gap-1.5 bg-green-50 text-green-700 px-2 py-0.5 rounded-[4px] text-[11px] font-medium border border-green-100">
+              <span className="w-1 h-1 rounded-full bg-current animate-pulse"></span>
+              System Active
             </div>
 
           <div className="flex items-center gap-1 mx-2">
             {/* Language Toggle */}
             <button 
               onClick={() => setLanguage(language === 'en' ? 'bn' : 'en')}
-              className="px-3 py-1 text-[10px] font-black uppercase tracking-widest border border-slate-200 rounded-none hover:bg-slate-100 transition-all text-slate-600"
+              className="px-2 py-1 text-[11px] font-semibold border border-slate-200 rounded-[4px] hover:bg-slate-50 transition-all text-slate-600"
             >
-              {language === 'en' ? 'বাংলা' : 'English'}
+              {language === 'en' ? 'BN' : 'EN'}
             </button>
 
             {headerItems.map((item) => {
@@ -497,19 +493,19 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
               })}
             </div>
 
-            <button className="p-2 text-[#0F172A] hover:bg-gray-100 rounded-none transition-colors relative">
-              <Bell className="w-5 h-5" />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-none border-2 border-white"></span>
+            <button className="p-1.5 text-gray-500 hover:bg-gray-50 rounded-[4px] transition-colors relative">
+              <Bell className="w-4 h-4" />
+              <span className="absolute top-1 right-1 w-1.5 h-1.5 bg-red-500 rounded-full border border-white"></span>
             </button>
             
-            <div className="flex items-center gap-3 ml-2">
+            <div className="flex items-center gap-2 ml-1">
                {(isSidebarExpanded || isMobileMenuOpen) && (
                  <div className="text-right hidden sm:block">
-                   <div className="text-[10px] font-black text-[#A1A1AA] uppercase leading-none mb-1">{user?.role}</div>
-                   <div className="text-xs font-bold text-[#0F172A] leading-none">{user?.name}</div>
+                   <div className="text-[13px] font-semibold text-[#0F172A] leading-none">{user?.name}</div>
+                   <div className="text-[10px] font-medium text-gray-400 mt-0.5 leading-none">{user?.role}</div>
                  </div>
                )}
-               <div className="w-7 h-7 rounded-none bg-gradient-to-tr from-[#1E40AF] to-[#BEF264] flex items-center justify-center text-white font-bold text-[10px] shadow-soft cursor-pointer">
+               <div className="w-7 h-7 rounded-[4px] bg-slate-900 flex items-center justify-center text-white font-bold text-[10px] cursor-pointer">
                 {user?.name?.charAt(0) || "U"}
                </div>
             </div>
