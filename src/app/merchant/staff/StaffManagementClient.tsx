@@ -241,7 +241,39 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
       {activeTab === "ROLES" ? (
         <MerchantRoleManagement roles={roles} onUpdate={loadRoles} />
       ) : (
-        <div className="bg-white border border-gray-100 rounded-[4px] overflow-hidden shadow-sm">
+        <div className="space-y-6">
+          {/* Review Required Section */}
+          {staff.filter(s => s.staffProfile?.status === "ONBOARDING" && s.staffProfile?.nidFrontUrl).length > 0 && (
+            <div className="bg-indigo-50/50 border border-indigo-100 rounded-[4px] p-4">
+              <div className="flex items-center gap-2 mb-4">
+                <AlertCircle className="w-4 h-4 text-indigo-600" />
+                <h3 className="text-[11px] font-black text-indigo-600 uppercase tracking-widest">Action Required: Review Onboarding Documents</h3>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {staff.filter(s => s.staffProfile?.status === "ONBOARDING" && s.staffProfile?.nidFrontUrl).map(member => (
+                  <div key={member.id} className="bg-white border border-indigo-100 rounded-[4px] p-4 flex items-center justify-between shadow-sm">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-indigo-50 rounded-[4px] flex items-center justify-center text-indigo-600 font-bold text-xs">
+                        {member.name.substring(0, 2).toUpperCase()}
+                      </div>
+                      <div>
+                        <p className="text-[12px] font-bold text-slate-900">{member.name}</p>
+                        <p className="text-[10px] font-medium text-gray-400">Submitted {new Date(member.staffProfile.updatedAt).toLocaleDateString()}</p>
+                      </div>
+                    </div>
+                    <button 
+                      onClick={() => { setSelectedStaff(member); setIsReviewModalOpen(true); }}
+                      className="px-4 py-2 bg-indigo-600 text-white rounded-[4px] text-[10px] font-black uppercase tracking-widest hover:bg-indigo-700 transition-all"
+                    >
+                      Review
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="bg-white border border-gray-100 rounded-[4px] overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead className="bg-gray-50 border-b border-gray-100">
@@ -271,8 +303,15 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                     <p className="text-[13px] font-medium text-[#0F172A]">{member.staffProfile?.jobRole}</p>
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`px-3 py-1 rounded-[4px] text-[10px] font-bold uppercase tracking-wider border ${getStatusStyle(member.staffProfile?.status)}`}>
-                      {member.staffProfile?.status.replace('_', ' ')}
+                    <span className={cn(
+                      "px-3 py-1 rounded-[4px] text-[10px] font-bold uppercase tracking-wider border",
+                      member.staffProfile?.status === "ONBOARDING" 
+                        ? (member.staffProfile?.nidFrontUrl ? "bg-indigo-50 text-indigo-600 border-indigo-100" : "bg-amber-50 text-amber-600 border-amber-100")
+                        : getStatusStyle(member.staffProfile?.status)
+                    )}>
+                      {member.staffProfile?.status === "ONBOARDING" 
+                        ? (member.staffProfile?.nidFrontUrl ? "Waiting Review" : "Invitation Sent")
+                        : member.staffProfile?.status.replace('_', ' ')}
                     </span>
                   </td>
                   <td className="px-6 py-4">
