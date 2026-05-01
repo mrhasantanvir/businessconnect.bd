@@ -539,7 +539,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                           )}
                         </div>
                       </div>
-                    )}
+
                   </td>
                 </tr>
               ))}
@@ -1119,12 +1119,13 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                        <p className="text-[10px] font-bold text-blue-700 uppercase tracking-widest">Device Licensing Policy</p>
                     </div>
                     <p className="text-[10px] text-blue-600 font-medium leading-relaxed">
-                       Authorizing a device will activate a permanent license. The first device costs <strong>৳300</strong>, and each additional device costs <strong>৳250</strong>. Billing starts immediately upon authorization.
+                        Authorizing a device will activate a permanent license. The first device costs <strong>৳300</strong>, and each additional device costs <strong>৳250</strong>. Billing starts immediately upon authorization.
                     </p>
                  </div>
               </div>
            </div>
         </div>
+      )}
     </div>
   );
 }
