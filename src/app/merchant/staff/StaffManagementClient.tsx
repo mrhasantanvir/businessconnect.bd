@@ -20,7 +20,14 @@ import {
   Building2,
   Phone
 } from "lucide-react";
-import { createStaffAction, activateStaffAction, requestReuploadAction, getRolesAction } from "./staffActions";
+import { 
+  createStaffAction, 
+  activateStaffAction, 
+  requestReuploadAction, 
+  getRolesAction,
+  resendInvitationAction,
+  updateStaffInfoAction 
+} from "./staffActions";
 import { toast } from "sonner";
 import { MerchantRoleManagement } from "@/components/merchant/MerchantRoleManagement";
 
@@ -29,10 +36,12 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
   const [staff, setStaff] = useState(initialStaff);
   const [roles, setRoles] = useState<any[]>([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [selectedStaff, setSelectedStaff] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [rejectionReason, setRejectionReason] = useState("");
+  const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
 
   const [newStaff, setNewStaff] = useState({
     name: "",
@@ -98,6 +107,44 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
         toast.success("Re-upload request sent");
         setIsReviewModalOpen(false);
         setRejectionReason("");
+        window.location.reload();
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleResendInvitation(id: string) {
+    setLoading(true);
+    try {
+      const res = await resendInvitationAction(id);
+      if (res.success) {
+        toast.success("Invitation resent with new credentials");
+        setActiveMenuId(null);
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleUpdateStaff(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const res = await updateStaffInfoAction(selectedStaff.id, {
+        name: selectedStaff.name,
+        jobRole: selectedStaff.staffProfile.jobRole,
+        roleId: selectedStaff.customRoleId || "",
+        baseSalary: selectedStaff.staffProfile.baseSalary,
+        wageType: selectedStaff.staffProfile.wageType
+      });
+      if (res.success) {
+        toast.success("Staff profile updated");
+        setIsEditModalOpen(false);
         window.location.reload();
       }
     } catch (error: any) {
@@ -226,7 +273,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                     <p className="text-[13px] font-bold text-[#0F172A]">৳{member.staffProfile?.baseSalary.toLocaleString()}</p>
                     <p className="text-[10px] font-medium text-gray-400 uppercase">{member.staffProfile?.wageType}</p>
                   </td>
-                  <td className="px-6 py-4 text-right">
+                  <td className="px-6 py-4 text-right relative">
                     {member.staffProfile?.status === "ONBOARDING" && member.staffProfile?.nidFrontUrl ? (
                       <button 
                         onClick={() => { setSelectedStaff(member); setIsReviewModalOpen(true); }}
@@ -236,9 +283,35 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                         <span className="text-[10px] font-bold uppercase tracking-widest">Review</span>
                       </button>
                     ) : (
-                      <button className="p-1.5 hover:bg-gray-100 text-gray-400 rounded-[4px] transition-all">
-                        <MoreVertical className="w-4 h-4" />
-                      </button>
+                      <div className="flex justify-end gap-1">
+                        <button 
+                          onClick={() => { setSelectedStaff(member); setIsEditModalOpen(true); }}
+                          className="p-1.5 hover:bg-indigo-50 text-indigo-600 rounded-[4px] transition-all"
+                        >
+                          <Edit3 className="w-4 h-4" />
+                        </button>
+                        <div className="relative">
+                          <button 
+                            onClick={() => setActiveMenuId(activeMenuId === member.id ? null : member.id)}
+                            className="p-1.5 hover:bg-gray-100 text-gray-400 rounded-[4px] transition-all"
+                          >
+                            <MoreVertical className="w-4 h-4" />
+                          </button>
+                          {activeMenuId === member.id && (
+                            <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-100 rounded-[4px] shadow-lg z-50 py-1 animate-in fade-in slide-in-from-top-1 duration-200">
+                               <button 
+                                 onClick={() => handleResendInvitation(member.id)}
+                                 className="w-full px-4 py-2 text-left text-[11px] font-bold text-gray-600 hover:bg-gray-50 flex items-center gap-2"
+                               >
+                                  <Mail className="w-3.5 h-3.5" /> RESEND INVITATION
+                               </button>
+                               <button className="w-full px-4 py-2 text-left text-[11px] font-bold text-rose-600 hover:bg-rose-50 flex items-center gap-2">
+                                  <X className="w-3.5 h-3.5" /> TERMINATE
+                               </button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     )}
                   </td>
                 </tr>
@@ -344,6 +417,102 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                    className="w-full bg-[#1E40AF] text-white py-3 rounded-[4px] font-bold text-xs uppercase tracking-widest hover:bg-[#1E3A8A] transition-all flex items-center justify-center gap-2"
                  >
                    {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Send Invitation"}
+                 </button>
+              </form>
+           </div>
+        </div>
+      )}
+
+      {/* Edit Staff Modal */}
+      {isEditModalOpen && selectedStaff && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-[2px] z-50 flex items-center justify-center p-4">
+           <div className="bg-white rounded-[4px] w-full max-w-lg p-6 md:p-8 shadow-xl relative animate-in fade-in zoom-in duration-200">
+              <button onClick={() => setIsEditModalOpen(false)} className="absolute top-6 right-6 text-gray-400 hover:text-red-500 transition-colors">
+                 <X className="w-5 h-5" />
+              </button>
+              
+              <div className="mb-6">
+                 <div className="w-12 h-12 bg-indigo-50 rounded-[4px] flex items-center justify-center mb-4">
+                    <Edit3 className="w-6 h-6 text-indigo-600" />
+                 </div>
+                 <h2 className="text-lg font-bold text-[#0F172A] tracking-tight">Edit Staff Profile</h2>
+                 <p className="text-xs font-medium text-gray-400 mt-1">Update professional details</p>
+              </div>
+
+              <form onSubmit={handleUpdateStaff} className="space-y-5">
+                 <div className="space-y-1.5">
+                    <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Staff Name</label>
+                    <input 
+                      required
+                      value={selectedStaff.name}
+                      onChange={e => setSelectedStaff({...selectedStaff, name: e.target.value})}
+                      className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-3 py-2 text-sm font-medium outline-none focus:border-indigo-600 transition-all"
+                    />
+                 </div>
+
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Job Designation</label>
+                      <input 
+                        required
+                        value={selectedStaff.staffProfile.jobRole}
+                        onChange={e => setSelectedStaff({
+                          ...selectedStaff, 
+                          staffProfile: { ...selectedStaff.staffProfile, jobRole: e.target.value }
+                        })}
+                        className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-3 py-2 text-sm font-medium outline-none focus:border-indigo-600 transition-all"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Security Role</label>
+                      <select 
+                        value={selectedStaff.customRoleId || ""}
+                        onChange={e => setSelectedStaff({...selectedStaff, customRoleId: e.target.value})}
+                        className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-3 py-2 text-sm font-medium outline-none focus:border-indigo-600 transition-all appearance-none"
+                      >
+                        <option value="">Default Permissions</option>
+                        {roles.map(r => (
+                          <option key={r.id} value={r.id}>{r.name}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                       <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Wage Type</label>
+                       <select 
+                         value={selectedStaff.staffProfile.wageType}
+                         onChange={e => setSelectedStaff({
+                           ...selectedStaff,
+                           staffProfile: { ...selectedStaff.staffProfile, wageType: e.target.value }
+                         })}
+                         className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-3 py-2 text-sm font-medium outline-none focus:border-indigo-600 transition-all appearance-none"
+                       >
+                          <option value="MONTHLY">Monthly</option>
+                          <option value="WEEKLY">Weekly</option>
+                          <option value="HOURLY">Hourly</option>
+                       </select>
+                    </div>
+                    <div className="space-y-1.5">
+                       <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Base Salary (৳)</label>
+                       <input 
+                         type="number"
+                         value={selectedStaff.staffProfile.baseSalary}
+                         onChange={e => setSelectedStaff({
+                           ...selectedStaff,
+                           staffProfile: { ...selectedStaff.staffProfile, baseSalary: parseInt(e.target.value) }
+                         })}
+                         className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-3 py-2 text-sm font-medium outline-none focus:border-indigo-600 transition-all"
+                       />
+                    </div>
+                 </div>
+
+                 <button 
+                   disabled={loading}
+                   className="w-full bg-[#1E40AF] text-white py-3 rounded-[4px] font-bold text-xs uppercase tracking-widest hover:bg-[#1E3A8A] transition-all flex items-center justify-center gap-2"
+                 >
+                   {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save Changes"}
                  </button>
               </form>
            </div>

@@ -46,7 +46,7 @@ import {
 } from "lucide-react";
 import { FileSpreadsheet } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { SipDialer } from "../dialer/SipDialer";
@@ -68,6 +68,13 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
   const { toggle, isEnabled } = useSupport();
   const { language, setLanguage, t } = useLanguage();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user?.activationStatus === "STAFF_ONBOARDING" && !pathname.startsWith("/staff/onboarding")) {
+       router.push("/staff/onboarding");
+    }
+  }, [user, pathname, router]);
 
 
 

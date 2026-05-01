@@ -37,6 +37,16 @@ export default async function RootLayout({
      if (store?.invoices && store.invoices.length > 0) {
         activationStatus = "BILLING_RESTRICTED";
      }
+  } else if (session?.role === "STAFF" && session?.userId) {
+     const profile = await prisma.staffProfile.findUnique({
+        where: { userId: session.userId },
+        select: { status: true }
+     });
+     if (profile?.status === "ONBOARDING") {
+        activationStatus = "STAFF_ONBOARDING";
+     } else if (profile?.status === "SUSPENDED") {
+        activationStatus = "SUSPENDED";
+     }
   } else if (session?.role === "SUPER_ADMIN") {
      const pendingOnboarding = await prisma.merchantStore.count({ where: { activationStatus: "PENDING" } });
      const pendingDocs = await prisma.merchantStore.count({ where: { activationStatus: "DOCUMENTS_REJECTED" } });
