@@ -47,7 +47,7 @@ import { toast } from "sonner";
 import { MerchantRoleManagement } from "@/components/merchant/MerchantRoleManagement";
 
 export function StaffManagementClient({ initialStaff }: { initialStaff: any[] }) {
-  const [activeTab, setActiveTab] = useState<"STAFF" | "ROLES" | "FORMER">("STAFF");
+  const [activeTab, setActiveTab] = useState<"STAFF" | "ROLES">("STAFF");
   const [staff, setStaff] = useState(initialStaff);
   const [roles, setRoles] = useState<any[]>([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -361,16 +361,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
             activeTab === "ROLES" ? "bg-white text-indigo-600 shadow-sm" : "text-gray-400 hover:text-gray-600"
           )}
         >
-          Security Roles
-        </button>
-        <button 
-          onClick={() => setActiveTab("FORMER")}
-          className={cn(
-            "px-6 py-2 text-[10px] font-black uppercase tracking-widest transition-all rounded-[4px]",
-            activeTab === "FORMER" ? "bg-white text-rose-600 shadow-sm" : "text-gray-400 hover:text-gray-600"
-          )}
-        >
-          Leave Staff
+          Create Role
         </button>
       </div>
 
@@ -443,11 +434,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
             </thead>
             <tbody className="divide-y divide-gray-50">
               {staff
-                .filter(member => {
-                  if (activeTab === "STAFF") return member.staffProfile?.status !== "TERMINATED";
-                  if (activeTab === "FORMER") return member.staffProfile?.status === "TERMINATED";
-                  return true;
-                })
+                .filter(member => member.staffProfile?.status !== "TERMINATED")
                 .map((member) => (
                 <tr key={member.id} className="hover:bg-gray-50/50 transition-colors group">
                   <td className="px-6 py-4">
