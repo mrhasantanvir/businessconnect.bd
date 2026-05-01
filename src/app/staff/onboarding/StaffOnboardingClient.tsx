@@ -57,6 +57,7 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
     ],
     bankDetails: profile.bankDetailsData ? JSON.parse(profile.bankDetailsData) : {
       bankName: "",
+      branchName: "",
       accountName: "",
       accountNumber: "",
       bkash: "",
@@ -462,14 +463,34 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
                   <input 
                     value={formData.bankDetails.accountName}
                     onChange={e => setFormData({...formData, bankDetails: {...formData.bankDetails, accountName: e.target.value}})}
+                    placeholder="Name as on bank account"
                     className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-4 py-2 text-sm font-medium outline-none focus:border-indigo-600 transition-all"
                   />
                </div>
                <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Bank & Branch</label>
+                  <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Account No</label>
+                  <input 
+                    value={formData.bankDetails.accountNumber}
+                    onChange={e => setFormData({...formData, bankDetails: {...formData.bankDetails, accountNumber: e.target.value}})}
+                    placeholder="e.g. 1234567890"
+                    className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-4 py-2 text-sm font-medium outline-none focus:border-indigo-600 transition-all"
+                  />
+               </div>
+               <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Bank Name</label>
                   <input 
                     value={formData.bankDetails.bankName}
                     onChange={e => setFormData({...formData, bankDetails: {...formData.bankDetails, bankName: e.target.value}})}
+                    placeholder="e.g. Dutch-Bangla Bank"
+                    className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-4 py-2 text-sm font-medium outline-none focus:border-indigo-600 transition-all"
+                  />
+               </div>
+               <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Branch Name</label>
+                  <input 
+                    value={formData.bankDetails.branchName || ""}
+                    onChange={e => setFormData({...formData, bankDetails: {...formData.bankDetails, branchName: e.target.value}})}
+                    placeholder="e.g. Dhanmondi Branch"
                     className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-4 py-2 text-sm font-medium outline-none focus:border-indigo-600 transition-all"
                   />
                </div>
@@ -477,18 +498,20 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold text-rose-600 uppercase tracking-widest ml-0.5">bKash</label>
+                  <label className="text-[11px] font-bold text-rose-600 uppercase tracking-widest ml-0.5">bKash <span className="normal-case text-gray-300 font-normal">(optional)</span></label>
                   <input 
                     value={formData.bankDetails.bkash}
                     onChange={e => setFormData({...formData, bankDetails: {...formData.bankDetails, bkash: e.target.value}})}
+                    placeholder="01XXXXXXXXX"
                     className="w-full bg-rose-50 border border-rose-100 rounded-[4px] px-4 py-2 text-sm font-medium outline-none focus:border-rose-600 transition-all"
                   />
                </div>
                <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold text-amber-600 uppercase tracking-widest ml-0.5">Nagad</label>
+                  <label className="text-[11px] font-bold text-amber-600 uppercase tracking-widest ml-0.5">Nagad <span className="normal-case text-gray-300 font-normal">(optional)</span></label>
                   <input 
                     value={formData.bankDetails.nagad}
                     onChange={e => setFormData({...formData, bankDetails: {...formData.bankDetails, nagad: e.target.value}})}
+                    placeholder="01XXXXXXXXX"
                     className="w-full bg-amber-50 border border-amber-100 rounded-[4px] px-4 py-2 text-sm font-medium outline-none focus:border-amber-600 transition-all"
                   />
                </div>
