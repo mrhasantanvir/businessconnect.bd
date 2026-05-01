@@ -375,14 +375,14 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
       ) : (
         <div className="space-y-6">
           {/* Review Required Section - Only for STAFF tab */}
-          {activeTab === "STAFF" && staff.filter(s => s.staffProfile?.status === "ONBOARDING" && s.staffProfile?.nidFrontUrl).length > 0 && (
+          {activeTab === "STAFF" && staff.filter(s => s.staffProfile?.status === "ONBOARDING" && s.staffProfile?.nidFrontUrl && !s.staffProfile?.missingDocuments).length > 0 && (
             <div className="bg-indigo-50/50 border border-indigo-100 rounded-[4px] p-4">
               <div className="flex items-center gap-2 mb-4">
                 <AlertCircle className="w-4 h-4 text-indigo-600" />
                 <h3 className="text-[11px] font-black text-indigo-600 uppercase tracking-widest">Action Required: Review Onboarding Documents</h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {staff.filter(s => s.staffProfile?.status === "ONBOARDING" && s.staffProfile?.nidFrontUrl).map(member => (
+                {staff.filter(s => s.staffProfile?.status === "ONBOARDING" && s.staffProfile?.nidFrontUrl && !s.staffProfile?.missingDocuments).map(member => (
                   <div key={member.id} className="bg-white border border-indigo-100 rounded-[4px] p-4 flex items-center justify-between shadow-sm">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-indigo-50 rounded-[4px] flex items-center justify-center text-indigo-600 font-bold text-xs">
