@@ -1,6 +1,7 @@
 import React from "react";
 import { db as prisma } from "@/lib/db";
 import { updateAiGlobalSettingsAction } from "./actions";
+import { AiTestButton } from "@/components/admin/AiTestButton";
 import { 
   Cpu, 
   Key, 
@@ -91,6 +92,7 @@ export default async function AiSettingsPage() {
                         />
                      </div>
                   </div>
+                  <AiTestButton apiKey={settings?.openaiApiKey} />
                </div>
 
                {/* Provider 2: Google Gemini (Fallback) */}

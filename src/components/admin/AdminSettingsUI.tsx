@@ -100,6 +100,13 @@ export function AdminSettingsUI({ activeTab }: AdminSettingsUIProps) {
             sub="System Toggles"
           />
           <TabButton 
+            active={activeTab === "AI"} 
+            onClick={() => router.push("/admin/settings/ai")} 
+            icon={BrainCircuit} 
+            label="AI Intelligence" 
+            sub="OpenAI & Vision"
+          />
+          <TabButton 
             active={activeTab === "SMS"} 
             onClick={() => router.push("/admin/settings/sms")} 
             icon={Smartphone} 
@@ -162,13 +169,6 @@ export function AdminSettingsUI({ activeTab }: AdminSettingsUIProps) {
             label="Email Templates" 
             sub="Auto Responses"
           />
-          <TabButton 
-            active={activeTab === "AI"} 
-            onClick={() => router.push("/admin/settings/ai")} 
-            icon={BrainCircuit} 
-            label="AI Intelligence" 
-            sub="OpenAI & Vision"
-          />
         </div>
 
         {/* Content Area */}
@@ -176,6 +176,13 @@ export function AdminSettingsUI({ activeTab }: AdminSettingsUIProps) {
            <div className="p-8">
               {activeTab === "GENERAL" && (
                 <GeneralSettings 
+                  settings={settings} 
+                  onSave={handleSave} 
+                  saving={saving} 
+                />
+              )}
+              {activeTab === "AI" && (
+                <AISettings 
                   settings={settings} 
                   onSave={handleSave} 
                   saving={saving} 
@@ -240,13 +247,6 @@ export function AdminSettingsUI({ activeTab }: AdminSettingsUIProps) {
               {activeTab === "EMAIL_TEMPLATES" && (
                 <EmailTemplateSettings 
                   templates={templates} 
-                />
-              )}
-              {activeTab === "AI" && (
-                <AISettings 
-                  settings={settings} 
-                  onSave={handleSave} 
-                  saving={saving} 
                 />
               )}
            </div>

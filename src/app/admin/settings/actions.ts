@@ -322,13 +322,30 @@ export async function testOpenAIConnectionAction(imageUrl?: string) {
 
     // If no image provided, just do a simple chat completion test
     if (!imageUrl) {
-      const { OpenAI } = require("openai");
-      const openai = new OpenAI({ apiKey: settings.openaiApiKey });
-      const response = await openai.chat.completions.create({
-        model: settings.openaiModel || "gpt-4o",
-        messages: [{ role: "user", content: "Hello, are you working? Respond with 'Yes, I am working!'" }],
+      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${settings.openaiApiKey.trim()}`
+        },
+        body: JSON.stringify({
+          model: settings.openaiModel || "gpt-4o",
+          messages: [{ role: "user", content: "Hello, are you working?" }],
+          max_tokens: 10
+        })
       });
-      return { success: true, message: response.choices[0].message.content };
+
+      const data = await response.json();
+      
+      if (!response.ok) {
+        console.error("OpenAI Direct API Error:", data);
+        return { 
+          success: false, 
+          error: data.error?.message || `API Error: ${response.status} ${response.statusText}` 
+        };
+      }
+
+      return { success: true, message: data.choices[0].message.content };
     }
 
     // If image provided, test NID extraction
