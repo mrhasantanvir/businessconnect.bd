@@ -150,7 +150,7 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
         { icon: Cpu, label: "Global AI", href: "/admin/ai-settings", roles: ["SUPER_ADMIN"] },
         { icon: Activity, label: "Revenue & Billing", href: "/admin/billing", roles: ["SUPER_ADMIN"] },
         { icon: Zap, label: "System Updates", href: "/admin/system/update", roles: ["SUPER_ADMIN"] },
-        { icon: Settings, label: "Global Settings", href: "/admin/settings", roles: ["SUPER_ADMIN"] },
+        { icon: Settings, label: "Global Settings", href: "/admin/settings/general", roles: ["SUPER_ADMIN"] },
         { icon: Layout, label: t("business_profile"), href: "/merchant/storefront", roles: ["MERCHANT"] },
           { icon: Share2, label: t("settings"), roles: ["MERCHANT"], subItems: [
              { label: t("storefront_themes"), href: "/merchant/settings/themes" },

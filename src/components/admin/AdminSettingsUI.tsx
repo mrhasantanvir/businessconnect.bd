@@ -10,10 +10,17 @@ import {
 import { getSystemSettingsAction, updateSystemSettingsAction, getEmailTemplatesAction, updateEmailTemplateAction } from "@/app/admin/settings/actions";
 import { RichEditor } from "@/components/ui/RichEditor";
 
+import { useRouter, usePathname } from "next/navigation";
+
 type Tab = "GENERAL" | "SMS" | "REALTIME" | "MAIL" | "WHATSAPP" | "PRICING" | "GOOGLE" | "SEO" | "STORAGE" | "EMAIL_TEMPLATES";
 
-export function AdminSettingsUI() {
-  const [activeTab, setActiveTab] = useState<Tab>("GENERAL");
+interface AdminSettingsUIProps {
+  activeTab: Tab;
+}
+
+export function AdminSettingsUI({ activeTab }: AdminSettingsUIProps) {
+  const router = useRouter();
+  const pathname = usePathname();
   const [settings, setSettings] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -85,70 +92,70 @@ export function AdminSettingsUI() {
         <div className="w-full lg:w-64 shrink-0 space-y-1">
           <TabButton 
             active={activeTab === "GENERAL"} 
-            onClick={() => setActiveTab("GENERAL")} 
+            onClick={() => router.push("/admin/settings/general")} 
             icon={ShieldCheck} 
             label="General Support" 
             sub="System Toggles"
           />
           <TabButton 
             active={activeTab === "SMS"} 
-            onClick={() => setActiveTab("SMS")} 
+            onClick={() => router.push("/admin/settings/sms")} 
             icon={Smartphone} 
             label="SMS Gateways" 
             sub="Firebase & BD APIs"
           />
           <TabButton 
             active={activeTab === "REALTIME"} 
-            onClick={() => setActiveTab("REALTIME")} 
+            onClick={() => router.push("/admin/settings/realtime")} 
             icon={Bell} 
             label="Real-time" 
             sub="Pusher Config"
           />
           <TabButton 
             active={activeTab === "MAIL"} 
-            onClick={() => setActiveTab("MAIL")} 
+            onClick={() => router.push("/admin/settings/mail")} 
             icon={Mail} 
             label="Mail (SMTP)" 
             sub="Amazon SES & More"
           />
           <TabButton 
             active={activeTab === "WHATSAPP"} 
-            onClick={() => setActiveTab("WHATSAPP")} 
+            onClick={() => router.push("/admin/settings/whatsapp")} 
             icon={MessageCircle} 
             label="WhatsApp" 
             sub="Business API"
           />
           <TabButton 
             active={activeTab === "PRICING"} 
-            onClick={() => setActiveTab("PRICING")} 
+            onClick={() => router.push("/admin/settings/pricing")} 
             icon={DollarSign} 
             label="Resource Pricing" 
             sub="Global Rates"
           />
           <TabButton 
             active={activeTab === "GOOGLE"} 
-            onClick={() => setActiveTab("GOOGLE")} 
+            onClick={() => router.push("/admin/settings/google")} 
             icon={Globe} 
             label="Google Cloud" 
             sub="App Sync Keys"
           />
           <TabButton 
             active={activeTab === "SEO"} 
-            onClick={() => setActiveTab("SEO")} 
+            onClick={() => router.push("/admin/settings/seo")} 
             icon={Search} 
             label="SEO & Branding" 
             sub="Meta & Social"
           />
           <TabButton 
             active={activeTab === "STORAGE"} 
-            onClick={() => setActiveTab("STORAGE")} 
+            onClick={() => router.push("/admin/settings/storage")} 
             icon={Cloud} 
             label="Cloud Storage" 
             sub="CDN & Buckets"
           />
           <TabButton 
             active={activeTab === "EMAIL_TEMPLATES"} 
-            onClick={() => setActiveTab("EMAIL_TEMPLATES")} 
+            onClick={() => router.push("/admin/settings/email-templates")} 
             icon={Mail} 
             label="Email Templates" 
             sub="Auto Responses"
