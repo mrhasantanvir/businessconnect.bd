@@ -86,6 +86,7 @@ const translations: Record<Language, Record<string, string>> = {
     growth_ai: "Growth & AI",
     communications: "Communications",
     administration: "Administration",
+    staff_management: "Staff Management",
   },
   bn: {
     dashboard: "ড্যাশবোর্ড",
@@ -162,6 +163,7 @@ const translations: Record<Language, Record<string, string>> = {
     growth_ai: "গ্রোথ ও এআই",
     communications: "কমিউনিকেশনস",
     administration: "অ্যাডমিনিস্ট্রেশন",
+    staff_management: "স্টাফ ম্যানেজমেন্ট",
   }
 };
 
