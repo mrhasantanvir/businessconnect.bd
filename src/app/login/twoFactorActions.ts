@@ -2,7 +2,7 @@
 
 import { db as prisma } from "@/lib/db";
 import { getSession } from "@/lib/auth";
-import { authenticator } from "otplib";
+import speakeasy from "speakeasy";
 import QRCode from "qrcode";
 
 export async function generateTwoFactorSecretAction() {
@@ -15,22 +15,19 @@ export async function generateTwoFactorSecretAction() {
 
   if (!user) throw new Error("User not found");
 
-  const secret = authenticator.generateSecret();
-  const otpauth = authenticator.keyuri(
-    user.email || user.id,
-    "BusinessConnect.bd",
-    secret
-  );
-
-  const qrCodeUrl = await QRCode.toDataURL(otpauth);
-
-  // Store secret temporarily in user record (but not enabled yet)
-  await prisma.user.update({
-    where: { id: session.userId },
-    data: { twoFactorSecret: secret }
+  const secret = speakeasy.generateSecret({
+    name: `BusinessConnect:${user.email || user.id}`
   });
 
-  return { secret, qrCodeUrl };
+  const qrCodeUrl = await QRCode.toDataURL(secret.otpauth_url || "");
+
+  // Store base32 secret temporarily
+  await prisma.user.update({
+    where: { id: session.userId },
+    data: { twoFactorSecret: secret.base32 }
+  });
+
+  return { secret: secret.base32, qrCodeUrl };
 }
 
 export async function verifyAndEnableTwoFactorAction(token: string) {
@@ -43,12 +40,13 @@ export async function verifyAndEnableTwoFactorAction(token: string) {
 
   if (!user || !user.twoFactorSecret) throw new Error("2FA not initialized");
 
-  const isValid = authenticator.verify({
-    token,
-    secret: user.twoFactorSecret
+  const verified = speakeasy.totp.verify({
+    secret: user.twoFactorSecret,
+    encoding: 'base32',
+    token
   });
 
-  if (!isValid) return { error: "Invalid verification code" };
+  if (!verified) return { error: "Invalid verification code" };
 
   await prisma.user.update({
     where: { id: session.userId },
@@ -71,21 +69,4 @@ export async function disableTwoFactorAction() {
   });
 
   return { success: "Two-factor authentication disabled" };
-}
-
-export async function verifyTwoFactorLoginAction(userId: string, token: string) {
-  const user = await prisma.user.findUnique({
-    where: { id: userId }
-  });
-
-  if (!user || !user.twoFactorSecret) return { error: "Invalid request" };
-
-  const isValid = authenticator.verify({
-    token,
-    secret: user.twoFactorSecret
-  });
-
-  if (!isValid) return { error: "Invalid 2FA code" };
-
-  return { success: true };
 }

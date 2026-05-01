@@ -6,7 +6,7 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { authenticator } from "otplib";
+import speakeasy from "speakeasy";
 
 async function createSession(user: any) {
   // Generate a unique session ID for single device login
@@ -97,12 +97,13 @@ export async function complete2FALoginAction(userId: string, token: string) {
 
     if (!user || !user.twoFactorSecret) return { error: "Invalid login attempt" };
 
-    const isValid = authenticator.verify({
-      token,
-      secret: user.twoFactorSecret
+    const verified = speakeasy.totp.verify({
+      secret: user.twoFactorSecret,
+      encoding: 'base32',
+      token
     });
 
-    if (!isValid) return { error: "Invalid verification code" };
+    if (!verified) return { error: "Invalid verification code" };
 
     const redirectPath = await createSession(user);
     redirect(redirectPath);
