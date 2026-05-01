@@ -362,8 +362,6 @@ export default async function OrderDetailPage({ params }: { params: { id: string
          </div>
 
       </div>
-      
-      </div>
     </div>
   );
 }
