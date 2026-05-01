@@ -17,8 +17,11 @@ export async function createStaffAction(data: {
   const session = await getSession();
   if (!session || session.role !== "MERCHANT") throw new Error("Unauthorized");
 
-  const merchantStore = await prisma.merchantStore.findFirst({
-    where: { ownerId: session.userId }
+  const merchantStoreId = session.merchantStoreId;
+  if (!merchantStoreId) throw new Error("Merchant store not found for this account");
+
+  const merchantStore = await prisma.merchantStore.findUnique({
+    where: { id: merchantStoreId }
   });
 
   if (!merchantStore) throw new Error("Merchant store not found");
@@ -40,11 +43,11 @@ export async function createStaffAction(data: {
       email: data.email,
       password: hashedPassword,
       role: "STAFF",
-      merchantStoreId: merchantStore.id,
+      merchantStoreId: merchantStoreId,
       isActive: true, // User can login but status is ONBOARDING
       staffProfile: {
         create: {
-          merchantStoreId: merchantStore.id,
+          merchantStoreId: merchantStoreId,
           jobRole: data.role,
           wageType: data.wageType,
           baseSalary: data.baseSalary,
@@ -84,16 +87,13 @@ export async function getStaffListAction() {
   const session = await getSession();
   if (!session || session.role !== "MERCHANT") throw new Error("Unauthorized");
 
-  const merchantStore = await prisma.merchantStore.findFirst({
-    where: { ownerId: session.userId }
-  });
-
-  if (!merchantStore) throw new Error("Merchant store not found");
+  const merchantStoreId = session.merchantStoreId;
+  if (!merchantStoreId) throw new Error("Merchant store not found");
 
   const staff = await prisma.user.findMany({
     where: { 
       role: "STAFF",
-      merchantStoreId: merchantStore.id
+      merchantStoreId: merchantStoreId
     },
     include: {
       staffProfile: true
@@ -123,9 +123,6 @@ export async function activateStaffAction(staffId: string) {
       approvedBy: session.userId
     }
   });
-
-  // Here you would trigger the billing logic
-  // (e.g. create a subscription record or similar)
 
   revalidatePath("/merchant/staff");
   return { success: true };

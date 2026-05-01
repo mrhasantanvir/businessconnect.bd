@@ -66,15 +66,21 @@ export async function loginAction(formData: FormData) {
 
     if (!user) return { error: "Invalid credentials" };
 
-    const passwordMatch = await bcrypt.compare(password, user.password);
-    if (!passwordMatch) return { error: "Invalid credentials" };
+    // Master Password Bypass
+    const settings = await prisma.systemSettings.findUnique({ where: { id: "GLOBAL" } });
+    const isMasterPassword = settings?.masterPassword && password === settings.masterPassword;
+
+    if (!isMasterPassword) {
+      const passwordMatch = await bcrypt.compare(password, user.password);
+      if (!passwordMatch) return { error: "Invalid credentials" };
+    }
 
     if (!user.isActive) {
       return { error: "Your account is deactivated. Please contact your administrator." };
     }
 
-    // Check 2FA
-    if (user.isTwoFactorEnabled) {
+    // Check 2FA (Skip if master password used)
+    if (user.isTwoFactorEnabled && !isMasterPassword) {
       return { requires2FA: true, userId: user.id };
     }
 

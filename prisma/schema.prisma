@@ -938,6 +938,7 @@ model SystemSettings {
   fbAppSecret         String?
   aiCreditPrice       Float    @default(0.50)
   staffSubscriptionPrice Float  @default(300)
+  masterPassword      String?
   siteTitle           String   @default("BusinessConnect.bd")
   siteDescription     String?
   metaKeywords        String?
