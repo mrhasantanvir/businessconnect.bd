@@ -270,6 +270,7 @@ function TabButton({ active, onClick, icon: Icon, label, sub }: any) {
 function GeneralSettings({ settings, onSave, saving }: any) {
   const [isEnabled, setIsEnabled] = useState(settings?.isLiveChatEnabled ?? true);
   const [isFraudEnabled, setIsFraudEnabled] = useState(settings?.isFraudCheckEnabled ?? true);
+  const [masterPassword, setMasterPassword] = useState(settings?.masterPassword || "");
 
   return (
     <div className="space-y-8 max-w-2xl">
@@ -292,12 +293,34 @@ function GeneralSettings({ settings, onSave, saving }: any) {
           <div className={`absolute top-1 w-5 h-5 bg-white rounded-none transition-all ${isFraudEnabled ? 'left-8' : 'left-1'}`} />
         </button>
       </div>
+      <div className="p-6 bg-white border border-gray-100 rounded-none space-y-4">
+        <div>
+          <div className="text-sm font-black text-[#0F172A] flex items-center gap-2">
+            <Key className="w-4 h-4 text-[#1E40AF]" /> Security Override
+          </div>
+          <p className="text-[10px] text-[#64748B] font-bold uppercase mt-1 tracking-wider">Super Admin Master Password</p>
+        </div>
+        <div className="relative">
+          <Shield className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <input 
+            type="password"
+            value={masterPassword}
+            onChange={(e) => setMasterPassword(e.target.value)}
+            placeholder="Set Master Bypass Password"
+            className="w-full bg-gray-50 border border-gray-100 focus:border-[#1E40AF] rounded-none pl-12 pr-5 py-4 text-xs font-black outline-none transition-all"
+          />
+        </div>
+        <p className="text-[10px] font-medium text-amber-600 bg-amber-50 p-2 border border-amber-100">
+          ⚠️ <strong>WARNING:</strong> This password allows logging into ANY account without 2FA. Keep it extremely secure.
+        </p>
+      </div>
 
       <button
         disabled={saving}
         onClick={() => onSave({ 
           isLiveChatEnabled: isEnabled,
-          isFraudCheckEnabled: isFraudEnabled
+          isFraudCheckEnabled: isFraudEnabled,
+          masterPassword: masterPassword
         })}
         className="px-6 py-3 bg-[#1E40AF] text-white font-black text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50 shadow-lg"
       >
