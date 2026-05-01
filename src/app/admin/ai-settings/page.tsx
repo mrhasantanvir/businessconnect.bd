@@ -46,6 +46,8 @@ export default async function AiSettingsPage() {
                "use server";
                await updateAiGlobalSettingsAction({
                  openaiApiKey: formData.get("openaiApiKey") as string,
+                 openaiOrgId: formData.get("openaiOrgId") as string,
+                 openaiProjectId: formData.get("openaiProjectId") as string,
                  openaiModel: formData.get("openaiModel") as string,
                  openRouterKey: formData.get("openRouterKey") as string,
                  openRouterModel: formData.get("openRouterModel") as string,
@@ -82,6 +84,14 @@ export default async function AiSettingsPage() {
                         />
                      </div>
                      <div className="space-y-2">
+                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Organization ID <span className="normal-case font-normal text-gray-300">(optional)</span></label>
+                        <input name="openaiOrgId" type="text" defaultValue={settings?.openaiOrgId || ""} placeholder="org-XXXXXXXXXXXXXXXXXXXXXXXX" className="w-full bg-gray-50 border border-gray-100 focus:border-[#1E40AF] rounded-none px-5 py-4 text-xs font-bold outline-none transition-all" />
+                     </div>
+                     <div className="space-y-2">
+                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Project ID <span className="normal-case font-normal text-gray-300">(required for sk-proj- keys)</span></label>
+                        <input name="openaiProjectId" type="text" defaultValue={settings?.openaiProjectId || ""} placeholder="proj_XXXXXXXXXXXXXXXXXXXXXXXX" className="w-full bg-gray-50 border border-gray-100 focus:border-[#1E40AF] rounded-none px-5 py-4 text-xs font-bold outline-none transition-all" />
+                     </div>
+                     <div className="space-y-2">
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Preferred Model</label>
                         <input 
                            name="openaiModel"
@@ -113,6 +123,14 @@ export default async function AiSettingsPage() {
                            placeholder="AIza..." 
                            className="w-full bg-gray-50 border border-gray-100 focus:border-[#1E40AF] rounded-none px-5 py-4 text-xs font-bold outline-none transition-all" 
                         />
+                     </div>
+                     <div className="space-y-2">
+                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Organization ID <span className="normal-case font-normal text-gray-300">(optional)</span></label>
+                        <input name="openaiOrgId" type="text" defaultValue={settings?.openaiOrgId || ""} placeholder="org-XXXXXXXXXXXXXXXXXXXXXXXX" className="w-full bg-gray-50 border border-gray-100 focus:border-[#1E40AF] rounded-none px-5 py-4 text-xs font-bold outline-none transition-all" />
+                     </div>
+                     <div className="space-y-2">
+                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Project ID <span className="normal-case font-normal text-gray-300">(required for sk-proj- keys)</span></label>
+                        <input name="openaiProjectId" type="text" defaultValue={settings?.openaiProjectId || ""} placeholder="proj_XXXXXXXXXXXXXXXXXXXXXXXX" className="w-full bg-gray-50 border border-gray-100 focus:border-[#1E40AF] rounded-none px-5 py-4 text-xs font-bold outline-none transition-all" />
                      </div>
                      <div className="space-y-2">
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Preferred Model</label>
@@ -147,6 +165,14 @@ export default async function AiSettingsPage() {
                         />
                      </div>
                      <div className="space-y-2">
+                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Organization ID <span className="normal-case font-normal text-gray-300">(optional)</span></label>
+                        <input name="openaiOrgId" type="text" defaultValue={settings?.openaiOrgId || ""} placeholder="org-XXXXXXXXXXXXXXXXXXXXXXXX" className="w-full bg-gray-50 border border-gray-100 focus:border-[#1E40AF] rounded-none px-5 py-4 text-xs font-bold outline-none transition-all" />
+                     </div>
+                     <div className="space-y-2">
+                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Project ID <span className="normal-case font-normal text-gray-300">(required for sk-proj- keys)</span></label>
+                        <input name="openaiProjectId" type="text" defaultValue={settings?.openaiProjectId || ""} placeholder="proj_XXXXXXXXXXXXXXXXXXXXXXXX" className="w-full bg-gray-50 border border-gray-100 focus:border-[#1E40AF] rounded-none px-5 py-4 text-xs font-bold outline-none transition-all" />
+                     </div>
+                     <div className="space-y-2">
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Preferred Model</label>
                         <input 
                            name="deepseekModel"
@@ -179,6 +205,14 @@ export default async function AiSettingsPage() {
                         />
                      </div>
                      <div className="space-y-2">
+                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Organization ID <span className="normal-case font-normal text-gray-300">(optional)</span></label>
+                        <input name="openaiOrgId" type="text" defaultValue={settings?.openaiOrgId || ""} placeholder="org-XXXXXXXXXXXXXXXXXXXXXXXX" className="w-full bg-gray-50 border border-gray-100 focus:border-[#1E40AF] rounded-none px-5 py-4 text-xs font-bold outline-none transition-all" />
+                     </div>
+                     <div className="space-y-2">
+                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Project ID <span className="normal-case font-normal text-gray-300">(required for sk-proj- keys)</span></label>
+                        <input name="openaiProjectId" type="text" defaultValue={settings?.openaiProjectId || ""} placeholder="proj_XXXXXXXXXXXXXXXXXXXXXXXX" className="w-full bg-gray-50 border border-gray-100 focus:border-[#1E40AF] rounded-none px-5 py-4 text-xs font-bold outline-none transition-all" />
+                     </div>
+                     <div className="space-y-2">
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Preferred Model</label>
                         <input 
                            name="groqModel"
@@ -209,6 +243,14 @@ export default async function AiSettingsPage() {
                            placeholder="sk-or-v1-..." 
                            className="w-full bg-gray-50 border border-gray-100 focus:border-[#1E40AF] rounded-none px-5 py-4 text-xs font-bold outline-none transition-all" 
                         />
+                     </div>
+                     <div className="space-y-2">
+                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Organization ID <span className="normal-case font-normal text-gray-300">(optional)</span></label>
+                        <input name="openaiOrgId" type="text" defaultValue={settings?.openaiOrgId || ""} placeholder="org-XXXXXXXXXXXXXXXXXXXXXXXX" className="w-full bg-gray-50 border border-gray-100 focus:border-[#1E40AF] rounded-none px-5 py-4 text-xs font-bold outline-none transition-all" />
+                     </div>
+                     <div className="space-y-2">
+                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Project ID <span className="normal-case font-normal text-gray-300">(required for sk-proj- keys)</span></label>
+                        <input name="openaiProjectId" type="text" defaultValue={settings?.openaiProjectId || ""} placeholder="proj_XXXXXXXXXXXXXXXXXXXXXXXX" className="w-full bg-gray-50 border border-gray-100 focus:border-[#1E40AF] rounded-none px-5 py-4 text-xs font-bold outline-none transition-all" />
                      </div>
                      <div className="space-y-2">
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Preferred Model</label>
