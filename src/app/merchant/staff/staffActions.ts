@@ -523,3 +523,37 @@ export async function authorizeDeviceAction(staffDeviceId: string) {
   revalidatePath("/merchant/staff");
   return { success: true, price };
 }
+
+/**
+ * Extracts personal information from a staff NID image using AI (OpenAI GPT-4o Vision).
+ * Returns name, nidNumber, dob, fatherName, motherName, permanentAddress.
+ */
+export async function extractNIDDataAction(imageUrl: string) {
+  const session = await getSession();
+  if (!session || session.role !== "MERCHANT") throw new Error("Unauthorized");
+
+  try {
+    const { extractNIDInfo } = await import("@/lib/vision");
+    const result = await extractNIDInfo(imageUrl);
+
+    if ("error" in result && result.error) {
+      return { success: false, error: result.error };
+    }
+
+    return {
+      success: true,
+      data: {
+        name: result.name || "",
+        nidNumber: result.nidNumber || "",
+        dob: result.dob || "",
+        fatherName: result.fatherName || "",
+        motherName: result.motherName || "",
+        permanentAddress: result.permanentAddress || "",
+      }
+    };
+  } catch (error: any) {
+    console.error("NID Extraction Error:", error);
+    return { success: false, error: error.message || "Failed to extract NID data" };
+  }
+}
+

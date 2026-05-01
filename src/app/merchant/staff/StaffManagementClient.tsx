@@ -41,7 +41,8 @@ import {
   deleteStaffInvitationAction,
   rejoinStaffAction,
   getStaffDevicesAction,
-  authorizeDeviceAction 
+  authorizeDeviceAction,
+  extractNIDDataAction
 } from "./staffActions";
 import { toast } from "sonner";
 import { MerchantRoleManagement } from "@/components/merchant/MerchantRoleManagement";
@@ -58,6 +59,8 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
   const [selectedStaff, setSelectedStaff] = useState<any>(null);
   const [staffDevices, setStaffDevices] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [extracting, setExtracting] = useState(false);
+  const [extractedData, setExtractedData] = useState<any>(null);
   const [rejectionReason, setRejectionReason] = useState("");
   const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
   const [selectedMissingDocs, setSelectedMissingDocs] = useState<string[]>([]);
@@ -927,6 +930,77 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                         </button>
                      </div>
                   </div>
+
+                  {/* AI NID Extraction Button */}
+                  {selectedStaff.staffProfile?.nidFrontUrl && (
+                    <div className="bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-100 rounded-[4px] p-4 flex items-center justify-between gap-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 bg-indigo-600 rounded-[4px] flex items-center justify-center shrink-0">
+                          <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.347.347a3.2 3.2 0 01-.933 2.197A3.2 3.2 0 0115.75 21h-7.5a3.2 3.2 0 01-2.197-.933A3.2 3.2 0 015.25 18l-.347-.347a5 5 0 010-7.072z" /></svg>
+                        </div>
+                        <div>
+                          <p className="text-[11px] font-black text-indigo-900 uppercase tracking-widest">AI NID Extraction</p>
+                          <p className="text-[10px] text-indigo-500 mt-0.5">{extractedData ? "Data extracted successfully" : "Auto-fill personal info from NID image"}</p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={async () => {
+                          setExtracting(true);
+                          setExtractedData(null);
+                          try {
+                            const result = await extractNIDDataAction(selectedStaff.staffProfile.nidFrontUrl);
+                            if (result.success && result.data) {
+                              setExtractedData(result.data);
+                              toast.success("NID data extracted! Saving to profile...");
+                              // Auto-save extracted data to staff profile
+                              await updateStaffInfoAction(selectedStaff.id, {
+                                name: result.data.name || selectedStaff.name,
+                                jobRole: selectedStaff.staffProfile.jobRole,
+                                roleId: selectedStaff.customRoleId || "",
+                                baseSalary: selectedStaff.staffProfile.baseSalary,
+                                wageType: selectedStaff.staffProfile.wageType,
+                              });
+                              // Update local state
+                              setStaff(prev => prev.map(s => s.id === selectedStaff.id ? {
+                                ...s,
+                                name: result.data.name || s.name,
+                                staffProfile: {
+                                  ...s.staffProfile,
+                                  nidNumber: result.data.nidNumber || s.staffProfile?.nidNumber,
+                                  fatherName: result.data.fatherName || s.staffProfile?.fatherName,
+                                  motherName: result.data.motherName || s.staffProfile?.motherName,
+                                  permanentAddress: result.data.permanentAddress || s.staffProfile?.permanentAddress,
+                                  dob: result.data.dob ? new Date(result.data.dob) : s.staffProfile?.dob,
+                                }
+                              } : s));
+                              setSelectedStaff((prev: any) => ({
+                                ...prev,
+                                name: result.data.name || prev.name,
+                                staffProfile: {
+                                  ...prev.staffProfile,
+                                  nidNumber: result.data.nidNumber || prev.staffProfile?.nidNumber,
+                                  fatherName: result.data.fatherName || prev.staffProfile?.fatherName,
+                                  motherName: result.data.motherName || prev.staffProfile?.motherName,
+                                  permanentAddress: result.data.permanentAddress || prev.staffProfile?.permanentAddress,
+                                }
+                              }));
+                              toast.success(`Profile updated: ${result.data.name || 'Name'} — NID: ${result.data.nidNumber || 'N/A'}`);
+                            } else {
+                              toast.error(result.error || "Extraction failed");
+                            }
+                          } catch (e: any) {
+                            toast.error(e.message || "Extraction failed");
+                          } finally {
+                            setExtracting(false);
+                          }
+                        }}
+                        disabled={extracting}
+                        className="shrink-0 px-4 py-2.5 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest hover:bg-indigo-700 transition-all disabled:opacity-50 flex items-center gap-2 rounded-[4px]"
+                      >
+                        {extracting ? <><Loader2 className="w-3.5 h-3.5 animate-spin" /> Extracting...</> : <><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg> Extract Info</>}
+                      </button>
+                    </div>
+                  )}
                </div>
            </div>
         </div>

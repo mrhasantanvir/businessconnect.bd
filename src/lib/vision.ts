@@ -24,7 +24,12 @@ export async function extractNIDInfo(imageUrl: string) {
     });
 
     if (settings?.openaiApiKey) {
-      return await extractWithOpenAI(imageUrl, settings.openaiApiKey, settings.openaiModel || "gpt-4o");
+      return await extractWithOpenAI(
+        imageUrl, 
+        settings.openaiApiKey, 
+        settings.openaiModel || "gpt-4o",
+        settings.openaiProjectId || undefined
+      );
     }
 
     return await extractWithGoogle(imageUrl);
@@ -34,13 +39,11 @@ export async function extractNIDInfo(imageUrl: string) {
   }
 }
 
-async function extractWithOpenAI(imageUrl: string, apiKey: string, model: string) {
+async function extractWithOpenAI(imageUrl: string, apiKey: string, model: string, projectId?: string) {
   try {
-    const openai = new OpenAI({ apiKey });
-
     let imageContent: string;
 
-    // Handle local paths for OpenAI by converting to base64
+    // Handle local paths by converting to base64
     if (imageUrl.startsWith("/")) {
       const filePath = path.join(process.cwd(), "public", imageUrl);
       const buffer = await fs.readFile(filePath);
@@ -50,34 +53,52 @@ async function extractWithOpenAI(imageUrl: string, apiKey: string, model: string
       imageContent = imageUrl;
     }
 
-    const response = await openai.chat.completions.create({
-      model: model,
-      messages: [
-        {
-          role: "user",
-          content: [
-            { 
-              type: "text", 
-              text: "Extract the following information from this NID (National ID) card image. Respond ONLY with a JSON object containing these keys: name (English full name), nidNumber (the long identification number), dob (Date of birth in YYYY-MM-DD format), fatherName (English), motherName (English), and permanentAddress (Full address in English). If any field is not clear, leave it as an empty string. The NID might be in Bengali, please translate the values to English." 
-            },
-            {
-              type: "image_url",
-              image_url: {
-                url: imageContent,
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${apiKey.trim()}`
+    };
+
+    // Only add Project header for sk-proj- keys
+    if (projectId && apiKey.startsWith("sk-proj-")) {
+      headers["OpenAI-Project"] = projectId.trim();
+    }
+
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        model,
+        messages: [
+          {
+            role: "user",
+            content: [
+              { 
+                type: "text", 
+                text: "Extract the following information from this NID (National ID) card image. Respond ONLY with a JSON object containing these keys: name (English full name), nidNumber (the long identification number), dob (Date of birth in YYYY-MM-DD format), fatherName (English), motherName (English), and permanentAddress (Full address in English). If any field is not clear, leave it as an empty string. The NID might be in Bengali, please translate the values to English." 
               },
-            },
-          ],
-        },
-      ],
-      response_format: { type: "json_object" }
+              {
+                type: "image_url",
+                image_url: { url: imageContent }
+              }
+            ]
+          }
+        ],
+        response_format: { type: "json_object" }
+      })
     });
 
-    const content = response.choices[0].message.content;
+    const data = await response.json();
+    if (!response.ok) {
+      console.error("OpenAI Vision Error:", data);
+      throw new Error(data.error?.message || "OpenAI API error");
+    }
+
+    const content = data.choices[0].message.content;
     if (!content) throw new Error("No response from OpenAI");
 
-    const data = JSON.parse(content);
+    const parsed = JSON.parse(content);
     return {
-      ...data,
+      ...parsed,
       rawText: content,
       provider: "openai"
     };
@@ -87,6 +108,7 @@ async function extractWithOpenAI(imageUrl: string, apiKey: string, model: string
     return await extractWithGoogle(imageUrl);
   }
 }
+
 
 async function extractWithGoogle(imageUrl: string) {
   try {

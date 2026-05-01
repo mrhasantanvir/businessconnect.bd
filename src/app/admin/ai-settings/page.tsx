@@ -85,18 +85,6 @@ export default async function AiSettingsPage() {
                      </div>
                      <div className="space-y-2">
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">
-                           Organization ID <span className="normal-case font-normal text-gray-300">(optional)</span>
-                        </label>
-                        <input 
-                           name="openaiOrgId"
-                           type="text"
-                           defaultValue={settings?.openaiOrgId || ""}
-                           placeholder="org-XXXXXXXXXXXXXXXXXXXXXXXX" 
-                           className="w-full bg-gray-50 border border-gray-100 focus:border-[#1E40AF] rounded-none px-5 py-4 text-xs font-bold outline-none transition-all" 
-                        />
-                     </div>
-                     <div className="space-y-2">
-                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">
                            Project ID <span className="normal-case font-normal text-gray-300">(required for sk-proj- keys)</span>
                         </label>
                         <input 
