@@ -956,6 +956,8 @@ model SystemSettings {
   whatsappToken       String?
   whatsappPhoneId     String?
   openaiApiKey        String?
+  openaiOrgId         String?
+  openaiProjectId     String?
   openaiModel         String   @default("gpt-4o")
   openRouterKey       String?
   openRouterModel     String   @default("openai/gpt-3.5-turbo")

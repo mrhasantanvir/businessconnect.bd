@@ -827,6 +827,8 @@ function CloudStorageSettings({ settings, onSave, saving }: any) {
 
 function AISettings({ settings, onSave, saving }: any) {
   const [apiKey, setApiKey] = useState(settings?.openaiApiKey ?? "");
+  const [orgId, setOrgId] = useState(settings?.openaiOrgId ?? "");
+  const [projectId, setProjectId] = useState(settings?.openaiProjectId ?? "");
   const [model, setModel] = useState(settings?.openaiModel ?? "gpt-4o");
   const [priority, setPriority] = useState(settings?.aiProviderPriority ?? "OPENAI,GEMINI,DEEPSEEK,OPENROUTER");
   const [visionKey, setVisionKey] = useState(settings?.googleVisionKey ?? "");
@@ -860,6 +862,8 @@ function AISettings({ settings, onSave, saving }: any) {
         <div className="md:col-span-2">
            <Input label="OpenAI API Key" value={apiKey} onChange={setApiKey} type="password" placeholder="sk-..." />
         </div>
+        <Input label="OpenAI Organization ID (Optional)" value={orgId} onChange={setOrgId} placeholder="org-..." />
+        <Input label="OpenAI Project ID (Optional)" value={projectId} onChange={setProjectId} placeholder="proj_..." />
         <div className="space-y-2">
           <label className="text-[10px] font-black uppercase tracking-widest text-[#64748B]">Primary AI Model</label>
           <select 
@@ -904,6 +908,8 @@ function AISettings({ settings, onSave, saving }: any) {
         disabled={saving}
         onClick={() => onSave({ 
           openaiApiKey: apiKey,
+          openaiOrgId: orgId,
+          openaiProjectId: projectId,
           openaiModel: model,
           aiProviderPriority: priority,
           googleVisionKey: visionKey

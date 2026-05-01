@@ -322,12 +322,17 @@ export async function testOpenAIConnectionAction(imageUrl?: string) {
 
     // If no image provided, just do a simple chat completion test
     if (!imageUrl) {
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${settings.openaiApiKey.trim()}`
+      };
+
+      if (settings.openaiOrgId) headers["OpenAI-Organization"] = settings.openaiOrgId.trim();
+      if (settings.openaiProjectId) headers["OpenAI-Project"] = settings.openaiProjectId.trim();
+
       const response = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${settings.openaiApiKey.trim()}`
-        },
+        headers,
         body: JSON.stringify({
           model: settings.openaiModel || "gpt-4o",
           messages: [{ role: "user", content: "Hello, are you working?" }],
