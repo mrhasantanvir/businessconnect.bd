@@ -322,12 +322,14 @@ export async function testOpenAIConnectionAction(imageUrl?: string) {
 
     // If no image provided, just do a simple chat completion test
     if (!imageUrl) {
+      const apiKey = settings.openaiApiKey.trim();
       const headers: Record<string, string> = {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${settings.openaiApiKey.trim()}`
+        "Authorization": `Bearer ${apiKey}`
       };
 
-      if (settings.openaiOrgId) headers["OpenAI-Organization"] = settings.openaiOrgId.trim();
+      // For project-scoped keys (sk-proj-), only send Project ID header (not Org ID)
+      // Sending Org ID causes "header should match organization for API key" error
       if (settings.openaiProjectId) headers["OpenAI-Project"] = settings.openaiProjectId.trim();
 
       const response = await fetch("https://api.openai.com/v1/chat/completions", {
