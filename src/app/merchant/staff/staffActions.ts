@@ -84,7 +84,7 @@ export async function createStaffAction(data: {
   revalidatePath("/merchant/staff");
   return { success: true, staff: user };
 }
-}
+
 
 export async function getStaffListAction() {
   const session = await getSession();
