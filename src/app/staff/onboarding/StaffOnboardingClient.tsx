@@ -17,7 +17,8 @@ import {
   Building2,
   Phone,
   Banknote,
-  AlertCircle
+  AlertCircle,
+  ScanText
 } from "lucide-react";
 import { processNIDAction, submitStaffOnboardingAction } from "./actions";
 import { toast } from "sonner";
@@ -27,8 +28,9 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
   
   // If there are missing documents, we reset to step 1 to allow re-upload
   const initialStep = missingDocs.length > 0 ? 1 : (profile.onboardingStep || 1);
-  const [step, setStep] = useState(initialStep > 3 ? 3 : initialStep);
+  const [step, setStep] = useState(initialStep > 4 ? 4 : initialStep);
   const [loading, setLoading] = useState(false);
+  const [extracting, setExtracting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const [files, setFiles] = useState<{ [key: string]: File | null }>({
@@ -74,24 +76,48 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
     try {
       const url = await handleFileUpload(file, `nid_${side}`);
       setFormData(prev => ({ ...prev, [`nid${side.charAt(0).toUpperCase() + side.slice(1)}Url`]: url }));
-      
-      toast.info(`Extracting information from NID ${side}...`);
-      const info: any = await processNIDAction(url);
-      if (!info.error) {
-        setFormData(prev => ({
-          ...prev,
-          nidNumber: info.nidNumber || prev.nidNumber,
-          permanentAddress: info.permanentAddress || prev.permanentAddress,
-          dob: info.dob || prev.dob,
-          fatherName: info.fatherName || prev.fatherName,
-          motherName: info.motherName || prev.motherName
-        }));
-        toast.success(`NID ${side} information extracted!`);
-      }
+      toast.success(`${side === 'front' ? 'Front' : 'Back'} side uploaded!`);
     } catch (error) {
-      toast.error("Failed to process NID");
+      toast.error("Failed to upload NID image");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const startExtraction = async () => {
+    if (!formData.nidFrontUrl) return toast.error("Please upload NID front side first");
+    
+    setExtracting(true);
+    setStep(2); // Move to step 2 where fields are
+    
+    try {
+      toast.info("AI is extracting details from your NID...");
+      
+      // Extract from Front (Identity)
+      const infoFront: any = await processNIDAction(formData.nidFrontUrl);
+      
+      let infoBack: any = {};
+      if (formData.nidBackUrl) {
+        // Extract from Back (Address)
+        infoBack = await processNIDAction(formData.nidBackUrl);
+      }
+
+      if (!infoFront.error || !infoBack.error) {
+        setFormData(prev => ({
+          ...prev,
+          nidNumber: infoFront.nidNumber || prev.nidNumber,
+          dob: infoFront.dob || prev.dob,
+          fatherName: infoFront.fatherName || prev.fatherName,
+          motherName: infoFront.motherName || prev.motherName,
+          permanentAddress: infoBack.permanentAddress || infoFront.permanentAddress || prev.permanentAddress
+        }));
+        toast.success("Information extracted successfully!");
+      }
+    } catch (error) {
+      console.error("Extraction error:", error);
+      toast.error("AI extraction failed, please enter details manually.");
+    } finally {
+      setExtracting(false);
     }
   };
 
@@ -101,7 +127,6 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      // Final CV upload if needed
       let cvUrl = formData.cvUrl;
       if (files.cv) {
         cvUrl = await handleFileUpload(files.cv, "cv");
@@ -119,7 +144,7 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
     }
   };
 
-  if (submitted || (profile.onboardingStep >= 4 && missingDocs.length === 0)) {
+  if (submitted || (profile.onboardingStep >= 5 && missingDocs.length === 0)) {
     return (
       <div className="max-w-md w-full bg-white border border-gray-100 rounded-[4px] p-8 text-center space-y-6 shadow-sm animate-in fade-in zoom-in duration-300">
          <div className="w-16 h-16 bg-green-50 rounded-[4px] flex items-center justify-center mx-auto mb-4">
@@ -148,8 +173,8 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
         </div>
         <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Complete your profile</h1>
         <div className="flex justify-center gap-1.5 mt-6">
-           {[1, 2, 3].map((s) => (
-             <div key={s} className={`h-1 w-16 rounded-[2px] transition-all duration-500 ${step >= s ? "bg-indigo-600" : "bg-gray-100"}`} />
+           {[1, 2, 3, 4].map((s) => (
+             <div key={s} className={`h-1 w-12 rounded-[2px] transition-all duration-500 ${step >= s ? "bg-indigo-600" : "bg-gray-100"}`} />
            ))}
         </div>
       </div>
@@ -179,11 +204,11 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
           <div className="space-y-6 animate-in fade-in slide-in-from-right-2 duration-300">
             <div className="flex items-center gap-3 mb-4">
                <div className="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-[4px] flex items-center justify-center">
-                  <UserSquare2 className="w-5 h-5" />
+                  <ScanText className="w-5 h-5" />
                </div>
                <div>
-                  <h3 className="text-lg font-bold text-slate-900">Identity Details</h3>
-                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Step 1 of 3</p>
+                  <h3 className="text-lg font-bold text-slate-900">Upload NID</h3>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Step 1 of 4</p>
                </div>
             </div>
 
@@ -218,13 +243,44 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
                </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <button 
+              onClick={startExtraction}
+              disabled={!formData.nidFrontUrl || !formData.nidBackUrl || loading}
+              className="w-full bg-indigo-600 text-white py-3.5 rounded-[4px] font-bold text-xs uppercase tracking-widest shadow-sm hover:bg-indigo-700 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+            >
+              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <>Next: Extract Details <ArrowRight className="w-4 h-4" /></>}
+            </button>
+          </div>
+        )}
+
+        {step === 2 && (
+          <div className="space-y-6 animate-in fade-in slide-in-from-right-2 duration-300">
+            <div className="flex items-center gap-3 mb-4">
+               <div className="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-[4px] flex items-center justify-center">
+                  <UserSquare2 className="w-5 h-5" />
+               </div>
+               <div>
+                  <h3 className="text-lg font-bold text-slate-900">Identity Details</h3>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Step 2 of 4</p>
+               </div>
+            </div>
+
+            {extracting && (
+              <div className="bg-indigo-50 border border-indigo-100 rounded-[4px] p-6 text-center space-y-3 animate-pulse">
+                <Loader2 className="w-8 h-8 text-indigo-600 animate-spin mx-auto" />
+                <p className="text-xs font-bold text-indigo-600 uppercase tracking-widest">AI is reading your NID...</p>
+                <p className="text-[10px] text-indigo-400">Please wait while we extract your personal information.</p>
+              </div>
+            )}
+
+            <div className={`grid grid-cols-1 md:grid-cols-2 gap-4 ${extracting ? 'opacity-50 grayscale pointer-events-none' : ''}`}>
                <div className="space-y-1.5">
                   <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">NID Number</label>
                   <input 
                     value={formData.nidNumber}
                     onChange={e => setFormData({...formData, nidNumber: e.target.value})}
                     className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-4 py-2.5 text-sm font-medium outline-none focus:border-indigo-600 transition-all"
+                    placeholder="Auto-extracted"
                   />
                </div>
                <div className="space-y-1.5">
@@ -238,14 +294,14 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
                </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className={`grid grid-cols-1 md:grid-cols-2 gap-4 ${extracting ? 'opacity-50 grayscale pointer-events-none' : ''}`}>
                <div className="space-y-1.5">
                   <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Father's Name</label>
                   <input 
                     value={formData.fatherName}
                     onChange={e => setFormData({...formData, fatherName: e.target.value})}
                     className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-4 py-2.5 text-sm font-medium outline-none focus:border-indigo-600 transition-all"
-                    placeholder="Enter Father's Name"
+                    placeholder="Auto-extracted"
                   />
                </div>
                <div className="space-y-1.5">
@@ -254,39 +310,45 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
                     value={formData.motherName}
                     onChange={e => setFormData({...formData, motherName: e.target.value})}
                     className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-4 py-2.5 text-sm font-medium outline-none focus:border-indigo-600 transition-all"
-                    placeholder="Enter Mother's Name"
+                    placeholder="Auto-extracted"
                   />
                </div>
             </div>
 
-            <div className="space-y-1.5">
+            <div className={`space-y-1.5 ${extracting ? 'opacity-50 grayscale pointer-events-none' : ''}`}>
                <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Permanent Address</label>
                <textarea 
                  value={formData.permanentAddress}
                  onChange={e => setFormData({...formData, permanentAddress: e.target.value})}
                  className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-4 py-2.5 text-sm font-medium outline-none focus:border-indigo-600 transition-all min-h-[80px]"
+                 placeholder="Auto-extracted"
                />
             </div>
 
-            <button 
-              onClick={nextStep}
-              disabled={!formData.nidFrontUrl || !formData.nidBackUrl || !formData.nidNumber}
-              className="w-full bg-indigo-600 text-white py-3.5 rounded-[4px] font-bold text-xs uppercase tracking-widest shadow-sm hover:bg-indigo-700 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
-            >
-              Continue to Step 2 <ArrowRight className="w-4 h-4" />
-            </button>
+            <div className="flex gap-3">
+              <button onClick={prevStep} className="px-4 bg-gray-50 text-gray-400 rounded-[4px] hover:bg-gray-100">
+                 <ArrowLeft className="w-5 h-5" />
+              </button>
+              <button 
+                onClick={nextStep}
+                disabled={extracting || !formData.nidNumber || !formData.dob}
+                className="flex-1 bg-indigo-600 text-white py-3.5 rounded-[4px] font-bold text-xs uppercase tracking-widest shadow-sm hover:bg-indigo-700 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+              >
+                Continue to Step 3 <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         )}
 
-        {step === 2 && (
+        {step === 3 && (
           <div className="space-y-6 animate-in fade-in slide-in-from-right-2 duration-300">
             <div className="flex items-center gap-3 mb-4">
                <div className="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-[4px] flex items-center justify-center">
                   <MapPin className="w-5 h-5" />
                </div>
                <div>
-                  <h3 className="text-lg font-bold text-slate-900">Address & Refs</h3>
-                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Step 2 of 3</p>
+                  <h3 className="text-lg font-bold text-slate-900">Current Address</h3>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Step 3 of 4</p>
                </div>
             </div>
 
@@ -339,21 +401,21 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
                 disabled={!formData.currentAddress || formData.references.some(r => !r.name || !r.contact)}
                 className="flex-1 bg-indigo-600 text-white py-3.5 rounded-[4px] font-bold text-xs uppercase tracking-widest shadow-sm hover:bg-indigo-700 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
               >
-                Continue to Step 3 <ArrowRight className="w-4 h-4" />
+                Continue to Final Step <ArrowRight className="w-4 h-4" />
               </button>
             </div>
           </div>
         )}
 
-        {step === 3 && (
+        {step === 4 && (
           <div className="space-y-6 animate-in fade-in slide-in-from-right-2 duration-300">
             <div className="flex items-center gap-3 mb-4">
                <div className="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-[4px] flex items-center justify-center">
                   <Banknote className="w-5 h-5" />
                </div>
                <div>
-                  <h3 className="text-lg font-bold text-slate-900">Finance & Documents</h3>
-                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Final Step</p>
+                  <h3 className="text-lg font-bold text-slate-900">Finance & CV</h3>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Step 4 of 4</p>
                </div>
             </div>
 
