@@ -316,6 +316,7 @@ model AiTransaction {
   merchantStoreId String
   amount          Float
   type            String
+  provider        String?
   description     String?
   createdAt       DateTime      @default(now())
   merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
