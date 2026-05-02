@@ -4,7 +4,15 @@ import React, { useState } from "react";
 import { Terminal, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import { testAiConnectionAction } from "@/app/admin/ai-settings/actions";
 
-export function AiTestButton({ provider }: { provider: string }) {
+export function AiTestButton({ 
+  provider, 
+  apiKeyInputId, 
+  modelInputId 
+}: { 
+  provider: string,
+  apiKeyInputId?: string,
+  modelInputId?: string
+}) {
   const [testing, setTesting] = useState(false);
   const [testResult, setTestResult] = useState<any>(null);
 
@@ -12,7 +20,20 @@ export function AiTestButton({ provider }: { provider: string }) {
     setTesting(true);
     setTestResult(null);
     try {
-      const res = await testAiConnectionAction(provider);
+      let customKey = "";
+      let customModel = "";
+      
+      if (apiKeyInputId) {
+        const input = document.getElementById(apiKeyInputId) as HTMLInputElement;
+        if (input) customKey = input.value;
+      }
+      
+      if (modelInputId) {
+        const input = document.getElementById(modelInputId) as HTMLInputElement;
+        if (input) customModel = input.value;
+      }
+
+      const res = await testAiConnectionAction(provider, customKey, customModel);
       setTestResult(res);
     } catch (err: any) {
       setTestResult({ success: false, error: err.message });

@@ -56,24 +56,30 @@ export async function rechargeMerchantAiBalanceAction(data: {
   return { success: true };
 }
 
-export async function testAiConnectionAction(provider: string) {
+export async function testAiConnectionAction(provider: string, customApiKey?: string, customModel?: string) {
   try {
-    const settings = await prisma.systemSettings.findUnique({ where: { id: "GLOBAL" } });
-    if (!settings) throw new Error("Settings not found");
+    let settings: any = null;
+    if (!customApiKey) {
+      settings = await prisma.systemSettings.findUnique({ where: { id: "GLOBAL" } });
+      if (!settings) throw new Error("Settings not found");
+    }
 
     if (provider === "OPENAI") {
-      if (!settings.openaiApiKey) throw new Error("OpenAI API Key not configured");
+      const apiKey = customApiKey || settings?.openaiApiKey;
+      const model = customModel || settings?.openaiModel || "gpt-4o";
+      
+      if (!apiKey) throw new Error("OpenAI API Key not configured");
       const headers: Record<string, string> = {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${settings.openaiApiKey.trim()}`
+        "Authorization": `Bearer ${apiKey.trim()}`
       };
-      if (settings.openaiProjectId) headers["OpenAI-Project"] = settings.openaiProjectId.trim();
+      if (settings?.openaiProjectId) headers["OpenAI-Project"] = settings.openaiProjectId.trim();
 
       const res = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
         headers,
         body: JSON.stringify({
-          model: settings.openaiModel || "gpt-4o",
+          model: model,
           messages: [{ role: "user", content: "hi" }],
           max_tokens: 5
         })
@@ -84,8 +90,11 @@ export async function testAiConnectionAction(provider: string) {
     }
 
     if (provider === "GEMINI") {
-      if (!settings.geminiKey) throw new Error("Gemini API Key not configured");
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${settings.geminiModel || 'gemini-1.5-pro'}:generateContent?key=${settings.geminiKey.trim()}`, {
+      const apiKey = customApiKey || settings?.geminiKey;
+      const model = customModel || settings?.geminiModel || "gemini-1.5-pro";
+
+      if (!apiKey) throw new Error("Gemini API Key not configured");
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey.trim()}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -99,15 +108,18 @@ export async function testAiConnectionAction(provider: string) {
     }
 
     if (provider === "GROQ") {
-      if (!settings.groqKey) throw new Error("Groq API Key not configured");
+      const apiKey = customApiKey || settings?.groqKey;
+      const model = customModel || settings?.groqModel || "llama-3.1-70b-versatile";
+
+      if (!apiKey) throw new Error("Groq API Key not configured");
       const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${settings.groqKey.trim()}`,
+          "Authorization": `Bearer ${apiKey.trim()}`,
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          model: settings.groqModel || "llama-3.1-70b-versatile",
+          model: model,
           messages: [{ role: "user", content: "hi" }],
           max_tokens: 5
         })
@@ -118,15 +130,18 @@ export async function testAiConnectionAction(provider: string) {
     }
 
     if (provider === "DEEPSEEK") {
-      if (!settings.deepseekKey) throw new Error("DeepSeek API Key not configured");
+      const apiKey = customApiKey || settings?.deepseekKey;
+      const model = customModel || settings?.deepseekModel || "deepseek-chat";
+
+      if (!apiKey) throw new Error("DeepSeek API Key not configured");
       const res = await fetch("https://api.deepseek.com/chat/completions", {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${settings.deepseekKey.trim()}`,
+          "Authorization": `Bearer ${apiKey.trim()}`,
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          model: settings.deepseekModel || "deepseek-chat",
+          model: model,
           messages: [{ role: "user", content: "hi" }],
           max_tokens: 5
         })
@@ -137,15 +152,18 @@ export async function testAiConnectionAction(provider: string) {
     }
 
     if (provider === "OPENROUTER") {
-      if (!settings.openRouterKey) throw new Error("OpenRouter API Key not configured");
+      const apiKey = customApiKey || settings?.openRouterKey;
+      const model = customModel || settings?.openRouterModel || "openai/gpt-3.5-turbo";
+
+      if (!apiKey) throw new Error("OpenRouter API Key not configured");
       const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${settings.openRouterKey.trim()}`,
+          "Authorization": `Bearer ${apiKey.trim()}`,
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          model: settings.openRouterModel || "openai/gpt-3.5-turbo",
+          model: model,
           messages: [{ role: "user", content: "hi" }],
           max_tokens: 5
         })

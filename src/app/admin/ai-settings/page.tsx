@@ -76,6 +76,7 @@ export default async function AiSettingsPage() {
                      <div className="md:col-span-2 space-y-2">
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">API Key</label>
                         <input 
+                           id="openaiApiKey"
                            name="openaiApiKey"
                            type="password"
                            defaultValue={settings?.openaiApiKey || ""}
@@ -98,6 +99,7 @@ export default async function AiSettingsPage() {
                      <div className="space-y-2">
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Preferred Model</label>
                         <input 
+                           id="openaiModel"
                            name="openaiModel"
                            type="text"
                            defaultValue={settings?.openaiModel || "gpt-4o"}
@@ -106,7 +108,7 @@ export default async function AiSettingsPage() {
                         />
                      </div>
                   </div>
-                  <AiTestButton provider="OPENAI" />
+                  <AiTestButton provider="OPENAI" apiKeyInputId="openaiApiKey" modelInputId="openaiModel" />
                </div>
 
                {/* Provider 2: Google Gemini (Fallback) */}
@@ -121,6 +123,7 @@ export default async function AiSettingsPage() {
                      <div className="space-y-2">
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Gemini API Key</label>
                         <input 
+                           id="geminiKey"
                            name="geminiKey"
                            type="password"
                            defaultValue={settings?.geminiKey || ""}
@@ -131,6 +134,7 @@ export default async function AiSettingsPage() {
                      <div className="space-y-2">
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Preferred Model</label>
                         <input 
+                           id="geminiModel"
                            name="geminiModel"
                            type="text"
                            defaultValue={settings?.geminiModel || "gemini-1.5-pro"}
@@ -139,7 +143,7 @@ export default async function AiSettingsPage() {
                         />
                      </div>
                   </div>
-                  <AiTestButton provider="GEMINI" />
+                  <AiTestButton provider="GEMINI" apiKeyInputId="geminiKey" modelInputId="geminiModel" />
                </div>
 
                {/* Provider 3: DeepSeek (Ultra Low Cost) */}
@@ -154,6 +158,7 @@ export default async function AiSettingsPage() {
                      <div className="space-y-2">
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">DeepSeek API Key</label>
                         <input 
+                           id="deepseekKey"
                            name="deepseekKey"
                            type="password"
                            defaultValue={settings?.deepseekKey || ""}
@@ -164,6 +169,7 @@ export default async function AiSettingsPage() {
                      <div className="space-y-2">
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Preferred Model</label>
                         <input 
+                           id="deepseekModel"
                            name="deepseekModel"
                            type="text"
                            defaultValue={settings?.deepseekModel || "deepseek-chat"}
@@ -172,7 +178,7 @@ export default async function AiSettingsPage() {
                         />
                      </div>
                   </div>
-                  <AiTestButton provider="DEEPSEEK" />
+                  <AiTestButton provider="DEEPSEEK" apiKeyInputId="deepseekKey" modelInputId="deepseekModel" />
                </div>
 
                {/* Provider 4: Groq (Blazing Fast) */}
@@ -187,6 +193,7 @@ export default async function AiSettingsPage() {
                      <div className="space-y-2">
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Groq API Key</label>
                         <input 
+                           id="groqKey"
                            name="groqKey"
                            type="password"
                            defaultValue={settings?.groqKey || ""}
@@ -197,6 +204,7 @@ export default async function AiSettingsPage() {
                      <div className="space-y-2">
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Preferred Model</label>
                         <input 
+                           id="groqModel"
                            name="groqModel"
                            type="text"
                            defaultValue={settings?.groqModel || "llama-3.1-70b-versatile"}
@@ -205,7 +213,7 @@ export default async function AiSettingsPage() {
                         />
                      </div>
                   </div>
-                  <AiTestButton provider="GROQ" />
+                  <AiTestButton provider="GROQ" apiKeyInputId="groqKey" modelInputId="groqModel" />
                </div>
 
                {/* Provider 5: OpenRouter (Legacy Support) */}
@@ -220,6 +228,7 @@ export default async function AiSettingsPage() {
                      <div className="space-y-2">
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">API Key</label>
                         <input 
+                           id="openRouterKey"
                            name="openRouterKey"
                            type="password"
                            defaultValue={settings?.openRouterKey || ""}
@@ -230,6 +239,7 @@ export default async function AiSettingsPage() {
                      <div className="space-y-2">
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Preferred Model</label>
                         <input 
+                           id="openRouterModel"
                            name="openRouterModel"
                            type="text"
                            defaultValue={settings?.openRouterModel || "openai/gpt-3.5-turbo"}
@@ -237,7 +247,7 @@ export default async function AiSettingsPage() {
                         />
                      </div>
                   </div>
-                  <AiTestButton provider="OPENROUTER" />
+                  <AiTestButton provider="OPENROUTER" apiKeyInputId="openRouterKey" modelInputId="openRouterModel" />
                </div>
 
                {/* Global Control & Priority */}
