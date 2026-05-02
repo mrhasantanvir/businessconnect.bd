@@ -27,6 +27,7 @@ npm run build || { echo "❌ Build failed! Aborting deployment." | tee -a $LOG_F
 # 4. Finalize database & environment
 echo "🗄️ Updating database schema..." | tee -a $LOG_FILE
 npx prisma generate
+npx prisma db push
 
 # 5. Zero-Downtime Reload
 echo "♻️ Reloading PM2 instances..." | tee -a $LOG_FILE
