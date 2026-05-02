@@ -300,7 +300,7 @@ export default function TaskDashboardClient({ tasks, staff, merchantStoreId }: {
                    <tr>
                      <td colSpan={5} className="px-6 py-20 text-center">
                         <div className="max-w-xs mx-auto">
-                           <LayoutIcon className="w-12 h-12 text-gray-100 mx-auto mb-4" />
+                           <KanbanIcon className="w-12 h-12 text-gray-100 mx-auto mb-4" />
                            <p className="text-xs font-black text-gray-300 uppercase tracking-widest">No Active Tasks Found</p>
                            <p className="text-[10px] text-gray-400 font-medium mt-1 leading-relaxed">Describe a task above to let the AI Ops Manager organize your operations.</p>
                         </div>
