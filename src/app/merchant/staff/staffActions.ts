@@ -3,9 +3,11 @@
 import { db as prisma } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
+import { format } from "date-fns";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
 import { sendEmail } from "@/lib/mail";
+import { logAdminAction } from "@/lib/audit";
 
 export async function createStaffAction(data: {
   name: string;
@@ -331,6 +333,9 @@ export async function updateStaffInfoAction(userId: string, data: {
   motherName?: string;
   permanentAddress?: string;
   currentAddress?: string;
+  image?: string;
+  coverImage?: string;
+  coverPosition?: number;
 }) {
   const session = await getSession();
   if (!session || session.role !== "MERCHANT") throw new Error("Unauthorized");
@@ -339,6 +344,9 @@ export async function updateStaffInfoAction(userId: string, data: {
     where: { id: userId },
     data: {
       name: data.name,
+      image: data.image,
+      coverImage: data.coverImage,
+      coverPosition: data.coverPosition,
       customRoleId: data.roleId || null,
       staffProfile: {
         update: {
@@ -355,6 +363,18 @@ export async function updateStaffInfoAction(userId: string, data: {
           currentAddress: data.currentAddress
         }
       }
+    }
+  });
+
+  await logAdminAction({
+    adminId: session.userId || session.id,
+    action: "UPDATE_STAFF_INFO",
+    entity: "USER",
+    entityId: userId,
+    merchantStoreId: session.merchantStoreId,
+    targetUserId: userId,
+    metadata: {
+      updatedBy: session.role
     }
   });
 
@@ -604,5 +624,44 @@ export async function extractNIDDataAction(imageUrl: string, backImageUrl?: stri
     console.error("NID Extraction Error:", error);
     return { success: false, error: error.message || "Failed to extract NID data" };
   }
+}
+
+export async function getStaffActivityStatsAction(userId: string) {
+  const session = await getSession();
+  if (!session) throw new Error("Unauthorized");
+
+  const now = new Date();
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+  const workLogs = await prisma.staffWorkLog.findMany({
+    where: {
+      userId,
+      startTime: { gte: startOfMonth }
+    }
+  });
+
+  const attendance = workLogs.length;
+  const totalMinutes = workLogs.reduce((acc, log) => acc + log.totalMinutes, 0);
+  const avgActivityScore = workLogs.length > 0 
+    ? workLogs.reduce((acc, log) => acc + log.activityScore, 0) / workLogs.length 
+    : 0;
+
+  // Tasks completed (Orders processed by this user)
+  const tasksCompleted = await prisma.orderActivity.count({
+    where: {
+      userId,
+      type: "STATUS_CHANGE",
+      message: { contains: "DELIVERED" },
+      createdAt: { gte: startOfMonth }
+    }
+  });
+
+  return {
+    attendance,
+    totalMinutes,
+    avgActivityScore,
+    tasksCompleted,
+    month: format(startOfMonth, 'MMMM yyyy')
+  };
 }
 

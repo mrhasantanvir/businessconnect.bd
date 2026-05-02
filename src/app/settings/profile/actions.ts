@@ -4,6 +4,9 @@ import { db as prisma } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcrypt";
+import { authenticator } from "otplib";
+import QRCode from "qrcode";
+import { logAdminAction } from "@/lib/audit";
 
 export async function updateProfileAction(data: {
   name?: string;
@@ -55,6 +58,66 @@ export async function updateProfileAction(data: {
     data: updateData
   });
 
+  await logAdminAction({
+    adminId: session.id,
+    action: "UPDATE_PROFILE",
+    entity: "USER",
+    entityId: session.id,
+    metadata: {
+      fieldsUpdated: Object.keys(updateData).filter(k => k !== 'password')
+    }
+  });
+
   revalidatePath("/");
+  return { success: true };
+}
+
+export async function generate2FASecretAction() {
+  const session = await getSession();
+  if (!session || !session.id) throw new Error("Unauthorized");
+
+  const user = await prisma.user.findUnique({ where: { id: session.id } });
+  if (!user) throw new Error("User not found");
+
+  const secret = authenticator.generateSecret();
+  const otpauth = authenticator.keyuri(user.email || user.id, "BusinessConnect.bd", secret);
+  const qrCodeUrl = await QRCode.toDataURL(otpauth);
+
+  // We don't save the secret yet, only when they verify it
+  return { secret, qrCodeUrl };
+}
+
+export async function verifyAndEnable2FAAction(secret: string, token: string) {
+  const session = await getSession();
+  if (!session || !session.id) throw new Error("Unauthorized");
+
+  const isValid = authenticator.verify({ token, secret });
+  if (!isValid) throw new Error("Invalid verification code");
+
+  await prisma.user.update({
+    where: { id: session.id },
+    data: {
+      twoFactorSecret: secret,
+      isTwoFactorEnabled: true
+    }
+  });
+
+  revalidatePath("/settings/profile");
+  return { success: true };
+}
+
+export async function disable2FAAction() {
+  const session = await getSession();
+  if (!session || !session.id) throw new Error("Unauthorized");
+
+  await prisma.user.update({
+    where: { id: session.id },
+    data: {
+      twoFactorSecret: null,
+      isTwoFactorEnabled: false
+    }
+  });
+
+  revalidatePath("/settings/profile");
   return { success: true };
 }

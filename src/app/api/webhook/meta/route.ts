@@ -35,10 +35,24 @@ export async function POST(req: NextRequest) {
 
   try {
     // 1. Extract Merchant/Store ID from Meta ID (Lookup in DB)
-    // For demo/dev, we assume we have a mapping or use a default
-    // Real implementation would look up store by body.entry[0].id (Page ID)
-    const store = await prisma.merchantStore.findFirst(); // Fallback to first store for now
-    if (!store) return NextResponse.json({ error: "No store found" });
+    const externalPageId = body.entry?.[0]?.id;
+    if (!externalPageId) return NextResponse.json({ error: "Invalid payload: missing entry ID" }, { status: 400 });
+
+    const facebookConfig = await prisma.facebookConfig.findFirst({
+      where: { 
+        OR: [
+          { pageId: externalPageId },
+          { adAccountId: externalPageId } // Sometimes WABA ID is stored here or similar
+        ],
+        isActive: true
+      }
+    });
+
+    const store = facebookConfig 
+      ? await prisma.merchantStore.findUnique({ where: { id: facebookConfig.merchantStoreId } })
+      : await prisma.merchantStore.findFirst(); // Fallback for dev/legacy, though ideally strict in production
+
+    if (!store) return NextResponse.json({ error: "No store found for this Meta ID" }, { status: 404 });
 
     // 2. Extract Message Details
     let senderId = "";

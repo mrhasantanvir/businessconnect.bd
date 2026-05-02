@@ -2,14 +2,16 @@
 
 import React, { useState, useEffect } from "react";
 import { 
-  User, Mail, Phone, Lock, Save, RefreshCw, ShieldCheck, 
-  Camera, MapPin, Calendar, Briefcase, FileText, ExternalLink,
-  Shield, Key, QrCode, CheckCircle2, AlertCircle, Clock
+  Lock, Save, RefreshCw, ShieldCheck, 
+  Shield, Key, QrCode, CheckCircle2
 } from "lucide-react";
 import { toast } from "sonner";
-import { updateProfileAction } from "./actions";
+import { 
+  updateProfileAction, generate2FASecretAction, 
+  verifyAndEnable2FAAction, disable2FAAction 
+} from "./actions";
 import { cn } from "@/lib/utils";
-import { formatDistanceToNow, format } from "date-fns";
+import { StaffProfileCard } from "@/components/merchant/staff/StaffProfileCard";
 
 export default function ProfileClient({ user }: { user: any }) {
   const [loading, setLoading] = useState(false);
@@ -30,6 +32,24 @@ export default function ProfileClient({ user }: { user: any }) {
     newPassword: "",
     confirmPassword: ""
   });
+
+  const [show2FASetup, setShow2FASetup] = useState(false);
+  const [twoFactorData, setTwoFactorData] = useState<any>(null);
+  const [twoFactorToken, setTwoFactorToken] = useState("");
+  const [activityStats, setActivityStats] = useState<any>(null);
+
+  useEffect(() => {
+    async function fetchStats() {
+      try {
+        const { getStaffActivityStatsAction } = await import("@/app/merchant/staff/staffActions");
+        const stats = await getStaffActivityStatsAction(user.id);
+        setActivityStats(stats);
+      } catch (err) {
+        console.error("Failed to fetch activity stats:", err);
+      }
+    }
+    fetchStats();
+  }, [user.id]);
 
   const staff = user.staffProfile;
   const storeName = staff?.merchantStore?.name || "BusinessConnect";
@@ -116,255 +136,15 @@ export default function ProfileClient({ user }: { user: any }) {
   return (
     <div className="max-w-5xl mx-auto pb-20 space-y-8 animate-in fade-in duration-500">
       
-      {/* Header Section (LinkedIn Style) */}
-      <div className="bg-white rounded-3xl overflow-hidden shadow-xl shadow-slate-200/60 border border-slate-100">
-        {/* Cover Photo */}
-        <div 
-          className={cn(
-            "h-48 md:h-64 bg-gradient-to-r from-blue-600 to-indigo-700 relative group overflow-hidden",
-            isRepositioning ? "cursor-ns-resize" : ""
-          )}
-          onMouseDown={handleRepositionStart}
-          onMouseMove={handleRepositionMove}
-          onMouseUp={() => setStartY(0)}
-          onMouseLeave={() => setStartY(0)}
-          onTouchStart={handleRepositionStart}
-          onTouchMove={handleRepositionMove}
-          onTouchEnd={() => setStartY(0)}
-        >
-          {formData.coverImage ? (
-            <img 
-              src={formData.coverImage} 
-              className="w-full h-full object-cover transition-none pointer-events-none select-none" 
-              style={{ objectPosition: `center ${isRepositioning ? tempPosition : formData.coverPosition}%` }}
-              alt="Cover" 
-            />
-          ) : (
-            <div className="w-full h-full opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]" />
-          )}
-
-          {isRepositioning ? (
-             <div className="absolute inset-0 bg-black/20 flex items-center justify-center pointer-events-none">
-                <div className="bg-white/90 backdrop-blur-md px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
-                   <Clock className="w-4 h-4 text-blue-600" />
-                   <span className="text-[10px] font-black uppercase text-slate-900">Drag to reposition</span>
-                </div>
-             </div>
-          ) : null}
-
-          <div className="absolute bottom-4 right-4 flex gap-2">
-            {!isRepositioning ? (
-              <>
-                <button 
-                  onClick={() => { setIsRepositioning(true); setTempPosition(formData.coverPosition); }}
-                  className="px-4 py-2 bg-black/50 backdrop-blur-md rounded-xl text-white hover:bg-black/70 transition-all shadow-lg flex items-center gap-2 border border-white/20"
-                >
-                  <MapPin className="w-4 h-4" />
-                  <span className="text-[10px] font-black uppercase tracking-widest">Reposition</span>
-                </button>
-                <label className="px-4 py-2 bg-black/50 backdrop-blur-md rounded-xl text-white cursor-pointer hover:bg-black/70 transition-all shadow-lg flex items-center gap-2 border border-white/20">
-                  {uploadingCover ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Camera className="w-4 h-4" />}
-                  <span className="text-[10px] font-black uppercase tracking-widest">Change Cover</span>
-                  <input type="file" className="hidden" accept="image/*" onChange={e => e.target.files?.[0] && handleFileUpload(e.target.files[0], 'cover')} />
-                </label>
-              </>
-            ) : (
-              <>
-                <button 
-                  onClick={() => setIsRepositioning(false)}
-                  className="px-4 py-2 bg-white rounded-xl text-slate-900 hover:bg-slate-100 transition-all shadow-lg flex items-center gap-2 font-black text-[10px] uppercase"
-                >
-                  Cancel
-                </button>
-                <button 
-                  onClick={handleSavePosition}
-                  className="px-4 py-2 bg-blue-600 rounded-xl text-white hover:bg-blue-700 transition-all shadow-lg flex items-center gap-2 font-black text-[10px] uppercase"
-                >
-                  Save Position
-                </button>
-              </>
-            )}
-          </div>
-        </div>
-
-        {/* Profile Info Summary */}
-        <div className="px-6 md:px-10 pb-8 relative">
-          {/* Avatar */}
-          <div className="absolute -top-16 left-6 md:left-10 group">
-             <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white bg-white shadow-xl overflow-hidden relative">
-                {formData.image ? (
-                  <img src={formData.image} className="w-full h-full object-cover" alt="Avatar" />
-                ) : (
-                  <div className="w-full h-full bg-slate-100 flex items-center justify-center text-slate-300">
-                    <User className="w-16 h-16" />
-                  </div>
-                )}
-                <label className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-white cursor-pointer opacity-0 group-hover:opacity-100 transition-all backdrop-blur-[2px]">
-                   {uploadingAvatar ? <RefreshCw className="w-6 h-6 animate-spin" /> : <Camera className="w-6 h-6" />}
-                   <span className="text-[9px] font-black uppercase tracking-widest mt-2">Change Photo</span>
-                   <input type="file" className="hidden" accept="image/*" onChange={e => e.target.files?.[0] && handleFileUpload(e.target.files[0], 'avatar')} />
-                </label>
-             </div>
-          </div>
-
-          {/* Text Info */}
-          <div className="pt-20 md:pt-24 flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div className="space-y-2">
-               <h1 className="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-2">
-                 {formData.name}
-                 <CheckCircle2 className="w-5 h-5 text-blue-500" />
-               </h1>
-               <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm font-bold text-slate-500">
-                  <div className="flex items-center gap-1.5 text-indigo-600">
-                     <Briefcase className="w-4 h-4" /> {jobTitle}
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                     <MapPin className="w-4 h-4" /> {storeName}
-                  </div>
-                  <div className="flex items-center gap-1.5 text-emerald-600">
-                     <Clock className="w-4 h-4" /> Working for {duration}
-                  </div>
-               </div>
-            </div>
-            
-            <div className="flex gap-3">
-               <div className="px-4 py-2 bg-slate-50 rounded-xl border border-slate-100 text-center">
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Joined On</p>
-                  <p className="text-sm font-black text-slate-700">{joinDate ? format(new Date(joinDate), 'MMM dd, yyyy') : "N/A"}</p>
-               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
-        {/* Left Column: Details & Docs */}
-        <div className="lg:col-span-2 space-y-8">
-          
-          {/* Personal Details Card */}
-          <div className="bg-white rounded-[32px] p-8 md:p-10 shadow-lg shadow-slate-200/40 border border-slate-100 space-y-8">
-             <div className="flex items-center justify-between">
-                <h3 className="text-xl font-black text-slate-900 uppercase italic tracking-tight">Personal Details</h3>
-                <div className="w-10 h-10 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600">
-                   <User className="w-5 h-5" />
-                </div>
-             </div>
-
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="space-y-1.5">
-                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Full Name</p>
-                   <p className="text-sm font-bold text-slate-700 bg-slate-50 px-4 py-3 rounded-2xl border border-slate-100">{formData.name}</p>
-                </div>
-                <div className="space-y-1.5">
-                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Email Address</p>
-                   <p className="text-sm font-bold text-slate-700 bg-slate-50 px-4 py-3 rounded-2xl border border-slate-100">{formData.email}</p>
-                </div>
-                <div className="space-y-1.5">
-                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Phone Number</p>
-                   <p className="text-sm font-bold text-slate-700 bg-slate-50 px-4 py-3 rounded-2xl border border-slate-100">{formData.phone || "Not Set"}</p>
-                </div>
-                {staff && (
-                  <>
-                    <div className="space-y-1.5">
-                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">NID Number</p>
-                       <p className="text-sm font-bold text-slate-700 bg-slate-50 px-4 py-3 rounded-2xl border border-slate-100">{staff.nidNumber || "N/A"}</p>
-                    </div>
-                    <div className="space-y-1.5 md:col-span-2">
-                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Home Address</p>
-                       <p className="text-sm font-bold text-slate-700 bg-slate-50 px-4 py-3 rounded-2xl border border-slate-100">{staff.currentAddress || staff.address || "N/A"}</p>
-                    </div>
-                  </>
-                )}
-             </div>
-          </div>
-
-          {/* Documents Section */}
-          <div className="bg-white rounded-[32px] p-8 md:p-10 shadow-lg shadow-slate-200/40 border border-slate-100 space-y-8">
-             <div className="flex items-center justify-between">
-                <h3 className="text-xl font-black text-slate-900 uppercase italic tracking-tight">Verified Documents</h3>
-                <div className="w-10 h-10 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600">
-                   <FileText className="w-5 h-5" />
-                </div>
-             </div>
-
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Fixed NID Documents */}
-                {staff?.nidFrontUrl && (
-                  <a href={staff.nidFrontUrl} target="_blank" className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-100 hover:border-blue-300 transition-all group">
-                     <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm text-blue-600">
-                        <Shield className="w-6 h-6" />
-                     </div>
-                     <div className="flex-1">
-                        <p className="text-[11px] font-black text-slate-900 uppercase tracking-tight">NID Front Side</p>
-                        <p className="text-[10px] font-medium text-slate-400">Official Identity Card</p>
-                     </div>
-                     <ExternalLink className="w-4 h-4 text-slate-300 group-hover:text-blue-600 transition-colors" />
-                  </a>
-                )}
-                {staff?.nidBackUrl && (
-                  <a href={staff.nidBackUrl} target="_blank" className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-100 hover:border-blue-300 transition-all group">
-                     <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm text-blue-600">
-                        <Shield className="w-6 h-6" />
-                     </div>
-                     <div className="flex-1">
-                        <p className="text-[11px] font-black text-slate-900 uppercase tracking-tight">NID Back Side</p>
-                        <p className="text-[10px] font-medium text-slate-400">Address Verification</p>
-                     </div>
-                     <ExternalLink className="w-4 h-4 text-slate-300 group-hover:text-blue-600 transition-colors" />
-                  </a>
-                )}
-                
-                {/* Dynamic Additional Documents */}
-                {staff?.documents?.map((doc: any) => (
-                  <a key={doc.id} href={doc.url} target="_blank" className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-100 hover:border-blue-300 transition-all group">
-                     <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm text-indigo-600">
-                        <FileText className="w-6 h-6" />
-                     </div>
-                     <div className="flex-1">
-                        <p className="text-[11px] font-black text-slate-900 uppercase tracking-tight">{doc.name}</p>
-                        <p className="text-[10px] font-medium text-slate-400">Supporting Document</p>
-                     </div>
-                     <ExternalLink className="w-4 h-4 text-slate-300 group-hover:text-indigo-600 transition-colors" />
-                  </a>
-                ))}
-
-                {(!staff?.documents?.length && !staff?.nidFrontUrl) && (
-                   <div className="md:col-span-2 text-center py-10 text-slate-400 italic font-medium text-sm">
-                      No documents found in profile.
-                   </div>
-                )}
-             </div>
-          </div>
-        </div>
-
-        {/* Right Column: Activity Snapshot */}
-        <div className="space-y-8">
-           <div className="bg-white rounded-[32px] p-8 border border-slate-100 space-y-6 shadow-lg shadow-slate-200/40">
-              <div className="flex items-center justify-between">
-                 <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-widest">Monthly Activities</h3>
-                 <Calendar className="w-4 h-4 text-slate-300" />
-              </div>
-              
-              <div className="space-y-4">
-                 {[
-                   { label: "Attendance Rate", value: "98%", color: "text-emerald-500", bg: "bg-emerald-50" },
-                   { label: "Tasks Completed", value: "142", color: "text-blue-500", bg: "bg-blue-50" },
-                   { label: "Customer Rating", value: "4.9/5", color: "text-amber-500", bg: "bg-amber-50" },
-                 ].map((stat, i) => (
-                   <div key={i} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                      <p className="text-xs font-bold text-slate-500">{stat.label}</p>
-                      <div className={cn("px-3 py-1 rounded-lg font-black text-xs", stat.bg, stat.color)}>
-                         {stat.value}
-                      </div>
-                   </div>
-                 ))}
-              </div>
-              
-              <p className="text-[9px] text-slate-400 font-medium italic text-center">Detailed performance analytics are available in the team dashboard.</p>
-           </div>
-        </div>
-      </div>
+      <StaffProfileCard 
+        user={user} 
+        isEditable={true} 
+        activityStats={activityStats}
+        onUpdate={async (data) => {
+          const res = await updateProfileAction(data);
+          return res;
+        }}
+      />
 
       {/* Security Settings Section (Full Width, Light Mode) at the bottom */}
       <div className="bg-white rounded-[32px] p-8 md:p-10 shadow-lg shadow-slate-200/40 border border-slate-100 space-y-8">
@@ -444,12 +224,95 @@ export default function ProfileClient({ user }: { user: any }) {
                       <p className="text-xs text-slate-500 font-medium leading-relaxed">
                           Add an extra layer of security to your account. When enabled, you'll need to enter a code from your authenticator app to log in.
                       </p>
-                      <div className="flex items-center justify-between p-4 bg-white rounded-2xl border border-slate-200">
-                          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Status: Disabled</span>
-                          <div className="w-12 h-6 bg-slate-200 rounded-full relative cursor-not-allowed">
-                              <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm" />
-                          </div>
-                      </div>
+                      
+                      {user.isTwoFactorEnabled ? (
+                        <div className="space-y-4">
+                           <div className="flex items-center justify-between p-4 bg-emerald-50 rounded-2xl border border-emerald-100">
+                              <div className="flex items-center gap-2">
+                                 <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                                 <span className="text-[10px] font-black text-emerald-700 uppercase tracking-widest">2FA is Enabled</span>
+                              </div>
+                              <button 
+                                onClick={async () => {
+                                  if (confirm("Are you sure you want to disable 2FA?")) {
+                                    setLoading(true);
+                                    await disable2FAAction();
+                                    setLoading(false);
+                                    toast.success("2FA Disabled");
+                                  }
+                                }}
+                                className="text-[10px] font-black text-rose-600 uppercase hover:underline"
+                              >
+                                Disable
+                              </button>
+                           </div>
+                        </div>
+                      ) : (
+                        <div className="space-y-4">
+                           {!show2FASetup ? (
+                             <button 
+                               onClick={async () => {
+                                 setLoading(true);
+                                 try {
+                                   const res = await generate2FASecretAction();
+                                   setTwoFactorData(res);
+                                   setShow2FASetup(true);
+                                 } catch (err: any) {
+                                   toast.error(err.message);
+                                 } finally {
+                                   setLoading(false);
+                                 }
+                               }}
+                               className="w-full bg-blue-600 text-white py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg"
+                             >
+                               Enable 2FA Now
+                             </button>
+                           ) : (
+                             <div className="bg-white p-6 rounded-2xl border border-slate-200 space-y-4 animate-in slide-in-from-bottom-2 duration-300">
+                                <p className="text-[10px] font-black text-slate-900 uppercase tracking-tight text-center">Scan QR Code with Authenticator App</p>
+                                <div className="flex justify-center p-2 bg-slate-50 rounded-xl">
+                                   <img src={twoFactorData.qrCodeUrl} className="w-32 h-32" alt="QR Code" />
+                                </div>
+                                <div className="space-y-2">
+                                   <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest text-center">Enter the 6-digit code</p>
+                                   <input 
+                                     type="text" 
+                                     maxLength={6}
+                                     value={twoFactorToken}
+                                     onChange={e => setTwoFactorToken(e.target.value)}
+                                     className="w-full text-center text-xl font-black tracking-[0.5em] py-3 bg-slate-50 border-none rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20"
+                                     placeholder="000000"
+                                   />
+                                </div>
+                                <div className="flex gap-2">
+                                   <button 
+                                     onClick={() => setShow2FASetup(false)}
+                                     className="flex-1 py-3 text-[10px] font-black uppercase text-slate-400 hover:text-slate-900"
+                                   >
+                                     Cancel
+                                   </button>
+                                   <button 
+                                     onClick={async () => {
+                                       setLoading(true);
+                                       try {
+                                         await verifyAndEnable2FAAction(twoFactorData.secret, twoFactorToken);
+                                         toast.success("2FA Enabled Successfully!");
+                                         setShow2FASetup(false);
+                                       } catch (err: any) {
+                                         toast.error(err.message);
+                                       } finally {
+                                         setLoading(false);
+                                       }
+                                     }}
+                                     className="flex-1 bg-slate-900 text-white py-3 rounded-xl text-[10px] font-black uppercase tracking-widest"
+                                   >
+                                     Verify & Enable
+                                   </button>
+                                </div>
+                             </div>
+                           )}
+                        </div>
+                      )}
                   </div>
               </div>
           </div>

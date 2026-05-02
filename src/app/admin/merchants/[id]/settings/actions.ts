@@ -4,6 +4,7 @@ import { db as prisma } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcrypt";
 import { getSession } from "@/lib/auth";
+import { logAdminAction } from "@/lib/audit";
 
 export async function updateMerchantUserAction(userId: string, data: {
   name?: string;
@@ -33,6 +34,17 @@ export async function updateMerchantUserAction(userId: string, data: {
     await prisma.user.update({
       where: { id: userId },
       data: updateData
+    });
+
+    await logAdminAction({
+      adminId: session.id,
+      action: "UPDATE_MERCHANT_USER",
+      entity: "USER",
+      entityId: userId,
+      targetUserId: userId,
+      metadata: {
+        fieldsUpdated: Object.keys(updateData).filter(k => k !== 'password')
+      }
     });
 
     return { success: true };
@@ -69,6 +81,21 @@ export async function updateMerchantCredentialsAction(merchantId: string, data: 
         }
       })
     ]);
+
+    const session = await getSession();
+    if (session) {
+      await logAdminAction({
+        adminId: session.id,
+        action: "UPDATE_MERCHANT_CONFIG",
+        entity: "MERCHANT_STORE",
+        entityId: merchantId,
+        merchantStoreId: merchantId,
+        metadata: {
+          smsRate: data.smsRate,
+          sipRate: data.sipRate
+        }
+      });
+    }
 
     revalidatePath(`/admin/merchants/${merchantId}/settings`);
     return { success: true };

@@ -170,6 +170,7 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
         { icon: CreditCard, label: "Billing & Credits", href: "/merchant/billing", roles: ["MERCHANT"] },
         { icon: Building2, label: "Branches", href: "/merchant/branches", roles: ["MERCHANT"] },
         { icon: Users, label: t("staff_management"), href: "/merchant/staff", roles: ["MERCHANT"] },
+        { icon: Layout, label: "Task Hub", href: "/merchant/tasks", roles: ["MERCHANT", "STAFF"] },
         { icon: Wallet, label: "Accounting", href: "/merchant/accounting", roles: ["MERCHANT"] },
       ]
     },

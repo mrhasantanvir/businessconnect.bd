@@ -233,7 +233,10 @@ async function callOpenAI(prompt: string, apiKey: string, model: string, options
  */
 async function callGemini(prompt: string, apiKey: string, model: string, options: AiOptions) {
   const genAI = new GoogleGenerativeAI(apiKey);
-  const modelInstance = genAI.getGenerativeModel({ model: model });
+  const modelInstance = genAI.getGenerativeModel({ 
+    model: model,
+    generationConfig: options.jsonMode ? { responseMimeType: "application/json" } : undefined
+  });
   
   let result;
   if (options.imageUrl) {
