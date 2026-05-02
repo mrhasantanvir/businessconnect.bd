@@ -26,9 +26,9 @@ import { toast } from "sonner";
 export function StaffOnboardingClient({ profile, storeName }: { profile: any, storeName: string }) {
   const missingDocs = profile.missingDocuments ? JSON.parse(profile.missingDocuments) : [];
   
-  // If there are missing documents, we reset to step 1 to allow re-upload
-  const initialStep = missingDocs.length > 0 ? 1 : (profile.onboardingStep || 1);
-  const [step, setStep] = useState(initialStep > 4 ? 4 : initialStep);
+  const isReuploadMode = missingDocs.length > 0;
+  const initialStep = isReuploadMode ? 0 : (profile.onboardingStep || 1);
+  const [step, setStep] = useState(initialStep);
   const [loading, setLoading] = useState(false);
   const [extracting, setExtracting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -213,10 +213,160 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
         </div>
       )}
 
-      {/* Steps */}
+      {/* Steps or Re-upload View */}
       <div className="bg-white border border-gray-100 rounded-[4px] p-6 md:p-8 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500">
         
-        {step === 1 && (
+        {isReuploadMode && step === 0 && (
+          <div className="space-y-8 animate-in fade-in slide-in-from-right-2 duration-300">
+            <div className="flex items-center gap-3 mb-4">
+               <div className="w-10 h-10 bg-red-50 text-red-600 rounded-[4px] flex items-center justify-center">
+                  <Upload className="w-5 h-5" />
+               </div>
+               <div>
+                  <h3 className="text-lg font-bold text-slate-900">Re-upload Documents</h3>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Please provide the following corrections</p>
+               </div>
+            </div>
+
+            <div className="space-y-8">
+               {(missingDocs.includes("NID Front") || missingDocs.includes("NID Back")) && (
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {missingDocs.includes("NID Front") && (
+                      <div className="space-y-2">
+                         <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">NID Front</p>
+                         <label className="aspect-[1.6/1] bg-gray-50 border border-dashed border-gray-200 rounded-[4px] flex flex-col items-center justify-center cursor-pointer hover:border-red-600/30 transition-all group overflow-hidden relative">
+                            {formData.nidFrontUrl ? (
+                               <img src={formData.nidFrontUrl} className="w-full h-full object-cover" />
+                            ) : (
+                               <>
+                                  <Upload className="w-6 h-6 text-gray-300 group-hover:text-red-600 transition-colors" />
+                                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-2">Upload Front</span>
+                               </>
+                            )}
+                            <input type="file" className="hidden" accept="image/*" onChange={(e) => e.target.files?.[0] && handleNIDUpload(e.target.files[0], 'front')} />
+                         </label>
+                      </div>
+                    )}
+                    {missingDocs.includes("NID Back") && (
+                      <div className="space-y-2">
+                         <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">NID Back</p>
+                         <label className="aspect-[1.6/1] bg-gray-50 border border-dashed border-gray-200 rounded-[4px] flex flex-col items-center justify-center cursor-pointer hover:border-red-600/30 transition-all group overflow-hidden relative">
+                            {formData.nidBackUrl ? (
+                               <img src={formData.nidBackUrl} className="w-full h-full object-cover" />
+                            ) : (
+                               <>
+                                  <Upload className="w-6 h-6 text-gray-300 group-hover:text-red-600 transition-colors" />
+                                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-2">Upload Back</span>
+                               </>
+                            )}
+                            <input type="file" className="hidden" accept="image/*" onChange={(e) => e.target.files?.[0] && handleNIDUpload(e.target.files[0], 'back')} />
+                         </label>
+                      </div>
+                    )}
+                 </div>
+               )}
+
+               {missingDocs.includes("Profile Photo") && (
+                 <div className="space-y-2">
+                   <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Profile Photo</p>
+                   <label className="flex items-center gap-4 cursor-pointer group">
+                     <div className="w-20 h-20 rounded-full border-2 border-dashed border-gray-200 group-hover:border-red-400 transition-all flex items-center justify-center overflow-hidden bg-gray-50 shrink-0">
+                       {formData.photoUrl ? (
+                         <img src={formData.photoUrl} className="w-full h-full object-cover" alt="Profile" />
+                       ) : (
+                         <div className="flex flex-col items-center gap-1">
+                           <Upload className="w-5 h-5 text-gray-300 group-hover:text-red-500 transition-colors" />
+                           <span className="text-[8px] text-gray-300 font-bold uppercase">Photo</span>
+                         </div>
+                       )}
+                     </div>
+                     <div>
+                       <p className="text-xs font-bold text-slate-700">{formData.photoUrl ? "✅ Photo uploaded — click to change" : "Click to upload your photo"}</p>
+                       <p className="text-[10px] text-gray-400 mt-0.5">JPG or PNG, clear face visible</p>
+                     </div>
+                     <input type="file" className="hidden" accept="image/jpeg,image/png,image/webp" onChange={(e) => e.target.files?.[0] && handlePhotoUpload(e.target.files[0])} />
+                   </label>
+                 </div>
+               )}
+
+               {missingDocs.includes("CV") && (
+                 <div className="space-y-2">
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Update CV (PDF/Image)</p>
+                    <label className="w-full bg-slate-900 text-white rounded-[4px] p-5 flex items-center justify-between cursor-pointer hover:bg-black transition-all">
+                       <div className="flex items-center gap-3">
+                          <FileText className="w-6 h-6 text-[#BEF264]" />
+                          <div>
+                             <p className="text-sm font-bold uppercase tracking-tight leading-none">Professional Resume</p>
+                             <p className="text-[10px] font-medium text-gray-400 mt-1">
+                                {files.cv ? files.cv.name : "Choose New CV File"}
+                             </p>
+                          </div>
+                       </div>
+                       <Upload className="w-5 h-5 text-gray-500" />
+                       <input type="file" className="hidden" accept=".pdf,image/*" onChange={(e) => setFiles({...files, cv: e.target.files?.[0] || null})} />
+                    </label>
+                 </div>
+               )}
+
+               {missingDocs.includes("Bank Details") && (
+                 <div className="space-y-4">
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Update Bank Details</p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                       <div className="space-y-1.5">
+                          <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Account Name</label>
+                          <input 
+                            value={formData.bankDetails.accountName}
+                            onChange={e => setFormData({...formData, bankDetails: {...formData.bankDetails, accountName: e.target.value}})}
+                            placeholder="Name as on bank account"
+                            className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-4 py-2 text-sm font-medium outline-none focus:border-red-600 transition-all"
+                          />
+                       </div>
+                       <div className="space-y-1.5">
+                          <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Account No</label>
+                          <input 
+                            value={formData.bankDetails.accountNumber}
+                            onChange={e => setFormData({...formData, bankDetails: {...formData.bankDetails, accountNumber: e.target.value}})}
+                            placeholder="e.g. 1234567890"
+                            className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-4 py-2 text-sm font-medium outline-none focus:border-red-600 transition-all"
+                          />
+                       </div>
+                       <div className="space-y-1.5">
+                          <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Bank Name</label>
+                          <input 
+                            value={formData.bankDetails.bankName}
+                            onChange={e => setFormData({...formData, bankDetails: {...formData.bankDetails, bankName: e.target.value}})}
+                            placeholder="e.g. Dutch-Bangla Bank"
+                            className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-4 py-2 text-sm font-medium outline-none focus:border-red-600 transition-all"
+                          />
+                       </div>
+                       <div className="space-y-1.5">
+                          <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Branch Name</label>
+                          <input 
+                            value={formData.bankDetails.branchName || ""}
+                            onChange={e => setFormData({...formData, bankDetails: {...formData.bankDetails, branchName: e.target.value}})}
+                            placeholder="e.g. Dhanmondi Branch"
+                            className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-4 py-2 text-sm font-medium outline-none focus:border-red-600 transition-all"
+                          />
+                       </div>
+                    </div>
+                 </div>
+               )}
+            </div>
+
+            <div className="pt-4">
+              <button 
+                onClick={handleSubmit}
+                disabled={loading}
+                className="w-full bg-red-600 text-white py-4 rounded-[4px] font-black text-xs uppercase tracking-widest shadow-sm hover:bg-red-700 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+              >
+                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <>Submit Corrections <CheckCircle2 className="w-4 h-4" /></>}
+              </button>
+              <p className="text-center text-[10px] text-gray-400 mt-4 uppercase tracking-widest font-bold">Please ensure all requested documents are uploaded correctly</p>
+            </div>
+          </div>
+        )}
+
+        {!isReuploadMode && step === 1 && (
           <div className="space-y-6 animate-in fade-in slide-in-from-right-2 duration-300">
             <div className="flex items-center gap-3 mb-4">
                <div className="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-[4px] flex items-center justify-center">

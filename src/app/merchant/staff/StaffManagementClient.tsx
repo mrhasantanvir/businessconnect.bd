@@ -879,7 +879,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                         <div className="space-y-3">
                            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Documents to Re-upload</label>
                            <div className="flex flex-wrap gap-2">
-                              {["NID Front", "NID Back", "CV", "Bank Details"].map(doc => (
+                              {["NID Front", "NID Back", "Profile Photo", "CV", "Bank Details"].map(doc => (
                                  <button 
                                    key={doc}
                                    type="button"
