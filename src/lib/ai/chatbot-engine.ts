@@ -50,8 +50,8 @@ export async function processChatbotMessage(data: {
     Tone: Professional, Efficient, and Enterprise-grade.
   `;
 
-  // 3. Get AI Response
-  const aiResponse = await askAI(messageText, systemPrompt);
+  // 3. Get AI Response via Bulletproof Gateway
+  const { content: aiResponse, provider } = await askAI(messageText, { systemPrompt });
 
   // 4. Handle Post-AI Action Parsing (Tool Use Simulation)
   let finalResponse = aiResponse;
@@ -101,7 +101,7 @@ export async function processChatbotMessage(data: {
     }
   }
 
-  // 5. Deduct AI Credit (Reusing logic from inference.ts)
+  // 5. Deduct AI Credit and Log Usage
   await prisma.$transaction([
     prisma.merchantStore.update({
       where: { id: merchantStoreId },
@@ -112,7 +112,8 @@ export async function processChatbotMessage(data: {
         merchantStoreId: merchantStoreId,
         amount: -store.aiRate,
         type: "USAGE",
-        description: `AI Chatbot: ${platform} Interaction`
+        provider: provider,
+        description: `AI Chatbot: ${platform} (${provider})`
       }
     })
   ]);
