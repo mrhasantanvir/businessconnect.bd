@@ -406,7 +406,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                       </div>
                       <div>
                         <p className="text-[12px] font-bold text-slate-900">{member.name}</p>
-                        <p className="text-[10px] font-medium text-gray-400">Submitted {new Date(member.staffProfile.updatedAt).toLocaleDateString()}</p>
+                        <p className="text-[10px] font-medium text-gray-400">Submitted {member.staffProfile?.updatedAt ? new Date(member.staffProfile.updatedAt).toLocaleDateString() : "N/A"}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
@@ -489,7 +489,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                     </span>
                   </td>
                   <td className="px-6 py-4">
-                    <p className="text-[13px] font-bold text-[#0F172A]">৳{member.staffProfile?.baseSalary.toLocaleString()}</p>
+                    <p className="text-[13px] font-bold text-[#0F172A]">৳{member.staffProfile?.baseSalary?.toLocaleString()}</p>
                     <p className="text-[10px] font-medium text-gray-400 uppercase">{member.staffProfile?.wageType}</p>
                   </td>
                   <td className="px-6 py-4 text-right relative">

@@ -59,6 +59,14 @@ export async function createStaffAction(data: {
           requiredDocs: data.requiredDocs ? JSON.stringify(data.requiredDocs) : null
         }
       }
+    },
+    include: {
+      staffProfile: {
+        include: {
+          documents: true
+        }
+      },
+      customRole: true
     }
   });
 
