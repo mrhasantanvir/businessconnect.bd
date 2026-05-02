@@ -114,8 +114,8 @@ async function callGroq(prompt: string, apiKey: string, model: string, options: 
   // If vision is requested, use a vision-capable model
   let finalModel = model;
   if (options.imageUrl) {
-    // llama-3.2-90b-vision-preview is more capable than 11b
-    finalModel = "llama-3.2-90b-vision-preview";
+    // 11b is the currently active vision model
+    finalModel = "llama-3.2-11b-vision-preview";
   }
 
   const messages: any[] = [];

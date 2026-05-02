@@ -586,7 +586,7 @@ export async function extractNIDDataAction(imageUrl: string, backImageUrl?: stri
     const { extractNIDInfo } = await import("@/lib/vision");
     
     // Extract from Front
-    const result = await extractNIDInfo(imageUrl);
+    const result = await extractNIDInfo(imageUrl, session.merchantStoreId);
     if ("error" in result && result.error) {
       return { success: false, error: result.error };
     }
@@ -604,7 +604,7 @@ export async function extractNIDDataAction(imageUrl: string, backImageUrl?: stri
 
     // If back image is provided, extract and prioritize address from it
     if (backImageUrl) {
-      const backResult = await extractNIDInfo(backImageUrl);
+      const backResult = await extractNIDInfo(backImageUrl, session.merchantStoreId);
       if (!("error" in backResult)) {
         if (backResult.permanentAddress) {
           finalData.permanentAddress = backResult.permanentAddress;

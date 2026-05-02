@@ -12,17 +12,17 @@ const googleClient = new vision.ImageAnnotatorClient({
   keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS,
 });
 
-export async function extractNIDInfo(imageUrl: string) {
+export async function extractNIDInfo(imageUrl: string, merchantStoreId?: string) {
   try {
     // Use the new Bulletproof Gateway which handles fallbacks automatically
-    return await extractWithGateway(imageUrl);
+    return await extractWithGateway(imageUrl, merchantStoreId);
   } catch (error) {
     console.error("Extraction Error:", error);
     return { error: "Failed to extract information from NID" };
   }
 }
 
-async function extractWithGateway(imageUrl: string) {
+async function extractWithGateway(imageUrl: string, merchantStoreId?: string) {
   try {
 
     const prompt = `You are an expert at reading Bangladeshi National ID (NID) cards. Extract ALL text from this NID card image and return a JSON object with these exact keys:
@@ -63,16 +63,22 @@ Rules:
       
     const extraction = JSON.parse(jsonStr.trim());
 
-    // Deduct Credit for Vision Usage
-    await prisma.aiTransaction.create({
-      data: {
-        merchantStoreId: "GLOBAL", // Usually triggered by admin or specific merchant context
-        amount: -5.0, // Fixed rate for Vision/NID extraction
-        type: "VISION_USAGE",
-        provider: provider,
-        description: `NID Extraction: ${provider}`
+    // Deduct Credit for Vision Usage (Safe Wrap)
+    if (merchantStoreId && merchantStoreId !== "GLOBAL") {
+      try {
+        await prisma.aiTransaction.create({
+          data: {
+            merchantStoreId: merchantStoreId,
+            amount: -5.0, 
+            type: "VISION_USAGE",
+            provider: provider,
+            description: `NID Extraction: ${provider}`
+          }
+        });
+      } catch (e) {
+        console.error("Failed to log AI transaction:", e);
       }
-    });
+    }
 
     return {
       ...extraction,
