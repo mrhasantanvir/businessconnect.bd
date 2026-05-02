@@ -74,7 +74,7 @@ export async function submitStaffOnboardingAction(data: {
       status: "ONBOARDING",
       missingDocuments: null,
       rejectionReason: null,
-      onboardingStep: 4,
+      onboardingStep: 5,
       nameEn: data.nameEn,
       nameBn: data.nameBn
     }
