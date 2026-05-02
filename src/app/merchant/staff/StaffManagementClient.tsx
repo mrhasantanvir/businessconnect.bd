@@ -1032,7 +1032,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                         </div>
 
                         {/* Additional Documents Section */}
-                        {selectedStaff.staffProfile?.documents && selectedStaff.staffProfile?.documents.length > 0 && (
+                        {selectedStaff.staffProfile?.documents && selectedStaff.staffProfile.documents.length > 0 && (
                           <div className="space-y-3">
                              <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-[#0F172A]">
                                 <FileText className="w-3.5 h-3.5 text-indigo-600" /> Academic & Other Documents
@@ -1058,11 +1058,6 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                              </div>
                           </div>
                         )}
-                     </div>
-                                 <p className="text-[11px] font-medium text-[#0F172A]">Nagad: {selectedStaff.staffProfile?.bankDetailsData ? JSON.parse(selectedStaff.staffProfile.bankDetailsData).nagad : "N/A"}</p>
-                              </div>
-                           </div>
-                        </div>
                      </div>
                  </div>
 
