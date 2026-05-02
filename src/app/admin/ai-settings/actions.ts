@@ -109,7 +109,7 @@ export async function testAiConnectionAction(provider: string, customApiKey?: st
 
     if (provider === "GROQ") {
       const apiKey = customApiKey || settings?.groqKey;
-      const model = customModel || settings?.groqModel || "llama-3.1-70b-versatile";
+      const model = customModel || settings?.groqModel || "llama-3.3-70b-versatile";
 
       if (!apiKey) throw new Error("Groq API Key not configured");
       const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {

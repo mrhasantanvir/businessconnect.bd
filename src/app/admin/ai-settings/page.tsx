@@ -207,8 +207,8 @@ export default async function AiSettingsPage() {
                            id="groqModel"
                            name="groqModel"
                            type="text"
-                           defaultValue={settings?.groqModel || "llama-3.1-70b-versatile"}
-                           placeholder="e.g. llama-3.1-70b-versatile" 
+                           defaultValue={settings?.groqModel || "llama-3.3-70b-versatile"}
+                           placeholder="e.g. llama-3.3-70b-versatile" 
                            className="w-full bg-gray-50 border border-gray-100 focus:border-[#1E40AF] rounded-none px-5 py-4 text-xs font-bold outline-none transition-all" 
                         />
                      </div>
