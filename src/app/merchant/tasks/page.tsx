@@ -22,7 +22,7 @@ export default async function TaskManagementPage() {
           } 
         },
         creator: { select: { id: true, name: true } },
-        order: { select: { id: true, orderNumber: true } }
+        order: { select: { id: true } }
       },
       orderBy: { createdAt: "desc" }
     }),
