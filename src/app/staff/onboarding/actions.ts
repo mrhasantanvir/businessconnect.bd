@@ -128,7 +128,7 @@ export async function submitStaffOnboardingAction(data: {
               <p style="margin: 5px 0 0 0; font-size: 13px; color: #64748B;"><strong>Designation:</strong> ${profile.jobRole}</p>
             </div>
             <p>Please login to your merchant dashboard to review the documents and approve the staff profile.</p>
-            <a href="${process.env.NEXT_PUBLIC_APP_URL}/merchant/staff" style="display: inline-block; background: #1E40AF; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 10px;">Review & Approve Now</a>
+            <a href="https://businessconnect.bd/merchant/staff" style="display: inline-block; background: #1E40AF; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 10px;">Review & Approve Now</a>
             <p style="color: #94A3B8; font-size: 12px; margin-top: 24px; border-top: 1px solid #f1f5f9; padding-top: 16px;">
               BusinessConnect.bd Administrative Notification
             </p>

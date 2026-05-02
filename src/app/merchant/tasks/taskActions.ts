@@ -46,7 +46,7 @@ export async function createTaskAction(data: {
 
   // Mandatory Email Handshake for Staff
   if (task.assigneeId && task.assignee?.email) {
-    const confirmationUrl = `${process.env.NEXT_PUBLIC_APP_URL}/merchant/tasks/confirm?id=${task.id}`;
+    const confirmationUrl = `https://businessconnect.bd/merchant/tasks/confirm?id=${task.id}`;
     
     await sendEmail({
       to: task.assignee.email,

@@ -87,7 +87,7 @@ export async function createStaffAction(data: {
           <p style="margin: 0;"><strong>Temporary Password:</strong> <code style="background: #eee; padding: 2px 6px; border-radius: 4px;">${tempPassword}</code></p>
         </div>
         <p>Please login and complete your onboarding profile to get started.</p>
-        <a href="${process.env.NEXT_PUBLIC_APP_URL}/login" style="display: inline-block; background: #1E40AF; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 10px;">Login & Onboard Now</a>
+        <a href="https://businessconnect.bd/login" style="display: inline-block; background: #1E40AF; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 10px;">Login & Onboard Now</a>
         <p style="margin-top: 30px; font-size: 12px; color: #94A3B8;">This is an automated invitation from BusinessConnect.bd</p>
       </div>
     `
@@ -156,7 +156,7 @@ export async function activateStaffAction(staffId: string) {
             <p>Hello <strong>${staff.user.name}</strong>,</p>
             <p>Your onboarding documents have been reviewed and approved. Your account is now fully <strong>ACTIVE</strong>.</p>
             <p>You can now access all features of the staff dashboard and start your work.</p>
-            <a href="${process.env.NEXT_PUBLIC_APP_URL}/dashboard" style="display: inline-block; background: #1E40AF; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 10px;">Go to Dashboard</a>
+            <a href="https://businessconnect.bd/dashboard" style="display: inline-block; background: #1E40AF; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 10px;">Go to Dashboard</a>
             <p style="color: #94A3B8; font-size: 12px; margin-top: 24px; border-top: 1px solid #f1f5f9; padding-top: 16px;">
               BusinessConnect.bd Administrative Team
             </p>
@@ -205,7 +205,7 @@ export async function requestReuploadAction(staffId: string, reason: string, mis
               ${missingDocs.map(d => `<li>${d}</li>`).join('')}
             </ul>
             <p>Please login to your dashboard to complete the onboarding:</p>
-            <a href="${process.env.NEXT_PUBLIC_APP_URL}/login" style="display: inline-block; background: #1E40AF; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 10px;">Login & Re-upload</a>
+            <a href="https://businessconnect.bd/login" style="display: inline-block; background: #1E40AF; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 10px;">Login & Re-upload</a>
             <p style="color: #94A3B8; font-size: 12px; margin-top: 24px; border-top: 1px solid #f1f5f9; pt: 16px;">
               BusinessConnect Staff Onboarding System
             </p>
@@ -311,7 +311,7 @@ export async function resendInvitationAction(userId: string) {
           <p style="margin: 0;"><strong>New Temporary Password:</strong> <code style="background: #eee; padding: 2px 6px; border-radius: 4px;">${tempPassword}</code></p>
         </div>
         <p>Please login and complete your profile.</p>
-        <a href="${process.env.NEXT_PUBLIC_APP_URL}/login" style="display: inline-block; background: #1E40AF; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 10px;">Login Now</a>
+        <a href="https://businessconnect.bd/login" style="display: inline-block; background: #1E40AF; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 10px;">Login Now</a>
       </div>
     `
   });
@@ -476,7 +476,7 @@ export async function rejoinStaffAction(userId: string, data: {
               <p style="margin: 5px 0 0 0; font-size: 13px; color: #166534;"><strong>Effective Date:</strong> ${new Date().toLocaleDateString()}</p>
             </div>
             <p>You can now login and resume your duties.</p>
-            <a href="${process.env.NEXT_PUBLIC_APP_URL}/dashboard" style="display: inline-block; background: #059669; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 10px;">Login to Dashboard</a>
+            <a href="https://businessconnect.bd/dashboard" style="display: inline-block; background: #059669; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 10px;">Login to Dashboard</a>
             <p style="color: #94A3B8; font-size: 12px; margin-top: 24px; border-top: 1px solid #f1f5f9; padding-top: 16px;">
               BusinessConnect.bd Administrative Team
             </p>
