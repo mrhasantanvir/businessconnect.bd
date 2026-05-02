@@ -57,7 +57,11 @@ export default async function AiSettingsPage() {
                  deepseekModel: formData.get("deepseekModel") as string,
                  groqKey: formData.get("groqKey") as string,
                  groqModel: formData.get("groqModel") as string,
-                 aiProviderPriority: formData.get("aiProviderPriority") as string,
+                 aiProviderPriority: [
+                    formData.get("priority1"),
+                    formData.get("priority2"),
+                    formData.get("priority3")
+                  ].filter(Boolean).join(","),
                  googleVisionKey: formData.get("googleVisionKey") as string,
                  fbAppSecret: formData.get("fbAppSecret") as string,
                  aiCreditPrice: parseFloat(formData.get("aiCreditPrice") as string)
@@ -254,19 +258,33 @@ export default async function AiSettingsPage() {
                    <div className="space-y-4">
                       <div className="flex items-center justify-between">
                          <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Bulletproof Priority Sequence</label>
-                         <span className="text-[8px] bg-emerald-100 text-emerald-700 px-2 py-0.5 font-bold uppercase tracking-tighter">Automatic Failover Enabled</span>
+                         <span className="text-[8px] bg-emerald-100 text-emerald-700 px-2 py-0.5 font-bold uppercase tracking-tighter">Automatic Failover Active</span>
                       </div>
-                      <div className="relative">
-                         <input 
-                            name="aiProviderPriority"
-                            type="text"
-                            defaultValue={settings?.aiProviderPriority || "GROQ,OPENAI,GEMINI,DEEPSEEK"}
-                            placeholder="GROQ,OPENAI,GEMINI" 
-                            className="w-full bg-slate-50 border-2 border-slate-100 focus:border-[#1E40AF] rounded-none px-5 py-5 text-sm font-black uppercase tracking-widest outline-none transition-all placeholder:text-gray-300" 
-                         />
-                         <div className="mt-2 text-[9px] text-gray-400 font-bold italic">
-                            Order: 1. Primary → 2. Fallback → 3. Final Safety. (e.g. GROQ,OPENAI,GEMINI)
-                         </div>
+                      <div className="grid grid-cols-3 gap-3">
+                         {[1, 2, 3].map((num) => {
+                            const priorities = settings?.aiProviderPriority?.split(",") || ["GROQ", "OPENAI", "GEMINI"];
+                            const currentVal = priorities[num-1] || "";
+                            return (
+                               <div key={num} className="space-y-1">
+                                  <div className="text-[8px] font-black text-gray-400 uppercase tracking-tighter ml-1">Priority {num}</div>
+                                  <select 
+                                     name={`priority${num}`}
+                                     defaultValue={currentVal}
+                                     className="w-full bg-slate-50 border border-slate-200 focus:border-[#1E40AF] rounded-none px-2 py-3 text-[10px] font-black uppercase tracking-tight outline-none transition-all cursor-pointer"
+                                  >
+                                     <option value="">None</option>
+                                     <option value="GROQ">Groq</option>
+                                     <option value="OPENAI">OpenAI</option>
+                                     <option value="GEMINI">Gemini</option>
+                                     <option value="OPENROUTER">OpenRouter</option>
+                                     <option value="DEEPSEEK">DeepSeek</option>
+                                  </select>
+                               </div>
+                            );
+                         })}
+                      </div>
+                      <div className="mt-2 text-[9px] text-gray-400 font-bold italic">
+                         Select your top 3 providers. System will automatically jump to the next one if the previous fails.
                       </div>
                    </div>
                   <div className="space-y-2">
