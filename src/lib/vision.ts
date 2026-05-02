@@ -2,6 +2,7 @@ import { db as prisma } from "@/lib/db";
 import vision from "@google-cloud/vision";
 import fs from "fs/promises";
 import path from "path";
+import { askAiVision } from "./ai/gateway";
 
 // Google Vision Client (Legacy/Fallback)
 const googleClient = new vision.ImageAnnotatorClient({
@@ -11,69 +12,20 @@ const googleClient = new vision.ImageAnnotatorClient({
   keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS,
 });
 
-/**
- * Extracts NID information using AI.
- * Prioritizes OpenAI GPT-4o if configured in SystemSettings.
- * Falls back to Google Vision API if OpenAI is unavailable.
- */
 export async function extractNIDInfo(imageUrl: string) {
   try {
-    const settings = await prisma.systemSettings.findUnique({
-      where: { id: "GLOBAL" }
-    });
-
-    if (settings?.openaiApiKey) {
-      return await extractWithOpenAI(
-        imageUrl, 
-        settings.openaiApiKey, 
-        settings.openaiModel || "gpt-4o",
-        settings.openaiProjectId || undefined
-      );
-    }
-
-    return await extractWithGoogle(imageUrl);
+    // Use the new Bulletproof Gateway which handles fallbacks automatically
+    return await extractWithGateway(imageUrl);
   } catch (error) {
     console.error("Extraction Error:", error);
     return { error: "Failed to extract information from NID" };
   }
 }
 
-async function extractWithOpenAI(imageUrl: string, apiKey: string, model: string, projectId?: string) {
+async function extractWithGateway(imageUrl: string) {
   try {
-    let imageContent: string;
 
-    // Handle local paths by converting to base64
-    if (imageUrl.startsWith("/")) {
-      const filePath = path.join(process.cwd(), "public", imageUrl);
-      const buffer = await fs.readFile(filePath);
-      const ext = path.extname(filePath).slice(1) || "jpeg";
-      imageContent = `data:image/${ext};base64,${buffer.toString("base64")}`;
-    } else {
-      imageContent = imageUrl;
-    }
-
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${apiKey.trim()}`
-    };
-
-    // Only add Project header for sk-proj- keys
-    if (projectId && apiKey.startsWith("sk-proj-")) {
-      headers["OpenAI-Project"] = projectId.trim();
-    }
-
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers,
-      body: JSON.stringify({
-        model,
-        messages: [
-          {
-            role: "user",
-            content: [
-              { 
-                type: "text", 
-                text: `You are an expert at reading Bangladeshi National ID (NID) cards. Extract ALL text from this NID card image and return a JSON object with these exact keys:
+    const prompt = `You are an expert at reading Bangladeshi National ID (NID) cards. Extract ALL text from this NID card image and return a JSON object with these exact keys:
 - nameEn: Full name in ENGLISH (as printed in English on the card)
 - nameBn: Full name in BENGALI (বাংলা নাম, as printed in Bengali script)
 - nidNumber: The NID number (10, 13, or 17 digit number at the bottom or labeled as "ID No")
@@ -86,37 +38,33 @@ Rules:
 - Translate Bengali text to English for fatherName, motherName, permanentAddress
 - Keep nameBn in Bengali script (do not translate)
 - If a field is unclear or not visible, return an empty string ""
-- Return ONLY valid JSON, no extra text` 
-              },
-              {
-                type: "image_url",
-                image_url: { url: imageContent }
-              }
-            ]
-          }
-        ],
-        response_format: { type: "json_object" }
-      })
-    });
+- Return ONLY valid JSON, no extra text`;
 
-    const data = await response.json();
-    if (!response.ok) {
-      console.error("OpenAI Vision Error:", data);
-      throw new Error(data.error?.message || "OpenAI API error");
+    // Convert local path to base64 if needed (gateway handles both, but let's be consistent)
+    let imageContent: string = imageUrl;
+    if (imageUrl.startsWith("/")) {
+      const filePath = path.join(process.cwd(), "public", imageUrl);
+      const buffer = await fs.readFile(filePath);
+      const ext = path.extname(filePath).slice(1) || "jpeg";
+      imageContent = `data:image/${ext};base64,${buffer.toString("base64")}`;
     }
 
-    const content = data.choices[0].message.content;
-    if (!content) throw new Error("No response from OpenAI");
+    // Use the Bulletproof Vision Gateway
+    const content = await askAiVision(imageContent, prompt);
+    
+    if (!content) throw new Error("No response from AI Gateway");
 
-    const parsed = JSON.parse(content);
+    const cleanJson = content.replace(/```json|```/g, "").trim();
+    const parsed = JSON.parse(cleanJson);
+    
     return {
       ...parsed,
       rawText: content,
-      provider: "openai"
+      provider: "ai-gateway"
     };
   } catch (error) {
-    console.error("OpenAI Extraction Error:", error);
-    // Fallback to Google Vision if OpenAI fails
+    console.error("AI Gateway Extraction Error:", error);
+    // Fallback to Google Vision if AI Gateway completely fails
     return await extractWithGoogle(imageUrl);
   }
 }

@@ -1,5 +1,6 @@
 import { OpenAI } from "openai";
 import { db as prisma } from "@/lib/db";
+import { askAI } from "./gateway";
 
 /**
  * AI Inference Engine with SaaS Credit Deduction Layer
@@ -19,21 +20,10 @@ export async function generateAiResponse(data: {
     throw new Error("INSUFFICIENT_AI_CREDIT: Please top-up to resume AI services.");
   }
 
-  // Fetch Global Master Keys
-  const settings = await prisma.systemSettings.findUnique({ where: { id: "GLOBAL" } });
-  if (!settings?.openaiApiKey) throw new Error("SYSTEM_ERROR: AI Gateway not configured by Administrator.");
-
-  const openai = new OpenAI({ apiKey: settings.openaiApiKey });
-
-  const response = await openai.chat.completions.create({
-    model: data.model || "gpt-4o",
-    messages: [
-      { role: "system", content: "You are a professional shop assistant for a business. Use the following context to answer customers accurately. Context: " + (data.context || "Standard Retail") },
-      { role: "user", content: data.prompt }
-    ]
+  // Use Bulletproof AI Gateway with fallback support
+  const aiContent = await askAI(data.prompt, {
+    systemPrompt: "You are a professional shop assistant for a business. Use the following context to answer customers accurately. Context: " + (data.context || "Standard Retail")
   });
-
-  const aiContent = response.choices[0].message.content;
 
   // SaaS Logic: Deduct Credit
   await prisma.$transaction([
