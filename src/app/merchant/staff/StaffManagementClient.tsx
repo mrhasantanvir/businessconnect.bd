@@ -75,6 +75,9 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
     baseSalary: 15000
   });
 
+  const [selectedRequiredDocs, setSelectedRequiredDocs] = useState<string[]>(["NID"]);
+  const [customRequiredDoc, setCustomRequiredDoc] = useState("");
+
   const loadRoles = useCallback(async () => {
     try {
       const data = await getRolesAction();
@@ -110,11 +113,16 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await createStaffAction(newStaff);
+      const docs = [...selectedRequiredDocs];
+      if (customRequiredDoc) docs.push(customRequiredDoc);
+
+      const res = await createStaffAction({ ...newStaff, requiredDocs: docs });
       if (res.success) {
         toast.success("Invitation sent to staff!");
         setIsAddModalOpen(false);
         setNewStaff({ name: "", email: "", jobRole: "Sales Executive", roleId: "", wageType: "MONTHLY", baseSalary: 15000 });
+        setSelectedRequiredDocs(["NID"]);
+        setCustomRequiredDoc("");
         if (res.staff) {
           setStaff(prev => [res.staff, ...prev]);
         }
@@ -655,6 +663,40 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                     </div>
                  </div>
 
+                 <div className="space-y-3 pt-2 border-t border-gray-100">
+                     <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Required Documents for Onboarding</label>
+                     <div className="flex flex-wrap gap-2">
+                        {[
+                          { id: "NID", label: "NID Card" },
+                          { id: "UTILITY", label: "Utility Bill" },
+                          { id: "SSC", label: "SSC Certificate" },
+                          { id: "HSC", label: "HSC Certificate" },
+                          { id: "HONORS", label: "Honors Certificate" },
+                          { id: "MASTERS", label: "Masters Certificate" }
+                        ].map(doc => (
+                           <button 
+                             key={doc.id}
+                             type="button"
+                             onClick={() => {
+                                setSelectedRequiredDocs(prev => prev.includes(doc.id) ? prev.filter(d => d !== doc.id) : [...prev, doc.id])
+                             }}
+                             className={cn(
+                                "px-3 py-1.5 rounded-[4px] text-[10px] font-bold uppercase tracking-widest border transition-all",
+                                selectedRequiredDocs.includes(doc.id) ? "bg-indigo-50 text-indigo-600 border-indigo-200" : "bg-white text-gray-400 border-gray-100 hover:border-gray-300"
+                             )}
+                           >
+                              {doc.label}
+                           </button>
+                        ))}
+                     </div>
+                     <input 
+                       value={customRequiredDoc}
+                       onChange={e => setCustomRequiredDoc(e.target.value)}
+                       placeholder="Other Document? (e.g. Police Clearance)"
+                       className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-3 py-2 text-[11px] font-medium outline-none focus:border-indigo-600 transition-all mt-1"
+                     />
+                  </div>
+
                  <button 
                    disabled={loading}
                    className="w-full bg-[#1E40AF] text-white py-3 rounded-[4px] font-bold text-xs uppercase tracking-widest hover:bg-[#1E3A8A] transition-all flex items-center justify-center gap-2"
@@ -957,29 +999,66 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                         <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-[#0F172A]">
                            <CreditCard className="w-3.5 h-3.5 text-indigo-600" /> Financial Info
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
                            <div className="bg-indigo-50/50 p-4 rounded-[4px] border border-indigo-100">
-                              <p className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest mb-1">Bank Details</p>
+                              <p className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mb-1">Bank Account</p>
                               {selectedStaff.staffProfile?.bankDetailsData ? (
-                                <div className="space-y-1">
-                                   <p className="text-[12px] font-bold text-[#0F172A]">
-                                      {JSON.parse(selectedStaff.staffProfile.bankDetailsData).accountName}
-                                   </p>
-                                   <p className="text-[11px] font-medium text-slate-500">
-                                      Acc: {JSON.parse(selectedStaff.staffProfile.bankDetailsData).accountNumber}
-                                   </p>
-                                   <p className="text-[10px] font-medium text-slate-400">
-                                      {JSON.parse(selectedStaff.staffProfile.bankDetailsData).bankName} ({JSON.parse(selectedStaff.staffProfile.bankDetailsData).branchName})
-                                   </p>
+                                <div className="space-y-0.5">
+                                   <p className="text-[12px] font-bold text-[#0F172A]">{JSON.parse(selectedStaff.staffProfile.bankDetailsData).accountName}</p>
+                                   <p className="text-[11px] font-medium text-slate-500">Acc: {JSON.parse(selectedStaff.staffProfile.bankDetailsData).accountNumber}</p>
+                                   <p className="text-[10px] font-medium text-slate-400">{JSON.parse(selectedStaff.staffProfile.bankDetailsData).bankName}</p>
                                 </div>
-                              ) : (
-                                <p className="text-[11px] text-gray-400">N/A</p>
-                              )}
+                              ) : <p className="text-[11px] text-gray-400">N/A</p>}
                            </div>
                            <div className="bg-rose-50/50 p-4 rounded-[4px] border border-rose-100">
                               <p className="text-[10px] font-bold text-rose-600 uppercase tracking-widest mb-1">Mobile Wallet</p>
-                              <div className="space-y-0.5">
-                                 <p className="text-[11px] font-medium text-[#0F172A]">bKash: {selectedStaff.staffProfile?.bankDetailsData ? JSON.parse(selectedStaff.staffProfile.bankDetailsData).bkash : "N/A"}</p>
+                              {selectedStaff.staffProfile?.bankDetailsData ? (
+                                <div className="space-y-1">
+                                   {JSON.parse(selectedStaff.staffProfile.bankDetailsData).bkash && (
+                                     <div className="flex items-center justify-between">
+                                        <span className="text-[10px] font-bold text-rose-400">bKash</span>
+                                        <span className="text-[11px] font-bold text-rose-700">{JSON.parse(selectedStaff.staffProfile.bankDetailsData).bkash}</span>
+                                     </div>
+                                   )}
+                                   {JSON.parse(selectedStaff.staffProfile.bankDetailsData).nagad && (
+                                     <div className="flex items-center justify-between">
+                                        <span className="text-[10px] font-bold text-amber-500">Nagad</span>
+                                        <span className="text-[11px] font-bold text-amber-700">{JSON.parse(selectedStaff.staffProfile.bankDetailsData).nagad}</span>
+                                     </div>
+                                   )}
+                                </div>
+                              ) : <p className="text-[11px] text-gray-400">N/A</p>}
+                           </div>
+                        </div>
+
+                        {/* Additional Documents Section */}
+                        {selectedStaff.staffProfile?.documents && selectedStaff.staffProfile?.documents.length > 0 && (
+                          <div className="space-y-3">
+                             <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-[#0F172A]">
+                                <FileText className="w-3.5 h-3.5 text-indigo-600" /> Academic & Other Documents
+                             </div>
+                             <div className="grid grid-cols-1 gap-2">
+                                {selectedStaff.staffProfile.documents.map((doc: any) => (
+                                   <div key={doc.id} className="bg-white border border-gray-100 p-3 rounded-[4px] flex items-center justify-between group hover:border-indigo-200 transition-all">
+                                      <div className="flex items-center gap-3">
+                                         <div className="w-8 h-8 bg-gray-50 rounded-[4px] flex items-center justify-center text-gray-400">
+                                            <FileText className="w-4 h-4" />
+                                         </div>
+                                         <p className="text-[11px] font-bold text-slate-700 uppercase tracking-tight">{doc.name}</p>
+                                      </div>
+                                      <a 
+                                        href={doc.url} 
+                                        target="_blank" 
+                                        className="bg-indigo-50 text-indigo-600 px-3 py-1.5 rounded-[2px] text-[9px] font-black uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all"
+                                      >
+                                         View
+                                      </a>
+                                   </div>
+                                ))}
+                             </div>
+                          </div>
+                        )}
+                     </div>
                                  <p className="text-[11px] font-medium text-[#0F172A]">Nagad: {selectedStaff.staffProfile?.bankDetailsData ? JSON.parse(selectedStaff.staffProfile.bankDetailsData).nagad : "N/A"}</p>
                               </div>
                            </div>

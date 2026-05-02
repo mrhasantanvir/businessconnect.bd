@@ -36,6 +36,7 @@ export async function submitStaffOnboardingAction(data: {
   motherName: string;
   nameEn?: string;
   nameBn?: string;
+  additionalDocs?: { name: string; url: string }[];
 }) {
   const session = await getSession();
   if (!session || !session.userId) throw new Error("Unauthorized");
@@ -78,6 +79,23 @@ export async function submitStaffOnboardingAction(data: {
       nameBn: data.nameBn
     }
   });
+
+  // Save additional documents
+  if (data.additionalDocs && data.additionalDocs.length > 0) {
+    // Delete existing docs if any (to avoid duplicates on re-submission)
+    await prisma.staffDocument.deleteMany({
+      where: { staffProfileId: profile.id }
+    });
+
+    await prisma.staffDocument.createMany({
+      data: data.additionalDocs.map(doc => ({
+        staffProfileId: profile.id,
+        name: doc.name,
+        url: doc.url,
+        isVerified: false
+      }))
+    });
+  }
 
   // Update user name if English name is provided
   if (data.nameEn) {

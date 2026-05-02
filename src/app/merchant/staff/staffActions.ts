@@ -14,6 +14,7 @@ export async function createStaffAction(data: {
   jobRole: string;
   wageType: string;
   baseSalary: number;
+  requiredDocs?: string[];
 }) {
   const session = await getSession();
   if (!session || session.role !== "MERCHANT") throw new Error("Unauthorized");
@@ -54,7 +55,8 @@ export async function createStaffAction(data: {
           wageType: data.wageType,
           baseSalary: data.baseSalary,
           status: "ONBOARDING",
-          onboardingStep: 1
+          onboardingStep: 1,
+          requiredDocs: data.requiredDocs ? JSON.stringify(data.requiredDocs) : null
         }
       }
     }
@@ -99,7 +101,11 @@ export async function getStaffListAction() {
       merchantStoreId: merchantStoreId
     },
     include: {
-      staffProfile: true,
+      staffProfile: {
+        include: {
+          documents: true
+        }
+      },
       customRole: true
     },
     orderBy: { createdAt: "desc" }

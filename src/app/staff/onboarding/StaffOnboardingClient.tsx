@@ -67,6 +67,18 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
     }
   });
 
+  const requiredDocsList = profile.requiredDocs ? JSON.parse(profile.requiredDocs) : [];
+  const [additionalDocFiles, setAdditionalDocFiles] = useState<{ [key: string]: string }>({});
+  
+  const docLabels: { [key: string]: string } = {
+    "UTILITY": "Utility Bill",
+    "SSC": "SSC Certificate",
+    "HSC": "HSC Certificate",
+    "HONORS": "Honors Certificate",
+    "MASTERS": "Masters Certificate",
+    "NID": "NID Card"
+  };
+
   const handleFileUpload = async (file: File, type: string) => {
     const fd = new FormData();
     fd.append("file", file);
@@ -152,7 +164,14 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
         cvUrl = await handleFileUpload(files.cv, "cv");
       }
 
-      const res = await submitStaffOnboardingAction({ ...formData, cvUrl });
+      const res = await submitStaffOnboardingAction({ 
+        ...formData, 
+        cvUrl,
+        additionalDocs: Object.entries(additionalDocFiles).map(([name, url]) => ({
+          name: docLabels[name] || name,
+          url
+        }))
+      });
       if (res.success) {
         setSubmitted(true);
         toast.success("Profile submitted for approval!");
@@ -192,11 +211,11 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
            <Sparkles className="w-3.5 h-3.5" /> Welcome to {storeName}
         </div>
         <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Complete your profile</h1>
-        <div className="flex justify-center gap-1.5 mt-6">
-           {[1, 2, 3, 4].map((s) => (
-             <div key={s} className={`h-1 w-12 rounded-[2px] transition-all duration-500 ${step >= s ? "bg-indigo-600" : "bg-gray-100"}`} />
-           ))}
-        </div>
+         <div className="flex justify-center gap-1.5 mt-6">
+            {[1, 2, 3, 4, 5].map((s) => (
+              <div key={s} className={`h-1 w-12 rounded-[2px] transition-all duration-500 ${step >= s ? "bg-indigo-600" : "bg-gray-100"}`} />
+            ))}
+         </div>
       </div>
 
       {/* Re-upload Notice */}
@@ -714,11 +733,95 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
                  <ArrowLeft className="w-5 h-5" />
               </button>
               <button 
+                onClick={nextStep}
+                className="flex-1 bg-indigo-600 text-white py-3.5 rounded-[4px] font-bold text-xs uppercase tracking-widest shadow-sm hover:bg-indigo-700 transition-all flex items-center justify-center gap-2"
+              >
+                Continue to Document Upload <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {step === 5 && (
+          <div className="space-y-6 animate-in fade-in slide-in-from-right-2 duration-300">
+            <div className="flex items-center gap-3 mb-4">
+               <div className="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-[4px] flex items-center justify-center">
+                  <FileText className="w-5 h-5" />
+               </div>
+               <div>
+                  <h3 className="text-lg font-bold text-slate-900">Required Documents</h3>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Step 5 of 5</p>
+               </div>
+            </div>
+
+            {requiredDocsList.length === 0 ? (
+               <div className="bg-indigo-50/50 border border-indigo-100 rounded-[4px] p-8 text-center">
+                  <p className="text-sm font-bold text-indigo-900">No additional documents required.</p>
+                  <p className="text-[10px] text-indigo-400 mt-1 uppercase tracking-widest font-black">You can proceed to final submission</p>
+               </div>
+            ) : (
+               <div className="space-y-4">
+                  <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Please upload the following mandatory documents</p>
+                  <div className="grid grid-cols-1 gap-3">
+                     {requiredDocsList.filter((d: string) => d !== 'NID').map((doc: string) => (
+                        <div key={doc} className="group">
+                           <label className={cn(
+                              "w-full rounded-[4px] p-4 flex items-center justify-between cursor-pointer border transition-all",
+                              additionalDocFiles[doc] ? "bg-emerald-50 border-emerald-100" : "bg-gray-50 border-gray-100 hover:border-indigo-200"
+                           )}>
+                              <div className="flex items-center gap-3">
+                                 <div className={cn(
+                                    "w-8 h-8 rounded-[4px] flex items-center justify-center",
+                                    additionalDocFiles[doc] ? "bg-emerald-600 text-white" : "bg-white text-gray-400 border border-gray-100"
+                                 )}>
+                                    {additionalDocFiles[doc] ? <CheckCircle2 className="w-4 h-4" /> : <Upload className="w-4 h-4" />}
+                                 </div>
+                                 <div>
+                                    <p className={cn("text-xs font-bold uppercase tracking-tight leading-none", additionalDocFiles[doc] ? "text-emerald-700" : "text-slate-700")}>
+                                       {docLabels[doc] || doc}
+                                    </p>
+                                    <p className="text-[9px] font-medium text-gray-400 mt-1">
+                                       {additionalDocFiles[doc] ? "Document uploaded successfully" : "Click to upload file (PDF/Image)"}
+                                    </p>
+                                 </div>
+                              </div>
+                              <input 
+                                 type="file" 
+                                 className="hidden" 
+                                 accept=".pdf,image/*" 
+                                 onChange={async (e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                       setLoading(true);
+                                       try {
+                                          const url = await handleFileUpload(file, doc.toLowerCase());
+                                          setAdditionalDocFiles(prev => ({ ...prev, [doc]: url }));
+                                          toast.success(`${docLabels[doc] || doc} uploaded!`);
+                                       } catch (err) {
+                                          toast.error("Upload failed");
+                                       } finally {
+                                          setLoading(false);
+                                       }
+                                    }
+                                 }} 
+                              />
+                           </label>
+                        </div>
+                     ))}
+                  </div>
+               </div>
+            )}
+
+            <div className="flex gap-3 pt-2">
+              <button onClick={prevStep} className="px-4 bg-gray-50 text-gray-400 rounded-[4px] hover:bg-gray-100">
+                 <ArrowLeft className="w-5 h-5" />
+              </button>
+              <button 
                 onClick={handleSubmit}
-                disabled={loading}
+                disabled={loading || requiredDocsList.filter((d: string) => d !== 'NID').some((d: string) => !additionalDocFiles[d])}
                 className="flex-1 bg-indigo-600 text-white py-3.5 rounded-[4px] font-bold text-xs uppercase tracking-widest shadow-sm hover:bg-indigo-700 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
               >
-                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><ShieldCheck className="w-4 h-4" /> Submit Profile</>}
+                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><ShieldCheck className="w-4 h-4" /> Complete Submission</>}
               </button>
             </div>
           </div>
