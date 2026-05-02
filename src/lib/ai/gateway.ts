@@ -11,58 +11,56 @@ interface AiOptions {
 
 /**
  * High-Availability AI Gateway (Bulletproof Core)
- * Implements priority-based fallback logic for Text and Vision
+ * Returns { content, provider }
  */
 export async function askAI(prompt: string, options: AiOptions = {}) {
   const settings = await prisma.systemSettings.findUnique({ where: { id: "GLOBAL" } });
   if (!settings) throw new Error("System settings not found");
 
-  // User requested priority: GROQ -> OPENAI -> GEMINI
   const priority = settings.aiProviderPriority
     ? settings.aiProviderPriority.split(",").map(p => p.trim().toUpperCase())
     : ["GROQ", "OPENAI", "GEMINI"];
 
   let lastError = null;
-  let success = false;
-  let result = null;
-
-  console.log(`[AI GATEWAY] Starting inference. Priority: ${priority.join(" -> ")}`);
 
   for (const provider of priority) {
     try {
       console.log(`[AI Gateway] Attempting with: ${provider} (Vision: ${!!options.imageUrl})`);
       
+      let content = "";
       switch (provider) {
         case "GROQ":
           if (settings.groqKey) {
-            return await callGroq(prompt, settings.groqKey, settings.groqModel, options);
+            content = await callGroq(prompt, settings.groqKey, settings.groqModel, options);
           }
           break;
 
         case "OPENAI":
           if (settings.openaiApiKey) {
-            return await callOpenAI(prompt, settings.openaiApiKey, settings.openaiModel, options);
+            content = await callOpenAI(prompt, settings.openaiApiKey, settings.openaiModel, options);
           }
           break;
 
         case "GEMINI":
           if (settings.geminiKey) {
-            return await callGemini(prompt, settings.geminiKey, settings.geminiModel, options);
+            content = await callGemini(prompt, settings.geminiKey, settings.geminiModel, options);
           }
           break;
 
         case "DEEPSEEK":
-          if (settings.deepseekKey && !options.imageUrl) { // DeepSeek usually doesn't do vision via chat API yet
-            return await callDeepSeek(prompt, settings.deepseekKey, settings.deepseekModel, options);
+          if (settings.deepseekKey && !options.imageUrl) {
+            content = await callDeepSeek(prompt, settings.deepseekKey, settings.deepseekModel, options);
           }
           break;
 
         case "OPENROUTER":
           if (settings.openRouterKey) {
-            return await callOpenRouter(prompt, settings.openRouterKey, settings.openRouterModel, options);
+            content = await callOpenRouter(prompt, settings.openRouterKey, settings.openRouterModel, options);
           }
           break;
       }
+
+      if (content) return { content, provider };
     } catch (error: any) {
       console.error(`[AI Gateway] ${provider} failed:`, error.message);
       lastError = error;

@@ -18,6 +18,36 @@ import {
 export default async function AiSettingsPage() {
   const settings = await prisma.systemSettings.findUnique({ where: { id: "GLOBAL" } });
 
+  // Fetch AI Usage Stats for the current month
+  const now = new Date();
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+  const usageStats = await prisma.aiTransaction.groupBy({
+    by: ["provider"],
+    where: {
+      createdAt: { gte: startOfMonth },
+      type: { in: ["USAGE", "VISION_USAGE"] }
+    },
+    _count: { _all: true },
+    _sum: { amount: true }
+  });
+
+  // Actual Provider Costs (Estimated based on standard pricing)
+  // These are used for "Real Costing" display
+  const providerPrices: Record<string, { pricePerUnit: number, label: string }> = {
+    "OPENAI": { pricePerUnit: 0.15, label: "GPT-4o (Avg/Request)" },
+    "GROQ": { pricePerUnit: 0.01, label: "Llama 3 (High Speed)" },
+    "GEMINI": { pricePerUnit: 0.05, label: "Gemini Pro" },
+    "DEEPSEEK": { pricePerUnit: 0.02, label: "DeepSeek Chat" },
+    "OPENROUTER": { pricePerUnit: 0.10, label: "Aggregated" }
+  };
+
+  const totalInferences = usageStats.reduce((acc, curr) => acc + curr._count._all, 0);
+  const totalInternalCost = usageStats.reduce((acc, curr) => {
+    const price = providerPrices[curr.provider || ""]?.pricePerUnit || 0.05;
+    return acc + (curr._count._all * price);
+  }, 0);
+
   return (
     <div className="space-y-10 animate-in fade-in duration-700 pb-20">
       <div className="space-y-1">
@@ -316,44 +346,50 @@ export default async function AiSettingsPage() {
                   <h3 className="text-xl font-black">AI Revenue Stream</h3>
                </div>
                <div>
-                  <div className="text-[10px] font-black uppercase tracking-widest opacity-80 mb-1">Total Unit Sales</div>
-                  <div className="text-4xl font-black tracking-tight">৳ 1,42,500.00</div>
+                  <div className="text-[10px] font-black uppercase tracking-widest opacity-80 mb-1">Total Internal AI Cost (This Month)</div>
+                  <div className="text-4xl font-black tracking-tight flex items-baseline gap-1">
+                     <span className="text-xl">$</span>{totalInternalCost.toFixed(2)}
+                  </div>
+                  <div className="text-[10px] mt-1 opacity-70">Estimated base cost paid to providers</div>
                </div>
                <div className="pt-4 border-t border-white/20 grid grid-cols-2 gap-4">
                   <div>
-                     <div className="text-[8px] font-black uppercase opacity-70">Active Subs</div>
-                     <div className="text-lg font-bold">142</div>
+                     <div className="text-[8px] font-black uppercase opacity-70">Total Inferences</div>
+                     <div className="text-lg font-bold">{totalInferences.toLocaleString()}</div>
                   </div>
                   <div>
-                     <div className="text-[8px] font-black uppercase opacity-70">Inference/Day</div>
-                     <div className="text-lg font-bold">12.4K</div>
+                     <div className="text-[8px] font-black uppercase opacity-70">Revenue (Estimated)</div>
+                     <div className="text-lg font-bold">৳ {(totalInferences * (settings?.aiCreditPrice || 0.5)).toLocaleString()}</div>
                   </div>
                </div>
             </div>
 
             <div className="bg-white border border-[#E5E7EB] p-8 rounded-none shadow-sm space-y-6">
                <h3 className="text-lg font-black flex items-center gap-2">
-                 <CloudLightning className="w-5 h-5 text-indigo-500" /> Quick Status
+                  <Activity className="w-5 h-5 text-emerald-500" /> Monthly Provider Usage
                </h3>
                <div className="space-y-4">
-                  <div className="flex items-center justify-between text-xs font-bold">
-                     <span className="text-gray-400">OpenAI GPT-4o</span>
-                     <span className="text-green-500 flex items-center gap-1">
-                        <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div> Operational
-                     </span>
-                  </div>
-                  <div className="flex items-center justify-between text-xs font-bold">
-                     <span className="text-gray-400">Google Vision</span>
-                     <span className="text-green-500 flex items-center gap-1">
-                        <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div> Active
-                     </span>
-                  </div>
-                  <div className="flex items-center justify-between text-xs font-bold">
-                     <span className="text-gray-400">FB Webhooks</span>
-                     <span className="text-orange-500 flex items-center gap-1">
-                        <div className="w-1.5 h-1.5 rounded-full bg-orange-500"></div> Standby
-                     </span>
-                  </div>
+                  {usageStats.length === 0 ? (
+                     <div className="text-xs text-gray-400 italic">No usage tracked yet this month.</div>
+                  ) : (
+                     usageStats.map((stat) => {
+                        const provider = stat.provider || "UNKNOWN";
+                        const info = providerPrices[provider] || { pricePerUnit: 0.05, label: provider };
+                        const cost = stat._count._all * info.pricePerUnit;
+                        return (
+                           <div key={provider} className="group border-b border-gray-50 pb-3 last:border-0">
+                              <div className="flex items-center justify-between text-xs font-bold mb-1">
+                                 <span className="text-gray-900">{info.label}</span>
+                                 <span className="text-emerald-600">{(stat._count._all).toLocaleString()} reqs</span>
+                              </div>
+                              <div className="flex items-center justify-between text-[10px] font-medium text-gray-400">
+                                 <span>Monthly Usage</span>
+                                 <span className="text-gray-500 font-bold">Est. Cost: ${cost.toFixed(2)}</span>
+                              </div>
+                           </div>
+                        );
+                     })
+                  )}
                </div>
             </div>
          </div>

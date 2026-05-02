@@ -21,7 +21,7 @@ export async function generateAiResponse(data: {
   }
 
   // Use Bulletproof AI Gateway with fallback support
-  const aiContent = await askAI(data.prompt, {
+  const { content: aiContent, provider } = await askAI(data.prompt, {
     systemPrompt: "You are a professional shop assistant for a business. Use the following context to answer customers accurately. Context: " + (data.context || "Standard Retail")
   });
 
@@ -36,7 +36,8 @@ export async function generateAiResponse(data: {
         merchantStoreId: data.merchantStoreId,
         amount: -store.aiRate,
         type: "USAGE",
-        description: `AI Chat: ${data.model || "gpt-4o"}`
+        provider: provider,
+        description: `AI Chat: ${provider} (${data.model || "default"})`
       }
     })
   ]);

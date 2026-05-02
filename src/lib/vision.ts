@@ -50,17 +50,34 @@ Rules:
     }
 
     // Use the Bulletproof Vision Gateway
-    const content = await askAiVision(imageContent, prompt);
-    
-    if (!content) throw new Error("No response from AI Gateway");
+    const { content, provider } = await askAiVision(imageContent, prompt);
 
-    const cleanJson = content.replace(/```json|```/g, "").trim();
-    const parsed = JSON.parse(cleanJson);
-    
+    if (!content) {
+      throw new Error("No response from AI Gateway");
+    }
+
+    // Attempt to parse the JSON response
+    const jsonStr = content.includes("```json") 
+      ? content.split("```json")[1].split("```")[0] 
+      : content;
+      
+    const extraction = JSON.parse(jsonStr.trim());
+
+    // Deduct Credit for Vision Usage
+    await prisma.aiTransaction.create({
+      data: {
+        merchantStoreId: "GLOBAL", // Usually triggered by admin or specific merchant context
+        amount: -5.0, // Fixed rate for Vision/NID extraction
+        type: "VISION_USAGE",
+        provider: provider,
+        description: `NID Extraction: ${provider}`
+      }
+    });
+
     return {
-      ...parsed,
+      ...extraction,
       rawText: content,
-      provider: "ai-gateway"
+      provider: provider
     };
   } catch (error) {
     console.error("AI Gateway Extraction Error:", error);
