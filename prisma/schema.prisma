@@ -585,6 +585,7 @@ model StaffProfile {
   nidFrontUrl      String?
   nidBackUrl       String?
   rejectionReason  String?           @db.Text
+  terminationRemarks String?         @db.Text
   missingDocuments String?           @db.Text // JSON array of types or labels
   requiredDocs     String?           @db.Text // JSON array of initial requirements
   

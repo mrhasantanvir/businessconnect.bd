@@ -382,7 +382,7 @@ export async function updateStaffInfoAction(userId: string, data: {
   return { success: true };
 }
 
-export async function terminateStaffAction(userId: string) {
+export async function terminateStaffAction(userId: string, remarks: string) {
   const session = await getSession();
   if (!session || session.role !== "MERCHANT") throw new Error("Unauthorized");
   
@@ -391,7 +391,10 @@ export async function terminateStaffAction(userId: string) {
     data: { 
       isActive: false,
       staffProfile: {
-        update: { status: "TERMINATED" }
+        update: { 
+          status: "TERMINATED",
+          terminationRemarks: remarks
+        }
       }
     }
   });
@@ -412,6 +415,9 @@ export async function terminateStaffAction(userId: string) {
             <h2 style="color: #EF4444; margin-top: 0;">Account Status Update</h2>
             <p>Hello <strong>${staff.name}</strong>,</p>
             <p>This is to inform you that your staff account at <strong>${staff.merchantStore?.name}</strong> has been <strong>TERMINATED</strong> by the administrator.</p>
+            <div style="background: #FFF5F5; border-left: 4px solid #F87171; padding: 16px; margin: 20px 0;">
+              <p style="margin: 0; font-size: 14px; color: #991B1B;"><strong>Reason/Remarks:</strong> ${remarks}</p>
+            </div>
             <p>You will no longer be able to access the staff dashboard. If you believe this is an error, please contact your merchant administrator.</p>
             <p style="color: #94A3B8; font-size: 12px; margin-top: 24px; border-top: 1px solid #f1f5f9; padding-top: 16px;">
               BusinessConnect.bd Administrative Notification

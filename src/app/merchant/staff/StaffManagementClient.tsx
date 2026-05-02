@@ -92,15 +92,17 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
   }, [loadRoles]);
 
   async function handleTerminate(userId: string) {
-    if (!confirm("Are you sure you want to terminate this staff member? This will disable their account immediately.")) return;
+    const remarks = prompt("Please enter the reason for termination (Remarks):", "Policy violation");
+    if (remarks === null) return; // User cancelled
+    
     setLoading(true);
     try {
-      const res = await terminateStaffAction(userId);
+      const res = await terminateStaffAction(userId, remarks);
       if (res.success) {
         toast.success("Staff member terminated");
         setActiveMenuId(null);
         // Update local state
-        setStaff(prev => prev.map(s => s.id === userId ? { ...s, staffProfile: { ...s.staffProfile, status: "TERMINATED" } } : s));
+        setStaff(prev => prev.map(s => s.id === userId ? { ...s, staffProfile: { ...s.staffProfile, status: "TERMINATED", terminationRemarks: remarks } } : s));
       }
     } catch (error: any) {
       toast.error(error.message);
@@ -494,7 +496,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                   </td>
                   <td className="px-6 py-4 text-right relative">
                     <div className="flex justify-end items-center gap-1">
-                      {member.staffProfile?.status === "ONBOARDING" && member.staffProfile?.nidFrontUrl ? (
+                      {(member.staffProfile?.status === "ONBOARDING" || member.staffProfile?.status === "ACTIVE") && member.staffProfile?.nidFrontUrl ? (
                         <button 
                           onClick={() => { setSelectedStaff(member); setIsReviewModalOpen(true); }}
                           className="p-1.5 bg-indigo-50 text-indigo-600 rounded-[4px] hover:bg-indigo-100 transition-all inline-flex items-center gap-2"
@@ -520,12 +522,14 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                         </button>
                           {activeMenuId === member.id && (
                             <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-100 rounded-[4px] shadow-lg z-50 py-1 animate-in fade-in slide-in-from-top-1 duration-200">
-                                 <button 
-                                   onClick={() => handleResendInvitation(member.id)}
-                                   className="w-full px-4 py-2 text-left text-[11px] font-bold text-gray-600 hover:bg-gray-50 flex items-center gap-2"
-                                 >
-                                    <Mail className="w-3.5 h-3.5" /> RESEND INVITATION
-                                 </button>
+                             {member.staffProfile?.status !== "ACTIVE" && (
+                               <button 
+                                 onClick={() => handleResendInvitation(member.id)}
+                                 className="w-full px-4 py-2 text-left text-[11px] font-bold text-gray-600 hover:bg-gray-50 flex items-center gap-2"
+                               >
+                                  <Mail className="w-3.5 h-3.5" /> RESEND INVITATION
+                               </button>
+                             )}
                                  {member.staffProfile?.status !== "ACTIVE" && (
                                    <button 
                                      onClick={() => handleDeleteInvitation(member.id)}
