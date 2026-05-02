@@ -76,6 +76,8 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
     "HSC": "HSC Certificate",
     "HONORS": "Honors Certificate",
     "MASTERS": "Masters Certificate",
+    "POLICE_CLEARANCE": "Police Clearance",
+    "OTHER": "Other Document",
     "NID": "NID Card"
   };
 
