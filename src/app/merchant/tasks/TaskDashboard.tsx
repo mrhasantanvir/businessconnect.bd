@@ -149,7 +149,7 @@ export default function TaskDashboardClient({ tasks, staff, merchantStoreId }: {
                          onChange={(e) => setSuggestedTask({...suggestedTask, assigneeId: e.target.value})}
                        >
                           <option value="">Select Staff</option>
-                          {staff.map(s => <option key={s.id} value={s.id}>{s.name} ({s.jobRole})</option>)}
+                          {staff.map(s => <option key={s.id} value={s.id}>{s.name} ({s.staffProfile?.jobRole || 'No Role'})</option>)}
                        </select>
                     </div>
                     {suggestedTask.orderId && (

@@ -12,7 +12,15 @@ export default async function TaskManagementPage() {
     prisma.task.findMany({
       where: { merchantStoreId: session.merchantStoreId },
       include: {
-        assignee: { select: { id: true, name: true, image: true, jobRole: true, email: true } },
+        assignee: { 
+          select: { 
+            id: true, 
+            name: true, 
+            image: true, 
+            email: true,
+            staffProfile: { select: { jobRole: true } }
+          } 
+        },
         creator: { select: { id: true, name: true } },
         order: { select: { id: true, orderNumber: true } }
       },
@@ -23,7 +31,12 @@ export default async function TaskManagementPage() {
         merchantStoreId: session.merchantStoreId,
         role: "STAFF"
       },
-      select: { id: true, name: true, jobRole: true, email: true }
+      select: { 
+        id: true, 
+        name: true, 
+        email: true,
+        staffProfile: { select: { jobRole: true } }
+      }
     })
   ]);
 

@@ -93,7 +93,7 @@ export default function TaskDrawer({ task, onClose, onUpdate }: { task: any, onC
                        </div>
                        <div>
                           <p className="text-[11px] font-black text-[#0F172A] leading-none">{task.assignee.name}</p>
-                          <p className="text-[9px] font-bold text-gray-400 uppercase mt-1">{task.assignee.jobRole}</p>
+                          <p className="text-[9px] font-bold text-gray-400 uppercase mt-1">{task.assignee.staffProfile?.jobRole || 'Staff'}</p>
                        </div>
                     </div>
                   ) : <p className="text-[11px] font-black text-gray-300 italic uppercase">Unassigned</p>}
