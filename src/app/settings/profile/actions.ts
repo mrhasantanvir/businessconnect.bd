@@ -11,6 +11,7 @@ export async function updateProfileAction(data: {
   phone?: string;
   image?: string;
   coverImage?: string;
+  coverPosition?: number;
   currentPassword?: string;
   newPassword?: string;
 }) {
@@ -37,6 +38,7 @@ export async function updateProfileAction(data: {
   if (data.phone) updateData.phone = data.phone;
   if (data.image) updateData.image = data.image;
   if (data.coverImage) updateData.coverImage = data.coverImage;
+  if (data.coverPosition !== undefined) updateData.coverPosition = data.coverPosition;
 
   // Password change logic
   if (data.newPassword) {

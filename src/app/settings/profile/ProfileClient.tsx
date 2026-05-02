@@ -15,6 +15,9 @@ export default function ProfileClient({ user }: { user: any }) {
   const [loading, setLoading] = useState(false);
   const [uploadingCover, setUploadingCover] = useState(false);
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const [isRepositioning, setIsRepositioning] = useState(false);
+  const [tempPosition, setTempPosition] = useState(user.coverPosition || 50);
+  const [startY, setStartY] = useState(0);
   
   const [formData, setFormData] = useState({
     name: user.name || "",
@@ -22,6 +25,7 @@ export default function ProfileClient({ user }: { user: any }) {
     phone: user.phone || "",
     image: user.image || "",
     coverImage: user.coverImage || "",
+    coverPosition: user.coverPosition || 50,
     currentPassword: "",
     newPassword: "",
     confirmPassword: ""
@@ -53,6 +57,32 @@ export default function ProfileClient({ user }: { user: any }) {
       toast.error(err.message);
     } finally {
       isCover ? setUploadingCover(false) : setUploadingAvatar(false);
+    }
+  };
+
+  const handleRepositionStart = (e: React.MouseEvent | React.TouchEvent) => {
+    if (!isRepositioning) return;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    setStartY(clientY);
+  };
+
+  const handleRepositionMove = (e: React.MouseEvent | React.TouchEvent) => {
+    if (!isRepositioning || startY === 0) return;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    const delta = (startY - clientY) / 2; // Sensitivity
+    const newPos = Math.max(0, Math.min(100, tempPosition + delta));
+    setTempPosition(newPos);
+    setStartY(clientY);
+  };
+
+  const handleSavePosition = async () => {
+    try {
+      await updateProfileAction({ coverPosition: Math.round(tempPosition) });
+      setFormData(prev => ({ ...prev, coverPosition: tempPosition }));
+      setIsRepositioning(false);
+      toast.success("Cover position saved!");
+    } catch (err: any) {
+      toast.error("Failed to save position");
     }
   };
 
@@ -89,17 +119,72 @@ export default function ProfileClient({ user }: { user: any }) {
       {/* Header Section (LinkedIn Style) */}
       <div className="bg-white rounded-3xl overflow-hidden shadow-xl shadow-slate-200/60 border border-slate-100">
         {/* Cover Photo */}
-        <div className="h-48 md:h-64 bg-gradient-to-r from-blue-600 to-indigo-700 relative group">
+        <div 
+          className={cn(
+            "h-48 md:h-64 bg-gradient-to-r from-blue-600 to-indigo-700 relative group overflow-hidden",
+            isRepositioning ? "cursor-ns-resize" : ""
+          )}
+          onMouseDown={handleRepositionStart}
+          onMouseMove={handleRepositionMove}
+          onMouseUp={() => setStartY(0)}
+          onMouseLeave={() => setStartY(0)}
+          onTouchStart={handleRepositionStart}
+          onTouchMove={handleRepositionMove}
+          onTouchEnd={() => setStartY(0)}
+        >
           {formData.coverImage ? (
-            <img src={formData.coverImage} className="w-full h-full object-cover" alt="Cover" />
+            <img 
+              src={formData.coverImage} 
+              className="w-full h-full object-cover transition-none pointer-events-none select-none" 
+              style={{ objectPosition: `center ${isRepositioning ? tempPosition : formData.coverPosition}%` }}
+              alt="Cover" 
+            />
           ) : (
             <div className="w-full h-full opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]" />
           )}
-          <label className="absolute bottom-4 right-4 px-4 py-2 bg-black/50 backdrop-blur-md rounded-xl text-white cursor-pointer hover:bg-black/70 transition-all shadow-lg flex items-center gap-2 border border-white/20">
-            {uploadingCover ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Camera className="w-4 h-4" />}
-            <span className="text-[10px] font-black uppercase tracking-widest">Change Cover</span>
-            <input type="file" className="hidden" accept="image/*" onChange={e => e.target.files?.[0] && handleFileUpload(e.target.files[0], 'cover')} />
-          </label>
+
+          {isRepositioning ? (
+             <div className="absolute inset-0 bg-black/20 flex items-center justify-center pointer-events-none">
+                <div className="bg-white/90 backdrop-blur-md px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
+                   <Clock className="w-4 h-4 text-blue-600" />
+                   <span className="text-[10px] font-black uppercase text-slate-900">Drag to reposition</span>
+                </div>
+             </div>
+          ) : null}
+
+          <div className="absolute bottom-4 right-4 flex gap-2">
+            {!isRepositioning ? (
+              <>
+                <button 
+                  onClick={() => { setIsRepositioning(true); setTempPosition(formData.coverPosition); }}
+                  className="px-4 py-2 bg-black/50 backdrop-blur-md rounded-xl text-white hover:bg-black/70 transition-all shadow-lg flex items-center gap-2 border border-white/20"
+                >
+                  <MapPin className="w-4 h-4" />
+                  <span className="text-[10px] font-black uppercase tracking-widest">Reposition</span>
+                </button>
+                <label className="px-4 py-2 bg-black/50 backdrop-blur-md rounded-xl text-white cursor-pointer hover:bg-black/70 transition-all shadow-lg flex items-center gap-2 border border-white/20">
+                  {uploadingCover ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Camera className="w-4 h-4" />}
+                  <span className="text-[10px] font-black uppercase tracking-widest">Change Cover</span>
+                  <input type="file" className="hidden" accept="image/*" onChange={e => e.target.files?.[0] && handleFileUpload(e.target.files[0], 'cover')} />
+                </label>
+              </>
+            ) : (
+              <>
+                <button 
+                  onClick={() => setIsRepositioning(false)}
+                  className="px-4 py-2 bg-white rounded-xl text-slate-900 hover:bg-slate-100 transition-all shadow-lg flex items-center gap-2 font-black text-[10px] uppercase"
+                >
+                  Cancel
+                </button>
+                <button 
+                  onClick={handleSavePosition}
+                  className="px-4 py-2 bg-blue-600 rounded-xl text-white hover:bg-blue-700 transition-all shadow-lg flex items-center gap-2 font-black text-[10px] uppercase"
+                >
+                  Save Position
+                </button>
+              </>
+            )}
+          </div>
         </div>
 
         {/* Profile Info Summary */}

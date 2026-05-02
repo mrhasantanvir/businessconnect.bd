@@ -13,6 +13,7 @@ model User {
   name                String?
   image               String?  // Profile photo URL
   coverImage          String?  // Cover photo URL
+  coverPosition       Int                  @default(50)
   phone               String?
   password            String
   role                String               @default("MERCHANT")
