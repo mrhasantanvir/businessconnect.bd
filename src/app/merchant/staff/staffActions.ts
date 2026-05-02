@@ -309,6 +309,14 @@ export async function updateStaffInfoAction(userId: string, data: {
   roleId: string;
   baseSalary: number;
   wageType: string;
+  nameEn?: string;
+  nameBn?: string;
+  nidNumber?: string;
+  dob?: string | Date;
+  fatherName?: string;
+  motherName?: string;
+  permanentAddress?: string;
+  currentAddress?: string;
 }) {
   const session = await getSession();
   if (!session || session.role !== "MERCHANT") throw new Error("Unauthorized");
@@ -322,7 +330,15 @@ export async function updateStaffInfoAction(userId: string, data: {
         update: {
           jobRole: data.jobRole,
           baseSalary: data.baseSalary,
-          wageType: data.wageType
+          wageType: data.wageType,
+          nameEn: data.nameEn,
+          nameBn: data.nameBn,
+          nidNumber: data.nidNumber,
+          dob: data.dob ? new Date(data.dob) : undefined,
+          fatherName: data.fatherName,
+          motherName: data.motherName,
+          permanentAddress: data.permanentAddress,
+          currentAddress: data.currentAddress
         }
       }
     }
@@ -528,30 +544,47 @@ export async function authorizeDeviceAction(staffDeviceId: string) {
  * Extracts personal information from a staff NID image using AI (OpenAI GPT-4o Vision).
  * Returns name, nidNumber, dob, fatherName, motherName, permanentAddress.
  */
-export async function extractNIDDataAction(imageUrl: string) {
+export async function extractNIDDataAction(imageUrl: string, backImageUrl?: string) {
   const session = await getSession();
   if (!session || session.role !== "MERCHANT") throw new Error("Unauthorized");
 
   try {
     const { extractNIDInfo } = await import("@/lib/vision");
+    
+    // Extract from Front
     const result = await extractNIDInfo(imageUrl);
-
     if ("error" in result && result.error) {
       return { success: false, error: result.error };
     }
 
+    let finalData = {
+      nameEn: result.nameEn || result.name || "",
+      nameBn: result.nameBn || "",
+      name: result.nameEn || result.name || "",
+      nidNumber: result.nidNumber || "",
+      dob: result.dob || "",
+      fatherName: result.fatherName || "",
+      motherName: result.motherName || "",
+      permanentAddress: result.permanentAddress || "",
+    };
+
+    // If back image is provided, extract and prioritize address from it
+    if (backImageUrl) {
+      const backResult = await extractNIDInfo(backImageUrl);
+      if (!("error" in backResult)) {
+        if (backResult.permanentAddress) {
+          finalData.permanentAddress = backResult.permanentAddress;
+        }
+        // Sometimes NID number is also on the back
+        if (!finalData.nidNumber && backResult.nidNumber) {
+          finalData.nidNumber = backResult.nidNumber;
+        }
+      }
+    }
+
     return {
       success: true,
-      data: {
-        nameEn: result.nameEn || result.name || "",
-        nameBn: result.nameBn || "",
-        name: result.nameEn || result.name || "",
-        nidNumber: result.nidNumber || "",
-        dob: result.dob || "",
-        fatherName: result.fatherName || "",
-        motherName: result.motherName || "",
-        permanentAddress: result.permanentAddress || "",
-      }
+      data: finalData
     };
   } catch (error: any) {
     console.error("NID Extraction Error:", error);

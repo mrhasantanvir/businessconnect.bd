@@ -34,6 +34,8 @@ export async function submitStaffOnboardingAction(data: {
   };
   fatherName: string;
   motherName: string;
+  nameEn?: string;
+  nameBn?: string;
 }) {
   const session = await getSession();
   if (!session || !session.userId) throw new Error("Unauthorized");
@@ -71,9 +73,19 @@ export async function submitStaffOnboardingAction(data: {
       status: "ONBOARDING",
       missingDocuments: null,
       rejectionReason: null,
-      onboardingStep: 4
+      onboardingStep: 4,
+      nameEn: data.nameEn,
+      nameBn: data.nameBn
     }
   });
+
+  // Update user name if English name is provided
+  if (data.nameEn) {
+    await prisma.user.update({
+      where: { id: session.userId },
+      data: { name: data.nameEn }
+    });
+  }
 
   // Notify Merchant
   const merchant = await prisma.user.findFirst({

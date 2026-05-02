@@ -41,6 +41,8 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
   });
 
   const [formData, setFormData] = useState({
+    nameEn: profile.nameEn || profile.user?.name || "",
+    nameBn: profile.nameBn || "",
     nidNumber: profile.nidNumber || "",
     dob: profile.dob ? new Date(profile.dob).toISOString().split('T')[0] : "",
     fatherName: profile.fatherName || "",
@@ -121,6 +123,8 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
       if (!infoFront.error || !infoBack.error) {
         setFormData(prev => ({
           ...prev,
+          nameEn: infoFront.nameEn || infoFront.name || prev.nameEn,
+          nameBn: infoFront.nameBn || prev.nameBn,
           nidNumber: infoFront.nidNumber || prev.nidNumber,
           dob: infoFront.dob || prev.dob,
           fatherName: infoFront.fatherName || prev.fatherName,
@@ -453,13 +457,34 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
                </div>
             </div>
 
-            {extracting && (
-              <div className="bg-indigo-50 border border-indigo-100 rounded-[4px] p-6 text-center space-y-3 animate-pulse">
-                <Loader2 className="w-8 h-8 text-indigo-600 animate-spin mx-auto" />
-                <p className="text-xs font-bold text-indigo-600 uppercase tracking-widest">AI is reading your NID...</p>
-                <p className="text-[10px] text-indigo-400">Please wait while we extract your personal information.</p>
-              </div>
-            )}
+             {extracting && (
+               <div className="bg-indigo-50 border border-indigo-100 rounded-[4px] p-6 text-center space-y-3 animate-pulse">
+                 <Loader2 className="w-8 h-8 text-indigo-600 animate-spin mx-auto" />
+                 <p className="text-xs font-bold text-indigo-600 uppercase tracking-widest">AI is reading your NID...</p>
+                 <p className="text-[10px] text-indigo-400">Please wait while we extract your personal information.</p>
+               </div>
+             )}
+
+            <div className={`grid grid-cols-1 md:grid-cols-2 gap-4 ${extracting ? 'opacity-50 grayscale pointer-events-none' : ''}`}>
+               <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Full Name (English)</label>
+                  <input 
+                    value={formData.nameEn}
+                    onChange={e => setFormData({...formData, nameEn: e.target.value})}
+                    className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-4 py-2.5 text-sm font-medium outline-none focus:border-indigo-600 transition-all"
+                    placeholder="Auto-extracted"
+                  />
+               </div>
+               <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">বাংলা নাম (Bengali)</label>
+                  <input 
+                    value={formData.nameBn}
+                    onChange={e => setFormData({...formData, nameBn: e.target.value})}
+                    className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-4 py-2.5 text-sm font-medium outline-none focus:border-indigo-600 transition-all"
+                    placeholder="বাংলায় নাম"
+                  />
+               </div>
+            </div>
 
             <div className={`grid grid-cols-1 md:grid-cols-2 gap-4 ${extracting ? 'opacity-50 grayscale pointer-events-none' : ''}`}>
                <div className="space-y-1.5">

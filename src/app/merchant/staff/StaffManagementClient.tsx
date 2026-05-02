@@ -265,7 +265,15 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
         jobRole: selectedStaff.staffProfile.jobRole,
         roleId: selectedStaff.customRoleId || "",
         baseSalary: selectedStaff.staffProfile.baseSalary,
-        wageType: selectedStaff.staffProfile.wageType
+        wageType: selectedStaff.staffProfile.wageType,
+        nameEn: selectedStaff.staffProfile.nameEn,
+        nameBn: selectedStaff.staffProfile.nameBn,
+        nidNumber: selectedStaff.staffProfile.nidNumber,
+        dob: selectedStaff.staffProfile.dob,
+        fatherName: selectedStaff.staffProfile.fatherName,
+        motherName: selectedStaff.staffProfile.motherName,
+        permanentAddress: selectedStaff.staffProfile.permanentAddress,
+        currentAddress: selectedStaff.staffProfile.currentAddress,
       });
       if (res.success) {
         toast.success("Staff profile updated");
@@ -444,8 +452,12 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                 <tr key={member.id} className="hover:bg-gray-50/50 transition-colors group">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-indigo-50 rounded-[4px] flex items-center justify-center text-indigo-600 font-bold text-[10px]">
-                        {member.name.substring(0, 2).toUpperCase()}
+                      <div className="w-8 h-8 bg-indigo-50 rounded-[4px] flex items-center justify-center text-indigo-600 font-bold text-[10px] overflow-hidden">
+                        {member.image ? (
+                          <img src={member.image} className="w-full h-full object-cover" alt={member.name} />
+                        ) : (
+                          member.name.substring(0, 2).toUpperCase()
+                        )}
                       </div>
                       <div>
                         <p className="text-[13px] font-bold text-[#0F172A]">{member.name}</p>
@@ -670,7 +682,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                  <p className="text-xs font-medium text-gray-400 mt-1">Update professional details</p>
               </div>
 
-              <form onSubmit={handleUpdateStaff} className="space-y-5">
+              <form onSubmit={handleUpdateStaff} className="space-y-5 overflow-y-auto max-h-[60vh] pr-2 custom-scrollbar">
                  <div className="space-y-1.5">
                     <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Staff Name</label>
                     <input 
@@ -683,6 +695,111 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
 
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
+                       <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">English Name (NID)</label>
+                       <input 
+                         value={selectedStaff.staffProfile.nameEn || ""}
+                         onChange={e => setSelectedStaff({
+                           ...selectedStaff, 
+                           staffProfile: { ...selectedStaff.staffProfile, nameEn: e.target.value }
+                         })}
+                         className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-3 py-2 text-sm font-medium outline-none focus:border-indigo-600 transition-all"
+                         placeholder="Name in English"
+                       />
+                    </div>
+                    <div className="space-y-1.5">
+                       <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Bengali Name (NID)</label>
+                       <input 
+                         value={selectedStaff.staffProfile.nameBn || ""}
+                         onChange={e => setSelectedStaff({
+                           ...selectedStaff, 
+                           staffProfile: { ...selectedStaff.staffProfile, nameBn: e.target.value }
+                         })}
+                         className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-3 py-2 text-sm font-medium outline-none focus:border-indigo-600 transition-all"
+                         placeholder="বাংলা নাম"
+                       />
+                    </div>
+                 </div>
+
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                       <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">NID Number</label>
+                       <input 
+                         value={selectedStaff.staffProfile.nidNumber || ""}
+                         onChange={e => setSelectedStaff({
+                           ...selectedStaff, 
+                           staffProfile: { ...selectedStaff.staffProfile, nidNumber: e.target.value }
+                         })}
+                         className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-3 py-2 text-sm font-medium outline-none focus:border-indigo-600 transition-all"
+                         placeholder="1234567890"
+                       />
+                    </div>
+                    <div className="space-y-1.5">
+                       <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Date of Birth</label>
+                       <input 
+                         type="date"
+                         value={selectedStaff.staffProfile.dob ? new Date(selectedStaff.staffProfile.dob).toISOString().split('T')[0] : ""}
+                         onChange={e => setSelectedStaff({
+                           ...selectedStaff, 
+                           staffProfile: { ...selectedStaff.staffProfile, dob: e.target.value }
+                         })}
+                         className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-3 py-2 text-sm font-medium outline-none focus:border-indigo-600 transition-all"
+                       />
+                    </div>
+                 </div>
+
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                       <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Father's Name</label>
+                       <input 
+                         value={selectedStaff.staffProfile.fatherName || ""}
+                         onChange={e => setSelectedStaff({
+                           ...selectedStaff, 
+                           staffProfile: { ...selectedStaff.staffProfile, fatherName: e.target.value }
+                         })}
+                         className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-3 py-2 text-sm font-medium outline-none focus:border-indigo-600 transition-all"
+                       />
+                    </div>
+                    <div className="space-y-1.5">
+                       <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Mother's Name</label>
+                       <input 
+                         value={selectedStaff.staffProfile.motherName || ""}
+                         onChange={e => setSelectedStaff({
+                           ...selectedStaff, 
+                           staffProfile: { ...selectedStaff.staffProfile, motherName: e.target.value }
+                         })}
+                         className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-3 py-2 text-sm font-medium outline-none focus:border-indigo-600 transition-all"
+                       />
+                    </div>
+                 </div>
+
+                 <div className="space-y-1.5">
+                    <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Permanent Address</label>
+                    <textarea 
+                      value={selectedStaff.staffProfile.permanentAddress || ""}
+                      onChange={e => setSelectedStaff({
+                        ...selectedStaff, 
+                        staffProfile: { ...selectedStaff.staffProfile, permanentAddress: e.target.value }
+                      })}
+                      className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-3 py-2 text-sm font-medium outline-none focus:border-indigo-600 transition-all min-h-[60px]"
+                    />
+                 </div>
+
+                 <div className="space-y-1.5">
+                    <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Current Address</label>
+                    <textarea 
+                      value={selectedStaff.staffProfile.currentAddress || ""}
+                      onChange={e => setSelectedStaff({
+                        ...selectedStaff, 
+                        staffProfile: { ...selectedStaff.staffProfile, currentAddress: e.target.value }
+                      })}
+                      className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-3 py-2 text-sm font-medium outline-none focus:border-indigo-600 transition-all min-h-[60px]"
+                    />
+                 </div>
+
+                 <hr className="border-gray-100" />
+
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
                       <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Job Designation</label>
                       <input 
                         required
@@ -692,6 +809,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                           staffProfile: { ...selectedStaff.staffProfile, jobRole: e.target.value }
                         })}
                         className="w-full bg-gray-50 border border-gray-100 rounded-[4px] px-3 py-2 text-sm font-medium outline-none focus:border-indigo-600 transition-all"
+                        placeholder="Sales Executive"
                       />
                     </div>
                     <div className="space-y-1.5">
@@ -741,7 +859,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
 
                  <button 
                    disabled={loading}
-                   className="w-full bg-[#1E40AF] text-white py-3 rounded-[4px] font-bold text-xs uppercase tracking-widest hover:bg-[#1E3A8A] transition-all flex items-center justify-center gap-2"
+                   className="w-full bg-[#1E40AF] text-white py-3 rounded-[4px] font-bold text-xs uppercase tracking-widest hover:bg-[#1E3A8A] transition-all flex items-center justify-center gap-2 sticky bottom-0 shadow-lg"
                  >
                    {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save Changes"}
                  </button>
@@ -835,26 +953,38 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                         </div>
                     </div>
 
-                    <div className="space-y-4">
-                       <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-[#0F172A]">
-                          <CreditCard className="w-3.5 h-3.5 text-indigo-600" /> Financial Info
-                       </div>
-                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                          <div className="bg-indigo-50/50 p-4 rounded-[4px] border border-indigo-100">
-                             <p className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest mb-1">Bank Account</p>
-                             <p className="text-[12px] font-medium text-[#0F172A] leading-relaxed">
-                                {selectedStaff.staffProfile?.bankDetailsData ? JSON.parse(selectedStaff.staffProfile.bankDetailsData).accountName : "N/A"}
-                             </p>
-                          </div>
-                          <div className="bg-rose-50/50 p-4 rounded-[4px] border border-rose-100">
-                             <p className="text-[10px] font-bold text-rose-600 uppercase tracking-widest mb-1">Mobile Wallet</p>
-                             <div className="space-y-0.5">
-                                <p className="text-[11px] font-medium text-[#0F172A]">bKash: {selectedStaff.staffProfile?.bankDetailsData ? JSON.parse(selectedStaff.staffProfile.bankDetailsData).bkash : "N/A"}</p>
-                                <p className="text-[11px] font-medium text-[#0F172A]">Nagad: {selectedStaff.staffProfile?.bankDetailsData ? JSON.parse(selectedStaff.staffProfile.bankDetailsData).nagad : "N/A"}</p>
-                             </div>
-                          </div>
-                       </div>
-                    </div>
+                     <div className="space-y-4">
+                        <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-[#0F172A]">
+                           <CreditCard className="w-3.5 h-3.5 text-indigo-600" /> Financial Info
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                           <div className="bg-indigo-50/50 p-4 rounded-[4px] border border-indigo-100">
+                              <p className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest mb-1">Bank Details</p>
+                              {selectedStaff.staffProfile?.bankDetailsData ? (
+                                <div className="space-y-1">
+                                   <p className="text-[12px] font-bold text-[#0F172A]">
+                                      {JSON.parse(selectedStaff.staffProfile.bankDetailsData).accountName}
+                                   </p>
+                                   <p className="text-[11px] font-medium text-slate-500">
+                                      Acc: {JSON.parse(selectedStaff.staffProfile.bankDetailsData).accountNumber}
+                                   </p>
+                                   <p className="text-[10px] font-medium text-slate-400">
+                                      {JSON.parse(selectedStaff.staffProfile.bankDetailsData).bankName} ({JSON.parse(selectedStaff.staffProfile.bankDetailsData).branchName})
+                                   </p>
+                                </div>
+                              ) : (
+                                <p className="text-[11px] text-gray-400">N/A</p>
+                              )}
+                           </div>
+                           <div className="bg-rose-50/50 p-4 rounded-[4px] border border-rose-100">
+                              <p className="text-[10px] font-bold text-rose-600 uppercase tracking-widest mb-1">Mobile Wallet</p>
+                              <div className="space-y-0.5">
+                                 <p className="text-[11px] font-medium text-[#0F172A]">bKash: {selectedStaff.staffProfile?.bankDetailsData ? JSON.parse(selectedStaff.staffProfile.bankDetailsData).bkash : "N/A"}</p>
+                                 <p className="text-[11px] font-medium text-[#0F172A]">Nagad: {selectedStaff.staffProfile?.bankDetailsData ? JSON.parse(selectedStaff.staffProfile.bankDetailsData).nagad : "N/A"}</p>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
                  </div>
 
                  {/* CV Section */}
@@ -948,7 +1078,10 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                           setExtracting(true);
                           setExtractedData(null);
                           try {
-                            const result = await extractNIDDataAction(selectedStaff.staffProfile.nidFrontUrl);
+                            const result = await extractNIDDataAction(
+                              selectedStaff.staffProfile.nidFrontUrl,
+                              selectedStaff.staffProfile.nidBackUrl
+                            );
                             if (result.success && result.data) {
                               setExtractedData(result.data);
                               toast.success("NID data extracted! Saving to profile...");
@@ -959,6 +1092,14 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                                 roleId: selectedStaff.customRoleId || "",
                                 baseSalary: selectedStaff.staffProfile.baseSalary,
                                 wageType: selectedStaff.staffProfile.wageType,
+                                // All new extracted fields
+                                nameEn: result.data.nameEn || "",
+                                nameBn: result.data.nameBn || "",
+                                nidNumber: result.data.nidNumber || "",
+                                dob: result.data.dob || "",
+                                fatherName: result.data.fatherName || "",
+                                motherName: result.data.motherName || "",
+                                permanentAddress: result.data.permanentAddress || "",
                               });
                               // Update local state with all extracted fields
                               const updater = (profile: any) => ({
