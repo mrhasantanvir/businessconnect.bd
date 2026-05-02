@@ -17,11 +17,16 @@ export async function askAI(prompt: string, options: AiOptions = {}) {
   const settings = await prisma.systemSettings.findUnique({ where: { id: "GLOBAL" } });
   if (!settings) throw new Error("System settings not found");
 
+  // User requested priority: GROQ -> OPENAI -> GEMINI
   const priority = settings.aiProviderPriority
     ? settings.aiProviderPriority.split(",").map(p => p.trim().toUpperCase())
-    : ["OPENAI", "GEMINI"];
+    : ["GROQ", "OPENAI", "GEMINI"];
 
   let lastError = null;
+  let success = false;
+  let result = null;
+
+  console.log(`[AI GATEWAY] Starting inference. Priority: ${priority.join(" -> ")}`);
 
   for (const provider of priority) {
     try {

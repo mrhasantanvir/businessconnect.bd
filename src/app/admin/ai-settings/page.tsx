@@ -250,18 +250,25 @@ export default async function AiSettingsPage() {
                   <AiTestButton provider="OPENROUTER" apiKeyInputId="openRouterKey" modelInputId="openRouterModel" />
                </div>
 
-               {/* Global Control & Priority */}
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-gray-50 ">
-                  <div className="space-y-2">
-                     <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Fallback Sequence (Priority)</label>
-                     <input 
-                        name="aiProviderPriority"
-                        type="text"
-                        defaultValue={settings?.aiProviderPriority || "OPENAI,GEMINI,DEEPSEEK,GROQ"}
-                        placeholder="OPENAI,GEMINI,DEEPSEEK,GROQ" 
-                        className="w-full bg-gray-50 border border-gray-100 focus:border-[#1E40AF] rounded-none px-5 py-4 text-xs font-black outline-none transition-all" 
-                     />
-                  </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-gray-100">
+                   <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Bulletproof Priority Sequence</label>
+                         <span className="text-[8px] bg-emerald-100 text-emerald-700 px-2 py-0.5 font-bold uppercase tracking-tighter">Automatic Failover Enabled</span>
+                      </div>
+                      <div className="relative">
+                         <input 
+                            name="aiProviderPriority"
+                            type="text"
+                            defaultValue={settings?.aiProviderPriority || "GROQ,OPENAI,GEMINI,DEEPSEEK"}
+                            placeholder="GROQ,OPENAI,GEMINI" 
+                            className="w-full bg-slate-50 border-2 border-slate-100 focus:border-[#1E40AF] rounded-none px-5 py-5 text-sm font-black uppercase tracking-widest outline-none transition-all placeholder:text-gray-300" 
+                         />
+                         <div className="mt-2 text-[9px] text-gray-400 font-bold italic">
+                            Order: 1. Primary → 2. Fallback → 3. Final Safety. (e.g. GROQ,OPENAI,GEMINI)
+                         </div>
+                      </div>
+                   </div>
                   <div className="space-y-2">
                      <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">AI Unit Price (Credits per Inference)</label>
                      <div className="relative">
