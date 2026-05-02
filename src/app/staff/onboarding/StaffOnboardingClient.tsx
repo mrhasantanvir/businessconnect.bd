@@ -78,7 +78,8 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
     "MASTERS": "Masters Certificate",
     "POLICE_CLEARANCE": "Police Clearance",
     "OTHER": "Other Document",
-    "NID": "NID Card"
+    "NID": "NID Card",
+    "STUDENT_ID": "Student ID Card"
   };
 
   const handleFileUpload = async (file: File, type: string) => {

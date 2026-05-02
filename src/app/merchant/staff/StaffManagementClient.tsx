@@ -674,6 +674,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                           { id: "HONORS", label: "Honors Certificate" },
                           { id: "MASTERS", label: "Masters Certificate" },
                           { id: "POLICE_CLEARANCE", label: "Police Clearance" },
+                          { id: "STUDENT_ID", label: "Student ID Card" },
                           { id: "OTHER", label: "Other Document" }
                         ].map(doc => (
                            <button 
