@@ -338,76 +338,8 @@ export default function ProfileClient({ user }: { user: any }) {
           </div>
         </div>
 
-        {/* Right Column: Security & Activity */}
+        {/* Right Column: Activity Snapshot */}
         <div className="space-y-8">
-           
-           {/* Security Settings Card */}
-           <div className="bg-slate-900 rounded-[32px] p-8 text-white space-y-8 relative overflow-hidden">
-              <div className="relative z-10 space-y-6">
-                 <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-black uppercase italic tracking-tight">Security</h3>
-                    <ShieldCheck className="w-6 h-6 text-blue-400" />
-                 </div>
-                 
-                 <form onSubmit={handleSubmit} className="space-y-5">
-                    <div className="space-y-2">
-                       <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest ml-1">Current Password</label>
-                       <input 
-                         type="password"
-                         value={formData.currentPassword}
-                         onChange={e => setFormData({...formData, currentPassword: e.target.value})}
-                         className="w-full bg-slate-800 border-none rounded-2xl px-5 py-3.5 text-xs font-bold outline-none focus:ring-2 ring-blue-600/50 transition-all"
-                         placeholder="••••••••"
-                       />
-                    </div>
-                    <div className="space-y-2">
-                       <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest ml-1">New Password</label>
-                       <input 
-                         type="password"
-                         value={formData.newPassword}
-                         onChange={e => setFormData({...formData, newPassword: e.target.value})}
-                         className="w-full bg-slate-800 border-none rounded-2xl px-5 py-3.5 text-xs font-bold outline-none focus:ring-2 ring-blue-600/50 transition-all"
-                         placeholder="New password"
-                       />
-                    </div>
-                    <div className="space-y-2">
-                       <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest ml-1">Confirm Password</label>
-                       <input 
-                         type="password"
-                         value={formData.confirmPassword}
-                         onChange={e => setFormData({...formData, confirmPassword: e.target.value})}
-                         className="w-full bg-slate-800 border-none rounded-2xl px-5 py-3.5 text-xs font-bold outline-none focus:ring-2 ring-blue-600/50 transition-all"
-                         placeholder="Confirm password"
-                       />
-                    </div>
-                    <button 
-                      type="submit"
-                      disabled={loading}
-                      className="w-full bg-blue-600 hover:bg-blue-500 text-white rounded-2xl py-4 text-[10px] font-black uppercase tracking-widest transition-all shadow-xl shadow-blue-600/20 disabled:opacity-50"
-                    >
-                      {loading ? <RefreshCw className="w-4 h-4 animate-spin mx-auto" /> : "Update Credentials"}
-                    </button>
-                 </form>
-
-                 <div className="pt-4 border-t border-slate-800">
-                    <div className="flex items-center justify-between p-4 bg-slate-800/50 rounded-2xl border border-slate-700/50">
-                       <div className="flex items-center gap-3">
-                          <QrCode className="w-5 h-5 text-blue-400" />
-                          <div>
-                             <p className="text-[10px] font-black uppercase tracking-tight">Two-Factor Auth</p>
-                             <p className="text-[9px] text-slate-500 font-bold uppercase tracking-widest mt-0.5">Extra Security</p>
-                          </div>
-                       </div>
-                       <div className="w-10 h-5 bg-slate-700 rounded-full relative cursor-not-allowed">
-                          <div className="absolute left-1 top-1 w-3 h-3 bg-slate-500 rounded-full" />
-                       </div>
-                    </div>
-                 </div>
-              </div>
-              <div className="absolute -right-8 -top-8 w-40 h-40 bg-blue-600/10 rounded-full blur-3xl" />
-           </div>
-
-           {/* Activity Snapshot (Placeholder/Coming Soon) */}
            <div className="bg-white rounded-[32px] p-8 border border-slate-100 space-y-6 shadow-lg shadow-slate-200/40">
               <div className="flex items-center justify-between">
                  <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-widest">Monthly Activities</h3>
@@ -432,6 +364,95 @@ export default function ProfileClient({ user }: { user: any }) {
               <p className="text-[9px] text-slate-400 font-medium italic text-center">Detailed performance analytics are available in the team dashboard.</p>
            </div>
         </div>
+      </div>
+
+      {/* Security Settings Section (Full Width, Light Mode) at the bottom */}
+      <div className="bg-white rounded-[32px] p-8 md:p-10 shadow-lg shadow-slate-200/40 border border-slate-100 space-y-8">
+          <div className="flex items-center justify-between">
+              <div className="space-y-1">
+                  <h3 className="text-xl font-black text-slate-900 uppercase italic tracking-tight">Security Settings</h3>
+                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Manage your credentials and 2FA</p>
+              </div>
+              <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600">
+                  <ShieldCheck className="w-6 h-6" />
+              </div>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-2 md:col-span-2">
+                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Current Password</label>
+                          <div className="relative">
+                              <Lock className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                              <input 
+                                  type="password"
+                                  value={formData.currentPassword}
+                                  onChange={e => setFormData({...formData, currentPassword: e.target.value})}
+                                  className="w-full bg-slate-50 border-2 border-transparent focus:border-blue-600/20 focus:bg-white rounded-2xl pl-12 pr-6 py-4 text-sm font-bold outline-none transition-all"
+                                  placeholder="••••••••"
+                              />
+                          </div>
+                      </div>
+                      <div className="space-y-2">
+                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">New Password</label>
+                          <div className="relative">
+                              <Lock className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                              <input 
+                                  type="password"
+                                  value={formData.newPassword}
+                                  onChange={e => setFormData({...formData, newPassword: e.target.value})}
+                                  className="w-full bg-slate-50 border-2 border-transparent focus:border-blue-600/20 focus:bg-white rounded-2xl pl-12 pr-6 py-4 text-sm font-bold outline-none transition-all"
+                                  placeholder="New password"
+                              />
+                          </div>
+                      </div>
+                      <div className="space-y-2">
+                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Confirm New Password</label>
+                          <div className="relative">
+                              <Lock className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                              <input 
+                                  type="password"
+                                  value={formData.confirmPassword}
+                                  onChange={e => setFormData({...formData, confirmPassword: e.target.value})}
+                                  className="w-full bg-slate-50 border-2 border-transparent focus:border-blue-600/20 focus:bg-white rounded-2xl pl-12 pr-6 py-4 text-sm font-bold outline-none transition-all"
+                                  placeholder="Confirm password"
+                              />
+                          </div>
+                      </div>
+                  </div>
+                  <button 
+                      type="submit"
+                      disabled={loading}
+                      className="w-full bg-slate-900 hover:bg-blue-600 text-white rounded-2xl py-5 text-xs font-black uppercase tracking-widest transition-all shadow-xl shadow-slate-900/10 disabled:opacity-50 flex items-center justify-center gap-3"
+                  >
+                      {loading ? <RefreshCw className="w-5 h-5 animate-spin" /> : <><Key className="w-4 h-4" /> Update Credentials</>}
+                  </button>
+              </form>
+
+              <div className="space-y-6">
+                  <div className="p-8 bg-slate-50 rounded-[32px] border border-slate-100 space-y-6">
+                      <div className="flex items-center gap-4">
+                          <div className="w-12 h-12 bg-white rounded-2xl shadow-sm flex items-center justify-center text-blue-600">
+                              <QrCode className="w-6 h-6" />
+                          </div>
+                          <div>
+                              <p className="text-sm font-black text-slate-900 uppercase tracking-tight">Two-Factor Authentication</p>
+                              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Protect your account with 2FA</p>
+                          </div>
+                      </div>
+                      <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                          Add an extra layer of security to your account. When enabled, you'll need to enter a code from your authenticator app to log in.
+                      </p>
+                      <div className="flex items-center justify-between p-4 bg-white rounded-2xl border border-slate-200">
+                          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Status: Disabled</span>
+                          <div className="w-12 h-6 bg-slate-200 rounded-full relative cursor-not-allowed">
+                              <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm" />
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
       </div>
     </div>
   );
