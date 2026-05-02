@@ -25,20 +25,38 @@ export async function extractNIDInfo(imageUrl: string, merchantStoreId?: string)
 async function extractWithGateway(imageUrl: string, merchantStoreId?: string) {
   try {
 
-    const prompt = `You are an expert at reading Bangladeshi National ID (NID) cards. Extract ALL text from this NID card image and return a JSON object with these exact keys:
-- nameEn: Full name in ENGLISH (as printed in English on the card)
-- nameBn: Full name in BENGALI (বাংলা নাম, as printed in Bengali script)
-- nidNumber: The NID number (10, 13, or 17 digit number at the bottom or labeled as "ID No")
-- dob: Date of birth in YYYY-MM-DD format (look for "Date of Birth" or "জন্ম তারিখ")
-- fatherName: Father's name in English (look for "Father" or "পিতা")
-- motherName: Mother's name in English (look for "Mother" or "মাতা")
-- permanentAddress: Complete permanent address in English (look for "Address" or "স্থায়ী ঠিকানা" - include village/road, post office, district, all parts)
+    const prompt = `You are an elite document analysis expert specializing in Bangladeshi National ID (NID) cards. 
+Analyze the provided image(s) with extreme precision. 
+
+CRITICAL INSTRUCTIONS:
+1. SPELLING ACCURACY: Do not hallucinate or guess names. If a name is "Md. Amzad Hossain", do not return "Md. Mazhad Hossain". Check every character.
+2. BILINGUAL MATCHING: Smart NIDs have names in both Bengali and English. Cross-reference them to ensure the spelling is correct.
+3. FIELD MAPPING:
+   - "Name (English)" -> nameEn
+   - "নাম (বাংলা)" -> nameBn
+   - "Father" / "পিতা" -> fatherName (Translate to English)
+   - "Mother" / "মাতা" -> motherName (Translate to English)
+   - "ID No" / "NID No" -> nidNumber
+   - "Date of Birth" / "জন্ম তারিখ" -> dob (Format: YYYY-MM-DD)
+   - "Address" / "ঠিকানা" (usually on back) -> permanentAddress (Translate to English accurately)
+
+4. ADDRESS FORMAT: For permanentAddress, include all details: Village/House, Road, Post Office, Upazila/Thana, District.
+
+Return a JSON object with these exact keys:
+{
+  "nameEn": "",
+  "nameBn": "",
+  "nidNumber": "",
+  "dob": "",
+  "fatherName": "",
+  "motherName": "",
+  "permanentAddress": ""
+}
 
 Rules:
-- Translate Bengali text to English for fatherName, motherName, permanentAddress
-- Keep nameBn in Bengali script (do not translate)
-- If a field is unclear or not visible, return an empty string ""
-- Return ONLY valid JSON, no extra text`;
+- Translate Bengali specific fields (Father, Mother, Address) to English.
+- Keep nameBn in original Bengali script.
+- Return ONLY valid JSON. No conversational text.`;
 
     // Convert local path to base64 if needed (gateway handles both, but let's be consistent)
     let imageContent: string = imageUrl;
