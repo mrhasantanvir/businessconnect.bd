@@ -6,7 +6,9 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { authenticator } from "otplib";
+import { TOTP } from "otplib";
+
+const totp = new TOTP();
 
 async function createSession(user: any) {
   // Generate a unique session ID for single device login
@@ -103,7 +105,7 @@ export async function complete2FALoginAction(userId: string, token: string) {
 
     if (!user || !user.twoFactorSecret) return { error: "Invalid login attempt" };
 
-    const verified = authenticator.verify({
+    const verified = totp.verify({
       secret: user.twoFactorSecret,
       token
     });

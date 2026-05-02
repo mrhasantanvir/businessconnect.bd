@@ -4,7 +4,8 @@ import { db as prisma } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcrypt";
-import { authenticator } from "otplib";
+import { TOTP } from "otplib";
+const totp = new TOTP();
 import QRCode from "qrcode";
 import { logAdminAction } from "@/lib/audit";
 
@@ -79,8 +80,12 @@ export async function generate2FASecretAction() {
   const user = await prisma.user.findUnique({ where: { id: session.id } });
   if (!user) throw new Error("User not found");
 
-  const secret = authenticator.generateSecret();
-  const otpauth = authenticator.keyuri(user.email || user.id, "BusinessConnect.bd", secret);
+  const secret = totp.generateSecret();
+  const otpauth = totp.generateURI({
+    issuer: "BusinessConnect.bd",
+    label: user.email || user.id,
+    secret
+  });
   const qrCodeUrl = await QRCode.toDataURL(otpauth);
 
   // We don't save the secret yet, only when they verify it
@@ -91,7 +96,7 @@ export async function verifyAndEnable2FAAction(secret: string, token: string) {
   const session = await getSession();
   if (!session || !session.id) throw new Error("Unauthorized");
 
-  const isValid = authenticator.verify({ token, secret });
+  const isValid = totp.verify({ token, secret });
   if (!isValid) throw new Error("Invalid verification code");
 
   await prisma.user.update({
