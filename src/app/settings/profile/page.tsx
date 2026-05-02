@@ -9,13 +9,15 @@ export default async function ProfileSettingsPage() {
 
   const user = await prisma.user.findUnique({
     where: { id: session.id },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      phone: true,
-      role: true,
-      createdAt: true
+    include: {
+      staffProfile: {
+        include: {
+          documents: true,
+          merchantStore: {
+            select: { name: true }
+          }
+        }
+      }
     }
   });
 

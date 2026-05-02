@@ -12,6 +12,7 @@ model User {
   email               String?              @unique
   name                String?
   image               String?  // Profile photo URL
+  coverImage          String?  // Cover photo URL
   phone               String?
   password            String
   role                String               @default("MERCHANT")
