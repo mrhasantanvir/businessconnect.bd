@@ -106,7 +106,7 @@ export default async function AiSettingsPage() {
                         />
                      </div>
                   </div>
-                  <AiTestButton apiKey={settings?.openaiApiKey} />
+                  <AiTestButton provider="OPENAI" />
                </div>
 
                {/* Provider 2: Google Gemini (Fallback) */}
@@ -139,6 +139,7 @@ export default async function AiSettingsPage() {
                         />
                      </div>
                   </div>
+                  <AiTestButton provider="GEMINI" />
                </div>
 
                {/* Provider 3: DeepSeek (Ultra Low Cost) */}
@@ -171,6 +172,7 @@ export default async function AiSettingsPage() {
                         />
                      </div>
                   </div>
+                  <AiTestButton provider="DEEPSEEK" />
                </div>
 
                {/* Provider 4: Groq (Blazing Fast) */}
@@ -203,6 +205,7 @@ export default async function AiSettingsPage() {
                         />
                      </div>
                   </div>
+                  <AiTestButton provider="GROQ" />
                </div>
 
                {/* Provider 5: OpenRouter (Legacy Support) */}
@@ -234,6 +237,7 @@ export default async function AiSettingsPage() {
                         />
                      </div>
                   </div>
+                  <AiTestButton provider="OPENROUTER" />
                </div>
 
                {/* Global Control & Priority */}
@@ -278,7 +282,7 @@ export default async function AiSettingsPage() {
                </div>
                <div>
                   <div className="text-[10px] font-black uppercase tracking-widest opacity-80 mb-1">Total Unit Sales</div>
-                  <div className="text-4xl font-black tracking-tight">? 1,42,500.00</div>
+                  <div className="text-4xl font-black tracking-tight">৳ 1,42,500.00</div>
                </div>
                <div className="pt-4 border-t border-white/20 grid grid-cols-2 gap-4">
                   <div>

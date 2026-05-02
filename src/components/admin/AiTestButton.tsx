@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 import { Terminal, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
-import { testOpenAIConnectionAction } from "@/app/admin/settings/actions";
+import { testAiConnectionAction } from "@/app/admin/ai-settings/actions";
 
-export function AiTestButton({ apiKey }: { apiKey?: string }) {
+export function AiTestButton({ provider }: { provider: string }) {
   const [testing, setTesting] = useState(false);
   const [testResult, setTestResult] = useState<any>(null);
 
@@ -12,7 +12,7 @@ export function AiTestButton({ apiKey }: { apiKey?: string }) {
     setTesting(true);
     setTestResult(null);
     try {
-      const res = await testOpenAIConnectionAction();
+      const res = await testAiConnectionAction(provider);
       setTestResult(res);
     } catch (err: any) {
       setTestResult({ success: false, error: err.message });
