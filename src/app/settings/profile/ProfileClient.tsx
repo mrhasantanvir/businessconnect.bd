@@ -95,8 +95,9 @@ export default function ProfileClient({ user }: { user: any }) {
           ) : (
             <div className="w-full h-full opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]" />
           )}
-          <label className="absolute bottom-4 right-4 p-2 bg-white/20 backdrop-blur-md rounded-full text-white cursor-pointer hover:bg-white/40 transition-all opacity-0 group-hover:opacity-100 shadow-lg">
-            {uploadingCover ? <RefreshCw className="w-5 h-5 animate-spin" /> : <Camera className="w-5 h-5" />}
+          <label className="absolute bottom-4 right-4 px-4 py-2 bg-black/50 backdrop-blur-md rounded-xl text-white cursor-pointer hover:bg-black/70 transition-all shadow-lg flex items-center gap-2 border border-white/20">
+            {uploadingCover ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Camera className="w-4 h-4" />}
+            <span className="text-[10px] font-black uppercase tracking-widest">Change Cover</span>
             <input type="file" className="hidden" accept="image/*" onChange={e => e.target.files?.[0] && handleFileUpload(e.target.files[0], 'cover')} />
           </label>
         </div>
@@ -113,8 +114,9 @@ export default function ProfileClient({ user }: { user: any }) {
                     <User className="w-16 h-16" />
                   </div>
                 )}
-                <label className="absolute inset-0 bg-black/40 flex items-center justify-center text-white cursor-pointer opacity-0 group-hover:opacity-100 transition-all backdrop-blur-[2px]">
+                <label className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-white cursor-pointer opacity-0 group-hover:opacity-100 transition-all backdrop-blur-[2px]">
                    {uploadingAvatar ? <RefreshCw className="w-6 h-6 animate-spin" /> : <Camera className="w-6 h-6" />}
+                   <span className="text-[9px] font-black uppercase tracking-widest mt-2">Change Photo</span>
                    <input type="file" className="hidden" accept="image/*" onChange={e => e.target.files?.[0] && handleFileUpload(e.target.files[0], 'avatar')} />
                 </label>
              </div>
