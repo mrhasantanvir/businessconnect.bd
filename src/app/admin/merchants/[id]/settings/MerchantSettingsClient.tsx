@@ -11,10 +11,13 @@ import {
   KeyRound, 
   PlusCircle, 
   TrendingUp,
-  ArrowLeft
+  ArrowLeft,
+  User,
+  Mail,
+  Lock
 } from "lucide-react";
 import Link from "next/link";
-import { updateMerchantCredentialsAction, addMerchantCreditsAction } from "./actions";
+import { updateMerchantCredentialsAction, addMerchantCreditsAction, updateMerchantUserAction } from "./actions";
 
 export function MerchantSettingsClient({ merchant }: { merchant: any }) {
   const [loading, setLoading] = useState(false);
@@ -218,6 +221,131 @@ export function MerchantSettingsClient({ merchant }: { merchant: any }) {
          </div>
 
       </div>
+
+      {/* Merchant Account Management Section (Super Admin Only) */}
+      <div className="bg-white border border-slate-100 rounded-[48px] p-10 space-y-10 shadow-sm">
+         <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-indigo-600 flex items-center justify-center text-white">
+               <ShieldCheck className="w-6 h-6" />
+            </div>
+            <div>
+               <h2 className="text-xl font-black text-slate-900 uppercase italic">Merchant Account Management</h2>
+               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Update owner credentials and login information</p>
+            </div>
+         </div>
+
+         <div className="grid grid-cols-1 gap-8">
+            {merchant.users?.map((user: any) => (
+               <MerchantUserEditCard key={user.id} user={user} />
+            ))}
+            {(!merchant.users || merchant.users.length === 0) && (
+               <div className="text-center py-10 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200 text-slate-400 font-bold italic">
+                  No merchant accounts found for this store.
+               </div>
+            )}
+         </div>
+      </div>
+    </div>
+  );
+}
+
+function MerchantUserEditCard({ user }: { user: any }) {
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: user.name || "",
+    email: user.email || "",
+    phone: user.phone || "",
+    password: ""
+  });
+
+  const handleUpdate = async () => {
+    if (!formData.name || !formData.email) return alert("Name and Email are required");
+    
+    setLoading(true);
+    const res = await updateMerchantUserAction(user.id, formData);
+    if (res.success) {
+      alert("Merchant account updated successfully!");
+      setFormData(prev => ({ ...prev, password: "" }));
+    } else {
+      alert(`Error: ${res.error}`);
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div className="p-8 bg-slate-50 rounded-[32px] border border-slate-100 space-y-8">
+       <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+             <div className="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center text-indigo-600 font-black">
+                {user.name.substring(0,2).toUpperCase()}
+             </div>
+             <div>
+                <p className="text-sm font-black text-slate-900">{user.name}</p>
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{user.email}</p>
+             </div>
+          </div>
+          <div className="px-3 py-1 bg-indigo-50 text-indigo-600 rounded-lg text-[10px] font-black uppercase">
+             Merchant Owner
+          </div>
+       </div>
+
+       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="space-y-2">
+             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Full Name</label>
+             <div className="relative">
+                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <input 
+                   value={formData.name}
+                   onChange={e => setFormData({...formData, name: e.target.value})}
+                   className="w-full h-12 pl-12 pr-4 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none focus:ring-2 ring-indigo-100 transition-all"
+                />
+             </div>
+          </div>
+          <div className="space-y-2">
+             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Login Email (User ID)</label>
+             <div className="relative">
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <input 
+                   value={formData.email}
+                   onChange={e => setFormData({...formData, email: e.target.value})}
+                   className="w-full h-12 pl-12 pr-4 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none focus:ring-2 ring-indigo-100 transition-all"
+                />
+             </div>
+          </div>
+          <div className="space-y-2">
+             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Phone</label>
+             <div className="relative">
+                <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <input 
+                   value={formData.phone}
+                   onChange={e => setFormData({...formData, phone: e.target.value})}
+                   className="w-full h-12 pl-12 pr-4 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none focus:ring-2 ring-indigo-100 transition-all"
+                />
+             </div>
+          </div>
+          <div className="space-y-2">
+             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Reset Password</label>
+             <div className="relative">
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <input 
+                   type="password"
+                   value={formData.password}
+                   onChange={e => setFormData({...formData, password: e.target.value})}
+                   placeholder="New password (optional)"
+                   className="w-full h-12 pl-12 pr-4 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none focus:ring-2 ring-indigo-100 transition-all"
+                />
+             </div>
+          </div>
+       </div>
+
+       <button 
+          onClick={handleUpdate}
+          disabled={loading}
+          className="px-8 h-12 bg-indigo-600 text-white rounded-xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-indigo-100 hover:scale-[1.05] active:scale-95 transition-all flex items-center gap-2 disabled:opacity-50"
+       >
+          {loading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+          Update User Info
+       </button>
     </div>
   );
 }

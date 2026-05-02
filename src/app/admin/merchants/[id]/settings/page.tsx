@@ -19,7 +19,10 @@ export default async function MerchantSettingsPage({
     where: { id: merchantId },
     include: {
       sipConfig: true,
-      subscriptionPlan: true
+      subscriptionPlan: true,
+      users: {
+        where: { role: "MERCHANT" }
+      }
     }
   });
 
