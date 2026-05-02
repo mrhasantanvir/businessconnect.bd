@@ -111,10 +111,11 @@ async function callDeepSeek(prompt: string, apiKey: string, model: string, optio
  * Groq Implementation (High Speed + Vision Support)
  */
 async function callGroq(prompt: string, apiKey: string, model: string, options: AiOptions) {
-  // If vision is requested, use a vision-capable model if the default isn't
+  // If vision is requested, use a vision-capable model
   let finalModel = model;
-  if (options.imageUrl && !model.includes("vision")) {
-    finalModel = "llama-3.2-11b-vision-preview";
+  if (options.imageUrl) {
+    // llama-3.2-90b-vision-preview is more capable than 11b
+    finalModel = "llama-3.2-90b-vision-preview";
   }
 
   const messages: any[] = [];
@@ -132,23 +133,30 @@ async function callGroq(prompt: string, apiKey: string, model: string, options: 
     messages.push({ role: "user", content: prompt });
   }
 
+  const body: any = {
+    model: finalModel,
+    messages,
+    max_tokens: options.maxTokens || 2048,
+  };
+
+  // Groq vision models might not support json_mode yet in some regions or versions
+  // Let's only apply it if not in vision mode, or try to be safer
+  if (options.jsonMode && !options.imageUrl) {
+    body.response_format = { type: "json_object" };
+  }
+
   const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
     method: "POST",
     headers: {
       "Authorization": `Bearer ${apiKey}`,
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-      model: finalModel,
-      messages,
-      max_tokens: options.maxTokens || 2048,
-      response_format: options.jsonMode ? { type: "json_object" } : undefined
-    })
+    body: JSON.stringify(body)
   });
 
   if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData?.error?.message || "Groq API Error");
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData?.error?.message || `Groq API Error (${response.status})`);
   }
 
   const data = await response.json();
