@@ -11,8 +11,10 @@ async function main() {
 
   // 1. Create Super Admin
   const adminId = await generateReadableId("ADMIN");
-  const admin = await prisma.user.create({
-    data: {
+  const admin = await prisma.user.upsert({
+    where: { id: "admin-1" },
+    update: {},
+    create: {
       id: "admin-1",
       email: "admin@businessconnect.bd",
       phone: "01711111111",
@@ -28,8 +30,10 @@ async function main() {
 
   // 2. Create Merchant
   const merchantId = await generateReadableId("MERCHANT");
-  const merchant = await prisma.user.create({
-    data: {
+  const merchant = await prisma.user.upsert({
+    where: { id: "merchant-1" },
+    update: {},
+    create: {
       id: "merchant-1",
       email: "merchant@businessconnect.bd",
       phone: "01321141788", // The one from the screenshot
@@ -43,8 +47,10 @@ async function main() {
   });
 
   // Create Store for Merchant
-  const store = await prisma.merchantstore.create({
-    data: {
+  const store = await prisma.merchantstore.upsert({
+    where: { id: "store-1" },
+    update: {},
+    create: {
       id: "store-1",
       name: "Demo Store",
       slug: "demo-store",
@@ -60,8 +66,10 @@ async function main() {
 
   // 3. Create Staff 1
   const staff1Id = await generateReadableId("STAFF", store.id);
-  const staff1 = await prisma.user.create({
-    data: {
+  const staff1 = await prisma.user.upsert({
+    where: { id: "staff-1" },
+    update: {},
+    create: {
       id: "staff-1",
       email: "staff1@businessconnect.bd",
       phone: "01811111111",
@@ -78,8 +86,10 @@ async function main() {
 
   // 4. Create Staff 2
   const staff2Id = await generateReadableId("STAFF", store.id);
-  const staff2 = await prisma.user.create({
-    data: {
+  const staff2 = await prisma.user.upsert({
+    where: { id: "staff-2" },
+    update: {},
+    create: {
       id: "staff-2",
       email: "staff2@businessconnect.bd",
       phone: "01911111111",
