@@ -19,7 +19,14 @@ export async function generateTwoFactorSecretAction() {
     name: `BusinessConnect:${user.email || user.id}`
   });
 
-  const qrCodeUrl = await QRCode.toDataURL(secret.otpauth_url || "");
+  const qrCodeUrl = await QRCode.toDataURL(secret.otpauth_url || "", {
+    margin: 2,
+    width: 300,
+    color: {
+      dark: "#0F172A",
+      light: "#FFFFFF"
+    }
+  });
 
   // Store base32 secret temporarily
   await prisma.user.update({
