@@ -20,7 +20,8 @@ import {
   Timer,
   Pause,
   Sparkles,
-  RefreshCw
+  RefreshCw,
+  Search
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { 
@@ -52,6 +53,7 @@ export default function TaskDrawer({
   const [showForward, setShowForward] = useState(false);
   const [forwardUserId, setForwardUserId] = useState("");
   const [isWorking, setIsWorking] = useState(false);
+  const [staffSearch, setStaffSearch] = useState("");
 
   useEffect(() => {
     refreshTask();
@@ -105,7 +107,7 @@ export default function TaskDrawer({
     try {
       const result = await forwardTaskAction(task.id, forwardUserId);
       if (result) {
-        toast.success("Task successfully forwarded to new assignee");
+        toast.success("Task successfully forwarded");
         setShowForward(false);
         onClose();
         onUpdate();
@@ -170,7 +172,6 @@ export default function TaskDrawer({
     return `${h}h ${m}m`;
   };
 
-  // SMARTER AI SUMMARY
   const generateAiSummary = () => {
     const lastMessage = task.messages?.[task.messages.length - 1];
     const lastActivity = task.activities?.[0];
@@ -195,6 +196,12 @@ export default function TaskDrawer({
   };
 
   const timeInfo = calculateTimeLogged();
+
+  const filteredStaff = staff?.filter(s => 
+    s.id !== task.assigneeId && 
+    (s.name?.toLowerCase().includes(staffSearch.toLowerCase()) || 
+     s.staffProfile?.jobRole?.toLowerCase().includes(staffSearch.toLowerCase()))
+  ) || [];
 
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[60] flex items-center justify-center p-4 animate-in fade-in duration-300 font-inter">
@@ -276,13 +283,13 @@ export default function TaskDrawer({
                </div>
             </div>
 
-            {/* AI Efficiency Audit */}
+            {/* AI Summary */}
             <div className="bg-indigo-50 border border-indigo-200 p-6 rounded-none space-y-3 relative overflow-hidden">
                <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-600/5 rounded-full blur-2xl -mr-8 -mt-8" />
                <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-indigo-600">
                      <Sparkles className="w-3.5 h-3.5" />
-                     AI Operational Intelligence
+                     Operational Intelligence
                   </div>
                   <div className="text-[10px] font-black text-indigo-600">SCORE: <span className="text-indigo-900 bg-white px-2 py-0.5 border border-indigo-100 ml-1">{task.status === 'COMPLETED' ? '9.4/10' : 'ANALYZING...'}</span></div>
                </div>
@@ -418,55 +425,55 @@ export default function TaskDrawer({
               </div>
             )}
          </div>
-
-         {/* FORWARD ACTION (Now at bottom) */}
-         <div className="mt-auto border-t border-gray-100 bg-gray-50/50">
-            <div className="p-6 flex items-center justify-between">
-               <div className="flex items-center gap-3">
-                  <div className="p-2 bg-indigo-100 text-indigo-600 rounded-none">
-                     <UserPlus className="w-4 h-4" />
-                  </div>
-                  <div>
-                     <h3 className="text-[11px] font-black text-[#0F172A] uppercase tracking-widest leading-none mb-1.5">Delegate Operation</h3>
-                     <p className="text-[9px] font-bold text-gray-400 uppercase">Forward this task to another staff member</p>
-                  </div>
-               </div>
-               <button 
-                 onClick={() => setShowForward(!showForward)}
-                 className="px-4 py-2 border border-gray-200 text-[#0F172A] text-[9px] font-black uppercase tracking-widest hover:bg-white transition-all rounded-none shadow-sm"
-               >
-                  {showForward ? 'Hide Form' : 'Forward Now'}
-               </button>
-            </div>
-
-            {showForward && (
-               <div className="px-6 pb-6 animate-in slide-in-from-bottom-2 duration-300">
-                  <div className="flex gap-2 p-2 bg-white border border-gray-200 rounded-none shadow-sm">
-                     <select 
-                       className="flex-1 bg-transparent border-none p-2 text-xs font-bold outline-none appearance-none cursor-pointer"
-                       value={forwardUserId}
-                       onChange={(e) => setForwardUserId(e.target.value)}
-                     >
-                        <option value="">Select recipient...</option>
-                        {staff && staff.filter(s => s.id !== task.assigneeId).map(s => (
-                           <option key={s.id} value={s.id}>{s.name}</option>
-                        ))}
-                     </select>
-                     <button 
-                       onClick={handleForward}
-                       disabled={!forwardUserId}
-                       className="px-6 py-2 bg-[#0F172A] text-white rounded-none text-[9px] font-black uppercase tracking-widest hover:bg-indigo-600 transition-all disabled:opacity-50"
-                     >
-                        Confirm
-                     </button>
-                  </div>
-               </div>
-            )}
-         </div>
       </div>
 
       {/* Footer / Time Tracking Status */}
-      <div className="p-6 bg-white border-t border-gray-100 flex items-center justify-between">
+      <div className="p-6 bg-white border-t border-gray-100 flex items-center justify-between relative">
+         
+         {/* FORWARD POPOVER */}
+         {showForward && (
+            <div className="absolute bottom-full left-6 right-6 mb-2 bg-[#0F172A] text-white p-4 animate-in slide-in-from-bottom-4 duration-300 border border-white/10 shadow-2xl">
+               <div className="flex flex-col gap-3">
+                  <div className="flex items-center justify-between">
+                     <span className="text-[9px] font-black uppercase tracking-widest text-indigo-400">Search & Select Staff Member</span>
+                     <button onClick={() => setShowForward(false)} className="text-white/40 hover:text-white"><X className="w-3 h-3" /></button>
+                  </div>
+                  <div className="relative">
+                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-white/30" />
+                     <input 
+                       type="text" 
+                       placeholder="Find by name or role..."
+                       className="w-full bg-white/5 border border-white/10 rounded-none pl-9 pr-4 py-2 text-[10px] font-bold outline-none focus:bg-white/10"
+                       value={staffSearch}
+                       onChange={(e) => setStaffSearch(e.target.value)}
+                       autoFocus
+                     />
+                  </div>
+                  <div className="max-h-32 overflow-y-auto no-scrollbar border-t border-white/5 pt-2">
+                     {filteredStaff.map(s => (
+                        <button 
+                          key={s.id} 
+                          onClick={() => {
+                             setForwardUserId(s.id);
+                             handleForward();
+                          }}
+                          className="w-full text-left p-2 hover:bg-white/5 transition-all flex items-center justify-between group"
+                        >
+                           <div>
+                              <p className="text-[10px] font-black">{s.name}</p>
+                              <p className="text-[8px] font-bold text-white/40 uppercase">{s.staffProfile?.jobRole || 'Staff'}</p>
+                           </div>
+                           <ArrowUpRight className="w-3 h-3 text-indigo-400 opacity-0 group-hover:opacity-100 transition-all" />
+                        </button>
+                     ))}
+                     {filteredStaff.length === 0 && (
+                        <p className="text-center py-2 text-[8px] font-bold text-white/20 uppercase">No matches found</p>
+                     )}
+                  </div>
+               </div>
+            </div>
+         )}
+
          <div className="flex items-center gap-3">
             <div className={cn(
                "w-10 h-10 rounded-none flex items-center justify-center transition-all border",
@@ -479,27 +486,40 @@ export default function TaskDrawer({
                <p className="text-sm font-black text-[#0F172A] tracking-tight">{timeInfo.value}</p>
             </div>
          </div>
-         <button 
-           onClick={toggleWork}
-           className={cn(
-             "px-8 py-3.5 text-[10px] font-black uppercase tracking-widest transition-all rounded-none shadow-sm flex items-center gap-2 border",
-             isWorking 
-              ? "bg-white border-indigo-200 text-indigo-600 hover:bg-red-50 hover:text-red-600 hover:border-red-100" 
-              : "bg-black border-black text-white hover:bg-gray-800"
-           )}
-         >
-            {isWorking ? (
-               <>
-                  <Pause className="w-3.5 h-3.5 fill-current" />
-                  Pause Session
-               </>
-            ) : (
-               <>
-                  <Timer className="w-3.5 h-3.5" />
-                  Submit
-               </>
-            )}
-         </button>
+
+         <div className="flex items-center gap-2">
+            <button 
+              onClick={() => {
+                 setShowForward(!showForward);
+                 setStaffSearch("");
+              }}
+              className="px-6 py-3.5 text-[10px] font-black uppercase tracking-widest border border-gray-200 text-[#0F172A] hover:bg-gray-50 transition-all rounded-none flex items-center gap-2"
+            >
+               <UserPlus className="w-3.5 h-3.5" />
+               Forward Task
+            </button>
+            <button 
+              onClick={toggleWork}
+              className={cn(
+                "px-8 py-3.5 text-[10px] font-black uppercase tracking-widest transition-all rounded-none shadow-sm flex items-center gap-2 border",
+                isWorking 
+                  ? "bg-white border-indigo-200 text-indigo-600 hover:bg-red-50 hover:text-red-600 hover:border-red-100" 
+                  : "bg-black border-black text-white hover:bg-gray-800"
+              )}
+            >
+               {isWorking ? (
+                  <>
+                     <Pause className="w-3.5 h-3.5 fill-current" />
+                     Pause Session
+                  </>
+               ) : (
+                  <>
+                     <Timer className="w-3.5 h-3.5" />
+                     Submit
+                  </>
+               )}
+            </button>
+         </div>
       </div>
 
      </div>
