@@ -315,9 +315,7 @@ export default function ProfileClient({ user }: { user: any }) {
                         </div>
                       )}
                   </div>
-              </div>
           </div>
-      </div>
       </div>
     </div>
   );
