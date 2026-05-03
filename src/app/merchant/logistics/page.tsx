@@ -15,10 +15,10 @@ export default async function MerchantLogisticsPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="p-8 md:p-12 space-y-12 max-w-7xl mx-auto pb-20">
+      <div className="p-4 md:p-6 space-y-6 max-w-7xl mx-auto pb-10">
         
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-gray-200 pb-10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-gray-200 pb-6">
            <div>
               <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-indigo-600 mb-2">
                  <Truck className="w-4 h-4" /> Logistics Intelligence Layer
@@ -33,7 +33,7 @@ export default async function MerchantLogisticsPage() {
         </div>
 
         {/* Info Card */}
-        <div className="bg-white rounded-none p-10 relative overflow-hidden border border-gray-100 shadow-sm text-gray-900">
+        <div className="bg-white rounded-none p-6 relative overflow-hidden border border-gray-100 shadow-sm text-gray-900">
           <div className="absolute right-0 top-0 opacity-5 pointer-events-none text-slate-900">
              <MapPin className="w-64 h-64 -mt-10 -mr-10" />
           </div>

@@ -142,10 +142,10 @@ export function UnifiedLogisticsHub({ existingConfigs }: { existingConfigs: any[
   );
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-6">
         
         {/* Actions Bar */}
-        <div className="flex justify-between items-center bg-white p-6 rounded-[32px] border border-gray-100 shadow-sm">
+        <div className="flex justify-between items-center bg-white p-4 rounded-none border border-gray-100 shadow-sm">
            <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center">
                  <Server className="w-5 h-5 text-indigo-600" />
@@ -264,7 +264,7 @@ export function UnifiedLogisticsHub({ existingConfigs }: { existingConfigs: any[
             
             return (
               <div key={courier} className={cn(
-                "p-8 rounded-[48px] bg-white border transition-all duration-500",
+                "p-6 rounded-none bg-white border transition-all duration-500",
                 rate.isActive ? "border-indigo-600/20 shadow-xl" : "opacity-60 grayscale border-dashed"
               )}>
                  <div className="space-y-8">
@@ -299,7 +299,7 @@ export function UnifiedLogisticsHub({ existingConfigs }: { existingConfigs: any[
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-6 border-t border-gray-100">
                        
                        {/* Category 1: General E-commerce */}
-                       <div className="space-y-4 bg-gray-50/50 p-6 rounded-[32px] border border-gray-100">
+                       <div className="space-y-3 bg-gray-50/50 p-4 rounded-none border border-gray-100">
                           <div className="flex items-center gap-2">
                              <div className="w-8 h-8 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600">
                                 <Truck className="w-4 h-4" />
@@ -325,7 +325,7 @@ export function UnifiedLogisticsHub({ existingConfigs }: { existingConfigs: any[
                        </div>
 
                        {/* Category 4: Home Delivery (NEW) */}
-                       <div className="space-y-4 bg-emerald-50/30 p-6 rounded-[32px] border border-emerald-100/50">
+                       <div className="space-y-3 bg-emerald-50/30 p-4 rounded-none border border-emerald-100/50">
                           <div className="flex items-center gap-2">
                              <div className="w-8 h-8 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600">
                                 <MapPin className="w-4 h-4" />
@@ -351,7 +351,7 @@ export function UnifiedLogisticsHub({ existingConfigs }: { existingConfigs: any[
                        </div>
 
                        {/* Category 2: Weight-based (Mango, etc.) */}
-                       <div className="space-y-4 bg-amber-50/30 p-6 rounded-[32px] border border-amber-100/50">
+                       <div className="space-y-3 bg-amber-50/30 p-4 rounded-none border border-amber-100/50">
                           <div className="flex items-center gap-2">
                              <div className="w-8 h-8 rounded-xl bg-amber-100 flex items-center justify-center text-amber-600">
                                 <Scale className="w-4 h-4" />
@@ -377,7 +377,7 @@ export function UnifiedLogisticsHub({ existingConfigs }: { existingConfigs: any[
                        </div>
 
                        {/* Category 3: Liquid-based (Oil, Honey) */}
-                       <div className="space-y-4 bg-indigo-50/30 p-6 rounded-[32px] border border-indigo-100/50">
+                       <div className="space-y-3 bg-indigo-50/30 p-4 rounded-none border border-indigo-100/50">
                           <div className="flex items-center gap-2">
                              <div className="w-8 h-8 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-600">
                                 <Droplet className="w-4 h-4" />
