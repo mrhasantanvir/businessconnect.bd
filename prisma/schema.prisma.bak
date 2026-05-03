@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String               @id @default(cuid())
+  email               String?              @unique
+  name                String?
+  image               String?  // Profile photo URL
+  coverImage          String?  // Cover photo URL
+  coverPosition       Int                  @default(50)
+  phone               String?
+  password            String
+  role                String               @default("MERCHANT")
+  customRoleId        String?
+  customRole          Role?                @relation(fields: [customRoleId], references: [id])
+  isOnboarded         Boolean              @default(false)
+  isActive            Boolean              @default(true)
+  currentSessionId    String?
+  onboardingToken     String?              @unique
+  onboardingTokenExpires DateTime?
+  resetToken          String?              @unique
+  resetTokenExpires   DateTime?
+  twoFactorSecret     String?
+  isTwoFactorEnabled  Boolean              @default(false)
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  readableId          String?              @unique
+  merchantStoreId     String?
+  callLogs            CallLog[]
+  customer            Customer?
+  customerProfile     CustomerProfile?
+  assignedIncidents   Incident[]           @relation("AssignedIncidents")
+  reportedIncidents   Incident[]           @relation("ReportedIncidents")
+  incidentActivities  IncidentActivity[]
+  incidentMessages    IncidentMessage[]
+  inventoryLogs       InventoryLog[]
+  driverOrders        Order[]              @relation("DriverOrders")
+  orderActivities     OrderActivity[]
+  paymentTransactions PaymentTransaction[]
+  staffProfile        StaffProfile?
+  staffWorkLogs       StaffWorkLog[]
+  commissions         StaffCommission[]
+  staffPayouts         CommissionPayout[]
+  sipStatus           String               @default("OFFLINE")
+  lastActiveAt        DateTime             @default(now())
+  auditedCalls        CallLog[]            @relation("CallAuditor")
+  branchId            String?
+  branch              Branch?              @relation(fields: [branchId], references: [id])
+  merchantStore       MerchantStore?       @relation(fields: [merchantStoreId], references: [id])
+  chatMessages        InternalMessage[]
+  moderationAlerts    ChatModerationAlert[]
+  chatMemberships     ChatChannelMember[]
+  isArchived          Boolean              @default(false)
+  archivedAt          DateTime?
+  devices             StaffDevice[]
+  adminActions        AdminActionLog[]     @relation("AdminActions")
+  createdTasks        Task[]               @relation("TaskCreator")
+  assignedTasks       Task[]               @relation("TaskAssignee")
+  taskMessages        TaskMessage[]
+  taskActivities      TaskActivity[]
+  hasSeenCelebration  Boolean              @default(false)
+}
+
+// ... I'll skip the rest for now and just use a more surgical revert or just use the whole file if I had it.
+// Actually, I'll just use view_file on the truncated version I have.

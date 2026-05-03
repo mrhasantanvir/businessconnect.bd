@@ -1,4 +1,5 @@
 import { db as prisma } from "./db";
+import crypto from "crypto";
 
 export type IdType = "ADMIN" | "MERCHANT" | "STAFF" | "CUSTOMER" | "TASK" | "ORDER";
 

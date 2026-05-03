@@ -186,7 +186,7 @@ export default function WarehouseClient() {
             className="group flex items-center gap-3 bg-[#0F172A] text-white px-8 py-4 rounded-2xl font-bold text-sm hover:bg-blue-600 transition-all shadow-xl shadow-slate-900/10 active:scale-95"
           >
             <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform duration-500" />
-            Establish New Hub
+            Add New Warehouse
           </button>
         </div>
       </div>
@@ -195,7 +195,7 @@ export default function WarehouseClient() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 px-4">
         <div className="flex items-center gap-1.5 p-1.5 bg-white border border-slate-100 rounded-[24px] shadow-sm w-fit">
           {[
-            { id: 'list', label: 'Nodes', icon: Building2 },
+            { id: 'list', label: 'Warehouses', icon: Building2 },
             { id: 'stocks', label: 'Inventory', icon: Box },
             { id: 'transfers', label: 'Logistics', icon: Truck },
           ].map(tab => (
@@ -244,14 +244,14 @@ export default function WarehouseClient() {
                   <Warehouse size={64} />
                 </div>
                 <div className="mt-8 space-y-4">
-                  <h3 className="text-2xl font-black text-slate-900 tracking-tight">Expansion Required</h3>
-                  <p className="text-slate-400 font-medium max-w-sm mx-auto">Your supply chain is currently inactive. Establish your first distribution hub to begin operations.</p>
+                  <h3 className="text-2xl font-black text-slate-900 tracking-tight">Warehouse Setup Required</h3>
+                  <p className="text-slate-400 font-medium max-w-sm mx-auto">Your inventory management is currently inactive. Add your first warehouse to begin managing stock.</p>
                   <div className="flex flex-col sm:flex-row items-center gap-4 mt-8">
                     <button 
                       onClick={() => setIsModalOpen(true)}
                       className="bg-[#0F172A] text-white px-8 py-4 rounded-2xl font-bold text-sm hover:bg-blue-600 transition-all shadow-xl shadow-slate-900/10"
                     >
-                      Add Custom Hub
+                      Add Custom Warehouse
                     </button>
                     <button 
                       onClick={handleInitialize}
@@ -351,11 +351,11 @@ export default function WarehouseClient() {
                 <table className="w-full text-left border-collapse">
                    <thead>
                       <tr className="bg-slate-50/50">
-                         <th className="px-10 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Asset Configuration</th>
-                         <th className="px-10 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Node Allocation</th>
+                         <th className="px-10 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Product Details</th>
+                         <th className="px-10 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Location Allocation</th>
                          <th className="px-10 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Current Volume</th>
                          <th className="px-10 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Status</th>
-                         <th className="px-10 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-right">Operations</th>
+                         <th className="px-10 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-right">Actions</th>
                       </tr>
                    </thead>
                    <tbody className="divide-y divide-slate-50">
@@ -412,8 +412,8 @@ export default function WarehouseClient() {
                 <ArrowRightLeft size={64} />
              </div>
              <div className="space-y-4">
-                <h3 className="text-3xl font-black text-slate-900 tracking-tight">Inter-Hub Logistics</h3>
-                <p className="text-slate-400 font-bold max-w-md mx-auto uppercase tracking-[0.1em] text-xs">Authorize and track stock movements between established nodes in your network.</p>
+                <h3 className="text-3xl font-black text-slate-900 tracking-tight">Warehouse Logistics</h3>
+                <p className="text-slate-400 font-bold max-w-md mx-auto uppercase tracking-[0.1em] text-xs">Track and manage stock movements between your established warehouses.</p>
              </div>
              <button className="bg-[#0F172A] text-white px-12 py-5 rounded-[24px] font-black text-sm uppercase tracking-[0.2em] shadow-2xl shadow-slate-900/20 hover:scale-105 active:scale-95 transition-all">
                 Initialize Transfer Protocol
@@ -592,8 +592,8 @@ export default function WarehouseClient() {
             <div className="p-12 relative z-10">
               <div className="flex items-center justify-between mb-12">
                 <div className="space-y-1">
-                   <h2 className="text-3xl font-black text-slate-900 tracking-tight">{editingWarehouse ? 'Modify Hub' : 'Establish Hub'}</h2>
-                   <p className="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">Node Configuration Protocol</p>
+                   <h2 className="text-3xl font-black text-slate-900 tracking-tight">{editingWarehouse ? 'Modify Warehouse' : 'Add Warehouse'}</h2>
+                   <p className="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">Warehouse Configuration</p>
                 </div>
                 <button onClick={() => setIsModalOpen(false)} className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all">
                    <Plus className="w-6 h-6 rotate-45" />
@@ -601,20 +601,19 @@ export default function WarehouseClient() {
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-10">
-                <div className="space-y-8">
-                  <div className="group space-y-3">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2 group-focus-within:text-blue-600 transition-colors">Identification Tag</label>
+                <div className="space-                   <div className="group space-y-3">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2 group-focus-within:text-blue-600 transition-colors">Warehouse Name</label>
                     <input 
                       type="text" 
                       required
                       value={formData.name}
                       onChange={e => setFormData({...formData, name: e.target.value})}
-                      placeholder="e.g. CENTRAL_HUB_DHAKA"
+                      placeholder="e.g. Central Warehouse Dhaka"
                       className="w-full px-8 py-5 bg-slate-50 border-2 border-transparent rounded-[24px] font-bold text-sm outline-none focus:bg-white focus:border-blue-600/20 focus:ring-4 ring-blue-500/5 transition-all"
                     />
                   </div>
                   <div className="group space-y-3">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2 group-focus-within:text-blue-600 transition-colors">Geographic Allocation</label>
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2 group-focus-within:text-blue-600 transition-colors">Address / Location</label>label>
                     <div className="relative">
                        <MapPin className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300" />
                        <input 

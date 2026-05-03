@@ -17,7 +17,13 @@ export class CommunicationService {
         where: { id: "GLOBAL" }
       });
 
-      if (settings?.smsActiveProvider === "SSLCOMMERZ" && settings.smsApiKey) {
+      const provider = settings?.smsActiveProvider || "MOCK";
+      
+      if (provider === "SSLCOMMERZ") {
+        if (!settings?.smsApiKey) {
+          throw new Error("SSLCOMMERZ API Key is not configured in Global Settings.");
+        }
+
         const phoneNo = to.replace(/[^0-9]/g, "");
         const finalPhone = phoneNo.startsWith('88') ? phoneNo : `88${phoneNo}`;
         
@@ -29,7 +35,7 @@ export class CommunicationService {
           csms_id: `BC${Date.now().toString().slice(-8)}`
         };
 
-        console.log(`[SMS DEBUG] Sending to ${finalPhone} via SSLCOMMERZ. Payload:`, { ...payload, api_token: "REDACTED" });
+        console.log(`[SMS DEBUG] Sending to ${finalPhone} via SSLCOMMERZ.`);
 
         const response = await fetch(settings.smsApiUrl || "https://smsplus.sslwireless.com/api/v3/send-sms", {
           method: 'POST',
@@ -41,7 +47,7 @@ export class CommunicationService {
         });
 
         const rawResponse = await response.text();
-        console.log(`[SMS DEBUG] Raw Response:`, rawResponse);
+        console.log(`[SMS DEBUG] SSLCOMMERZ Response:`, rawResponse);
 
         let result;
         try {
@@ -50,12 +56,22 @@ export class CommunicationService {
           throw new Error(`Invalid JSON response from SMS gateway: ${rawResponse.slice(0, 100)}`);
         }
 
-        if (result.status !== "SUCCESS") {
+        // SSL Wireless v3 usually returns { status: "SUCCESS", status_code: 200, ... }
+        if (result.status !== "SUCCESS" && result.status_code !== 200) {
           throw new Error(result.error_message || result.status || "Failed to send SMS via SSLCommerz");
         }
+      } else if (provider === "FIREBASE") {
+          // Firebase usually handles its own OTP flow on the client side
+          console.log("[SMS] Firebase Auth provider selected. Server-side sending skipped.");
+          return { success: true, message: "Firebase selected. Please use client-side verification." };
       } else {
-        console.log(`[GATEWAY: ${settings?.smsActiveProvider || 'MOCK'}] Mock Sending SMS to ${to}: "${message}"`);
-        await new Promise(resolve => setTimeout(resolve, 500));
+        // Fallback for other providers or mock
+        console.log(`[GATEWAY: ${provider}] Mock Sending SMS to ${to}: "${message}"`);
+        await new Promise(resolve => setTimeout(resolve, 800));
+        
+        if (provider !== "MOCK" && !settings?.smsApiKey) {
+           throw new Error(`${provider} is selected but API Key is missing.`);
+        }
       }
       
       if (merchantStoreId !== "SYSTEM") {
@@ -64,7 +80,7 @@ export class CommunicationService {
 
       return {
         success: true,
-        message: "SMS sent successfully."
+        message: provider === "MOCK" ? "Test SMS processed (Mock Mode)." : "SMS sent successfully."
       };
     } catch (error: any) {
       console.error("SMS Sending Error:", error);

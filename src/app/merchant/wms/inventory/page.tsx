@@ -20,7 +20,7 @@ export default async function InventoryOverviewPage() {
           </div>
           <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter italic">Access Denied</h2>
           <p className="text-slate-500 font-bold uppercase text-[10px] tracking-widest text-center max-w-xs">
-             Your account is not authorized for WMS operations. Please contact the System Administrator.
+             Your account is not authorized for inventory management. Please contact your system administrator.
           </p>
        </div>
     );
@@ -55,7 +55,7 @@ export default async function InventoryOverviewPage() {
                <div className="w-10 h-10 bg-blue-50  rounded-xl flex items-center justify-center text-blue-600">
                   <Box className="w-5 h-5" />
                </div>
-               <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Active Hubs</span>
+               <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Active Warehouses</span>
             </div>
             <div className="text-3xl font-black text-[#0F172A] ">{warehouses.length}</div>
          </div>
@@ -87,7 +87,7 @@ export default async function InventoryOverviewPage() {
                   <div className="p-6 border-b border-[#F1F5F9] flex items-center justify-between bg-gray-50/50">
                     <div className="flex items-center gap-3">
                        <Package className="w-5 h-5 text-indigo-500" />
-                       <h3 className="font-extrabold text-[#0F172A]">{wh.name} Stock Registry</h3>
+                       <h3 className="font-extrabold text-[#0F172A]">{wh.name} Stock Levels</h3>
                     </div>
                  </div>
                  <div className="overflow-x-auto">
@@ -134,7 +134,7 @@ export default async function InventoryOverviewPage() {
             <div className="bg-white border border-slate-100 p-8 rounded-[32px] shadow-sm space-y-6">
                <h3 className="text-xl font-black tracking-tight flex items-center gap-2 text-slate-900">
                  <History className="w-5 h-5 text-indigo-600" />
-                 Audit Rail
+                 Recent Activity
                </h3>
                <div className="space-y-4">
                   {recentLogs.map(log => (

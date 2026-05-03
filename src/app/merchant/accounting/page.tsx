@@ -138,7 +138,7 @@ export default async function MerchantAccountingPage() {
       {/* Control Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
          
-         {/* Left Column: Operations (8 Cols) */}
+         {/* Left Column: Primary Ledger (8 Cols) */}
          <div className="lg:col-span-8 space-y-10">
             
             {/* Account & Disbursement Grid */}

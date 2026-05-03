@@ -35,8 +35,8 @@ const STATUS_COLORS: any = {
 
 const STATUS_NAMES: any = {
   "PENDING_CONFIRMATION": "Awaiting Response",
-  "ACTIVE": "Active Operation",
-  "IN_PROGRESS": "In Execution",
+  "ACTIVE": "Active Task",
+  "IN_PROGRESS": "In Progress",
   "COMPLETED": "Completed",
   "CANCELLED": "Cancelled"
 };
@@ -93,10 +93,11 @@ export default function TaskDashboard({ tasks = [], staff = [] }: { tasks: any[]
             </div>
             <button 
               onClick={() => setShowCreateModal(true)}
+              id="new-task-btn"
               className="px-6 py-3 bg-black text-white text-[10px] font-black uppercase tracking-widest hover:bg-indigo-600 transition-all rounded-none flex items-center gap-2"
             >
               <Plus className="w-4 h-4" />
-              New Operation
+              New Task
             </button>
           </div>
 
@@ -106,7 +107,7 @@ export default function TaskDashboard({ tasks = [], staff = [] }: { tasks: any[]
                <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                <input 
                  type="text" 
-                 placeholder="Filter operations by title, ID or assignee..."
+                 placeholder="Filter tasks by title, ID or assignee..."
                  className="w-full bg-gray-50 border border-gray-100 rounded-none pl-11 pr-4 py-3.5 text-xs font-bold focus:bg-white focus:border-indigo-600 outline-none transition-all"
                  value={searchQuery}
                  onChange={(e) => {
@@ -138,9 +139,9 @@ export default function TaskDashboard({ tasks = [], staff = [] }: { tasks: any[]
             <table className="w-full text-left border-collapse">
                <thead>
                   <tr className="bg-gray-50/50 border-b border-gray-100">
-                     <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Operation Detail</th>
+                     <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Task Detail</th>
                      <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Assignee</th>
-                     <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Execution Progress</th>
+                     <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Progress</th>
                      <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Status</th>
                      <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-right">Activity Status</th>
                      <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-right"></th>
@@ -246,7 +247,7 @@ export default function TaskDashboard({ tasks = [], staff = [] }: { tasks: any[]
             {totalPages > 1 && (
                <div className="bg-white border-t border-gray-100 p-8 flex items-center justify-between">
                   <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
-                     Showing {Math.min(filteredTasks.length, (currentPage - 1) * ITEMS_PER_PAGE + 1)} - {Math.min(filteredTasks.length, currentPage * ITEMS_PER_PAGE)} of {filteredTasks.length} Operations
+                     Showing {Math.min(filteredTasks.length, (currentPage - 1) * ITEMS_PER_PAGE + 1)} - {Math.min(filteredTasks.length, currentPage * ITEMS_PER_PAGE)} of {filteredTasks.length} Tasks
                   </p>
                   <div className="flex items-center gap-2">
                      <button 

@@ -319,7 +319,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                  <Users className="w-5 h-5" />
               </div>
               <div>
-                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Total Staff</p>
+                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Total Members</p>
                  <p className="text-xl font-bold text-[#0F172A]">{staff.length}</p>
               </div>
            </div>
@@ -352,7 +352,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                  <UserX className="w-5 h-5" />
               </div>
               <div>
-                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Left Staff</p>
+                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Inactive Members</p>
                  <p className="text-xl font-bold text-[#0F172A]">{staff.filter(s => s.staffProfile?.status === "TERMINATED").length}</p>
               </div>
            </div>
@@ -362,7 +362,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
           className="bg-[#1E40AF] text-white rounded-[4px] p-4 shadow-sm hover:bg-[#1E3A8A] transition-all flex items-center justify-center gap-2"
         >
           <UserPlus className="w-5 h-5" />
-          <span className="font-bold text-xs uppercase tracking-widest">Invite Staff</span>
+          <span className="font-bold text-xs uppercase tracking-widest">Add Team Member</span>
         </button>
       </div>
 
@@ -375,7 +375,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
             activeTab === "STAFF" ? "bg-white text-indigo-600 shadow-sm" : "text-gray-400 hover:text-gray-600"
           )}
         >
-          Staff Directory
+          Team Directory
         </button>
         <button 
           onClick={() => setActiveTab("ROLES")}
@@ -448,7 +448,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
           <table className="w-full text-left text-sm">
             <thead className="bg-gray-50 border-b border-gray-100">
               <tr>
-                <th className="px-6 py-3 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Staff Name</th>
+                <th className="px-6 py-3 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Full Name</th>
                 <th className="px-6 py-3 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Role</th>
                 <th className="px-6 py-3 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Status</th>
                 <th className="px-6 py-3 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Salary</th>
@@ -596,14 +596,14 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                  <div className="w-12 h-12 bg-indigo-50 rounded-[4px] flex items-center justify-center mb-4">
                     <UserPlus className="w-6 h-6 text-indigo-600" />
                  </div>
-                 <h2 className="text-lg font-bold text-[#0F172A] tracking-tight">Invite New Staff</h2>
+                 <h2 className="text-lg font-bold text-[#0F172A] tracking-tight">Add New Team Member</h2>
                  <p className="text-xs font-medium text-gray-400 mt-1">Start the onboarding process</p>
               </div>
 
               <form onSubmit={handleAddStaff} className="space-y-5">
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                       <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Staff Name</label>
+                       <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">Full Name</label>
                        <input 
                          required
                          value={newStaff.name}

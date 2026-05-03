@@ -60,7 +60,8 @@ export async function createTaskAction(data: {
   deadline?: Date;
   attachments?: string; // JSON string
 }) {
-  const session = await getSession();
+  try {
+    const session = await getSession();
   if (!session || !session.merchantStoreId) throw new Error("Unauthorized");
 
   const { generateReadableId } = await import("@/lib/id-generator");
@@ -129,7 +130,11 @@ export async function createTaskAction(data: {
   }
 
   revalidatePath("/merchant/tasks");
-  return task;
+  return { success: true, task };
+} catch (error: any) {
+  console.error("Create Task Error:", error);
+  throw new Error(error.message || "Failed to create task");
+}
 }
 
 /**
@@ -159,7 +164,7 @@ export async function confirmTaskAction(taskId: string) {
       taskId,
       userId: session.userId,
       type: "STATUS_CHANGE",
-      message: "Staff confirmed the task and moved it to ACTIVE"
+      message: "Team member confirmed the task and moved it to ACTIVE"
     }
   });
 
@@ -339,7 +344,7 @@ export async function startWorkLogAction(taskId: string) {
       taskId,
       userId: session.userId,
       type: "STATUS_CHANGE",
-      message: "Staff started working on this task"
+      message: "Team member started working on this task"
     }
   });
 
@@ -371,7 +376,7 @@ export async function stopWorkLogAction(taskId: string) {
     where: { id: activeLog.id },
     data: {
       endTime,
-      duration
+      totalMinutes: duration
     }
   });
 
@@ -380,7 +385,7 @@ export async function stopWorkLogAction(taskId: string) {
       taskId,
       userId: session.userId,
       type: "STATUS_CHANGE",
-      message: `Staff paused/stopped working. Session duration: ${duration}m`
+      message: `Team member paused/stopped working. Session duration: ${duration}m`
     }
   });
 

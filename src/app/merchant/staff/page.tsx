@@ -10,7 +10,7 @@ export default async function StaffManagementPage() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-black text-[#0F172A] tracking-tight">Staff Management</h1>
-          <p className="text-sm font-bold text-gray-400 uppercase tracking-widest">Build and manage your elite team</p>
+          <p className="text-sm font-bold text-gray-400 uppercase tracking-widest">Build and manage your business team</p>
         </div>
       </div>
 

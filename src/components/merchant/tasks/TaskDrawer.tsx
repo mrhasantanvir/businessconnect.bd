@@ -200,15 +200,15 @@ export default function TaskDrawer({
 
     if (task.status === 'COMPLETED') {
        const keyLogs = messages.filter((m: any) => !m.isAi).slice(-3).map((m: any) => m.content).join(" → ");
-       return `Task successfully archived.\nOperational trail verified: ${keyLogs || "Standard procedure followed"}. Managed by ${task.assignee?.name}.`;
+       return `Task successfully archived.\nActivity trail verified: ${keyLogs || "Standard procedure followed"}. Managed by ${task.assignee?.name}.`;
     }
 
     if (task.status === 'CANCELLED') {
-       return `Operation halted. Final status: ABORTED. Handled by ${task.assignee?.name}. Awaiting administrative audit for termination cause.`;
+       return `Task stopped. Final status: CANCELLED. Handled by ${task.assignee?.name}. Awaiting review for cancellation cause.`;
     }
 
     if (lastMessage && !lastMessage.isAi) {
-       return `Staff updated log: "${lastMessage.content.slice(0, 100)}${lastMessage.content.length > 100 ? '...' : ''}". Operation proceeding as planned.`;
+       return `Staff updated log: "${lastMessage.content.slice(0, 100)}${lastMessage.content.length > 100 ? '...' : ''}". Task proceeding as planned.`;
     }
 
     if (lastActivity && lastActivity.type === 'STATUS_CHANGE') {
@@ -219,7 +219,7 @@ export default function TaskDrawer({
        return `${task.assignee?.name} is actively working on the task. Performance metrics are optimal.`;
     }
 
-    return `Awaiting engagement from ${task.assignee?.name || 'staff member'}. Priority level: ${task.priority}.`;
+    return `Awaiting response from ${task.assignee?.name || 'staff member'}. Priority level: ${task.priority}.`;
   };
 
   const timeInfo = calculateTimeLogged();
@@ -254,9 +254,9 @@ export default function TaskDrawer({
             )} />
             <div className="flex flex-col">
                <h2 className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1">
-                  {task.status === 'COMPLETED' ? 'Operation Completed' : 
-                   task.status === 'CANCELLED' ? 'Operation Halted' :
-                   isWorking ? 'Operation Active' : 'Task Master Control'}
+                  {task.status === 'COMPLETED' ? 'Task Completed' : 
+                   task.status === 'CANCELLED' ? 'Task Stopped' :
+                   isWorking ? 'Task Active' : 'Task Details'}
                </h2>
                {task.readableId && (
                   <p className="text-[10px] font-black text-indigo-600 tracking-tighter uppercase">
@@ -308,7 +308,7 @@ export default function TaskDrawer({
                   </div>
                </div>
                <div className="bg-gray-50 p-5 rounded-none border border-gray-100">
-                  <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest block mb-3">Operational Status</label>
+                  <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest block mb-3">Task Status</label>
                   <select 
                     className="bg-transparent border-none p-0 text-[11px] font-black uppercase text-indigo-600 focus:ring-0 w-full cursor-pointer disabled:opacity-50"
                     value={task.status}
@@ -329,7 +329,7 @@ export default function TaskDrawer({
                <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-indigo-600">
                      <Sparkles className="w-3.5 h-3.5" />
-                     Operational Intelligence
+                     Task Intelligence
                   </div>
                   <div className="text-right">
                     <div className="text-[9px] font-black text-indigo-600 uppercase tracking-tighter">Performance Index</div>
@@ -437,7 +437,7 @@ export default function TaskDrawer({
                  >
                     <input 
                       type="text" 
-                      placeholder="Enter operational update..."
+                      placeholder="Enter task update..."
                       className="flex-1 bg-transparent border-none text-[12px] font-medium focus:ring-0 p-2 outline-none disabled:opacity-50"
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}

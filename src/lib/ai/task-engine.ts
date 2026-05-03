@@ -36,7 +36,7 @@ export async function generateTaskFromText(merchantStoreId: string, rawText: str
   `;
 
   const systemPrompt = `
-    You are an AI Operations Manager. Transform the following raw input into a structured task.
+    You are an AI Task Manager. Transform the following raw input into a structured task.
     Analyze if the input mentions a specific order or customer from the provided context.
     
     Output ONLY a JSON object with:
@@ -72,7 +72,7 @@ export async function generateTaskEfficiencyReport(staffId: string, taskLogs: an
   `;
   
   const response = await askAI(prompt, {
-    systemPrompt: "You are a performance auditor. Be concise and professional."
+    systemPrompt: "You are a Business Performance Analyst. Be concise and professional."
   });
 
   return response.content;
