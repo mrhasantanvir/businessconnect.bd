@@ -66,12 +66,12 @@ export function CategoryForm({ allCategories }: { allCategories: any[] }) {
   });
 
   return (
-    <div className="bg-white border border-[#E5E7EB] rounded-[32px] p-8 shadow-sm">
+    <div className="bg-white border border-[#E5E7EB] rounded-none p-8 shadow-sm">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600">
+        <div className="w-10 h-10 rounded-none bg-blue-50 flex items-center justify-center text-blue-600">
           <Plus className="w-5 h-5" />
         </div>
-        <h3 className="text-xl font-bold text-[#0F172A]">Blueprint Entry</h3>
+        <h3 className="text-xl font-bold text-[#0F172A]">Category Add</h3>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5">
@@ -81,14 +81,14 @@ export function CategoryForm({ allCategories }: { allCategories: any[] }) {
             required
             value={name}
             onChange={(e) => handleNameChange(e.target.value)}
-            className="w-full px-5 py-3.5 bg-gray-50 border-none rounded-2xl font-bold focus:ring-2 focus:ring-blue-100 outline-none transition-all"
+            className="w-full px-5 py-3.5 bg-gray-50 border-none rounded-none font-bold focus:ring-2 focus:ring-blue-100 outline-none transition-all"
             placeholder="e.g. Smart Electronics"
           />
         </div>
 
         <div className="space-y-2">
           <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Direct Slug</label>
-          <div className="flex items-center gap-2 bg-gray-50 px-5 py-3.5 rounded-2xl border-none">
+          <div className="flex items-center gap-2 bg-gray-50 px-5 py-3.5 rounded-none border-none">
             <span className="text-xs text-gray-400 font-medium">/catalog/</span>
             <input 
               required
@@ -104,7 +104,7 @@ export function CategoryForm({ allCategories }: { allCategories: any[] }) {
           <select 
             value={parentId}
             onChange={(e) => setParentId(e.target.value)}
-            className="w-full px-5 py-3.5 bg-gray-50 border-none rounded-2xl font-bold focus:ring-2 focus:ring-blue-100 outline-none appearance-none cursor-pointer"
+            className="w-full px-5 py-3.5 bg-gray-50 border-none rounded-none font-bold focus:ring-2 focus:ring-blue-100 outline-none appearance-none cursor-pointer"
           >
             <option value="">Root Level (No Parent)</option>
             {potentialParents.map(p => (
@@ -121,7 +121,7 @@ export function CategoryForm({ allCategories }: { allCategories: any[] }) {
               <input 
                 value={image}
                 onChange={(e) => setImage(e.target.value)}
-                className="w-full px-5 py-3.5 bg-gray-50 border-none rounded-2xl font-bold focus:ring-2 focus:ring-blue-100 outline-none"
+                className="w-full px-5 py-3.5 bg-gray-50 border-none rounded-none font-bold focus:ring-2 focus:ring-blue-100 outline-none"
                 placeholder="Image URL or Icon name"
               />
            </div>
@@ -129,9 +129,9 @@ export function CategoryForm({ allCategories }: { allCategories: any[] }) {
               <label className="flex items-center gap-3 cursor-pointer group">
                  <div 
                    onClick={() => setIsFeatured(!isFeatured)}
-                   className={`w-12 h-6 rounded-full transition-all relative ${isFeatured ? 'bg-orange-500' : 'bg-gray-200'}`}
+                   className={`w-12 h-6 rounded-none transition-all relative ${isFeatured ? 'bg-orange-500' : 'bg-gray-200'}`}
                  >
-                    <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${isFeatured ? 'left-7' : 'left-1'}`} />
+                    <div className={`absolute top-1 w-4 h-4 bg-white rounded-none transition-all ${isFeatured ? 'left-7' : 'left-1'}`} />
                  </div>
                  <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest group-hover:text-orange-600 transition-colors">Featured Category</span>
               </label>
@@ -144,13 +144,13 @@ export function CategoryForm({ allCategories }: { allCategories: any[] }) {
             rows={3}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full px-5 py-3.5 bg-gray-50 border-none rounded-2xl font-bold focus:ring-2 focus:ring-blue-100 outline-none resize-none"
+            className="w-full px-5 py-3.5 bg-gray-50 border-none rounded-none font-bold focus:ring-2 focus:ring-blue-100 outline-none resize-none"
             placeholder="Brief narrative for this catalog segment..."
           />
         </div>
 
         {/* SEO Collapsible */}
-        <div className="border border-gray-100 rounded-2xl overflow-hidden mt-4">
+        <div className="border border-gray-100 rounded-none overflow-hidden mt-4">
            <button 
              type="button"
              onClick={() => setIsSeoOpen(!isSeoOpen)}
@@ -169,7 +169,7 @@ export function CategoryForm({ allCategories }: { allCategories: any[] }) {
                   <input 
                     value={seoTitle}
                     onChange={(e) => setSeoTitle(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl text-xs font-bold focus:ring-2 focus:ring-blue-100 outline-none"
+                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-none text-xs font-bold focus:ring-2 focus:ring-blue-100 outline-none"
                   />
                 </div>
                 <div className="space-y-1">
@@ -178,7 +178,7 @@ export function CategoryForm({ allCategories }: { allCategories: any[] }) {
                     rows={2}
                     value={seoDescription}
                     onChange={(e) => setSeoDescription(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl text-xs font-bold focus:ring-2 focus:ring-blue-100 outline-none resize-none"
+                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-none text-xs font-bold focus:ring-2 focus:ring-blue-100 outline-none resize-none"
                   />
                 </div>
              </div>
@@ -188,7 +188,7 @@ export function CategoryForm({ allCategories }: { allCategories: any[] }) {
         <button 
           type="submit"
           disabled={isPending}
-          className="w-full py-5 bg-slate-900 text-white rounded-[24px] font-black shadow-xl shadow-gray-200 hover:bg-black transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2"
+          className="w-full py-5 bg-slate-900 text-white rounded-none font-black shadow-xl shadow-gray-200 hover:bg-black transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2"
         >
           {isPending ? <Sparkles className="w-5 h-5 animate-pulse" /> : <Save className="w-5 h-5" />}
           {isPending ? "Configuring Catalog..." : "Commit Category"}
