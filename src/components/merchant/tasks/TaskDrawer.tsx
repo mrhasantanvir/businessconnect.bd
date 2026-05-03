@@ -119,14 +119,20 @@ export default function TaskDrawer({
         toast.success("Work session paused");
       } else {
         await startWorkLogAction(task.id);
-        toast.success("Work session started");
+        toast.success("Work session started successfully");
         if (task.status === 'PENDING_CONFIRMATION' || task.status === 'ACTIVE') {
-           await handleStatusChange('IN_PROGRESS');
+           try {
+              await updateTaskStatusAction(task.id, 'IN_PROGRESS');
+           } catch (e) {
+              console.error("Status update failed but log was created", e);
+           }
         }
       }
       await refreshTask();
-    } catch (error) {
-      toast.error("Failed to update work status");
+      onUpdate();
+    } catch (error: any) {
+      console.error("Work toggle error:", error);
+      toast.error(error.message || "Failed to update work status");
     }
   }
 
@@ -461,7 +467,7 @@ export default function TaskDrawer({
             ) : (
                <>
                   <Timer className="w-3.5 h-3.5" />
-                  Start Working
+                  Submit
                </>
             )}
          </button>
