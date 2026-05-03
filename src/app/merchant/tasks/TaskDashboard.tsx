@@ -15,7 +15,8 @@ import {
   MoreVertical,
   Activity,
   User,
-  ArrowUpRight
+  ArrowUpRight,
+  BarChart3
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import TaskDrawer from "@/components/merchant/tasks/TaskDrawer";
@@ -37,6 +38,14 @@ const STATUS_NAMES: any = {
   "IN_PROGRESS": "In Execution",
   "COMPLETED": "Completed",
   "CANCELLED": "Cancelled"
+};
+
+const STATUS_PROGRESS: any = {
+  "PENDING_CONFIRMATION": 15,
+  "ACTIVE": 35,
+  "IN_PROGRESS": 65,
+  "COMPLETED": 100,
+  "CANCELLED": 0
 };
 
 export default function TaskDashboard({ tasks, staff }: { tasks: any[], staff: any[] }) {
@@ -68,8 +77,8 @@ export default function TaskDashboard({ tasks, staff }: { tasks: any[], staff: a
   return (
     <div className="flex flex-col min-h-screen bg-[#F8FAFC] font-inter">
       {/* Header Section */}
-      <div className="bg-white border-b border-gray-100 p-6">
-        <div className="max-w-[1600px] mx-auto space-y-6">
+      <div className="bg-white border-b border-gray-100 p-8">
+        <div className="max-w-[1600px] mx-auto space-y-8">
           <div className="flex items-center justify-between">
             <div className="space-y-1">
               <h1 className="text-2xl font-black text-[#0F172A] tracking-tight flex items-center gap-3">
@@ -93,7 +102,7 @@ export default function TaskDashboard({ tasks, staff }: { tasks: any[], staff: a
                <input 
                  type="text" 
                  placeholder="Filter operations by title, ID or assignee..."
-                 className="w-full bg-gray-50 border border-gray-100 rounded-none pl-11 pr-4 py-3 text-xs font-bold focus:bg-white focus:border-indigo-600 outline-none transition-all"
+                 className="w-full bg-gray-50 border border-gray-100 rounded-none pl-11 pr-4 py-3.5 text-xs font-bold focus:bg-white focus:border-indigo-600 outline-none transition-all"
                  value={searchQuery}
                  onChange={(e) => {
                    setSearchQuery(e.target.value);
@@ -102,7 +111,7 @@ export default function TaskDashboard({ tasks, staff }: { tasks: any[], staff: a
                />
             </div>
             <select 
-              className="bg-gray-50 border border-gray-100 rounded-none px-4 py-3 text-[10px] font-black uppercase tracking-widest outline-none focus:border-indigo-600"
+              className="bg-gray-50 border border-gray-100 rounded-none px-4 py-3.5 text-[10px] font-black uppercase tracking-widest outline-none focus:border-indigo-600"
               value={filterStatus}
               onChange={(e) => {
                 setFilterStatus(e.target.value);
@@ -119,14 +128,14 @@ export default function TaskDashboard({ tasks, staff }: { tasks: any[], staff: a
       </div>
 
       {/* Table View */}
-      <div className="flex-1 max-w-[1600px] mx-auto w-full p-6">
-         <div className="bg-white border border-gray-100 shadow-sm overflow-hidden">
+      <div className="flex-1 w-full p-8">
+         <div className="max-w-[1600px] mx-auto bg-white border border-gray-100 shadow-sm overflow-hidden rounded-none">
             <table className="w-full text-left border-collapse">
                <thead>
                   <tr className="bg-gray-50/50 border-b border-gray-100">
                      <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Operation Detail</th>
                      <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Assignee</th>
-                     <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Priority</th>
+                     <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Execution Progress</th>
                      <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Status</th>
                      <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-right">Operational Health</th>
                      <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-right"></th>
@@ -139,16 +148,23 @@ export default function TaskDashboard({ tasks, staff }: { tasks: any[], staff: a
                        onClick={() => setSelectedTask(task)}
                        className="group hover:bg-indigo-50/30 transition-all cursor-pointer"
                      >
-                        <td className="px-6 py-5">
-                           <div className="flex flex-col gap-1">
-                              <span className="text-sm font-black text-[#0F172A] group-hover:text-indigo-600 transition-colors leading-none">{task.title}</span>
-                              <span className="text-[10px] font-bold text-gray-400 uppercase">Created {new Date(task.createdAt).toLocaleDateString()}</span>
+                        <td className="px-6 py-6">
+                           <div className="flex flex-col gap-1.5">
+                              <span className="text-sm font-black text-[#0F172A] group-hover:text-indigo-600 transition-colors leading-none tracking-tight">{task.title}</span>
+                              <div className="flex items-center gap-2">
+                                 <span className={cn(
+                                   "px-1.5 py-0.5 text-[8px] font-black uppercase tracking-tighter border rounded-none inline-block",
+                                   task.priority === 'URGENT' ? 'bg-red-50 text-red-600 border-red-100' : 
+                                   task.priority === 'HIGH' ? 'bg-orange-50 text-orange-600 border-orange-100' : 'bg-indigo-50 text-indigo-600 border-indigo-100'
+                                 )}>{task.priority}</span>
+                                 <span className="text-[9px] font-bold text-gray-300 uppercase">#{task.id.toString().slice(-6)}</span>
+                              </div>
                            </div>
                         </td>
-                        <td className="px-6 py-5">
+                        <td className="px-6 py-6">
                            {task.assignee ? (
                               <div className="flex items-center gap-3">
-                                 <div className="w-8 h-8 bg-gray-100 border border-gray-200 rounded-none flex items-center justify-center text-[10px] font-black text-indigo-600 uppercase">
+                                 <div className="w-8 h-8 bg-gray-50 border border-gray-100 rounded-none flex items-center justify-center text-[10px] font-black text-indigo-600 uppercase">
                                     {task.assignee.name?.[0]}
                                  </div>
                                  <div className="flex flex-col">
@@ -160,24 +176,33 @@ export default function TaskDashboard({ tasks, staff }: { tasks: any[], staff: a
                               <span className="text-[10px] font-black text-gray-300 italic uppercase">Unassigned</span>
                            )}
                         </td>
-                        <td className="px-6 py-5 text-center">
-                           <span className={cn(
-                             "px-2 py-0.5 text-[9px] font-black uppercase tracking-widest border rounded-none inline-block",
-                             task.priority === 'URGENT' ? 'bg-red-50 text-red-600 border-red-100' : 
-                             task.priority === 'HIGH' ? 'bg-orange-50 text-orange-600 border-orange-100' : 'bg-indigo-50 text-indigo-600 border-indigo-100'
-                           )}>
-                              {task.priority}
-                           </span>
+                        <td className="px-6 py-6">
+                           <div className="flex flex-col gap-2 max-w-[140px] mx-auto">
+                              <div className="flex justify-between items-center text-[9px] font-black text-gray-400 uppercase tracking-widest">
+                                 <span>Completion</span>
+                                 <span className="text-indigo-600">{STATUS_PROGRESS[task.status]}%</span>
+                              </div>
+                              <div className="h-1 w-full bg-gray-100 rounded-none overflow-hidden border border-gray-50">
+                                 <div 
+                                   className={cn(
+                                     "h-full transition-all duration-1000 ease-out",
+                                     task.status === 'COMPLETED' ? 'bg-emerald-500' : 
+                                     task.status === 'CANCELLED' ? 'bg-red-400' : 'bg-indigo-600'
+                                   )}
+                                   style={{ width: `${STATUS_PROGRESS[task.status]}%` }}
+                                 />
+                              </div>
+                           </div>
                         </td>
-                        <td className="px-6 py-5 text-center">
+                        <td className="px-6 py-6 text-center">
                            <span className={cn(
-                             "px-3 py-1 text-[9px] font-black uppercase tracking-widest border rounded-none inline-block",
+                             "px-3 py-1.5 text-[9px] font-black uppercase tracking-widest border rounded-none inline-block shadow-sm",
                              STATUS_COLORS[task.status]
                            )}>
                               {STATUS_NAMES[task.status]}
                            </span>
                         </td>
-                        <td className="px-6 py-5 text-right">
+                        <td className="px-6 py-6 text-right">
                            <div className="flex flex-col items-end gap-1.5">
                               <div className="flex items-center gap-3">
                                  <div className="flex items-center gap-1 text-[10px] font-black text-indigo-500">
@@ -192,7 +217,7 @@ export default function TaskDashboard({ tasks, staff }: { tasks: any[], staff: a
                               </div>
                            </div>
                         </td>
-                        <td className="px-6 py-5 text-right">
+                        <td className="px-6 py-6 text-right">
                            <button className="p-2 text-gray-300 hover:text-indigo-600 transition-colors">
                               <ArrowUpRight className="w-4 h-4" />
                            </button>
@@ -201,10 +226,10 @@ export default function TaskDashboard({ tasks, staff }: { tasks: any[], staff: a
                   ))}
                   {paginatedTasks.length === 0 && (
                      <tr>
-                        <td colSpan={6} className="px-6 py-20 text-center">
+                        <td colSpan={6} className="px-6 py-24 text-center">
                            <div className="flex flex-col items-center opacity-20">
-                              <Layers className="w-12 h-12 mb-3" />
-                              <p className="text-[12px] font-black uppercase tracking-[0.2em]">No operations found in repository</p>
+                              <BarChart3 className="w-12 h-12 mb-3" />
+                              <p className="text-[12px] font-black uppercase tracking-[0.2em]">No operational data detected</p>
                            </div>
                         </td>
                      </tr>
@@ -214,15 +239,15 @@ export default function TaskDashboard({ tasks, staff }: { tasks: any[], staff: a
 
             {/* Pagination Navigation */}
             {totalPages > 1 && (
-               <div className="bg-white border-t border-gray-100 p-6 flex items-center justify-between">
+               <div className="bg-white border-t border-gray-100 p-8 flex items-center justify-between">
                   <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
-                     Showing {Math.min(filteredTasks.length, (currentPage - 1) * ITEMS_PER_PAGE + 1)} to {Math.min(filteredTasks.length, currentPage * ITEMS_PER_PAGE)} of {filteredTasks.length} Operations
+                     Showing {Math.min(filteredTasks.length, (currentPage - 1) * ITEMS_PER_PAGE + 1)} - {Math.min(filteredTasks.length, currentPage * ITEMS_PER_PAGE)} of {filteredTasks.length} Operations
                   </p>
                   <div className="flex items-center gap-2">
                      <button 
                        disabled={currentPage === 1}
                        onClick={() => setCurrentPage(p => p - 1)}
-                       className="p-2 border border-gray-200 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                       className="p-3 border border-gray-200 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all rounded-none"
                      >
                         <ChevronLeft className="w-4 h-4" />
                      </button>
@@ -232,8 +257,8 @@ export default function TaskDashboard({ tasks, staff }: { tasks: any[], staff: a
                              key={i}
                              onClick={() => setCurrentPage(i + 1)}
                              className={cn(
-                               "w-8 h-8 text-[10px] font-black transition-all border",
-                               currentPage === i + 1 ? "bg-[#0F172A] border-[#0F172A] text-white" : "bg-white border-gray-200 text-gray-400 hover:bg-gray-50"
+                               "w-10 h-10 text-[10px] font-black transition-all border rounded-none",
+                               currentPage === i + 1 ? "bg-[#0F172A] border-[#0F172A] text-white shadow-lg" : "bg-white border-gray-200 text-gray-400 hover:bg-gray-50"
                              )}
                            >
                               {i + 1}
@@ -243,7 +268,7 @@ export default function TaskDashboard({ tasks, staff }: { tasks: any[], staff: a
                      <button 
                        disabled={currentPage === totalPages}
                        onClick={() => setCurrentPage(p => p + 1)}
-                       className="p-2 border border-gray-200 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                       className="p-3 border border-gray-200 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all rounded-none"
                      >
                         <ChevronRight className="w-4 h-4" />
                      </button>
