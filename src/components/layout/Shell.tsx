@@ -75,11 +75,17 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
     if (user?.activationStatus === "STAFF_ONBOARDING" && !pathname.startsWith("/staff/onboarding")) {
        router.push("/staff/onboarding");
     }
+
+    if ((user?.role === "MERCHANT" || user?.role === "STAFF") && user?.activationStatus && user.activationStatus !== "ACTIVE") {
+       const allowedPaths = ["/dashboard", "/merchant/settings/documents", "/settings/profile"];
+       if (!allowedPaths.includes(pathname)) {
+          router.push("/dashboard");
+       }
+    }
   }, [user, pathname, router]);
 
-
-
   const role = user?.role || "MERCHANT";
+  const isInactiveStore = (user?.role === "MERCHANT" || user?.role === "STAFF") && user?.activationStatus && user.activationStatus !== "ACTIVE";
 
   // Toggle category
   const toggleCategory = (label: string) => {
@@ -289,9 +295,8 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
           )}
         </div>
 
-        <nav className="flex-1 py-4 flex flex-col gap-1 px-3 overflow-y-auto">
+        <nav className={cn("flex-1 py-4 flex flex-col gap-1 px-3 overflow-y-auto", isInactiveStore && "pointer-events-none opacity-40 select-none grayscale")}>
           {NAVIGATION.map((group) => {
-            const isInactiveMerchant = user?.role === "MERCHANT" && user?.activationStatus !== "ACTIVE";
             
             const visibleItems = group.items.filter(item => {
               if (!item.roles) return false;
