@@ -37,7 +37,6 @@ export default function NewDashboardClient({
               <div className="bg-brand-50 text-brand-600 px-4 py-2 rounded-lg text-xs font-bold border border-brand-100">
                  {store?.subscriptionPlan?.name || store?.plan}
               </div>
-              <NewIncidentModal />
            </div>
         </div>
       </div>
