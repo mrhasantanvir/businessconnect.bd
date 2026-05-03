@@ -258,10 +258,10 @@ export default function TaskDashboardClient({ tasks, staff, merchantStoreId }: {
                        <td className="px-6 py-4">
                           {task.assignee ? (
                             <div className="flex items-center gap-2">
-                               <div className="w-6 h-6 bg-slate-200 rounded-full flex items-center justify-center text-[10px] font-black">
-                                  {task.assignee.name?.[0]}
+                               <div className="w-6 h-6 bg-slate-200 rounded-none flex items-center justify-center text-[10px] font-black">
+                                  {task.assignee.name?.[0] || "?"}
                                </div>
-                               <span className="text-[11px] font-bold text-gray-600">{task.assignee.name}</span>
+                               <span className="text-[11px] font-bold text-gray-600">{task.assignee.name || "Unknown"}</span>
                             </div>
                           ) : (
                             <span className="text-[10px] font-black text-gray-300 uppercase">Unassigned</span>
@@ -291,7 +291,7 @@ export default function TaskDashboardClient({ tasks, staff, merchantStoreId }: {
                        <td className="px-6 py-4 text-right">
                           <div className="flex flex-col items-end">
                              <span className="text-[11px] font-black text-[#0F172A]">{task.deadline ? new Date(task.deadline).toLocaleDateString() : 'No Date'}</span>
-                             <span className="text-[8px] font-bold text-gray-400 uppercase">Due Soon</span>
+                             <span className="text-[8px] font-bold text-gray-400 uppercase">Status Tracking</span>
                           </div>
                        </td>
                     </tr>
@@ -342,8 +342,8 @@ export default function TaskDashboardClient({ tasks, staff, merchantStoreId }: {
                           <div className="flex items-center justify-between">
                              <div className="flex -space-x-1">
                                 {task.assignee && (
-                                   <div className="w-5 h-5 bg-slate-100 border border-white rounded-full flex items-center justify-center text-[8px] font-black uppercase shadow-sm">
-                                      {task.assignee.name?.[0]}
+                                   <div className="w-5 h-5 bg-slate-100 border border-white rounded-none flex items-center justify-center text-[8px] font-black uppercase shadow-sm">
+                                      {task.assignee.name?.[0] || "?"}
                                    </div>
                                 )}
                              </div>

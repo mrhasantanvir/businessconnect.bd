@@ -74,75 +74,75 @@ export default function TaskDrawer({ task, onClose, onUpdate }: { task: any, onC
                     task.priority === 'URGENT' ? 'bg-red-50 text-red-600 border-red-100' : 
                     task.priority === 'HIGH' ? 'bg-orange-50 text-orange-600 border-orange-100' : 'bg-indigo-50 text-indigo-600 border-indigo-100'
                   )}>{task.priority} Priority</span>
-                  <div className="flex items-center gap-1.5 text-[10px] font-bold text-gray-400 uppercase">
-                     <Clock className="w-3.5 h-3.5" />
-                     Due {task.deadline ? new Date(task.deadline).toLocaleDateString() : 'ASAP'}
+                   <div className="flex items-center gap-1.5 text-[10px] font-bold text-gray-400 uppercase">
+                      <Clock className="w-3.5 h-3.5" />
+                      Due {task.deadline ? new Date(task.deadline).toLocaleDateString() : 'ASAP'}
+                   </div>
+                </div>
+                <h1 className="text-xl font-black text-[#0F172A] leading-tight">{task.title}</h1>
+                <p className="text-xs font-medium text-gray-500 leading-relaxed">{task.description}</p>
+             </div>
+ 
+             <div className="grid grid-cols-2 gap-4">
+                <div className="bg-gray-50 p-4 rounded-[2px] border border-gray-100">
+                   <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest block mb-2">Assignee</label>
+                   {task.assignee ? (
+                     <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 bg-white border border-gray-200 rounded-full flex items-center justify-center text-[11px] font-black text-indigo-600">
+                           {task.assignee.name?.[0] || "?"}
+                        </div>
+                        <div>
+                           <p className="text-[11px] font-black text-[#0F172A] leading-none">{task.assignee.name || "Unknown"}</p>
+                           <p className="text-[9px] font-bold text-gray-400 uppercase mt-1">{task.assignee.staffProfile?.jobRole || 'Staff'}</p>
+                        </div>
+                     </div>
+                   ) : <p className="text-[11px] font-black text-gray-300 italic uppercase">Unassigned</p>}
+                </div>
+                <div className="bg-gray-50 p-4 rounded-[2px] border border-gray-100">
+                   <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest block mb-2">Status</label>
+                   <select 
+                     className="bg-transparent border-none p-0 text-[11px] font-black uppercase text-indigo-600 focus:ring-0 w-full"
+                     value={task.status}
+                     onChange={(e) => handleStatusChange(e.target.value)}
+                   >
+                      <option value="PENDING_CONFIRMATION">Pending Confirmation</option>
+                      <option value="ACTIVE">Active</option>
+                      <option value="IN_PROGRESS">In Progress</option>
+                      <option value="COMPLETED">Completed</option>
+                      <option value="CANCELLED">Cancelled</option>
+                   </select>
+                </div>
+             </div>
+ 
+             {/* AI Efficiency Audit */}
+             <div className="bg-slate-900 text-white p-6 rounded-[2px] space-y-3 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-500/10 rounded-full blur-2xl -mr-8 -mt-8" />
+                <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-indigo-400">
+                   <Activity className="w-3.5 h-3.5" />
+                   AI Efficiency Audit
+                </div>
+                <p className="text-[11px] font-medium leading-relaxed opacity-90">
+                   {task.status === 'COMPLETED' 
+                     ? "The staff handled this task with high precision. Total time spent aligns with the initial estimate."
+                     : "Task is currently active. AI is monitoring activity sync to generate the final efficiency report."}
+                </p>
+                <div className="flex items-center gap-4 pt-2">
+                   <div className="text-[10px] font-black text-indigo-400">SCORE: <span className="text-white">{task.status === 'COMPLETED' ? '9.4/10' : 'TBD'}</span></div>
+                </div>
+             </div>
+ 
+             {task.order && task.order.id && (
+               <div className="flex items-center justify-between p-4 bg-indigo-50 border border-indigo-100 rounded-[2px]">
+                  <div className="flex items-center gap-3">
+                     <ExternalLink className="w-4 h-4 text-indigo-600" />
+                     <div>
+                        <p className="text-[10px] font-black text-indigo-700 uppercase tracking-widest">Linked Order</p>
+                        <p className="text-xs font-black text-indigo-900">#{task.order.orderNumber || task.order.id.toString().slice(-8)}</p>
+                     </div>
                   </div>
+                  <button className="text-[10px] font-black text-indigo-600 uppercase hover:underline">View Details</button>
                </div>
-               <h1 className="text-xl font-black text-[#0F172A] leading-tight">{task.title}</h1>
-               <p className="text-xs font-medium text-gray-500 leading-relaxed">{task.description}</p>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-               <div className="bg-gray-50 p-4 rounded-[2px] border border-gray-100">
-                  <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest block mb-2">Assignee</label>
-                  {task.assignee ? (
-                    <div className="flex items-center gap-2">
-                       <div className="w-8 h-8 bg-white border border-gray-200 rounded-full flex items-center justify-center text-[11px] font-black text-indigo-600">
-                          {task.assignee.name?.[0]}
-                       </div>
-                       <div>
-                          <p className="text-[11px] font-black text-[#0F172A] leading-none">{task.assignee.name}</p>
-                          <p className="text-[9px] font-bold text-gray-400 uppercase mt-1">{task.assignee.staffProfile?.jobRole || 'Staff'}</p>
-                       </div>
-                    </div>
-                  ) : <p className="text-[11px] font-black text-gray-300 italic uppercase">Unassigned</p>}
-               </div>
-               <div className="bg-gray-50 p-4 rounded-[2px] border border-gray-100">
-                  <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest block mb-2">Status</label>
-                  <select 
-                    className="bg-transparent border-none p-0 text-[11px] font-black uppercase text-indigo-600 focus:ring-0 w-full"
-                    value={task.status}
-                    onChange={(e) => handleStatusChange(e.target.value)}
-                  >
-                     <option value="PENDING_CONFIRMATION">Pending Confirmation</option>
-                     <option value="ACTIVE">Active</option>
-                     <option value="IN_PROGRESS">In Progress</option>
-                     <option value="COMPLETED">Completed</option>
-                     <option value="CANCELLED">Cancelled</option>
-                  </select>
-               </div>
-            </div>
-
-            {/* AI Efficiency Audit */}
-            <div className="bg-slate-900 text-white p-6 rounded-[2px] space-y-3 relative overflow-hidden">
-               <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-500/10 rounded-full blur-2xl -mr-8 -mt-8" />
-               <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-indigo-400">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  AI Efficiency Audit
-               </div>
-               <p className="text-[11px] font-medium leading-relaxed opacity-90">
-                  {task.status === 'COMPLETED' 
-                    ? "The staff handled this task with high precision. Total time spent aligns with the initial estimate."
-                    : "Task is currently active. AI is monitoring activity sync to generate the final efficiency report."}
-               </p>
-               <div className="flex items-center gap-4 pt-2">
-                  <div className="text-[10px] font-black text-indigo-400">SCORE: <span className="text-white">{task.status === 'COMPLETED' ? '9.4/10' : 'TBD'}</span></div>
-               </div>
-            </div>
-
-            {task.order && (
-              <div className="flex items-center justify-between p-4 bg-indigo-50 border border-indigo-100 rounded-[2px]">
-                 <div className="flex items-center gap-3">
-                    <ExternalLink className="w-4 h-4 text-indigo-600" />
-                    <div>
-                       <p className="text-[10px] font-black text-indigo-700 uppercase tracking-widest">Linked Order</p>
-                       <p className="text-xs font-black text-indigo-900">#{task.order.orderNumber || task.order.id.slice(-8)}</p>
-                    </div>
-                 </div>
-                 <button className="text-[10px] font-black text-indigo-600 uppercase hover:underline">View Details</button>
-              </div>
-            )}
+             )}
          </div>
 
          {/* Tabs Section */}
