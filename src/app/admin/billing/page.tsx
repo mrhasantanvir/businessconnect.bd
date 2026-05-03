@@ -84,6 +84,12 @@ export default async function AdminBillingControlPage(props: Props) {
             Global Hub for Merchant Resources & API Limits.
           </p>
         </div>
+        <Link 
+          href="/admin/billing/revenue"
+          className="flex items-center gap-2 bg-slate-900 text-white px-6 py-3 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-black transition-all shadow-xl shadow-slate-100"
+        >
+          <TrendingUp className="w-4 h-4" /> View Revenue Intelligence
+        </Link>
       </div>
 
       {/* Global Analytics Overview */}

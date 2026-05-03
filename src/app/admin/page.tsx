@@ -247,8 +247,13 @@ export default async function SuperAdminDashboard() {
                   </div>
                </div>
                <div className="mt-8 pt-6 border-t border-gray-100 flex justify-between items-center">
-                  <span className="text-xs font-bold text-gray-400">Total Pipeline</span>
-                  <span className="text-xl font-black text-indigo-600">৳{(saasRevenue + creditsRevenue).toLocaleString()}</span>
+                  <div className="flex flex-col">
+                     <span className="text-xs font-bold text-gray-400">Total Pipeline</span>
+                     <span className="text-xl font-black text-indigo-600">৳{(saasRevenue + creditsRevenue).toLocaleString()}</span>
+                  </div>
+                  <a href="/admin/billing/revenue" className="p-3 bg-slate-900 text-white rounded-2xl hover:bg-black transition-all shadow-lg shadow-slate-100">
+                     <ArrowUpRight className="w-5 h-5" />
+                  </a>
                </div>
             </div>
 
