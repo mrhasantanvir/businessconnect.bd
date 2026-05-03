@@ -438,7 +438,7 @@ export default function TaskDashboardClient({ tasks, staff, merchantStoreId }: {
           onUpdate={() => {
             // In a real app, we'd refetch or use a shared state
             // For now, toast is enough or we could use window.location.reload()
-            window.location.reload();
+            router.refresh();
           }} 
         />
       )}

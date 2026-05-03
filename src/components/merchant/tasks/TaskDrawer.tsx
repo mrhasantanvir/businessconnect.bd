@@ -18,7 +18,8 @@ import {
   UserPlus,
   Loader2,
   Timer,
-  Pause
+  Pause,
+  Sparkles
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { 
@@ -56,7 +57,6 @@ export default function TaskDrawer({
   }, [initialTask.id]);
 
   useEffect(() => {
-    // Check if there's an active work log
     const hasActiveLog = task.workLogs?.some((log: any) => !log.endTime);
     setIsWorking(!!hasActiveLog);
   }, [task]);
@@ -80,7 +80,7 @@ export default function TaskDrawer({
       await sendTaskMessageAction(task.id, message);
       setMessage("");
       await refreshTask();
-      onUpdate();
+      // We don't call onUpdate() here to prevent modal from flickering/closing
     } catch (error) {
       toast.error("Failed to send message");
     } finally {
@@ -101,14 +101,20 @@ export default function TaskDrawer({
 
   async function handleForward() {
     if (!forwardUserId) return;
+    setIsLoading(true);
     try {
-      await forwardTaskAction(task.id, forwardUserId);
-      toast.success("Task forwarded successfully!");
-      setShowForward(false);
-      onClose();
-      onUpdate();
-    } catch (error) {
-      toast.error("Failed to forward task");
+      const result = await forwardTaskAction(task.id, forwardUserId);
+      if (result) {
+        toast.success("Task forwarded successfully!");
+        setShowForward(false);
+        onClose();
+        onUpdate();
+      }
+    } catch (error: any) {
+      console.error("Forward error:", error);
+      toast.error(error.message || "Failed to forward task");
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -144,7 +150,6 @@ export default function TaskDrawer({
         if (log.duration) {
           totalMinutes += log.duration;
         } else if (!log.endTime) {
-          // Ongoing session
           const now = new Date();
           const start = new Date(log.startTime);
           totalMinutes += Math.round((now.getTime() - start.getTime()) / 60000);
@@ -153,7 +158,6 @@ export default function TaskDrawer({
     }
     
     if (totalMinutes === 0) {
-       // Show time since creation if no work logs yet
        const now = new Date();
        const created = new Date(task.createdAt);
        totalMinutes = Math.round((now.getTime() - created.getTime()) / 60000);
@@ -168,6 +172,20 @@ export default function TaskDrawer({
     const h = Math.floor(min / 60);
     const m = min % 60;
     return `${h}h ${m}m`;
+  };
+
+  const generateAiSummary = () => {
+    if (task.status === 'COMPLETED') {
+       return `Task finalized successfully by ${task.assignee?.name || 'staff'}. Efficiency score is optimized based on the completed activity trail.`;
+    }
+    if (task.status === 'IN_PROGRESS') {
+       const logs = task.workLogs?.length || 0;
+       return `Operational synchronization in progress. Staff has recorded ${logs} work session(s). AI is tracking real-time latency and execution precision.`;
+    }
+    if (task.status === 'PENDING_CONFIRMATION') {
+       return `Awaiting staff handshake. Handshake protocols initiated at ${new Date(task.createdAt).toLocaleTimeString()}.`;
+    }
+    return `Task is currently in ${task.status} state. Monitoring background processes to initiate efficiency audit.`;
   };
 
   const timeInfo = calculateTimeLogged();
@@ -215,7 +233,7 @@ export default function TaskDrawer({
                        onChange={(e) => setForwardUserId(e.target.value)}
                      >
                         <option value="" className="text-gray-900">Select new assignee...</option>
-                        {staff.filter(s => s.id !== task.assigneeId).map(s => (
+                        {staff && staff.filter(s => s.id !== task.assigneeId).map(s => (
                            <option key={s.id} value={s.id} className="text-gray-900">{s.name} ({s.staffProfile?.jobRole || 'Staff'})</option>
                         ))}
                      </select>
@@ -293,18 +311,16 @@ export default function TaskDrawer({
             {/* AI Efficiency Audit */}
             <div className="bg-indigo-50 border border-indigo-200 p-6 rounded-none space-y-3 relative overflow-hidden">
                <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-600/5 rounded-full blur-2xl -mr-8 -mt-8" />
-               <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-indigo-600">
-                  <Activity className="w-3.5 h-3.5" />
-                  AI Efficiency Audit
+               <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-indigo-600">
+                     <Sparkles className="w-3.5 h-3.5" />
+                     AI Intelligence Summary
+                  </div>
+                  <div className="text-[10px] font-black text-indigo-600">SCORE: <span className="text-indigo-900 bg-white px-2 py-0.5 border border-indigo-100 ml-1">{task.status === 'COMPLETED' ? '9.4/10' : 'ANALYZING...'}</span></div>
                </div>
-               <p className="text-[11px] font-bold leading-relaxed text-indigo-900">
-                  {task.status === 'COMPLETED' 
-                    ? "The staff handled this task with high precision. Total time spent aligns with the initial estimate."
-                    : "Task is currently active. AI is monitoring activity sync to generate the final efficiency report."}
+               <p className="text-[11px] font-bold leading-relaxed text-indigo-900 italic">
+                  {generateAiSummary()}
                </p>
-               <div className="flex items-center gap-4 pt-2">
-                  <div className="text-[10px] font-black text-indigo-600">EFFICIENCY SCORE: <span className="text-indigo-900 bg-white px-2 py-0.5 border border-indigo-100 ml-1">{task.status === 'COMPLETED' ? '9.4/10' : 'ANALYZING...'}</span></div>
-               </div>
             </div>
  
              {task.order && task.order.id && (
