@@ -24,14 +24,15 @@ export async function extractNIDInfo(imageUrl: string, merchantStoreId?: string)
 
 async function extractWithGateway(imageUrl: string, merchantStoreId?: string) {
   try {
-    console.log("[Vision] Starting NID extraction for:", imageUrl);
+    const isBack = imageUrl.includes("back") || imageUrl.includes("_back");
+    console.log(`[Vision] Starting NID extraction for ${isBack ? "BACK" : "FRONT"} image:`, imageUrl);
 
     const prompt = `You are an elite document analysis expert specializing in Bangladeshi National ID (NID) cards. 
-Analyze the provided image(s) with extreme precision. 
+Analyze the provided image with extreme precision. This is likely the ${isBack ? "BACK (Address side)" : "FRONT (Information side)"} of the card.
 
 CRITICAL INSTRUCTIONS:
-1. SPELLING ACCURACY: Do not hallucinate or guess names. If a name is "Md. Amzad Hossain", do not return "Md. Mazhad Hossain". Check every character.
-2. BILINGUAL MATCHING: Smart NIDs have names in both Bengali and English. Cross-reference them to ensure the spelling is correct.
+1. SPELLING ACCURACY: Do not hallucinate or guess names. Check every character.
+2. BILINGUAL MATCHING: Smart NIDs have names in both Bengali and English. Cross-reference them.
 3. FIELD MAPPING:
    - "Name (English)" -> nameEn
    - "নাম (বাংলা)" -> nameBn
@@ -43,7 +44,7 @@ CRITICAL INSTRUCTIONS:
 
 4. ADDRESS FORMAT: For permanentAddress, include all details: Village/House, Road, Post Office, Upazila/Thana, District.
 
-Return ONLY a valid JSON object with these exact keys. No preamble, no markdown code blocks, just raw JSON:
+Return ONLY a valid JSON object. No preamble, no markdown.
 {
   "nameEn": "",
   "nameBn": "",
@@ -55,9 +56,8 @@ Return ONLY a valid JSON object with these exact keys. No preamble, no markdown 
 }
 
 Rules:
-- Translate Bengali specific fields (Father, Mother, Address) to English.
-- Keep nameBn in original Bengali script.
-- Return ONLY valid JSON. No conversational text.`;
+- Translate Father, Mother, and Address to English.
+- Keep nameBn in Bengali.`;
 
     // Convert local path to base64 if needed
     let imageContent: string = imageUrl;
@@ -71,7 +71,7 @@ Rules:
     // Use the Bulletproof Vision Gateway
     const { content, provider } = await askAiVision(imageContent, prompt);
 
-    console.log(`[Vision] AI Response from ${provider}:`, content);
+    console.log(`[Vision] AI Response from ${provider} [${isBack ? "BACK" : "FRONT"}]:`, content);
 
     if (!content) {
       throw new Error("No response from AI Gateway");
@@ -87,22 +87,26 @@ Rules:
       extraction = JSON.parse(jsonStr.trim());
     } catch (parseError) {
       console.warn("[Vision] JSON Parse failed, attempting regex extraction...");
-      // Fallback regex extraction if JSON parsing fails
       extraction = {
-        nameEn: content.match(/"nameEn":\s*"([^"]*)"/)?.[1] || "",
-        nameBn: content.match(/"nameBn":\s*"([^"]*)"/)?.[1] || "",
-        nidNumber: content.match(/"nidNumber":\s*"([^"]*)"/)?.[1] || "",
-        dob: content.match(/"dob":\s*"([^"]*)"/)?.[1] || "",
-        fatherName: content.match(/"fatherName":\s*"([^"]*)"/)?.[1] || "",
-        motherName: content.match(/"motherName":\s*"([^"]*)"/)?.[1] || "",
-        permanentAddress: content.match(/"permanentAddress":\s*"([^"]*)"/)?.[1] || ""
+        nameEn: content.match(/"(?:nameEn|name)":\s*"([^"]*)"/i)?.[1] || "",
+        nameBn: content.match(/"nameBn":\s*"([^"]*)"/i)?.[1] || "",
+        nidNumber: content.match(/"(?:nidNumber|idNo|idNumber)":\s*"([^"]*)"/i)?.[1] || "",
+        dob: content.match(/"dob":\s*"([^"]*)"/i)?.[1] || "",
+        fatherName: content.match(/"fatherName":\s*"([^"]*)"/i)?.[1] || "",
+        motherName: content.match(/"motherName":\s*"([^"]*)"/i)?.[1] || "",
+        permanentAddress: content.match(/"permanentAddress":\s*"([^"]*)"/i)?.[1] || ""
       };
     }
 
-    // Final check - if we have almost nothing, it's a failure
+    // Normalize keys (if AI returned 'name' instead of 'nameEn', etc.)
+    if (!extraction.nameEn && extraction.name) extraction.nameEn = extraction.name;
+    if (!extraction.nidNumber && extraction.idNo) extraction.nidNumber = extraction.idNo;
+    if (!extraction.nidNumber && extraction.idNumber) extraction.nidNumber = extraction.idNumber;
+
+    // Final check - if we have almost nothing, it's a failure for this specific side
     const hasData = Object.values(extraction).some(v => v && v !== "");
     if (!hasData) {
-      console.warn("[Vision] AI returned empty data, falling back to Google...");
+      console.warn(`[Vision] AI returned empty data for ${isBack ? "BACK" : "FRONT"}, falling back to Google...`);
       return await extractWithGoogle(imageUrl);
     }
 
@@ -115,7 +119,7 @@ Rules:
             amount: -5.0, 
             type: "VISION_USAGE",
             provider: provider,
-            description: `NID Extraction: ${provider}`
+            description: `NID Extraction (${isBack ? "BACK" : "FRONT"}): ${provider}`
           }
         });
       } catch (e) {
