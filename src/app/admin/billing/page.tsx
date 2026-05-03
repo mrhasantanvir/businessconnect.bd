@@ -2,7 +2,7 @@ import React from "react";
 import { db as prisma } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { Activity, ShieldAlert, BadgeCheck, Search, ChevronLeft, ChevronRight, Users, UserPlus, UserMinus, Wallet, Settings } from "lucide-react";
+import { Activity, ShieldAlert, BadgeCheck, Search, ChevronLeft, ChevronRight, Users, UserPlus, UserMinus, Wallet, Settings, TrendingUp } from "lucide-react";
 import { ManualAdjustForm } from "./ManualAdjustForm";
 import { updateStaffPriceAction } from "./actions";
 import Link from "next/link";
