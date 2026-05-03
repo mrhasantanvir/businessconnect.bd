@@ -125,7 +125,7 @@ export default function MerchantDashboard({
               <div className="bg-green-50 text-green-700 px-3 py-1.5 rounded-[4px] text-[11px] font-bold border border-green-100">
                  {store?.subscriptionPlan?.name || store?.plan}
               </div>
-              <NewIncidentModal />
+              <NewIncidentModal disabled={isPending} />
            </div>
         </div>
       </div>

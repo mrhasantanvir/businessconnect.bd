@@ -6,7 +6,7 @@ import { createIncidentAction, getAiSupportResolutionAction } from "@/app/suppor
 import Link from "next/link";
 import { useSupport } from "@/context/SupportContext";
 
-export function NewIncidentModal() {
+export function NewIncidentModal({ disabled }: { disabled?: boolean }) {
   const { toggle, isEnabled } = useSupport();
   const [isOpen, setIsOpen] = useState(false);
   const [isPending, setIsPending] = useTransition();
@@ -99,8 +99,13 @@ export function NewIncidentModal() {
   return (
     <>
       <button
-        onClick={() => setIsOpen(true)}
-        className="flex items-center gap-2 bg-[#1E40AF] text-white px-5 py-2.5 rounded-none font-bold text-sm shadow-lg hover:bg-[#1E3A8A] transition-all active:scale-95 shrink-0"
+        onClick={() => !disabled && setIsOpen(true)}
+        disabled={disabled}
+        className={`flex items-center gap-2 px-5 py-2.5 rounded-none font-bold text-sm transition-all shrink-0 ${
+          disabled 
+            ? "bg-slate-200 text-slate-400 cursor-not-allowed border border-slate-300" 
+            : "bg-[#1E40AF] text-white shadow-lg hover:bg-[#1E3A8A] active:scale-95"
+        }`}
       >
         <Plus className="w-4 h-4" />
         Raise New Incident
