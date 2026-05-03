@@ -34,11 +34,11 @@ export default async function MerchantLogisticsPage() {
 
         {/* Info Card */}
         <div className="bg-white rounded-none p-6 relative overflow-hidden border border-gray-100 shadow-sm text-gray-900">
-          <div className="absolute right-0 top-0 opacity-5 pointer-events-none text-slate-900">
-             <MapPin className="w-64 h-64 -mt-10 -mr-10" />
+          <div className="absolute right-0 top-0 w-64 h-full opacity-10 pointer-events-none">
+             <img src="/images/courier_illustration.png" alt="" className="w-full h-full object-contain object-right" />
           </div>
           <div className="relative z-10 space-y-4">
-            <h2 className="text-2xl font-black uppercase tracking-tight">Hyper-Local Product Rules (Geo-Fencing)</h2>
+            <h2 className="text-2xl font-black uppercase tracking-tight">Custom Delivery Rules & Routing</h2>
             <p className="text-slate-600 font-medium max-w-2xl leading-relaxed text-sm">
               You can explicitly route individual products to specific couriers and districts right inside the "Add Product" module! 
               For example, you can enforce that "Rajshahi Mangoes" are strictly delivered via "STEADFAST" and only to "Dhaka, Rajshahi" districts. 
