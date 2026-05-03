@@ -57,21 +57,21 @@ export function UserDropdown({ user }: { user?: any }) {
     <div className="relative" ref={dropdownRef}>
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 p-1.5 rounded-none transition-all"
+        className="flex items-center gap-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 p-1.5 rounded-full transition-all"
       >
         <div className="hidden text-right lg:block">
           <p className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-tight italic">{user?.name || "Member"}</p>
           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{user?.role || "Access"}</p>
         </div>
         <div className="relative">
-           <div className="w-9 h-9 bg-slate-900 rounded-none flex items-center justify-center text-brand-500 font-black text-xs shadow-lg shadow-slate-200">
+           <div className="w-9 h-9 bg-slate-900 rounded-full flex items-center justify-center text-brand-500 font-black text-xs shadow-lg shadow-slate-200 overflow-hidden">
              {user?.image ? (
-               <img src={user.image} alt="" className="w-full h-full rounded-none object-cover" />
+               <img src={user.image} alt="" className="w-full h-full rounded-full object-cover" />
              ) : (
                user?.name?.charAt(0).toUpperCase() || "U"
              )}
            </div>
-           <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-white dark:bg-gray-900 rounded-none flex items-center justify-center border border-gray-100 dark:border-gray-800">
+           <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-white dark:bg-gray-900 rounded-full flex items-center justify-center border border-gray-100 dark:border-gray-800 shadow-sm">
               <ChevronDown className={cn("w-2.5 h-2.5 text-gray-400 transition-transform duration-300", isOpen && "rotate-180")} />
            </div>
         </div>
@@ -93,7 +93,7 @@ export function UserDropdown({ user }: { user?: any }) {
                  <div className="w-8 h-8 bg-slate-100 dark:bg-gray-800 rounded-none flex items-center justify-center text-slate-900 group-hover:bg-white transition-colors">
                     <User className="w-4 h-4" />
                  </div>
-                 Profile & Security
+                 My Profile
               </Link>
 
               <Link 
