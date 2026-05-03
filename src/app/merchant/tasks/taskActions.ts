@@ -214,3 +214,56 @@ export async function sendTaskMessageAction(taskId: string, content: string) {
   revalidatePath(`/merchant/tasks/${taskId}`);
   return message;
 }
+
+/**
+ * Fetch Full Task Details
+ */
+export async function getTaskAction(taskId: string) {
+  const session = await getSession();
+  if (!session) throw new Error("Unauthorized");
+
+  return await prisma.task.findUnique({
+    where: { id: taskId },
+    include: {
+      assignee: { include: { staffProfile: true } },
+      creator: true,
+      order: true,
+      messages: {
+        include: { user: true },
+        orderBy: { createdAt: "asc" }
+      },
+      activities: {
+        orderBy: { createdAt: "desc" }
+      }
+    }
+  });
+}
+
+/**
+ * Forward Task to another Staff
+ */
+export async function forwardTaskAction(taskId: string, newAssigneeId: string) {
+  const session = await getSession();
+  if (!session) throw new Error("Unauthorized");
+
+  const task = await prisma.task.update({
+    where: { id: taskId },
+    data: {
+      assigneeId: newAssigneeId,
+      status: "PENDING_CONFIRMATION" // Reset status for new handshake
+    },
+    include: { assignee: true }
+  });
+
+  await prisma.taskActivity.create({
+    data: {
+      taskId,
+      userId: session.userId,
+      type: "STATUS_CHANGE",
+      message: `Task forwarded to ${task.assignee?.name || 'new staff'}`
+    }
+  });
+
+  revalidatePath("/merchant/tasks");
+  return task;
+}

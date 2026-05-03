@@ -433,6 +433,7 @@ export default function TaskDashboardClient({ tasks, staff, merchantStoreId }: {
       {selectedTask && (
         <TaskDrawer 
           task={selectedTask} 
+          staff={staff}
           onClose={() => setSelectedTask(null)} 
           onUpdate={() => {
             // In a real app, we'd refetch or use a shared state

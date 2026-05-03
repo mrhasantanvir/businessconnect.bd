@@ -13,16 +13,54 @@ import {
   MoreVertical,
   Activity,
   AlertCircle,
-  FileIcon
+  FileIcon,
+  ArrowRight,
+  UserPlus,
+  Loader2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { sendTaskMessageAction, updateTaskStatusAction } from "@/app/merchant/tasks/taskActions";
+import { 
+  sendTaskMessageAction, 
+  updateTaskStatusAction, 
+  getTaskAction, 
+  forwardTaskAction 
+} from "@/app/merchant/tasks/taskActions";
 import { toast } from "sonner";
 
-export default function TaskDrawer({ task, onClose, onUpdate }: { task: any, onClose: () => void, onUpdate: () => void }) {
+export default function TaskDrawer({ 
+  task: initialTask, 
+  staff,
+  onClose, 
+  onUpdate 
+}: { 
+  task: any, 
+  staff: any[],
+  onClose: () => void, 
+  onUpdate: () => void 
+}) {
+  const [task, setTask] = useState(initialTask);
   const [activeTab, setActiveTab] = useState<"chat" | "activity">("chat");
   const [message, setMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showForward, setShowForward] = useState(false);
+  const [forwardUserId, setForwardUserId] = useState("");
+
+  useEffect(() => {
+    refreshTask();
+  }, [initialTask.id]);
+
+  async function refreshTask() {
+    setIsLoading(true);
+    try {
+      const updated = await getTaskAction(initialTask.id);
+      if (updated) setTask(updated);
+    } catch (error) {
+      console.error("Failed to refresh task", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   async function handleSendMessage() {
     if (!message.trim() || isSending) return;
@@ -30,6 +68,7 @@ export default function TaskDrawer({ task, onClose, onUpdate }: { task: any, onC
     try {
       await sendTaskMessageAction(task.id, message);
       setMessage("");
+      await refreshTask();
       onUpdate();
     } catch (error) {
       toast.error("Failed to send message");
@@ -42,16 +81,36 @@ export default function TaskDrawer({ task, onClose, onUpdate }: { task: any, onC
     try {
       await updateTaskStatusAction(task.id, status);
       toast.success(`Status updated to ${status}`);
+      await refreshTask();
       onUpdate();
     } catch (error) {
       toast.error("Failed to update status");
     }
   }
 
+  async function handleForward() {
+    if (!forwardUserId) return;
+    try {
+      await forwardTaskAction(task.id, forwardUserId);
+      toast.success("Task forwarded successfully!");
+      setShowForward(false);
+      onClose();
+      onUpdate();
+    } catch (error) {
+      toast.error("Failed to forward task");
+    }
+  }
+
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[60] flex items-center justify-center p-4 animate-in fade-in duration-300 font-inter">
-      <div className="w-full max-w-2xl bg-white shadow-2xl border border-gray-100 flex flex-col animate-in zoom-in-95 duration-300 max-h-[90vh] rounded-none">
+      <div className="w-full max-w-2xl bg-white shadow-2xl border border-gray-100 flex flex-col animate-in zoom-in-95 duration-300 max-h-[90vh] rounded-none relative">
       
+      {isLoading && (
+        <div className="absolute inset-0 bg-white/50 backdrop-blur-[1px] z-50 flex items-center justify-center">
+           <Loader2 className="w-8 h-8 text-indigo-600 animate-spin" />
+        </div>
+      )}
+
       {/* Header */}
       <div className="p-6 border-b border-gray-50 flex items-center justify-between">
          <div className="flex items-center gap-3">
@@ -61,12 +120,55 @@ export default function TaskDrawer({ task, onClose, onUpdate }: { task: any, onC
             )} />
             <h2 className="text-sm font-black text-[#0F172A] uppercase tracking-widest">Task Master Control</h2>
          </div>
-         <button onClick={onClose} className="p-2 hover:bg-gray-50 rounded-none transition-all">
-            <X className="w-5 h-5 text-gray-400" />
-         </button>
+         <div className="flex items-center gap-2">
+            <button 
+              onClick={() => setShowForward(!showForward)}
+              className={cn(
+                "p-2 hover:bg-indigo-50 transition-all group rounded-none",
+                showForward ? "text-indigo-600 bg-indigo-50" : "text-gray-400"
+              )}
+              title="Forward Task"
+            >
+               <UserPlus className="w-5 h-5" />
+            </button>
+            <button onClick={onClose} className="p-2 hover:bg-gray-50 rounded-none transition-all">
+               <X className="w-5 h-5 text-gray-400" />
+            </button>
+         </div>
       </div>
 
       <div className="flex-1 overflow-y-auto no-scrollbar">
+         {/* Forward Section */}
+         {showForward && (
+            <div className="p-6 bg-indigo-600 animate-in slide-in-from-top-4 duration-300">
+               <div className="flex flex-col gap-4">
+                  <div className="flex items-center justify-between">
+                     <h3 className="text-[11px] font-black text-white uppercase tracking-widest">Reassign / Forward Operation</h3>
+                     <button onClick={() => setShowForward(false)} className="text-white/60 hover:text-white transition-all"><X className="w-4 h-4" /></button>
+                  </div>
+                  <div className="flex gap-2">
+                     <select 
+                       className="flex-1 bg-white/10 border border-white/20 text-white rounded-none p-3 text-xs font-bold outline-none focus:bg-white/20 transition-all appearance-none"
+                       value={forwardUserId}
+                       onChange={(e) => setForwardUserId(e.target.value)}
+                     >
+                        <option value="" className="text-gray-900">Select new assignee...</option>
+                        {staff.filter(s => s.id !== task.assigneeId).map(s => (
+                           <option key={s.id} value={s.id} className="text-gray-900">{s.name} ({s.staffProfile?.jobRole || 'Staff'})</option>
+                        ))}
+                     </select>
+                     <button 
+                       onClick={handleForward}
+                       disabled={!forwardUserId}
+                       className="px-6 py-3 bg-white text-indigo-600 rounded-none text-[10px] font-black uppercase tracking-widest hover:bg-indigo-50 transition-all disabled:opacity-50"
+                     >
+                        Confirm Forward
+                     </button>
+                  </div>
+               </div>
+            </div>
+         )}
+
          {/* Task Overview Section */}
          <div className="p-8 space-y-8">
             <div className="space-y-4">
@@ -90,7 +192,7 @@ export default function TaskDrawer({ task, onClose, onUpdate }: { task: any, onC
                   <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest block mb-2">Assignee</label>
                   {task.assignee ? (
                     <div className="flex items-center gap-2">
-                       <div className="w-8 h-8 bg-white border border-gray-200 rounded-none flex items-center justify-center text-[11px] font-black text-indigo-600">
+                       <div className="w-8 h-8 bg-white border border-gray-200 rounded-none flex items-center justify-center text-[11px] font-black text-indigo-600 uppercase">
                           {task.assignee.name?.[0] || "?"}
                        </div>
                        <div>
@@ -103,7 +205,7 @@ export default function TaskDrawer({ task, onClose, onUpdate }: { task: any, onC
                <div className="bg-gray-50 p-4 rounded-none border border-gray-100">
                   <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest block mb-2">Status</label>
                   <select 
-                    className="bg-transparent border-none p-0 text-[11px] font-black uppercase text-indigo-600 focus:ring-0 w-full"
+                    className="bg-transparent border-none p-0 text-[11px] font-black uppercase text-indigo-600 focus:ring-0 w-full cursor-pointer"
                     value={task.status}
                     onChange={(e) => handleStatusChange(e.target.value)}
                   >
@@ -116,7 +218,7 @@ export default function TaskDrawer({ task, onClose, onUpdate }: { task: any, onC
                </div>
             </div>
 
-            {/* AI Efficiency Audit - Updated Styling */}
+            {/* AI Efficiency Audit */}
             <div className="bg-indigo-50 border border-indigo-200 p-6 rounded-none space-y-3 relative overflow-hidden">
                <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-600/5 rounded-full blur-2xl -mr-8 -mt-8" />
                <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-indigo-600">
@@ -134,7 +236,7 @@ export default function TaskDrawer({ task, onClose, onUpdate }: { task: any, onC
             </div>
  
              {task.order && task.order.id && (
-               <div className="flex items-center justify-between p-4 bg-indigo-50 border border-indigo-100 rounded-[2px]">
+               <div className="flex items-center justify-between p-4 bg-indigo-50 border border-indigo-100 rounded-none">
                   <div className="flex items-center gap-3">
                      <ExternalLink className="w-4 h-4 text-indigo-600" />
                      <div>
@@ -174,7 +276,7 @@ export default function TaskDrawer({ task, onClose, onUpdate }: { task: any, onC
          </div>
 
          {/* Tabs Section */}
-         <div className="flex border-b border-gray-50">
+         <div className="flex border-b border-gray-50 bg-white sticky top-0 z-20">
             <button 
               onClick={() => setActiveTab("chat")}
               className={cn(
@@ -182,7 +284,7 @@ export default function TaskDrawer({ task, onClose, onUpdate }: { task: any, onC
                 activeTab === 'chat' ? "text-indigo-600 border-b-2 border-indigo-600" : "text-gray-400 hover:text-gray-600"
               )}
             >
-               Task Chat
+               Task Chat ({task.messages?.length || 0})
             </button>
             <button 
               onClick={() => setActiveTab("activity")}
@@ -191,37 +293,38 @@ export default function TaskDrawer({ task, onClose, onUpdate }: { task: any, onC
                 activeTab === 'activity' ? "text-indigo-600 border-b-2 border-indigo-600" : "text-gray-400 hover:text-gray-600"
               )}
             >
-               Activity History
+               Activity History ({task.activities?.length || 0})
             </button>
          </div>
 
-         <div className="p-6 h-[400px] flex flex-col">
+         <div className="p-6 h-[400px] flex flex-col bg-white">
             {activeTab === 'chat' ? (
               <>
                  <div className="flex-1 overflow-y-auto space-y-4 mb-4 pr-2 no-scrollbar">
                     {task.messages?.map((msg: any) => (
                        <div key={msg.id} className={cn(
-                         "max-w-[80%] p-3 rounded-[2px]",
-                         msg.isAi ? "bg-indigo-50 text-indigo-700 border border-indigo-100 italic" : "bg-gray-100 text-[#0F172A]"
+                         "max-w-[85%] p-4 rounded-none",
+                         msg.isAi ? "bg-indigo-50 text-indigo-700 border border-indigo-100 italic" : "bg-gray-50 text-[#0F172A] border border-gray-100"
                        )}>
                           <p className="text-[11px] font-medium leading-relaxed">{msg.content}</p>
-                          <p className="text-[8px] font-black uppercase opacity-40 mt-1 text-right">
-                             {msg.user?.name || 'AI'} • {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                          </p>
+                          <div className="flex items-center justify-between mt-2 opacity-50">
+                             <span className="text-[8px] font-black uppercase">{msg.user?.name || 'AI'}</span>
+                             <span className="text-[8px] font-bold uppercase">{new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                          </div>
                        </div>
                     ))}
                     {(!task.messages || task.messages.length === 0) && (
                        <div className="h-full flex flex-col items-center justify-center text-center opacity-30 grayscale scale-75">
                           <MessageSquare className="w-12 h-12 mb-2" />
-                          <p className="text-[10px] font-black uppercase">No Messages Yet</p>
+                          <p className="text-[10px] font-black uppercase">No Intelligence Logs Found</p>
                        </div>
                     )}
                  </div>
-                 <div className="flex gap-2 bg-gray-50 p-2 rounded-[2px] border border-gray-200">
+                 <div className="flex gap-2 bg-gray-50 p-2 rounded-none border border-gray-200">
                     <input 
                       type="text" 
-                      placeholder="Type a message..."
-                      className="flex-1 bg-transparent border-none text-[12px] font-medium focus:ring-0 p-2"
+                      placeholder="Enter operational update..."
+                      className="flex-1 bg-transparent border-none text-[12px] font-medium focus:ring-0 p-2 outline-none"
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
@@ -229,7 +332,7 @@ export default function TaskDrawer({ task, onClose, onUpdate }: { task: any, onC
                     <button 
                       onClick={handleSendMessage}
                       disabled={isSending || !message.trim()}
-                      className="p-2 bg-indigo-600 text-white rounded-[2px] hover:bg-indigo-700 transition-all disabled:opacity-50"
+                      className="p-3 bg-indigo-600 text-white rounded-none hover:bg-black transition-all disabled:opacity-50"
                     >
                        <Send className="w-4 h-4" />
                     </button>
@@ -240,12 +343,12 @@ export default function TaskDrawer({ task, onClose, onUpdate }: { task: any, onC
                  {task.activities?.map((activity: any) => (
                     <div key={activity.id} className="flex gap-4 relative">
                        <div className="w-px bg-gray-100 absolute left-[15px] top-8 bottom-[-24px] z-0" />
-                       <div className="w-8 h-8 bg-white border border-gray-100 rounded-full flex items-center justify-center shadow-sm z-10 shrink-0">
+                       <div className="w-8 h-8 bg-white border border-gray-100 rounded-none flex items-center justify-center shadow-sm z-10 shrink-0">
                           <Activity className="w-3.5 h-3.5 text-indigo-400" />
                        </div>
                        <div className="pb-6">
                           <p className="text-[11px] font-black text-[#0F172A] uppercase tracking-tight">{activity.type.replace(/_/g, ' ')}</p>
-                          <p className="text-[11px] font-medium text-gray-500 mt-0.5">{activity.message}</p>
+                          <p className="text-[11px] font-medium text-gray-500 mt-0.5 leading-relaxed">{activity.message}</p>
                           <p className="text-[8px] font-bold text-gray-300 uppercase mt-1">{new Date(activity.createdAt).toLocaleString()}</p>
                        </div>
                     </div>
@@ -253,7 +356,7 @@ export default function TaskDrawer({ task, onClose, onUpdate }: { task: any, onC
                  {(!task.activities || task.activities.length === 0) && (
                     <div className="h-full flex flex-col items-center justify-center text-center opacity-30 grayscale scale-75">
                        <History className="w-12 h-12 mb-2" />
-                       <p className="text-[10px] font-black uppercase">No Activity Recorded</p>
+                       <p className="text-[10px] font-black uppercase">No Activity Trail Detected</p>
                     </div>
                  )}
               </div>
@@ -264,7 +367,7 @@ export default function TaskDrawer({ task, onClose, onUpdate }: { task: any, onC
       {/* Footer / Time Tracking Status */}
       <div className="p-6 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-indigo-600 text-white rounded-[2px] flex items-center justify-center">
+            <div className="w-8 h-8 bg-indigo-600 text-white rounded-none flex items-center justify-center">
                <Activity className="w-4 h-4" />
             </div>
             <div>
@@ -272,12 +375,16 @@ export default function TaskDrawer({ task, onClose, onUpdate }: { task: any, onC
                <p className="text-xs font-black text-indigo-600">2h 45m</p>
             </div>
          </div>
-         <button className="px-6 py-2.5 bg-white border border-gray-200 text-[10px] font-black uppercase tracking-widest text-[#0F172A] hover:bg-gray-100 transition-all rounded-[2px]">
-            Start Timer
+         <button 
+           onClick={() => handleStatusChange("IN_PROGRESS")}
+           disabled={task.status === 'IN_PROGRESS'}
+           className="px-8 py-3 bg-white border border-gray-200 text-[10px] font-black uppercase tracking-widest text-[#0F172A] hover:bg-black hover:text-white transition-all rounded-none shadow-sm disabled:opacity-50"
+         >
+            {task.status === 'IN_PROGRESS' ? 'Operation Active' : 'Start Working'}
          </button>
       </div>
 
+     </div>
     </div>
-  </div>
   );
 }
