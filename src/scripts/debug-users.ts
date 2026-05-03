@@ -3,9 +3,9 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  const storeCount = await prisma.merchantStore.count();
-  const userCount = await prisma.user.count();
-  const customerCount = await prisma.customer.count();
+  const storeCount = await (prisma as any).merchantstore.count();
+  const userCount = await (prisma as any).user.count();
+  const customerCount = await (prisma as any).customer.count();
   
   console.log("DB COUNTS:", {
     stores: storeCount,
@@ -13,7 +13,7 @@ async function main() {
     customers: customerCount
   });
 
-  const stores = await prisma.merchantStore.findMany({ take: 5 });
+  const stores = await (prisma as any).merchantstore.findMany({ take: 5 });
   console.log("STORES:", JSON.stringify(stores, null, 2));
 
   const users = await prisma.user.findMany({
