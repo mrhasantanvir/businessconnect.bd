@@ -47,6 +47,7 @@ async function main() {
     data: {
       id: "store-1",
       name: "Demo Store",
+      slug: "demo-store",
       phone: "01321141788",
       address: "Dhaka, Bangladesh",
       isActive: true,
