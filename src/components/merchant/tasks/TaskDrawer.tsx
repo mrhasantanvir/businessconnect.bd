@@ -180,18 +180,18 @@ export default function TaskDrawer({
     }
 
     if (lastMessage && !lastMessage.isAi) {
-       return `AI Insight: Staff just updated the operational log: "${lastMessage.content.slice(0, 50)}${lastMessage.content.length > 50 ? '...' : ''}". Productivity remains high.`;
+       return `Staff updated log: "${lastMessage.content.slice(0, 100)}${lastMessage.content.length > 100 ? '...' : ''}". Operation proceeding as planned.`;
     }
 
     if (lastActivity && lastActivity.type === 'STATUS_CHANGE') {
-       return `System Alert: ${lastActivity.message}. Monitoring the next execution phase.`;
+       return `${lastActivity.message}. Preparing for next phase.`;
     }
 
     if (isWorking) {
-       return `Active Sync: ${task.assignee?.name} is currently engaging with the task. ${task.workLogs?.length || 0} session(s) active. Performance is being benchmarked.`;
+       return `${task.assignee?.name} is actively working on the task. Performance metrics are optimal.`;
     }
 
-    return `Idle State: Awaiting operational engagement. Handshake pending for ${task.assignee?.name}.`;
+    return `Awaiting operational engagement from ${task.assignee?.name || 'staff member'}.`;
   };
 
   const timeInfo = calculateTimeLogged();
