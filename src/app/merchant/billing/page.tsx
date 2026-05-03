@@ -60,7 +60,7 @@ export default async function MerchantBillingPage() {
             </div>
 
             <div className="space-y-4 relative z-10">
-               {store?.invoices.length === 0 ? (
+               {(!store || !store.invoices || store.invoices.length === 0) ? (
                  <div className="py-12 text-center bg-slate-50 rounded-[32px] border-2 border-dashed border-slate-100">
                     <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">No invoices generated yet.</p>
                  </div>
@@ -77,7 +77,7 @@ export default async function MerchantBillingPage() {
                           </tr>
                        </thead>
                        <tbody className="divide-y divide-slate-50">
-                          {store?.invoices.map((inv: any) => (
+                          {store.invoices.map((inv: any) => (
                              <tr key={inv.id} className="group hover:bg-slate-50/50 transition-colors">
                                 <td className="py-5">
                                    <p className="text-sm font-black text-slate-900 uppercase tracking-tight italic">{inv.billingCycle}</p>
@@ -123,9 +123,9 @@ export default async function MerchantBillingPage() {
             <div className="mb-6 p-4 rounded-xl border border-indigo-100 bg-indigo-50/50 flex flex-col md:flex-row justify-between items-start md:items-center">
               <div>
                 <p className="text-sm font-bold text-indigo-900 mb-1">
-                  Active Plan: <span className="uppercase">{store?.subscriptionPlan?.name || store?.plan}</span> 
+                  Active Plan: <span className="uppercase">{store?.subscriptionPlan?.name || store?.plan || 'None'}</span> 
                   <span className={`ml-2 text-[10px] px-2 py-0.5 rounded-full ${store?.subscriptionStatus === 'ACTIVE' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                    {store?.subscriptionStatus}
+                    {store?.subscriptionStatus || 'INACTIVE'}
                   </span>
                 </p>
                 <p className="text-xs text-indigo-600">
@@ -137,6 +137,13 @@ export default async function MerchantBillingPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {plans.map((plan: any) => {
                 const isCurrentPlan = store?.subscriptionPlanId === plan.id;
+                let features = [];
+                try {
+                  features = JSON.parse(plan.featuresData || "[]");
+                } catch (e) {
+                  console.error("Failed to parse featuresData", plan.featuresData);
+                }
+
                 return (
                   <div key={plan.id} className={`border ${isCurrentPlan ? 'border-indigo-500 ring-2 ring-indigo-100' : 'border-gray-200'} rounded-xl p-5 flex flex-col`}>
                     <h3 className="text-lg font-bold text-gray-800 uppercase">{plan.name}</h3>
@@ -148,7 +155,7 @@ export default async function MerchantBillingPage() {
                     <ul className="text-xs text-gray-600 space-y-2 mb-6 flex-1">
                       <li>• Max Products: {plan.maxProducts === -1 ? 'Unlimited' : plan.maxProducts}</li>
                       <li>• Max Staff: {plan.maxStaff === -1 ? 'Unlimited' : plan.maxStaff}</li>
-                      {JSON.parse(plan.featuresData || "[]").map((feat: string, i: number) => (
+                      {features.map((feat: string, i: number) => (
                         <li key={i}>• {feat}</li>
                       ))}
                     </ul>
@@ -225,10 +232,10 @@ export default async function MerchantBillingPage() {
             </div>
             
             <div className="space-y-4">
-              {store?.transactions.length === 0 ? (
+              {(!store || !store.transactions || store.transactions.length === 0) ? (
                 <p className="text-xs text-gray-400 text-center py-4 italic">No transactions found.</p>
               ) : (
-                store?.transactions.map((tx: any) => (
+                store.transactions.map((tx: any) => (
                   <div key={tx.id} className="flex justify-between items-center pb-3 border-b border-gray-50 last:border-0 last:pb-0 group">
                     <div className="flex items-center gap-3">
                        <div className="w-8 h-8 bg-gray-50 rounded-lg flex items-center justify-center text-gray-400 group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors">
@@ -259,7 +266,7 @@ export default async function MerchantBillingPage() {
               )}
             </div>
             
-            {store?.transactions.length > 0 && (
+            {(store?.transactions?.length || 0) > 0 && (
               <button className="w-full text-center text-sm text-indigo-600 font-medium mt-4 hover:text-indigo-700">
                 View All History &rarr;
               </button>
