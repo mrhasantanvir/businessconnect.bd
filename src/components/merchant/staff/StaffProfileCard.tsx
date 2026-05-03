@@ -198,16 +198,16 @@ export function StaffProfileCard({ user, isEditable = false, onUpdate, activityS
         <div className="px-6 md:px-10 pb-8 relative">
           {/* Avatar */}
           <div className="absolute -top-16 left-6 md:left-10 group">
-             <div className="w-32 h-32 md:w-40 md:h-40 rounded-none border-4 border-white bg-white shadow-2xl overflow-hidden relative">
+             <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white bg-white shadow-2xl overflow-hidden relative">
                 {user.image ? (
-                  <img src={user.image} className="w-full h-full object-cover rounded-none" alt="Avatar" />
+                  <img src={user.image} className="w-full h-full object-cover rounded-full" alt="Avatar" />
                 ) : (
-                  <div className="w-full h-full bg-slate-100 flex items-center justify-center text-slate-300 rounded-none">
+                  <div className="w-full h-full bg-slate-100 flex items-center justify-center text-slate-300 rounded-full">
                     <User className="w-16 h-16" />
                   </div>
                 )}
                 {isEditable && (
-                  <label className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-white cursor-pointer opacity-0 group-hover:opacity-100 transition-all backdrop-blur-[2px] rounded-none">
+                  <label className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-white cursor-pointer opacity-0 group-hover:opacity-100 transition-all backdrop-blur-[2px] rounded-full">
                      {uploadingAvatar ? <RefreshCw className="w-6 h-6 animate-spin" /> : <Camera className="w-6 h-6" />}
                      <span className="text-[9px] font-black uppercase tracking-widest mt-2 text-center px-2">Change Photo</span>
                      <input type="file" className="hidden" accept="image/*" onChange={e => e.target.files?.[0] && handleFileUpload(e.target.files[0], 'avatar')} />
@@ -216,29 +216,29 @@ export function StaffProfileCard({ user, isEditable = false, onUpdate, activityS
              </div>
           </div>
 
-          <div className="pt-20 md:pt-24 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="pt-20 md:pt-4 md:pl-48 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-2">
                <h1 className="text-3xl font-bold text-slate-900 tracking-tight flex items-center gap-2 italic">
                  {user.name}
                  <CheckCircle2 className="w-5 h-5 text-blue-500" />
                </h1>
-               <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[11px] font-black text-slate-400 uppercase tracking-widest">
-                  <div className="flex items-center gap-1.5 text-slate-900">
-                     <Briefcase className="w-4 h-4" /> {jobTitle}
+               <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+                  <div className="flex items-center gap-1.5 text-slate-900 bg-slate-100 px-2 py-0.5 rounded-none">
+                     <Briefcase className="w-3.5 h-3.5" /> {jobTitle}
                   </div>
                   <div className="flex items-center gap-1.5">
-                     <MapPin className="w-4 h-4" /> {storeName}
+                     <MapPin className="w-3.5 h-3.5" /> {storeName}
                   </div>
                   <div className="flex items-center gap-1.5 text-emerald-600">
-                     <Clock className="w-4 h-4" /> Joined {duration} ago
+                     <Clock className="w-3.5 h-3.5" /> Joined {duration} ago
                   </div>
                </div>
             </div>
             
             <div className="flex gap-3">
                <div className="px-6 py-3 bg-slate-50 rounded-none border border-slate-100 text-left">
-                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Registration Date</p>
-                  <p className="text-xs font-black text-slate-900 uppercase tracking-tight">{joinDate ? format(new Date(joinDate), 'MMMM dd, yyyy') : "N/A"}</p>
+                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Registration Date</p>
+                  <p className="text-xs font-bold text-slate-900 uppercase tracking-tight">{joinDate ? format(new Date(joinDate), 'MMMM dd, yyyy') : "N/A"}</p>
                </div>
             </div>
           </div>
