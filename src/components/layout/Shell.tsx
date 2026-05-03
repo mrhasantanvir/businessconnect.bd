@@ -94,7 +94,7 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
       group: t("core_hub"),
       items: [
         { icon: LayoutDashboard, label: t("dashboard"), href: "/dashboard", roles: ["MERCHANT", "STAFF"] },
-        { icon: Database, label: t("data_insights"), roles: ["MERCHANT"], subItems: [
+        { icon: Database, label: t("data_insights"), roles: ["MERCHANT"], permission: "reports:view", subItems: [
            { label: t("live_reports"), href: "/merchant/reports" },
            { label: t("vat_compliance"), href: "/merchant/reports/vat" },
         ]},
@@ -103,10 +103,10 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
     {
       group: t("commercial"),
       items: [
-        { icon: ShoppingBag, label: t("orders"), href: "/orders", roles: ["MERCHANT", "STAFF"] },
-        { icon: CreditCard, label: t("pos"), href: "/merchant/pos", roles: ["MERCHANT", "STAFF"] },
-        { icon: Zap, label: "Flash Discount", href: "/merchant/campaigns/flash-sales", roles: ["MERCHANT", "STAFF"] },
-        { icon: FolderTree, label: t("catalog"), roles: ["MERCHANT", "STAFF"], subItems: [
+        { icon: ShoppingBag, label: t("orders"), href: "/orders", roles: ["MERCHANT", "STAFF"], permission: "orders:view" },
+        { icon: CreditCard, label: t("pos"), href: "/merchant/pos", roles: ["MERCHANT", "STAFF"], permission: "pos:access" },
+        { icon: Zap, label: "Flash Discount", href: "/merchant/campaigns/flash-sales", roles: ["MERCHANT", "STAFF"], permission: "inventory:manage" },
+        { icon: FolderTree, label: t("catalog"), roles: ["MERCHANT", "STAFF"], permission: "inventory:manage", subItems: [
            { label: t("products"), href: "/products/add" },
            { label: "Categories", href: "/merchant/catalog/categories" },
            { label: "Brands", href: "/merchant/catalog/brands" },
@@ -116,37 +116,37 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
     {
       group: t("logistics_wms"),
       items: [
-        { icon: Warehouse, label: t("warehouse_hub"), href: "/merchant/inventory/warehouses", roles: ["MERCHANT", "STAFF"] },
-        { icon: ShieldCheck, label: "Tax & VAT", href: "/merchant/settings/tax", roles: ["MERCHANT", "STAFF"] },
-        { icon: Box, label: t("inventory"), roles: ["MERCHANT", "STAFF"], subItems: [
+        { icon: Warehouse, label: t("warehouse_hub"), href: "/merchant/inventory/warehouses", roles: ["MERCHANT", "STAFF"], permission: "inventory:manage" },
+        { icon: ShieldCheck, label: "Tax & VAT", href: "/merchant/settings/tax", roles: ["MERCHANT", "STAFF"], permission: "inventory:manage" },
+        { icon: Box, label: t("inventory"), roles: ["MERCHANT", "STAFF"], permission: "inventory:manage", subItems: [
            { label: "Stock Levels", href: "/merchant/wms/inventory" },
            { label: "COD Reconciliation", href: "/merchant/logistics/cod-reconciliation" },
            { label: "Transfers", href: "/merchant/wms/transfers" },
            { label: "Return Hub", href: "/merchant/wms/returns" },
            { label: "Damage Logs", href: "/merchant/wms/damage-report" },
         ]},
-        { icon: Truck, label: t("delivery_setup"), href: "/merchant/logistics", roles: ["MERCHANT", "STAFF"] },
+        { icon: Truck, label: t("delivery_setup"), href: "/merchant/logistics", roles: ["MERCHANT", "STAFF"], permission: "inventory:manage" },
       ]
     },
     {
       group: t("growth_ai"),
       items: [
-         { icon: Megaphone, label: t("marketing"), roles: ["MERCHANT", "STAFF"], subItems: [
+         { icon: Megaphone, label: t("marketing"), roles: ["MERCHANT", "STAFF"], permission: "inventory:manage", subItems: [
             { label: "Campaigns", href: "/merchant/campaigns" },
             { label: "Facebook Ads", href: "/merchant/marketing/facebook" },
             { label: t("automation"), href: "/merchant/campaigns/marketing-automation" },
          ]},
-        { icon: BrainCircuit, label: t("ai_hub"), href: "/merchant/ai-hub", roles: ["MERCHANT", "STAFF"] },
-        { icon: Globe, label: t("social_connect"), href: "/merchant/social", roles: ["MERCHANT", "STAFF"] },
+        { icon: BrainCircuit, label: t("ai_hub"), href: "/merchant/ai-hub", roles: ["MERCHANT", "STAFF"], permission: "inventory:manage" },
+        { icon: Globe, label: t("social_connect"), href: "/merchant/social", roles: ["MERCHANT", "STAFF"], permission: "inventory:manage" },
       ]
     },
-      {
+    {
         group: t("communications"),
         items: [
-          { icon: MessageSquare, label: t("inbox"), href: "/merchant/inbox", roles: ["MERCHANT", "STAFF"] },
-          { icon: Star, label: "Customer Reviews", href: "/merchant/reviews", roles: ["MERCHANT", "STAFF"] },
-          { icon: PhoneCall, label: t("cloud_dialer"), href: "#", roles: ["MERCHANT", "STAFF"] },
-          { icon: Users, label: t("customer_crm"), href: "/merchant/customers", roles: ["MERCHANT", "STAFF"] },
+          { icon: MessageSquare, label: t("inbox"), href: "/merchant/inbox", roles: ["MERCHANT", "STAFF"], permission: "customers:manage" },
+          { icon: Star, label: "Customer Reviews", href: "/merchant/reviews", roles: ["MERCHANT", "STAFF"], permission: "customers:manage" },
+          { icon: PhoneCall, label: t("cloud_dialer"), href: "#", roles: ["MERCHANT", "STAFF"], permission: "customers:manage" },
+          { icon: Users, label: t("customer_crm"), href: "/merchant/customers", roles: ["MERCHANT", "STAFF"], permission: "customers:manage" },
       ]
     },
     {
@@ -166,20 +166,20 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
             { label: "Document & Print", href: "/merchant/settings/print" },
             { label: "WooCommerce", href: "/merchant/settings/woocommerce" },
             { label: "Google Sheets", href: "/merchant/settings/google-sheets" },
-         ]},
+          ]},
         { icon: CreditCard, label: "Billing & Credits", href: "/merchant/billing", roles: ["MERCHANT"] },
         { icon: Building2, label: "Branches", href: "/merchant/branches", roles: ["MERCHANT"] },
         { icon: Users, label: t("staff_management"), href: "/merchant/staff", roles: ["MERCHANT"] },
-        { icon: Layout, label: "Task Hub", href: "/merchant/tasks", roles: ["MERCHANT", "STAFF"] },
+        { icon: Layout, label: "Task Hub", href: "/merchant/tasks", roles: ["MERCHANT", "STAFF"], permission: "orders:view" },
         { icon: Wallet, label: "Accounting", href: "/merchant/accounting", roles: ["MERCHANT"] },
       ]
     },
     {
        group: "Support Hub",
        items: [
-         { icon: MessageSquare, label: "Customer Care", href: "/support", roles: ["MERCHANT", "STAFF"] },
-         { icon: AlertCircle, label: "Tickets", href: "/support/incidents", roles: ["MERCHANT", "STAFF"] },
-         { icon: PhoneCall, label: "Platform Chat", href: "/support/platform-chat", roles: ["MERCHANT", "STAFF"] },
+         { icon: MessageSquare, label: "Customer Care", href: "/support", roles: ["MERCHANT", "STAFF"], permission: "orders:view" },
+         { icon: AlertCircle, label: "Tickets", href: "/support/incidents", roles: ["MERCHANT", "STAFF"], permission: "orders:view" },
+         { icon: PhoneCall, label: "Platform Chat", href: "/support/platform-chat", roles: ["MERCHANT", "STAFF"], permission: "orders:view" },
        ]
     },
     {
@@ -295,7 +295,41 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
             
             const visibleItems = group.items.filter(item => {
               if (!item.roles) return false;
-              return item.roles.includes(role);
+              
+              // 1. Basic Role Check
+              const hasRole = item.roles.includes(role);
+              if (!hasRole) return false;
+
+              // 2. Strict Permission Check for STAFF or anyone with a Custom Role
+              // If a user has a custom role, they MUST be restricted by permissions
+              const isRestricted = role === "STAFF" || user?.customRoleId;
+              
+              if (isRestricted) {
+                // If the item is primarily for MERCHANTS but allows STAFF, 
+                // it MUST have a permission key to be visible to STAFF.
+                // If it doesn't have a permission key, we assume it's MERCHANT-only.
+                if (item.permission) {
+                   return user.permissions?.includes(item.permission);
+                }
+                
+                // If no permission key but user is restricted, only allow if item is NOT merchant-only
+                // Actually, if it's a restricted user, we only show items they have explicit permission for
+                // or common items that don't need protection (but most sidebar items do).
+                
+                // To be safe: if an item has NO permission key but allows STAFF, 
+                // we only show it if the user is NOT restricted.
+                // UNLESS it's a basic item (we can add a list of basic items if needed).
+                
+                // For now, if restricted, and item has no permission key, hide it if it's a merchant-level feature
+                if (item.roles.includes("MERCHANT") && !item.permission) {
+                   return false;
+                }
+              }
+
+              // Owners and Super Admins (without custom roles) see everything allowed for their role
+              if (role === "SUPER_ADMIN" || (role === "MERCHANT" && !user?.customRoleId)) return true;
+
+              return true;
             });
             
             if (visibleItems.length === 0) return null;

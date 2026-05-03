@@ -252,11 +252,18 @@ export default function TaskDrawer({
                task.status === 'CANCELLED' ? 'bg-red-500' :
                isWorking ? 'bg-indigo-500' : 'bg-gray-300'
             )} />
-            <h2 className="text-sm font-black text-[#0F172A] uppercase tracking-widest">
-               {task.status === 'COMPLETED' ? 'Operation Completed' : 
-                task.status === 'CANCELLED' ? 'Operation Halted' :
-                isWorking ? 'Operation Active' : 'Task Master Control'}
-            </h2>
+            <div className="flex flex-col">
+               <h2 className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1">
+                  {task.status === 'COMPLETED' ? 'Operation Completed' : 
+                   task.status === 'CANCELLED' ? 'Operation Halted' :
+                   isWorking ? 'Operation Active' : 'Task Master Control'}
+               </h2>
+               {task.readableId && (
+                  <p className="text-[10px] font-black text-indigo-600 tracking-tighter uppercase">
+                     {task.readableId}
+                  </p>
+               )}
+            </div>
          </div>
          <div className="flex items-center gap-4">
             <button onClick={refreshTask} className="p-2 hover:bg-gray-50 rounded-none text-gray-400 hover:text-indigo-600 transition-all">

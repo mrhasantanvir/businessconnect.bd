@@ -63,6 +63,9 @@ export async function createTaskAction(data: {
   const session = await getSession();
   if (!session || !session.merchantStoreId) throw new Error("Unauthorized");
 
+  const { generateReadableId } = await import("@/lib/id-generator");
+  const readableId = await generateReadableId("TASK", session.merchantStoreId);
+
   const task = await prisma.task.create({
     data: {
       title: data.title,
@@ -75,7 +78,8 @@ export async function createTaskAction(data: {
       attachments: data.attachments || null,
       merchantStoreId: session.merchantStoreId,
       creatorId: session.userId,
-      status: data.assigneeId ? "PENDING_CONFIRMATION" : "ACTIVE"
+      status: data.assigneeId ? "PENDING_CONFIRMATION" : "ACTIVE",
+      readableId
     },
     include: {
       assignee: true,

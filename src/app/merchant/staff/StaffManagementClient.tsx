@@ -470,7 +470,14 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                         )}
                       </div>
                       <div>
-                        <p className="text-[13px] font-bold text-[#0F172A]">{member.name}</p>
+                        <div className="flex items-center gap-2">
+                           <p className="text-[13px] font-bold text-[#0F172A]">{member.name}</p>
+                           {member.readableId && (
+                              <span className="text-[9px] font-black bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded-[2px] uppercase tracking-tighter ring-1 ring-slate-200">
+                                 {member.readableId}
+                              </span>
+                           )}
+                        </div>
                         <p className="text-[11px] font-medium text-gray-400">{member.email}</p>
                       </div>
                     </div>

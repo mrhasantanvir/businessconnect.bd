@@ -40,6 +40,9 @@ export async function createStaffAction(data: {
   const tempPassword = crypto.randomBytes(8).toString("hex");
   const hashedPassword = await bcrypt.hash(tempPassword, 10);
 
+  const { generateReadableId } = await import("@/lib/id-generator");
+  const readableId = await generateReadableId("STAFF", merchantStoreId);
+
   // Create User
   const user = await prisma.user.create({
     data: {
@@ -50,6 +53,7 @@ export async function createStaffAction(data: {
       merchantStoreId: merchantStoreId,
       customRoleId: data.roleId,
       isActive: true, // User can login but status is ONBOARDING
+      readableId,
       staffProfile: {
         create: {
           merchantStoreId: merchantStoreId,
