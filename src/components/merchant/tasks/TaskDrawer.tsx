@@ -56,6 +56,8 @@ export default function TaskDrawer({
   const [isWorking, setIsWorking] = useState(false);
   const [staffSearch, setStaffSearch] = useState("");
 
+  const isTerminalStatus = task.status === 'COMPLETED' || task.status === 'CANCELLED';
+
   useEffect(() => {
     refreshTask();
   }, [initialTask.id]);
@@ -100,6 +102,11 @@ export default function TaskDrawer({
 
   async function handleStatusChange(status: string) {
     try {
+      // If manually completing, stop any active work log first
+      if ((status === 'COMPLETED' || status === 'CANCELLED') && isWorking) {
+        await stopWorkLogAction(task.id);
+      }
+      
       await updateTaskStatusAction(task.id, status);
       toast.success(`Status updated to ${status}`);
       await refreshTask();
@@ -128,6 +135,11 @@ export default function TaskDrawer({
   }
 
   async function toggleWork() {
+    if (isTerminalStatus) {
+      toast.error("Cannot start work on a finalized task");
+      return;
+    }
+
     try {
       if (isWorking) {
         await stopWorkLogAction(task.id);
@@ -163,14 +175,14 @@ export default function TaskDrawer({
       });
     }
     
-    if (totalMinutes === 0) {
+    if (totalMinutes === 0 && !isTerminalStatus) {
        const now = new Date();
        const created = new Date(task.createdAt);
        totalMinutes = Math.round((now.getTime() - created.getTime()) / 60000);
        return { label: "IN QUEUE", value: formatDuration(totalMinutes) };
     }
 
-    return { label: "TIME LOGGED", value: formatDuration(totalMinutes) };
+    return { label: task.status === 'COMPLETED' ? "FINAL DURATION" : "TIME LOGGED", value: formatDuration(totalMinutes) };
   };
 
   const formatDuration = (min: number) => {
@@ -185,7 +197,11 @@ export default function TaskDrawer({
     const lastActivity = task.activities?.[0];
 
     if (task.status === 'COMPLETED') {
-       return `Operation complete. Handled by ${task.assignee?.name}. Final handshake recorded at ${new Date(task.completedAt).toLocaleTimeString()}.`;
+       return `Operation successfully finalized. Managed by ${task.assignee?.name}. Final trail recorded at ${new Date(task.completedAt || new Date()).toLocaleTimeString()}.`;
+    }
+
+    if (task.status === 'CANCELLED') {
+       return `Operation halted. Handled by ${task.assignee?.name}. Awaiting further administrative instructions.`;
     }
 
     if (lastMessage && !lastMessage.isAi) {
@@ -230,10 +246,13 @@ export default function TaskDrawer({
             <div className={cn(
                "w-2 h-2 rounded-none animate-pulse",
                task.status === 'COMPLETED' ? 'bg-emerald-500' : 
+               task.status === 'CANCELLED' ? 'bg-red-500' :
                isWorking ? 'bg-indigo-500' : 'bg-gray-300'
             )} />
             <h2 className="text-sm font-black text-[#0F172A] uppercase tracking-widest">
-               {isWorking ? 'Operation Active' : 'Task Master Control'}
+               {task.status === 'COMPLETED' ? 'Operation Completed' : 
+                task.status === 'CANCELLED' ? 'Operation Halted' :
+                isWorking ? 'Operation Active' : 'Task Master Control'}
             </h2>
          </div>
          <div className="flex items-center gap-4">
@@ -258,7 +277,7 @@ export default function TaskDrawer({
                   )}>{task.priority} Priority</span>
                   <div className="flex items-center gap-1.5 text-[10px] font-bold text-gray-400 uppercase">
                      <Clock className="w-3.5 h-3.5" />
-                     Due {task.deadline ? new Date(task.deadline).toLocaleDateString() : 'ASAP'}
+                     {task.status === 'COMPLETED' ? 'Completed At ' + new Date(task.completedAt).toLocaleDateString() : 'Due ' + (task.deadline ? new Date(task.deadline).toLocaleDateString() : 'ASAP')}
                   </div>
                </div>
                <h1 className="text-2xl font-black text-[#0F172A] leading-tight tracking-tighter">{task.title}</h1>
@@ -281,7 +300,7 @@ export default function TaskDrawer({
                <div className="bg-gray-50 p-5 rounded-none border border-gray-100">
                   <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest block mb-3">Operational Status</label>
                   <select 
-                    className="bg-transparent border-none p-0 text-[11px] font-black uppercase text-indigo-600 focus:ring-0 w-full cursor-pointer"
+                    className="bg-transparent border-none p-0 text-[11px] font-black uppercase text-indigo-600 focus:ring-0 w-full cursor-pointer disabled:opacity-50"
                     value={task.status}
                     onChange={(e) => handleStatusChange(e.target.value)}
                   >
@@ -401,13 +420,14 @@ export default function TaskDrawer({
                     <input 
                       type="text" 
                       placeholder="Enter operational update..."
-                      className="flex-1 bg-transparent border-none text-[12px] font-medium focus:ring-0 p-2 outline-none"
+                      className="flex-1 bg-transparent border-none text-[12px] font-medium focus:ring-0 p-2 outline-none disabled:opacity-50"
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
+                      disabled={isTerminalStatus}
                     />
                     <button 
                       type="submit"
-                      disabled={isSending || !message.trim()}
+                      disabled={isSending || !message.trim() || isTerminalStatus}
                       className="p-3 bg-indigo-600 text-white rounded-none hover:bg-black transition-all disabled:opacity-50"
                     >
                        <Send className="w-4 h-4" />
@@ -509,30 +529,40 @@ export default function TaskDrawer({
          </div>
 
          <div className="flex items-center gap-2">
-            <button 
-              type="button"
-              onClick={(e) => {
-                 e.preventDefault();
-                 e.stopPropagation();
-                 setShowForward(!showForward);
-                 setStaffSearch("");
-              }}
-              className="px-6 py-3.5 text-[10px] font-black uppercase tracking-widest border border-gray-200 text-[#0F172A] hover:bg-gray-50 transition-all rounded-none flex items-center gap-2"
-            >
-               <UserPlus className="w-3.5 h-3.5" />
-               Forward Task
-            </button>
+            {!isTerminalStatus && (
+               <button 
+                 type="button"
+                 onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setShowForward(!showForward);
+                    setStaffSearch("");
+                 }}
+                 className="px-6 py-3.5 text-[10px] font-black uppercase tracking-widest border border-gray-200 text-[#0F172A] hover:bg-gray-50 transition-all rounded-none flex items-center gap-2"
+               >
+                  <UserPlus className="w-3.5 h-3.5" />
+                  Forward Task
+               </button>
+            )}
             <button 
               onClick={toggleWork}
               type="button"
+              disabled={isTerminalStatus}
               className={cn(
                 "px-8 py-3.5 text-[10px] font-black uppercase tracking-widest transition-all rounded-none shadow-sm flex items-center gap-2 border",
-                isWorking 
-                  ? "bg-white border-indigo-200 text-indigo-600 hover:bg-red-50 hover:text-red-600 hover:border-red-100" 
-                  : "bg-black border-black text-white hover:bg-gray-800"
+                isTerminalStatus 
+                  ? "bg-gray-50 border-gray-100 text-gray-300 cursor-not-allowed"
+                  : isWorking 
+                    ? "bg-white border-indigo-200 text-indigo-600 hover:bg-red-50 hover:text-red-600 hover:border-red-100" 
+                    : "bg-black border-black text-white hover:bg-gray-800"
               )}
             >
-               {isWorking ? (
+               {isTerminalStatus ? (
+                  <>
+                     <CheckCircle2 className="w-3.5 h-3.5" />
+                     Finished
+                  </>
+               ) : isWorking ? (
                   <>
                      <Pause className="w-3.5 h-3.5 fill-current" />
                      Pause Session
