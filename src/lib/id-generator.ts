@@ -5,7 +5,7 @@ export type IdType = "ADMIN" | "MERCHANT" | "STAFF" | "CUSTOMER" | "TASK" | "ORD
 export async function generateReadableId(type: IdType, merchantStoreId?: string): Promise<string> {
   // 1. Handle Global IDs (Admin, Merchant)
   if (type === "ADMIN" || type === "MERCHANT") {
-    const sequence = await prisma.systemsequence.upsert({
+    const sequence = await prisma.systemSequence.upsert({
       where: { id: "GLOBAL" },
       update: {
         adminCount: type === "ADMIN" ? { increment: 1 } : undefined,
@@ -31,7 +31,7 @@ export async function generateReadableId(type: IdType, merchantStoreId?: string)
   }
 
   // Get merchant readable ID first
-  const merchant = await prisma.merchantstore.findUnique({
+  const merchant = await prisma.merchantStore.findUnique({
     where: { id: merchantStoreId },
     select: { readableId: true }
   });
@@ -41,19 +41,19 @@ export async function generateReadableId(type: IdType, merchantStoreId?: string)
   if (!mPrefix) {
      // Generate one for the merchant if missing (fallback)
      // This is useful during migration
-     const sequence = await prisma.systemsequence.upsert({
+     const sequence = await prisma.systemSequence.upsert({
         where: { id: "GLOBAL" },
         update: { merchantCount: { increment: 1 } },
         create: { id: "GLOBAL", merchantCount: 1 }
      });
      mPrefix = `BC-MR-${sequence.merchantCount.toString().padStart(4, "0")}`;
-     await prisma.merchantstore.update({
+     await prisma.merchantStore.update({
         where: { id: merchantStoreId },
         data: { readableId: mPrefix }
      });
   }
 
-  const mSeq = await prisma.merchantsequence.upsert({
+  const mSeq = await prisma.merchantSequence.upsert({
     where: { merchantStoreId },
     update: {
       customerSeq: type === "CUSTOMER" ? { increment: 1 } : undefined,

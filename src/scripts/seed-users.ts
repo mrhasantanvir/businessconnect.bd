@@ -30,7 +30,7 @@ async function main() {
 
   // 2. Create Store for Merchant
   const merchantId = await generateReadableId("MERCHANT");
-  const store = await prisma.merchantstore.upsert({
+  const store = await prisma.merchantStore.upsert({
     where: { id: "store-1" },
     update: {},
     create: {
