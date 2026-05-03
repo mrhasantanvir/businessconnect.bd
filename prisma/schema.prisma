@@ -1022,6 +1022,18 @@ model SystemSettings {
   googleRedirectUri   String?  @default("http://localhost:3030/api/auth/google/callback")
   fbAppId             String?
   fbRedirectUri       String?  @default("http://localhost:3030/api/auth/facebook/callback")
+
+  // Payment Gateway Settings (Global)
+  bkashAppKey         String?
+  bkashAppSecret      String?
+  bkashUsername       String?
+  bkashPassword       String?
+  bkashIsLive         Boolean  @default(false)
+  
+  nagadMerchantId     String?
+  nagadPublicKey      String?
+  nagadPrivateKey     String?
+  nagadIsLive         Boolean  @default(false)
 }
 
 model PaymentTransaction {

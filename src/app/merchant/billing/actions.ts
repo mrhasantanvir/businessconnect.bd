@@ -3,6 +3,7 @@
 import { db as prisma } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
+import { PaymentService } from "@/services/PaymentService";
 
 export async function initiateRechargeAction(
   type: "SMS" | "SIP" | "SUBSCRIPTION_RENEW" | "SUBSCRIPTION_UPGRADE" | "INVOICE_PAY",
@@ -16,79 +17,17 @@ export async function initiateRechargeAction(
 
   const storeId = session.merchantStoreId;
 
-  // In a real app, you'd call bKash/SSLCommerz here.
-  // We simulate a successful transaction.
-
-  await prisma.$transaction(async (tx) => {
-    // 1. Log the transaction (Legacy PaymentTransaction model)
-    await tx.paymentTransaction.create({
-      data: {
-        merchantStoreId: storeId,
-        userId: session.userId,
-        amount: amount,
-        credits: credits,
-        paymentMethod: "BKASH",
-        trxId: `BK-${Math.random().toString(36).substring(7).toUpperCase()}`,
-        status: "COMPLETED",
-        type: type.startsWith("SUBSCRIPTION") ? "SAAS_PLAN" : type as any
-      }
-    });
-
-    // 2. Apply the impact
-    if (type === "SMS") {
-      await tx.merchantStore.update({
-        where: { id: storeId },
-        data: { smsBalance: { increment: credits } }
-      });
-    } else if (type === "SIP") {
-      await tx.merchantStore.update({
-        where: { id: storeId },
-        data: { sipBalance: { increment: credits } }
-      });
-    } else if (type === "SUBSCRIPTION_RENEW" || type === "SUBSCRIPTION_UPGRADE") {
-      if (!planId) throw new Error("Plan ID missing for subscription action");
-      
-      const plan = await tx.subscriptionPlan.findUnique({ where: { id: planId } });
-      if (!plan) throw new Error("Subscription plan not found");
-
-      // Set expiry to 30 days from now (or extend current expiry if it's a renew)
-      const currentExpiry = await tx.merchantStore.findUnique({ 
-        where: { id: storeId },
-        select: { subscriptionExpiry: true, subscriptionPlanId: true }
-      });
-
-      let nextExpiry = new Date();
-      nextExpiry.setDate(nextExpiry.getDate() + 30);
-
-      // If it's the same plan and it hasn't expired yet, extend it
-      if (type === "SUBSCRIPTION_RENEW" && currentExpiry?.subscriptionExpiry && currentExpiry.subscriptionExpiry > new Date()) {
-         nextExpiry = new Date(currentExpiry.subscriptionExpiry);
-         nextExpiry.setDate(nextExpiry.getDate() + 30);
-      }
-
-      await tx.merchantStore.update({
-        where: { id: storeId },
-        data: {
-          subscriptionPlanId: planId,
-          subscriptionExpiry: nextExpiry,
-          subscriptionStatus: "ACTIVE",
-          plan: plan.name // Sync legacy field
-        }
-      });
-    } else if (type === "INVOICE_PAY") {
-      if (!invoiceId) throw new Error("Invoice ID missing");
-      
-      await tx.invoice.update({
-        where: { id: invoiceId, merchantStoreId: storeId },
-        data: {
-          status: "PAID",
-          paidAt: new Date()
-        }
-      });
-    }
+  // For this implementation, we default to bKash as requested
+  const result = await PaymentService.initiateBkashPayment(storeId, amount, type, {
+    planId,
+    invoiceId,
+    credits
   });
 
-  revalidatePath("/merchant/billing");
-  revalidatePath("/dashboard");
-  return { success: true };
+  if (result.success && result.redirectUrl) {
+    // We return the URL so the client component can redirect
+    return { success: true, redirectUrl: result.redirectUrl };
+  }
+
+  throw new Error("Failed to initiate payment");
 }

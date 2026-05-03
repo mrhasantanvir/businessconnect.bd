@@ -20,7 +20,10 @@ export function RechargeButton({ type, amount, credits = 0, planId, invoiceId, l
   const handleRecharge = () => {
     startTransition(async () => {
       try {
-        await initiateRechargeAction(type, amount, credits, planId, invoiceId);
+        const result = await initiateRechargeAction(type, amount, credits, planId, invoiceId);
+        if (result.success && result.redirectUrl) {
+          window.location.href = result.redirectUrl;
+        }
       } catch (error: any) {
         alert(error.message || "Failed to initiate transaction");
       }

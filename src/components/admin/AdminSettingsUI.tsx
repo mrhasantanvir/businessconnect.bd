@@ -6,7 +6,7 @@ import {
   Smartphone, Save, ShieldCheck, Database, 
   CheckCircle2, AlertCircle, Loader2, Globe,
   MessageCircle, DollarSign, Search, Cloud,
-  Key, Shield
+  Key, Shield, CreditCard
 } from "lucide-react";
 import { getSystemSettingsAction, updateSystemSettingsAction, getEmailTemplatesAction, updateEmailTemplateAction, testOpenAIConnectionAction, testSmsConnectionAction } from "@/app/admin/settings/actions";
 import { RichEditor } from "@/components/ui/RichEditor";
@@ -14,7 +14,7 @@ import { Sparkles, BrainCircuit, Scan, Terminal } from "lucide-react";
 
 import { useRouter, usePathname } from "next/navigation";
 
-type Tab = "GENERAL" | "SMS" | "REALTIME" | "MAIL" | "WHATSAPP" | "PRICING" | "GOOGLE" | "SEO" | "STORAGE" | "EMAIL_TEMPLATES";
+type Tab = "GENERAL" | "SMS" | "REALTIME" | "MAIL" | "WHATSAPP" | "PRICING" | "GOOGLE" | "SEO" | "STORAGE" | "EMAIL_TEMPLATES" | "PAYMENTS";
 
 interface AdminSettingsUIProps {
   activeTab: Tab;
@@ -162,6 +162,13 @@ export function AdminSettingsUI({ activeTab }: AdminSettingsUIProps) {
             label="Email Templates" 
             sub="Auto Responses"
           />
+          <TabButton 
+            active={activeTab === "PAYMENTS"} 
+            onClick={() => router.push("/admin/settings/payments")} 
+            icon={CreditCard} 
+            label="Payment Gateways" 
+            sub="bKash & Nagad"
+          />
         </div>
 
         {/* Content Area */}
@@ -233,6 +240,13 @@ export function AdminSettingsUI({ activeTab }: AdminSettingsUIProps) {
               {activeTab === "EMAIL_TEMPLATES" && (
                 <EmailTemplateSettings 
                   templates={templates} 
+                />
+              )}
+              {activeTab === "PAYMENTS" && (
+                <PaymentSettings 
+                  settings={settings} 
+                  onSave={handleSave} 
+                  saving={saving} 
                 />
               )}
            </div>
@@ -968,6 +982,116 @@ function EmailTemplateSettings({ templates: initialTemplates }: any) {
       >
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
         Save Template
+      </button>
+    </div>
+  );
+}
+
+function PaymentSettings({ settings, onSave, saving }: any) {
+  const [bkashAppKey, setBkashAppKey] = useState(settings?.bkashAppKey ?? "");
+  const [bkashAppSecret, setBkashAppSecret] = useState(settings?.bkashAppSecret ?? "");
+  const [bkashUsername, setBkashUsername] = useState(settings?.bkashUsername ?? "");
+  const [bkashPassword, setBkashPassword] = useState(settings?.bkashPassword ?? "");
+  const [bkashIsLive, setBkashIsLive] = useState(settings?.bkashIsLive ?? false);
+
+  const [nagadMerchantId, setNagadMerchantId] = useState(settings?.nagadMerchantId ?? "");
+  const [nagadPublicKey, setNagadPublicKey] = useState(settings?.nagadPublicKey ?? "");
+  const [nagadPrivateKey, setNagadPrivateKey] = useState(settings?.nagadPrivateKey ?? "");
+  const [nagadIsLive, setNagadIsLive] = useState(settings?.nagadIsLive ?? false);
+
+  return (
+    <div className="space-y-10 max-w-4xl">
+      <div className="space-y-4">
+        <h3 className="text-xl font-black text-[#0F172A] flex items-center gap-2">
+           <CreditCard className="w-6 h-6 text-[#E11D48]" /> Payment Gateway Configurations
+        </h3>
+        <p className="text-sm text-[#64748B]">Configure global bKash and Nagad credentials for merchant billing and resource purchases.</p>
+      </div>
+
+      {/* bKash Section */}
+      <div className="bg-pink-50/30 border border-pink-100 p-8 space-y-6">
+        <div className="flex items-center justify-between">
+           <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-[#E11D48] flex items-center justify-center rounded-xl shadow-lg shadow-pink-200">
+                 <span className="text-white font-black text-xs">BK</span>
+              </div>
+              <div>
+                 <h4 className="text-lg font-black text-[#0F172A] italic uppercase tracking-tight">bKash <span className="text-[#E11D48]">Checkout</span></h4>
+                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Mobile Financial Service Integration</p>
+              </div>
+           </div>
+           <div className="flex items-center gap-3 bg-white p-2 border border-pink-100">
+              <span className={`text-[10px] font-black uppercase tracking-widest ${bkashIsLive ? 'text-green-600' : 'text-amber-600'}`}>
+                 {bkashIsLive ? 'Live Mode' : 'Sandbox Mode'}
+              </span>
+              <button 
+                onClick={() => setBkashIsLive(!bkashIsLive)}
+                className={`relative w-12 h-6 rounded-full transition-colors ${bkashIsLive ? 'bg-green-500' : 'bg-gray-300'}`}
+              >
+                <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${bkashIsLive ? 'left-7' : 'left-1'}`} />
+              </button>
+           </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+           <Input label="App Key" value={bkashAppKey} onChange={setBkashAppKey} />
+           <Input label="App Secret" value={bkashAppSecret} onChange={setBkashAppSecret} type="password" />
+           <Input label="Username" value={bkashUsername} onChange={setBkashUsername} />
+           <Input label="Password" value={bkashPassword} onChange={setBkashPassword} type="password" />
+        </div>
+      </div>
+
+      {/* Nagad Section */}
+      <div className="bg-orange-50/30 border border-orange-100 p-8 space-y-6">
+        <div className="flex items-center justify-between">
+           <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-[#F97316] flex items-center justify-center rounded-xl shadow-lg shadow-orange-200">
+                 <span className="text-white font-black text-xs">NG</span>
+              </div>
+              <div>
+                 <h4 className="text-lg font-black text-[#0F172A] italic uppercase tracking-tight">Nagad <span className="text-[#F97316]">Gateway</span></h4>
+                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Post-Payment Verification Mode</p>
+              </div>
+           </div>
+           <div className="flex items-center gap-3 bg-white p-2 border border-orange-100">
+              <span className={`text-[10px] font-black uppercase tracking-widest ${nagadIsLive ? 'text-green-600' : 'text-amber-600'}`}>
+                 {nagadIsLive ? 'Live Mode' : 'Sandbox Mode'}
+              </span>
+              <button 
+                onClick={() => setNagadIsLive(!nagadIsLive)}
+                className={`relative w-12 h-6 rounded-full transition-colors ${nagadIsLive ? 'bg-green-500' : 'bg-gray-300'}`}
+              >
+                <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${nagadIsLive ? 'left-7' : 'left-1'}`} />
+              </button>
+           </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+           <div className="md:col-span-2">
+              <Input label="Merchant ID" value={nagadMerchantId} onChange={setNagadMerchantId} />
+           </div>
+           <Input label="Public Key" value={nagadPublicKey} onChange={setNagadPublicKey} multiline />
+           <Input label="Private Key" value={nagadPrivateKey} onChange={setNagadPrivateKey} multiline type="password" />
+        </div>
+      </div>
+
+      <button
+        disabled={saving}
+        onClick={() => onSave({ 
+          bkashAppKey,
+          bkashAppSecret,
+          bkashUsername,
+          bkashPassword,
+          bkashIsLive,
+          nagadMerchantId,
+          nagadPublicKey,
+          nagadPrivateKey,
+          nagadIsLive
+        })}
+        className="px-10 py-4 bg-[#0F172A] text-white font-black text-sm rounded-none hover:bg-black transition-all flex items-center gap-3 disabled:opacity-50 shadow-2xl shadow-slate-200"
+      >
+        {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+        DEPLOY PAYMENT SETTINGS
       </button>
     </div>
   );
