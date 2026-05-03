@@ -601,7 +601,8 @@ export default function WarehouseClient() {
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-10">
-                <div className="space-                   <div className="group space-y-3">
+                <div className="space-y-6">
+                  <div className="group space-y-3">
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2 group-focus-within:text-blue-600 transition-colors">Warehouse Name</label>
                     <input 
                       type="text" 
@@ -612,8 +613,7 @@ export default function WarehouseClient() {
                       className="w-full px-8 py-5 bg-slate-50 border-2 border-transparent rounded-[24px] font-bold text-sm outline-none focus:bg-white focus:border-blue-600/20 focus:ring-4 ring-blue-500/5 transition-all"
                     />
                   </div>
-                  <div className="group space-y-3">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2 group-focus-within:text-blue-600 transition-colors">Address / Location</label>label>
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2 group-focus-within:text-blue-600 transition-colors">Address / Location</label>
                     <div className="relative">
                        <MapPin className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300" />
                        <input 
