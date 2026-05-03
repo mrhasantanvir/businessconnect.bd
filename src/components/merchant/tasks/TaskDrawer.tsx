@@ -278,5 +278,6 @@ export default function TaskDrawer({ task, onClose, onUpdate }: { task: any, onC
       </div>
 
     </div>
+  </div>
   );
 }
