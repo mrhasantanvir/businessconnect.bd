@@ -4,7 +4,7 @@ import { db as prisma } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcrypt";
-import { authenticator } from "otplib";
+import speakeasy from "speakeasy";
 import QRCode from "qrcode";
 import { logAdminAction } from "@/lib/audit";
 
@@ -80,16 +80,14 @@ export async function generate2FASecretAction() {
     const user = await prisma.user.findUnique({ where: { id: session.id } });
     if (!user) throw new Error("User not found");
 
-    const secret = authenticator.generateSecret();
-    const otpauth = authenticator.keyuri(
-      user.email || user.id,
-      "BusinessConnect.bd",
-      secret
-    );
+    const secret = speakeasy.generateSecret({
+      name: `BusinessConnect.bd (${user.email || user.name})`,
+      issuer: "BusinessConnect.bd"
+    });
     
-    const qrCodeUrl = await QRCode.toDataURL(otpauth);
+    const qrCodeUrl = await QRCode.toDataURL(secret.otpauth_url || "");
 
-    return { success: true, secret, qrCodeUrl };
+    return { success: true, secret: secret.base32, qrCodeUrl };
   } catch (error: any) {
     console.error("2FA Error:", error);
     return { success: false, error: error.message || "Failed to generate 2FA secret" };
@@ -101,7 +99,12 @@ export async function verifyAndEnable2FAAction(secret: string, token: string) {
     const session = await getSession();
     if (!session || !session.id) throw new Error("Unauthorized");
 
-    const isValid = authenticator.verify({ token, secret });
+    const isValid = speakeasy.totp.verify({
+      secret: secret,
+      encoding: 'base32',
+      token: token
+    });
+
     if (!isValid) throw new Error("Invalid verification code");
 
     await prisma.user.update({
