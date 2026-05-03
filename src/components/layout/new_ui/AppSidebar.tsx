@@ -167,7 +167,7 @@ export default function AppSidebar({ user }: { user?: any }) {
               Business<span className="text-brand-500">Connect</span>
             </span>
           ) : (
-            <div className="w-8 h-8 bg-brand-500 rounded-lg flex items-center justify-center text-white font-bold">
+            <div className="w-8 h-8 bg-brand-500 rounded-none flex items-center justify-center text-white font-bold">
               B
             </div>
           )}
