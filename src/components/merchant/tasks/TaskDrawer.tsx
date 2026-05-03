@@ -76,13 +76,21 @@ export default function TaskDrawer({
     }
   }
 
-  async function handleSendMessage() {
+  async function handleSendMessage(e?: React.FormEvent) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    
     if (!message.trim() || isSending) return;
+    
     setIsSending(true);
     try {
       await sendTaskMessageAction(task.id, message);
       setMessage("");
-      await refreshTask();
+      // Local state update only, no full page refresh to keep modal open
+      const updated = await getTaskAction(task.id);
+      if (updated) setTask(updated);
     } catch (error) {
       toast.error("Failed to send message");
     } finally {
@@ -205,7 +213,10 @@ export default function TaskDrawer({
 
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[60] flex items-center justify-center p-4 animate-in fade-in duration-300 font-inter">
-      <div className="w-full max-w-2xl bg-white shadow-2xl border border-gray-100 flex flex-col animate-in zoom-in-95 duration-300 max-h-[95vh] rounded-none relative">
+      <div 
+        onClick={(e) => e.stopPropagation()} 
+        className="w-full max-w-2xl bg-white shadow-2xl border border-gray-100 flex flex-col animate-in zoom-in-95 duration-300 max-h-[95vh] rounded-none relative"
+      >
       
       {isLoading && (
         <div className="absolute inset-0 bg-white/5 backdrop-blur-[1px] z-50 flex items-center justify-center">
@@ -383,23 +394,25 @@ export default function TaskDrawer({
                        </div>
                     )}
                  </div>
-                 <div className="flex gap-2 bg-gray-50 p-2 rounded-none border border-gray-200">
+                 <form 
+                   onSubmit={handleSendMessage}
+                   className="flex gap-2 bg-gray-50 p-2 rounded-none border border-gray-200"
+                 >
                     <input 
                       type="text" 
                       placeholder="Enter operational update..."
                       className="flex-1 bg-transparent border-none text-[12px] font-medium focus:ring-0 p-2 outline-none"
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
-                      onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
                     />
                     <button 
-                      onClick={handleSendMessage}
+                      type="submit"
                       disabled={isSending || !message.trim()}
                       className="p-3 bg-indigo-600 text-white rounded-none hover:bg-black transition-all disabled:opacity-50"
                     >
                        <Send className="w-4 h-4" />
                     </button>
-                 </div>
+                 </form>
               </>
             ) : (
               <div className="flex-1 overflow-y-auto space-y-6 pr-2 no-scrollbar">
@@ -432,7 +445,7 @@ export default function TaskDrawer({
          
          {/* FORWARD POPOVER */}
          {showForward && (
-            <div className="absolute bottom-full left-6 right-6 mb-2 bg-[#0F172A] text-white p-4 animate-in slide-in-from-bottom-4 duration-300 border border-white/10 shadow-2xl">
+            <div className="absolute bottom-full left-6 right-6 mb-2 bg-[#0F172A] text-white p-4 animate-in slide-in-from-bottom-4 duration-300 border border-white/10 shadow-2xl z-50">
                <div className="flex flex-col gap-3">
                   <div className="flex items-center justify-between">
                      <span className="text-[9px] font-black uppercase tracking-widest text-indigo-400">Search & Select Staff Member</span>
@@ -453,6 +466,7 @@ export default function TaskDrawer({
                      {filteredStaff.map(s => (
                         <button 
                           key={s.id} 
+                          type="button"
                           onClick={() => {
                              setForwardUserId(s.id);
                              handleForward();
@@ -489,7 +503,10 @@ export default function TaskDrawer({
 
          <div className="flex items-center gap-2">
             <button 
-              onClick={() => {
+              type="button"
+              onClick={(e) => {
+                 e.preventDefault();
+                 e.stopPropagation();
                  setShowForward(!showForward);
                  setStaffSearch("");
               }}
@@ -500,6 +517,7 @@ export default function TaskDrawer({
             </button>
             <button 
               onClick={toggleWork}
+              type="button"
               className={cn(
                 "px-8 py-3.5 text-[10px] font-black uppercase tracking-widest transition-all rounded-none shadow-sm flex items-center gap-2 border",
                 isWorking 
