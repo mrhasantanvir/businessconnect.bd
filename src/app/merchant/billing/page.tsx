@@ -15,7 +15,7 @@ export default async function MerchantBillingPage() {
     include: { 
       subscriptionPlan: true, 
       invoices: { orderBy: { createdAt: 'desc' }, take: 10 },
-      paymentTransactions: { orderBy: { createdAt: 'desc' }, take: 10 }
+      transactions: { orderBy: { createdAt: 'desc' }, take: 10 }
     }
   });
 
@@ -225,10 +225,10 @@ export default async function MerchantBillingPage() {
             </div>
             
             <div className="space-y-4">
-              {store?.paymentTransactions.length === 0 ? (
+              {store?.transactions.length === 0 ? (
                 <p className="text-xs text-gray-400 text-center py-4 italic">No transactions found.</p>
               ) : (
-                store?.paymentTransactions.map((tx: any) => (
+                store?.transactions.map((tx: any) => (
                   <div key={tx.id} className="flex justify-between items-center pb-3 border-b border-gray-50 last:border-0 last:pb-0 group">
                     <div className="flex items-center gap-3">
                        <div className="w-8 h-8 bg-gray-50 rounded-lg flex items-center justify-center text-gray-400 group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors">
@@ -259,7 +259,7 @@ export default async function MerchantBillingPage() {
               )}
             </div>
             
-            {store?.paymentTransactions.length > 0 && (
+            {store?.transactions.length > 0 && (
               <button className="w-full text-center text-sm text-indigo-600 font-medium mt-4 hover:text-indigo-700">
                 View All History &rarr;
               </button>
