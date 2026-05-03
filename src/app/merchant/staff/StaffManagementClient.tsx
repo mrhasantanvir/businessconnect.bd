@@ -1231,20 +1231,109 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                     </div>
                   )}
 
-                  {/* Extracted Data Preview */}
+                  {/* Extracted Data Preview (Editable) */}
                   {extractedData && (
-                    <div className="bg-emerald-50 border border-emerald-200 rounded-[4px] p-4 space-y-3">
-                      <p className="text-[10px] font-black text-emerald-700 uppercase tracking-widest flex items-center gap-1.5">
-                        <CheckCircle2 className="w-3.5 h-3.5" /> Extracted Data (Auto-Saved)
-                      </p>
-                      <div className="grid grid-cols-2 gap-2">
-                        {extractedData.nameEn && <div className="bg-white rounded p-2 border border-emerald-100"><p className="text-[9px] text-gray-400 uppercase font-bold">English Name</p><p className="text-[11px] font-bold text-gray-900">{extractedData.nameEn}</p></div>}
-                        {extractedData.nameBn && <div className="bg-white rounded p-2 border border-emerald-100"><p className="text-[9px] text-gray-400 uppercase font-bold">বাংলা নাম</p><p className="text-[13px] font-bold text-gray-900">{extractedData.nameBn}</p></div>}
-                        {extractedData.nidNumber && <div className="bg-white rounded p-2 border border-emerald-100"><p className="text-[9px] text-gray-400 uppercase font-bold">NID Number</p><p className="text-[11px] font-bold text-gray-900">{extractedData.nidNumber}</p></div>}
-                        {extractedData.dob && <div className="bg-white rounded p-2 border border-emerald-100"><p className="text-[9px] text-gray-400 uppercase font-bold">Date of Birth</p><p className="text-[11px] font-bold text-gray-900">{extractedData.dob}</p></div>}
-                        {extractedData.fatherName && <div className="bg-white rounded p-2 border border-emerald-100"><p className="text-[9px] text-gray-400 uppercase font-bold">Father</p><p className="text-[11px] font-bold text-gray-900">{extractedData.fatherName}</p></div>}
-                        {extractedData.motherName && <div className="bg-white rounded p-2 border border-emerald-100"><p className="text-[9px] text-gray-400 uppercase font-bold">Mother</p><p className="text-[11px] font-bold text-gray-900">{extractedData.motherName}</p></div>}
-                        {extractedData.permanentAddress && <div className="bg-white rounded p-2 border border-emerald-100 col-span-2"><p className="text-[9px] text-gray-400 uppercase font-bold">Permanent Address</p><p className="text-[11px] font-bold text-gray-900">{extractedData.permanentAddress}</p></div>}
+                    <div className="bg-emerald-50 border border-emerald-200 rounded-[4px] p-5 space-y-4">
+                      <div className="flex items-center justify-between">
+                        <p className="text-[10px] font-black text-emerald-700 uppercase tracking-widest flex items-center gap-1.5">
+                          <CheckCircle2 className="w-3.5 h-3.5" /> AI Extracted Data
+                        </p>
+                        <span className="text-[9px] font-bold text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-[2px] uppercase">
+                          Auto-Saved
+                        </span>
+                      </div>
+                      
+                      <div className="bg-amber-50 border border-amber-100 p-3 rounded-[4px] mb-2">
+                        <p className="text-[10px] text-amber-700 font-medium leading-tight">
+                          <span className="font-bold">Note:</span> AI may occasionally misread characters. Please verify and correct any errors (like name spellings) below. Changes are saved automatically.
+                        </p>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div className="space-y-1">
+                          <label className="text-[9px] text-gray-400 uppercase font-bold ml-1">English Name</label>
+                          <input 
+                            value={extractedData.nameEn || ""} 
+                            onChange={async (e) => {
+                              const val = e.target.value;
+                              setExtractedData({...extractedData, nameEn: val});
+                              await updateStaffInfoAction(selectedStaff.id, { nameEn: val });
+                            }}
+                            className="w-full bg-white border border-emerald-100 rounded-[2px] px-3 py-1.5 text-[12px] font-bold text-gray-900 focus:border-emerald-500 outline-none transition-all"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-[9px] text-gray-400 uppercase font-bold ml-1">বাংলা নাম</label>
+                          <input 
+                            value={extractedData.nameBn || ""} 
+                            onChange={async (e) => {
+                              const val = e.target.value;
+                              setExtractedData({...extractedData, nameBn: val});
+                              await updateStaffInfoAction(selectedStaff.id, { nameBn: val });
+                            }}
+                            className="w-full bg-white border border-emerald-100 rounded-[2px] px-3 py-1.5 text-[13px] font-bold text-gray-900 focus:border-emerald-500 outline-none transition-all"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-[9px] text-gray-400 uppercase font-bold ml-1">NID Number</label>
+                          <input 
+                            value={extractedData.nidNumber || ""} 
+                            onChange={async (e) => {
+                              const val = e.target.value;
+                              setExtractedData({...extractedData, nidNumber: val});
+                              await updateStaffInfoAction(selectedStaff.id, { nidNumber: val });
+                            }}
+                            className="w-full bg-white border border-emerald-100 rounded-[2px] px-3 py-1.5 text-[12px] font-bold text-gray-900 focus:border-emerald-500 outline-none transition-all"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-[9px] text-gray-400 uppercase font-bold ml-1">Date of Birth</label>
+                          <input 
+                            value={extractedData.dob || ""} 
+                            onChange={async (e) => {
+                              const val = e.target.value;
+                              setExtractedData({...extractedData, dob: val});
+                              await updateStaffInfoAction(selectedStaff.id, { dob: val });
+                            }}
+                            className="w-full bg-white border border-emerald-100 rounded-[2px] px-3 py-1.5 text-[12px] font-bold text-gray-900 focus:border-emerald-500 outline-none transition-all"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-[9px] text-gray-400 uppercase font-bold ml-1">Father's Name</label>
+                          <input 
+                            value={extractedData.fatherName || ""} 
+                            onChange={async (e) => {
+                              const val = e.target.value;
+                              setExtractedData({...extractedData, fatherName: val});
+                              await updateStaffInfoAction(selectedStaff.id, { fatherName: val });
+                            }}
+                            className="w-full bg-white border border-emerald-100 rounded-[2px] px-3 py-1.5 text-[12px] font-bold text-gray-900 focus:border-emerald-500 outline-none transition-all"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-[9px] text-gray-400 uppercase font-bold ml-1">Mother's Name</label>
+                          <input 
+                            value={extractedData.motherName || ""} 
+                            onChange={async (e) => {
+                              const val = e.target.value;
+                              setExtractedData({...extractedData, motherName: val});
+                              await updateStaffInfoAction(selectedStaff.id, { motherName: val });
+                            }}
+                            className="w-full bg-white border border-emerald-100 rounded-[2px] px-3 py-1.5 text-[12px] font-bold text-gray-900 focus:border-emerald-500 outline-none transition-all"
+                          />
+                        </div>
+                        <div className="space-y-1 col-span-2">
+                          <label className="text-[9px] text-gray-400 uppercase font-bold ml-1">Permanent Address</label>
+                          <textarea 
+                            value={extractedData.permanentAddress || ""} 
+                            onChange={async (e) => {
+                              const val = e.target.value;
+                              setExtractedData({...extractedData, permanentAddress: val});
+                              await updateStaffInfoAction(selectedStaff.id, { permanentAddress: val });
+                            }}
+                            className="w-full bg-white border border-emerald-100 rounded-[2px] px-3 py-1.5 text-[12px] font-bold text-gray-900 focus:border-emerald-500 outline-none transition-all min-h-[50px]"
+                          />
+                        </div>
                       </div>
                     </div>
                   )}

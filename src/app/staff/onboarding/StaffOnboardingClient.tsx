@@ -18,7 +18,9 @@ import {
   Phone,
   Banknote,
   AlertCircle,
-  ScanText
+  ScanText,
+  Info,
+  Smartphone
 } from "lucide-react";
 import { processNIDAction, submitStaffOnboardingAction } from "./actions";
 import { toast } from "sonner";
@@ -415,6 +417,19 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
                </div>
             </div>
 
+            {/* Tip for Image Clarity */}
+            <div className="bg-blue-50 border border-blue-100 p-4 rounded-[4px] mb-6">
+              <p className="text-[11px] font-bold text-blue-700 uppercase tracking-widest flex items-center gap-2">
+                <Info className="w-3.5 h-3.5" /> Photo Capture Guideline
+              </p>
+              <ul className="text-[10px] text-blue-600 mt-2 space-y-1 font-medium list-disc ml-4">
+                <li>Ensure the NID is placed on a flat, dark surface.</li>
+                <li>Use bright natural light and avoid flash reflections.</li>
+                <li>Hold the camera steady to prevent blurry text.</li>
+                <li>Make sure all 4 corners of the NID are visible in the frame.</li>
+              </ul>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                <div className="space-y-2">
                   <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-0.5">NID Front</p>
@@ -489,6 +504,17 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
                   <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Step 2 of 4</p>
                </div>
             </div>
+
+             {/* Verification Guideline Box */}
+             <div className="bg-amber-50 border border-amber-200 p-4 rounded-[4px] mb-2">
+               <p className="text-[11px] font-black text-amber-800 uppercase tracking-widest flex items-center gap-2">
+                 <AlertCircle className="w-3.5 h-3.5" /> Verification Required
+               </p>
+               <p className="text-[10px] text-amber-700 mt-1.5 font-medium leading-relaxed">
+                 We've used AI to auto-fill these fields from your NID. 
+                 <span className="font-bold block mt-1">Please verify every field below and manually correct any mistakes. If a field is empty, please type it manually as per your NID.</span>
+               </p>
+             </div>
 
              {extracting && (
                <div className="bg-indigo-50 border border-indigo-100 rounded-[4px] p-6 text-center space-y-3 animate-pulse">
