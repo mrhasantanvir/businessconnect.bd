@@ -124,7 +124,8 @@ export default function TaskDrawer({
       if (result) {
         toast.success("Task successfully forwarded");
         setShowForward(false);
-        onClose();
+        setForwardUserId("");
+        await refreshTask(); // Refresh current view
         onUpdate();
       }
     } catch (error: any) {
@@ -487,22 +488,27 @@ export default function TaskDrawer({
                         <button 
                           key={s.id} 
                           type="button"
-                          onClick={() => {
-                             setForwardUserId(s.id);
-                             handleForward();
-                          }}
-                          className="w-full text-left p-3 hover:bg-indigo-50 transition-all flex items-center justify-between group border border-transparent hover:border-indigo-100"
+                          onClick={() => setForwardUserId(s.id)}
+                          className={cn(
+                            "w-full text-left p-3 transition-all flex items-center justify-between group border",
+                            forwardUserId === s.id 
+                              ? "bg-indigo-600 border-indigo-700 text-white" 
+                              : "bg-white hover:bg-indigo-50 border-transparent hover:border-indigo-100 text-[#0F172A]"
+                          )}
                         >
                            <div className="flex items-center gap-3">
-                              <div className="w-7 h-7 bg-gray-100 text-indigo-600 flex items-center justify-center text-[9px] font-black uppercase group-hover:bg-white transition-all">
+                              <div className={cn(
+                                "w-7 h-7 flex items-center justify-center text-[9px] font-black uppercase transition-all",
+                                forwardUserId === s.id ? "bg-white/20 text-white" : "bg-gray-100 text-indigo-600 group-hover:bg-white"
+                              )}>
                                  {s.name?.[0]}
                               </div>
                               <div>
-                                 <p className="text-[11px] font-black text-[#0F172A]">{s.name}</p>
-                                 <p className="text-[9px] font-bold text-gray-400 uppercase tracking-tighter">{s.staffProfile?.jobRole || 'Staff Member'}</p>
+                                 <p className={cn("text-[11px] font-black", forwardUserId === s.id ? "text-white" : "text-[#0F172A]")}>{s.name}</p>
+                                 <p className={cn("text-[9px] font-bold uppercase tracking-tighter", forwardUserId === s.id ? "text-indigo-100" : "text-gray-400")}>{s.staffProfile?.jobRole || 'Staff Member'}</p>
                               </div>
                            </div>
-                           <ArrowUpRight className="w-3.5 h-3.5 text-indigo-400 opacity-0 group-hover:opacity-100 transition-all" />
+                           <ArrowUpRight className={cn("w-3.5 h-3.5", forwardUserId === s.id ? "text-white" : "text-indigo-400 opacity-0 group-hover:opacity-100")} />
                         </button>
                      ))}
                      {filteredStaff.length === 0 && (
@@ -511,6 +517,14 @@ export default function TaskDrawer({
                         </div>
                      )}
                   </div>
+
+                  <button
+                    disabled={!forwardUserId || isLoading}
+                    onClick={handleForward}
+                    className="w-full bg-indigo-600 text-white py-3 text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all disabled:opacity-30 disabled:grayscale"
+                  >
+                    {isLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin mx-auto" /> : "Confirm Forwarding"}
+                  </button>
                </div>
             </div>
          )}
