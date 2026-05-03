@@ -60,11 +60,11 @@ export function UserDropdown({ user }: { user?: any }) {
         className="flex items-center gap-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 p-1.5 rounded-full transition-all"
       >
         <div className="hidden text-right lg:block">
-          <p className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-tight italic">{user?.name || "Member"}</p>
-          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{user?.role || "Access"}</p>
+          <p className="text-xs font-semibold text-slate-900 dark:text-white tracking-tight">{user?.name || "Member"}</p>
+          <p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">{user?.role || "Access"}</p>
         </div>
         <div className="relative">
-           <div className="w-9 h-9 bg-slate-900 rounded-full flex items-center justify-center text-brand-500 font-black text-xs shadow-lg shadow-slate-200 overflow-hidden">
+           <div className="w-9 h-9 bg-slate-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-slate-900 dark:text-white font-bold text-xs shadow-sm overflow-hidden">
              {user?.image ? (
                <img src={user.image} alt="" className="w-full h-full rounded-full object-cover" />
              ) : (
@@ -80,15 +80,15 @@ export function UserDropdown({ user }: { user?: any }) {
       {isOpen && (
         <div className="absolute right-0 mt-3 w-64 bg-white dark:bg-gray-900 rounded-none shadow-2xl border border-slate-900 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-300 z-50">
            <div className="p-6 border-b border-gray-100 dark:border-gray-800 bg-slate-50/50 dark:bg-gray-800/30">
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Account</p>
-              <p className="text-sm font-black text-slate-900 dark:text-white truncate italic">{user?.email || "user@businessconnect.bd"}</p>
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Account</p>
+              <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">{user?.email || "user@businessconnect.bd"}</p>
            </div>
            
            <div className="p-2">
               <Link 
                 href="/settings/profile" 
                 onClick={() => setIsOpen(false)}
-                className="flex items-center gap-3 px-4 py-3.5 text-xs font-black text-slate-600 dark:text-gray-300 hover:bg-slate-900 hover:text-white rounded-none transition-all group uppercase tracking-widest"
+                className="flex items-center gap-3 px-4 py-3 text-xs font-semibold text-slate-600 dark:text-gray-300 hover:bg-slate-900 hover:text-white rounded-none transition-all group tracking-wide"
               >
                  <div className="w-8 h-8 bg-slate-100 dark:bg-gray-800 rounded-none flex items-center justify-center text-slate-900 group-hover:bg-white transition-colors">
                     <User className="w-4 h-4" />
@@ -99,7 +99,7 @@ export function UserDropdown({ user }: { user?: any }) {
               <Link 
                 href="/settings/performance" 
                 onClick={() => setIsOpen(false)}
-                className="flex items-center gap-3 px-4 py-3.5 text-xs font-black text-slate-600 dark:text-gray-300 hover:bg-slate-900 hover:text-white rounded-none transition-all group uppercase tracking-widest"
+                className="flex items-center gap-3 px-4 py-3 text-xs font-semibold text-slate-600 dark:text-gray-300 hover:bg-slate-900 hover:text-white rounded-none transition-all group tracking-wide"
               >
                  <div className="w-8 h-8 bg-slate-100 dark:bg-gray-800 rounded-none flex items-center justify-center text-slate-900 group-hover:bg-white transition-colors">
                     <Activity className="w-4 h-4" />
@@ -114,7 +114,7 @@ export function UserDropdown({ user }: { user?: any }) {
                   setIsOpen(false);
                   await logoutAction();
                 }}
-                className="w-full flex items-center gap-3 px-4 py-3.5 text-xs font-black text-rose-600 hover:bg-rose-600 hover:text-white rounded-none transition-all group uppercase tracking-widest"
+                className="w-full flex items-center gap-3 px-4 py-3 text-xs font-semibold text-rose-600 hover:bg-rose-600 hover:text-white rounded-none transition-all group tracking-wide"
               >
                  <div className="w-8 h-8 bg-rose-50 rounded-none flex items-center justify-center text-rose-600 group-hover:bg-white transition-colors">
                     <LogOut className="w-4 h-4" />
