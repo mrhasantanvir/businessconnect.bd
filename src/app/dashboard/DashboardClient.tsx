@@ -11,6 +11,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { ChatLiveMonitor } from "@/components/merchant/ai/ChatLiveMonitor";
 import { OnboardingClient } from "@/app/merchant/onboarding/OnboardingClient";
 import Link from "next/link";
+import { ActivationCelebration } from "@/components/merchant/ActivationCelebration";
 
 function FormattedDate({ date }: { date: string | Date }) {
   const [mounted, setMounted] = React.useState(false);
@@ -213,6 +214,15 @@ export default function MerchantDashboard({
            <ChatLiveMonitor />
         </div>
       </section>
+
+      {/* Activation Celebration Modal & Confetti */}
+      {store && (
+         <ActivationCelebration 
+           storeId={store.id} 
+           activationStatus={store.activationStatus || "PENDING"} 
+           storeName={store.name} 
+         />
+      )}
     </div>
     </>
   );
