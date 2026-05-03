@@ -97,7 +97,7 @@ export function TwoFactorSetup({ isEnabledInitial }: { isEnabledInitial: boolean
       {showSetup && setupData && (
         <div className="pt-6 border-t border-gray-50 animate-in fade-in slide-in-from-top-4 duration-500">
           <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">
-            <div className="w-64 h-64 md:w-80 md:h-80 bg-white border-8 border-gray-50 rounded-[48px] p-4 shadow-inner relative group flex items-center justify-center overflow-hidden">
+            <div className="w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] md:w-[600px] md:h-[600px] bg-white border-8 border-gray-50 rounded-[64px] p-6 shadow-inner relative group flex items-center justify-center overflow-hidden mx-auto">
               <img 
                 src={setupData.qrCodeUrl} 
                 alt="2FA QR Code" 

@@ -20,8 +20,8 @@ export async function generateTwoFactorSecretAction() {
   });
 
   const qrCodeUrl = await QRCode.toDataURL(secret.otpauth_url || "", {
-    margin: 2,
-    width: 300,
+    margin: 1,
+    width: 800,
     color: {
       dark: "#0F172A",
       light: "#FFFFFF"
