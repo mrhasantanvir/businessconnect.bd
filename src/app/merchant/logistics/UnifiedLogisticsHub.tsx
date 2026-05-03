@@ -159,7 +159,7 @@ export function UnifiedLogisticsHub({ existingConfigs }: { existingConfigs: any[
              onClick={() => setIsAddingCustom(true)}
              className="px-6 py-3 bg-indigo-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center gap-2 hover:scale-105 transition-all shadow-lg shadow-indigo-100"
            >
-              <Plus className="w-4 h-4" /> Initialize New Courier
+              <Plus className="w-4 h-4" /> Add New Courier
            </button>
         </div>
 
