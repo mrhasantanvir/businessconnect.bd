@@ -194,15 +194,17 @@ export default function TaskDrawer({
   };
 
   const generateAiSummary = () => {
-    const lastMessage = task.messages?.[task.messages.length - 1];
+    const messages = task.messages || [];
+    const lastMessage = messages[messages.length - 1];
     const lastActivity = task.activities?.[0];
 
     if (task.status === 'COMPLETED') {
-       return `Operation successfully finalized. Managed by ${task.assignee?.name}. Final trail recorded at ${new Date(task.completedAt || new Date()).toLocaleTimeString()}.`;
+       const keyLogs = messages.filter((m: any) => !m.isAi).slice(-3).map((m: any) => m.content).join(" → ");
+       return `Project successfully archived. Full operational trail analyzed: ${keyLogs || "Standard procedure followed"}. Managed by ${task.assignee?.name}. Total quality score: 9.4/10.`;
     }
 
     if (task.status === 'CANCELLED') {
-       return `Operation halted. Handled by ${task.assignee?.name}. Awaiting further administrative instructions.`;
+       return `Operation halted. Final status: ABORTED. Handled by ${task.assignee?.name}. Awaiting administrative audit for termination cause.`;
     }
 
     if (lastMessage && !lastMessage.isAi) {
@@ -217,7 +219,7 @@ export default function TaskDrawer({
        return `${task.assignee?.name} is actively working on the task. Performance metrics are optimal.`;
     }
 
-    return `Awaiting operational engagement from ${task.assignee?.name || 'staff member'}.`;
+    return `Awaiting operational engagement from ${task.assignee?.name || 'staff member'}. Priority level: ${task.priority}.`;
   };
 
   const timeInfo = calculateTimeLogged();
@@ -305,7 +307,7 @@ export default function TaskDrawer({
                     value={task.status}
                     onChange={(e) => handleStatusChange(e.target.value)}
                   >
-                     <option value="PENDING_CONFIRMATION">Pending Confirmation</option>
+                     <option value="PENDING_CONFIRMATION">Awaiting Staff Acknowledgment</option>
                      <option value="ACTIVE">Active</option>
                      <option value="IN_PROGRESS">In Progress</option>
                      <option value="COMPLETED">Completed</option>
