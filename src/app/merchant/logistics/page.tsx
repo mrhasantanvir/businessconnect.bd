@@ -33,13 +33,13 @@ export default async function MerchantLogisticsPage() {
         </div>
 
         {/* Info Card */}
-        <div className="bg-indigo-600 rounded-[40px] p-10 relative overflow-hidden shadow-2xl shadow-indigo-200 text-white">
-          <div className="absolute right-0 top-0 opacity-10 pointer-events-none text-white">
+        <div className="bg-white rounded-none p-10 relative overflow-hidden border border-gray-100 shadow-sm text-gray-900">
+          <div className="absolute right-0 top-0 opacity-5 pointer-events-none text-slate-900">
              <MapPin className="w-64 h-64 -mt-10 -mr-10" />
           </div>
           <div className="relative z-10 space-y-4">
-            <h2 className="text-2xl font-black uppercase italic tracking-tight">Hyper-Local Product Rules (Geo-Fencing)</h2>
-            <p className="text-indigo-100 font-medium max-w-2xl leading-relaxed text-sm">
+            <h2 className="text-2xl font-black uppercase tracking-tight">Hyper-Local Product Rules (Geo-Fencing)</h2>
+            <p className="text-slate-600 font-medium max-w-2xl leading-relaxed text-sm">
               You can explicitly route individual products to specific couriers and districts right inside the "Add Product" module! 
               For example, you can enforce that "Rajshahi Mangoes" are strictly delivered via "STEADFAST" and only to "Dhaka, Rajshahi" districts. 
               These global API keys power those intelligent routing rules.
