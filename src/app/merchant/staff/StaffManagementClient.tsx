@@ -1163,9 +1163,18 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                               selectedStaff.staffProfile.nidFrontUrl,
                               selectedStaff.staffProfile.nidBackUrl
                             );
+                            
                             if (result.success && result.data) {
+                              // Check if we actually got data
+                              const hasData = Object.values(result.data).some(v => v && v !== "");
+                              if (!hasData) {
+                                toast.error("AI completed but could not extract clear information. Image might be blurry.");
+                                return;
+                              }
+
                               setExtractedData(result.data);
                               toast.success("NID data extracted! Saving to profile...");
+                              
                               // Auto-save extracted data to staff profile
                               await updateStaffInfoAction(selectedStaff.id, {
                                 name: result.data.nameEn || result.data.name || selectedStaff.name,
@@ -1174,14 +1183,15 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                                 baseSalary: selectedStaff.staffProfile.baseSalary,
                                 wageType: selectedStaff.staffProfile.wageType,
                                 // All new extracted fields
-                                nameEn: result.data.nameEn || "",
-                                nameBn: result.data.nameBn || "",
-                                nidNumber: result.data.nidNumber || "",
-                                dob: result.data.dob || "",
-                                fatherName: result.data.fatherName || "",
-                                motherName: result.data.motherName || "",
-                                permanentAddress: result.data.permanentAddress || "",
+                                nameEn: result.data.nameEn || selectedStaff.staffProfile.nameEn || "",
+                                nameBn: result.data.nameBn || selectedStaff.staffProfile.nameBn || "",
+                                nidNumber: result.data.nidNumber || selectedStaff.staffProfile.nidNumber || "",
+                                dob: result.data.dob || (selectedStaff.staffProfile.dob ? new Date(selectedStaff.staffProfile.dob).toISOString().split('T')[0] : ""),
+                                fatherName: result.data.fatherName || selectedStaff.staffProfile.fatherName || "",
+                                motherName: result.data.motherName || selectedStaff.staffProfile.motherName || "",
+                                permanentAddress: result.data.permanentAddress || selectedStaff.staffProfile.permanentAddress || "",
                               });
+
                               // Update local state with all extracted fields
                               const updater = (profile: any) => ({
                                 ...profile,

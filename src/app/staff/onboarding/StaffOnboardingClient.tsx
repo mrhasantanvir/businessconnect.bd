@@ -128,14 +128,21 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
       
       // Extract from Front (Identity)
       const infoFront: any = await processNIDAction(formData.nidFrontUrl);
+      console.log("[Onboarding] Front NID Extraction Result:", infoFront);
       
       let infoBack: any = {};
       if (formData.nidBackUrl) {
         // Extract from Back (Address)
         infoBack = await processNIDAction(formData.nidBackUrl);
+        console.log("[Onboarding] Back NID Extraction Result:", infoBack);
       }
 
-      if (!infoFront.error || !infoBack.error) {
+      // Check if we actually got any meaningful data
+      const hasAnyData = 
+        infoFront.nameEn || infoFront.name || infoFront.nidNumber || infoFront.dob || 
+        infoFront.fatherName || infoFront.motherName || infoBack.permanentAddress;
+
+      if (!infoFront.error && hasAnyData) {
         setFormData(prev => ({
           ...prev,
           nameEn: infoFront.nameEn || infoFront.name || prev.nameEn,
@@ -147,6 +154,10 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
           permanentAddress: infoBack.permanentAddress || infoFront.permanentAddress || prev.permanentAddress
         }));
         toast.success("Information extracted successfully!");
+      } else {
+        const errorMsg = infoFront.error || infoBack.error || "AI could not find clear details in this image.";
+        toast.error(errorMsg);
+        console.warn("[Onboarding] Extraction completed but no data found or error occurred.");
       }
     } catch (error) {
       console.error("Extraction error:", error);

@@ -24,6 +24,7 @@ export async function extractNIDInfo(imageUrl: string, merchantStoreId?: string)
 
 async function extractWithGateway(imageUrl: string, merchantStoreId?: string) {
   try {
+    console.log("[Vision] Starting NID extraction for:", imageUrl);
 
     const prompt = `You are an elite document analysis expert specializing in Bangladeshi National ID (NID) cards. 
 Analyze the provided image(s) with extreme precision. 
@@ -42,7 +43,7 @@ CRITICAL INSTRUCTIONS:
 
 4. ADDRESS FORMAT: For permanentAddress, include all details: Village/House, Road, Post Office, Upazila/Thana, District.
 
-Return a JSON object with these exact keys:
+Return ONLY a valid JSON object with these exact keys. No preamble, no markdown code blocks, just raw JSON:
 {
   "nameEn": "",
   "nameBn": "",
@@ -58,7 +59,7 @@ Rules:
 - Keep nameBn in original Bengali script.
 - Return ONLY valid JSON. No conversational text.`;
 
-    // Convert local path to base64 if needed (gateway handles both, but let's be consistent)
+    // Convert local path to base64 if needed
     let imageContent: string = imageUrl;
     if (imageUrl.startsWith("/")) {
       const filePath = path.join(process.cwd(), "public", imageUrl);
@@ -70,16 +71,40 @@ Rules:
     // Use the Bulletproof Vision Gateway
     const { content, provider } = await askAiVision(imageContent, prompt);
 
+    console.log(`[Vision] AI Response from ${provider}:`, content);
+
     if (!content) {
       throw new Error("No response from AI Gateway");
     }
 
-    // Attempt to parse the JSON response
-    const jsonStr = content.includes("```json") 
-      ? content.split("```json")[1].split("```")[0] 
-      : content;
+    // Attempt to parse the JSON response more robustly
+    let extraction: any = {};
+    try {
+      const jsonStr = content.includes("```json") 
+        ? content.split("```json")[1].split("```")[0] 
+        : content;
       
-    const extraction = JSON.parse(jsonStr.trim());
+      extraction = JSON.parse(jsonStr.trim());
+    } catch (parseError) {
+      console.warn("[Vision] JSON Parse failed, attempting regex extraction...");
+      // Fallback regex extraction if JSON parsing fails
+      extraction = {
+        nameEn: content.match(/"nameEn":\s*"([^"]*)"/)?.[1] || "",
+        nameBn: content.match(/"nameBn":\s*"([^"]*)"/)?.[1] || "",
+        nidNumber: content.match(/"nidNumber":\s*"([^"]*)"/)?.[1] || "",
+        dob: content.match(/"dob":\s*"([^"]*)"/)?.[1] || "",
+        fatherName: content.match(/"fatherName":\s*"([^"]*)"/)?.[1] || "",
+        motherName: content.match(/"motherName":\s*"([^"]*)"/)?.[1] || "",
+        permanentAddress: content.match(/"permanentAddress":\s*"([^"]*)"/)?.[1] || ""
+      };
+    }
+
+    // Final check - if we have almost nothing, it's a failure
+    const hasData = Object.values(extraction).some(v => v && v !== "");
+    if (!hasData) {
+      console.warn("[Vision] AI returned empty data, falling back to Google...");
+      return await extractWithGoogle(imageUrl);
+    }
 
     // Deduct Credit for Vision Usage (Safe Wrap)
     if (merchantStoreId && merchantStoreId !== "GLOBAL") {
@@ -105,7 +130,6 @@ Rules:
     };
   } catch (error) {
     console.error("AI Gateway Extraction Error:", error);
-    // Fallback to Google Vision if AI Gateway completely fails
     return await extractWithGoogle(imageUrl);
   }
 }
