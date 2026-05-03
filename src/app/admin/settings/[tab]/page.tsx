@@ -14,8 +14,12 @@ export default async function AdminSettingsTabPage({ params }: { params: any }) 
 
   const validTabs = [
     "general", "sms", "realtime", "mail", "whatsapp", 
-    "pricing", "google", "seo", "storage", "email-templates", "ai"
+    "pricing", "google", "seo", "storage", "email-templates"
   ];
+
+  if (tab === "ai") {
+    redirect("/admin/ai-settings");
+  }
 
   if (!validTabs.includes(tab)) {
     notFound();
@@ -32,8 +36,7 @@ export default async function AdminSettingsTabPage({ params }: { params: any }) 
     "google": "GOOGLE",
     "seo": "SEO",
     "storage": "STORAGE",
-    "email-templates": "EMAIL_TEMPLATES",
-    "ai": "AI"
+    "email-templates": "EMAIL_TEMPLATES"
   };
 
   return (

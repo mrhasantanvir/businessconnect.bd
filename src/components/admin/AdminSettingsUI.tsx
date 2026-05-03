@@ -14,7 +14,7 @@ import { Sparkles, BrainCircuit, Scan, Terminal } from "lucide-react";
 
 import { useRouter, usePathname } from "next/navigation";
 
-type Tab = "GENERAL" | "SMS" | "REALTIME" | "MAIL" | "WHATSAPP" | "PRICING" | "GOOGLE" | "SEO" | "STORAGE" | "EMAIL_TEMPLATES" | "AI";
+type Tab = "GENERAL" | "SMS" | "REALTIME" | "MAIL" | "WHATSAPP" | "PRICING" | "GOOGLE" | "SEO" | "STORAGE" | "EMAIL_TEMPLATES";
 
 interface AdminSettingsUIProps {
   activeTab: Tab;
@@ -100,13 +100,6 @@ export function AdminSettingsUI({ activeTab }: AdminSettingsUIProps) {
             sub="System Toggles"
           />
           <TabButton 
-            active={activeTab === "AI"} 
-            onClick={() => router.push("/admin/settings/ai")} 
-            icon={BrainCircuit} 
-            label="AI Intelligence" 
-            sub="OpenAI & Vision"
-          />
-          <TabButton 
             active={activeTab === "SMS"} 
             onClick={() => router.push("/admin/settings/sms")} 
             icon={Smartphone} 
@@ -176,13 +169,6 @@ export function AdminSettingsUI({ activeTab }: AdminSettingsUIProps) {
            <div className="p-8">
               {activeTab === "GENERAL" && (
                 <GeneralSettings 
-                  settings={settings} 
-                  onSave={handleSave} 
-                  saving={saving} 
-                />
-              )}
-              {activeTab === "AI" && (
-                <AISettings 
                   settings={settings} 
                   onSave={handleSave} 
                   saving={saving} 
@@ -825,103 +811,6 @@ function CloudStorageSettings({ settings, onSave, saving }: any) {
   );
 }
 
-function AISettings({ settings, onSave, saving }: any) {
-  const [apiKey, setApiKey] = useState(settings?.openaiApiKey ?? "");
-  const [orgId, setOrgId] = useState(settings?.openaiOrgId ?? "");
-  const [projectId, setProjectId] = useState(settings?.openaiProjectId ?? "");
-  const [model, setModel] = useState(settings?.openaiModel ?? "gpt-4o");
-  const [priority, setPriority] = useState(settings?.aiProviderPriority ?? "OPENAI,GEMINI,DEEPSEEK,OPENROUTER");
-  const [visionKey, setVisionKey] = useState(settings?.googleVisionKey ?? "");
-  
-  const [testing, setTesting] = useState(false);
-  const [testResult, setTestResult] = useState<any>(null);
-
-  const handleTest = async () => {
-    setTesting(true);
-    setTestResult(null);
-    try {
-      const res = await testOpenAIConnectionAction();
-      setTestResult(res);
-    } catch (err: any) {
-      setTestResult({ success: false, error: err.message });
-    } finally {
-      setTesting(false);
-    }
-  };
-
-  return (
-    <div className="space-y-8 max-w-3xl">
-      <div className="space-y-4">
-        <h3 className="text-xl font-black text-[#0F172A] flex items-center gap-2">
-           <BrainCircuit className="w-6 h-6 text-indigo-600" /> AI Intelligence & Automation
-        </h3>
-        <p className="text-sm text-[#64748B]">Configure the core AI brain of BusinessConnect. These settings power NID extraction, automated support, and smart analytics.</p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="md:col-span-2">
-           <Input label="OpenAI API Key" value={apiKey} onChange={setApiKey} type="password" placeholder="sk-..." />
-        </div>
-        <Input label="OpenAI Organization ID (Optional)" value={orgId} onChange={setOrgId} placeholder="org-..." />
-        <Input label="OpenAI Project ID (Optional)" value={projectId} onChange={setProjectId} placeholder="proj_..." />
-        <div className="space-y-2">
-          <label className="text-[10px] font-black uppercase tracking-widest text-[#64748B]">Primary AI Model</label>
-          <select 
-            value={model}
-            onChange={(e) => setModel(e.target.value)}
-            className="w-full h-12 px-4 bg-gray-50 border border-gray-200 rounded-none focus:outline-none focus:ring-2 focus:ring-[#1E40AF] text-sm"
-          >
-            <option value="gpt-4o">GPT-4o (Recommended for Vision)</option>
-            <option value="gpt-4o-mini">GPT-4o Mini (Faster, Cheaper)</option>
-            <option value="gpt-4-turbo">GPT-4 Turbo</option>
-          </select>
-        </div>
-        <Input label="Provider Priority" value={priority} onChange={setPriority} placeholder="OPENAI,GEMINI,DEEPSEEK" />
-      </div>
-
-      <div className="p-6 bg-slate-900 rounded-none border border-slate-800 space-y-4">
-        <div className="flex items-center justify-between">
-          <h4 className="text-xs font-black text-white uppercase tracking-[0.2em] flex items-center gap-2">
-            <Terminal className="w-4 h-4 text-emerald-400" /> API Diagnostic Tool
-          </h4>
-          <button 
-            onClick={handleTest}
-            disabled={testing || !apiKey}
-            className="px-4 py-2 bg-emerald-600 text-white text-[10px] font-black uppercase tracking-widest hover:bg-emerald-700 transition-all disabled:opacity-50"
-          >
-            {testing ? "Testing..." : "Run Connection Test"}
-          </button>
-        </div>
-        
-        {testResult && (
-          <div className={`p-4 rounded-none border text-xs font-mono ${testResult.success ? 'bg-emerald-950/30 border-emerald-500/30 text-emerald-400' : 'bg-rose-950/30 border-rose-500/30 text-rose-400'}`}>
-            <div className="flex items-center gap-2 mb-2 font-bold uppercase">
-              {testResult.success ? <CheckCircle2 className="w-3.5 h-3.5" /> : <AlertCircle className="w-3.5 h-3.5" />}
-              {testResult.success ? "Connection Secure" : "Connection Failed"}
-            </div>
-            <pre className="whitespace-pre-wrap">{testResult.message || testResult.error || JSON.stringify(testResult, null, 2)}</pre>
-          </div>
-        )}
-      </div>
-
-      <button
-        disabled={saving}
-        onClick={() => onSave({ 
-          openaiApiKey: apiKey,
-          openaiOrgId: orgId,
-          openaiProjectId: projectId,
-          openaiModel: model,
-          aiProviderPriority: priority,
-          googleVisionKey: visionKey
-        })}
-        className="px-6 py-3 bg-[#1E40AF] text-white font-black text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50 shadow-lg"
-      >
-        {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-        Save AI Configuration
-      </button>
-    </div>
-  );
-}
 
 function EmailTemplateSettings({ templates: initialTemplates }: any) {
   const [templates, setTemplates] = useState<any[]>(initialTemplates || []);
