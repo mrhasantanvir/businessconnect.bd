@@ -94,7 +94,6 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
       group: t("core_hub"),
       items: [
         { icon: LayoutDashboard, label: t("dashboard"), href: "/dashboard", roles: ["MERCHANT", "STAFF"] },
-        { icon: Activity, label: t("intelligence"), href: "/merchant/analytics", roles: ["MERCHANT", "STAFF"] },
         { icon: Database, label: t("data_insights"), roles: ["MERCHANT"], subItems: [
            { label: t("live_reports"), href: "/merchant/reports" },
            { label: t("vat_compliance"), href: "/merchant/reports/vat" },
