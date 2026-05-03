@@ -14,6 +14,7 @@ To maintain transparency and prevent redundant work, every entry must specify th
 ## [Unreleased]
 
 ### Added
+- `[AI]` **Version Control UI**: Created a centralized version configuration (`version.ts`) and integrated dynamic version badges for global and feature-level tracking in the frontend sidebar (`Shell.tsx`).
 - `[AI]` **Activation Celebration Feature**: Implemented a global, premium glassmorphism modal with fireworks (`canvas-confetti`) to welcome Merchants, Merchant Staff, and Super Admin Staff on their first login after activation.
 - `[AI]` **Database State Tracking**: Added `hasSeenCelebration` Boolean to the `User` model to guarantee the welcome fireworks are shown exactly once per lifetime across any device.
 

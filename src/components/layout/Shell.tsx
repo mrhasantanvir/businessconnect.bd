@@ -57,6 +57,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { Providers } from "./Providers";
 import { UserDropdown } from "./new_ui/header/HeaderComponents";
 import { ActivationCelebration } from "../merchant/ActivationCelebration";
+import { APP_VERSION } from "@/config/version";
 
 
 function cn(...inputs: ClassValue[]) {
@@ -99,6 +100,7 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
   const NAVIGATION = [
     {
       group: t("core_hub"),
+      version: APP_VERSION.features.coreHub,
       items: [
         { icon: LayoutDashboard, label: t("dashboard"), href: "/dashboard", roles: ["MERCHANT", "STAFF"] },
         { icon: Database, label: t("data_insights"), roles: ["MERCHANT"], permission: "reports:view", subItems: [
@@ -158,6 +160,7 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
     },
     {
       group: t("administration"),
+      version: APP_VERSION.features.administration,
       items: [
         { icon: Shield, label: "Admin Pulse", href: "/admin", roles: ["SUPER_ADMIN"] },
         { icon: Store, label: "Merchant Ecosystem", href: "/admin/merchants", roles: ["SUPER_ADMIN"] },
@@ -183,6 +186,7 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
     },
     {
        group: "Support Hub",
+       version: APP_VERSION.features.supportHub,
        items: [
          { icon: MessageSquare, label: "Customer Care", href: "/support", roles: ["MERCHANT", "STAFF"], permission: "orders:view" },
          { icon: AlertCircle, label: "Tickets", href: "/support/incidents", roles: ["MERCHANT", "STAFF"], permission: "orders:view" },
@@ -191,6 +195,7 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
     },
     {
        group: "Account Security",
+       version: APP_VERSION.features.accountSecurity,
        items: [
          { icon: User, label: "Profile & Security", href: "/settings/profile", roles: ["MERCHANT", "SUPER_ADMIN", "STAFF"] },
        ]
@@ -283,7 +288,7 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
           </div>
           {(isSidebarExpanded || isMobileMenuOpen) && (
             <span className="ml-2.5 font-bold text-xs text-[#0F172A] uppercase tracking-tight flex-1">
-              Business<span className="text-[#1E40AF]">Connect</span> <span className="text-[8px] bg-indigo-100 px-1 rounded">V2.1</span>
+              Business<span className="text-[#1E40AF]">Connect</span> <span className="text-[8px] bg-indigo-100 text-indigo-700 px-1 py-0.5 rounded ml-1 font-mono">{APP_VERSION.current}</span>
             </span>
           )}
           {isMobileMenuOpen && (
@@ -343,8 +348,13 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
             return (
               <div key={group.group} className="mb-2">
                 {(isSidebarExpanded || isMobileMenuOpen) && (
-                  <div className="px-3 py-1.5 text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">
-                    {group.group}
+                  <div className="px-3 py-1.5 flex items-center justify-between mb-0.5">
+                    <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{group.group}</span>
+                    {group.version && (
+                       <span className="text-[8px] bg-slate-100 text-slate-500 px-1 rounded font-mono border border-slate-200">
+                          {group.version}
+                       </span>
+                    )}
                   </div>
                 )}
                 
