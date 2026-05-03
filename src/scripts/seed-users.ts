@@ -21,6 +21,7 @@ async function main() {
       role: "SUPER_ADMIN",
       isActive: true,
       readableId: adminId,
+      updatedAt: new Date(),
     }
   });
   console.log("Created Super Admin:", admin.email, "Password: 12345678");
@@ -37,6 +38,7 @@ async function main() {
       role: "MERCHANT",
       isActive: true,
       readableId: merchantId,
+      updatedAt: new Date(),
     }
   });
 
@@ -50,6 +52,7 @@ async function main() {
       isActive: true,
       ownerId: merchant.id,
       readableId: merchantId, // Store gets the same readable ID as merchant
+      updatedAt: new Date(),
     }
   });
   console.log("Created Merchant:", merchant.email, "Password: 12345678");
@@ -67,6 +70,7 @@ async function main() {
       isActive: true,
       readableId: staff1Id,
       merchantStoreId: store.id,
+      updatedAt: new Date(),
     }
   });
   console.log("Created Staff 1:", staff1.email, "Password: 12345678");
@@ -84,6 +88,7 @@ async function main() {
       isActive: true,
       readableId: staff2Id,
       merchantStoreId: store.id,
+      updatedAt: new Date(),
     }
   });
   console.log("Created Staff 2:", staff2.email, "Password: 12345678");
