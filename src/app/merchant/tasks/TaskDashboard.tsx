@@ -1,6 +1,9 @@
 "use client";
 
 import React, { useState, useTransition } from "react";
+import { cn } from "@/lib/utils";
+import { suggestTaskAction, createTaskAction, uploadTaskAttachmentAction } from "./taskActions";
+import { toast } from "sonner";
 import { 
   Plus, 
   Search, 
@@ -12,11 +15,12 @@ import {
   Loader2,
   Clock,
   CheckCircle2,
-  AlertCircle
+  AlertCircle,
+  Upload,
+  FileIcon,
+  Trash2,
+  Paperclip
 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { suggestTaskAction, createTaskAction } from "./taskActions";
-import { toast } from "sonner";
 import TaskDrawer from "@/components/merchant/tasks/TaskDrawer";
 
 export default function TaskDashboardClient({ tasks, staff, merchantStoreId }: { tasks: any[], staff: any[], merchantStoreId: string }) {
@@ -26,10 +30,14 @@ export default function TaskDashboardClient({ tasks, staff, merchantStoreId }: {
   const [aiInput, setAiInput] = useState("");
   const [suggestedTask, setSuggestedTask] = useState<any>(null);
   const [isPending, startTransition] = useTransition();
+  const [uploadedFiles, setUploadedFiles] = useState<any[]>([]);
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   async function handleAiSuggest() {
     if (!aiInput.trim()) return;
     setIsAiLoading(true);
+    setUploadedFiles([]); // Reset files on new suggest
     try {
       const suggestion = await suggestTaskAction(aiInput);
       setSuggestedTask(suggestion);
@@ -40,12 +48,40 @@ export default function TaskDashboardClient({ tasks, staff, merchantStoreId }: {
     }
   }
 
+  async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const result = await uploadTaskAttachmentAction(formData);
+      setUploadedFiles(prev => [...prev, result]);
+      toast.success("File uploaded successfully");
+    } catch (error) {
+      toast.error("File upload failed");
+    } finally {
+      setIsUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  }
+
+  function removeFile(url: string) {
+    setUploadedFiles(prev => prev.filter(f => f.url !== url));
+  }
+
   async function handleCreateTask(taskData: any) {
     startTransition(async () => {
       try {
-        await createTaskAction(taskData);
+        await createTaskAction({
+          ...taskData,
+          attachments: uploadedFiles.length > 0 ? JSON.stringify(uploadedFiles) : null
+        });
         toast.success("Task created and handshake sent!");
         setSuggestedTask(null);
+        setUploadedFiles([]);
         setAiInput("");
       } catch (error: any) {
         toast.error(error.message);
@@ -160,6 +196,39 @@ export default function TaskDashboardClient({ tasks, staff, merchantStoreId }: {
                           </div>
                        </div>
                     )}
+                 </div>
+
+                 {/* File Upload Section */}
+                 <div className="space-y-3">
+                    <label className="text-[9px] font-bold text-indigo-400 uppercase">Attachments (Docs, Images, Reports)</label>
+                    <div className="flex flex-wrap gap-2">
+                       {uploadedFiles.map((file, idx) => (
+                          <div key={idx} className="flex items-center gap-2 bg-white border border-indigo-100 p-2 rounded-[2px] group relative">
+                             <FileIcon className="w-3 h-3 text-indigo-500" />
+                             <span className="text-[10px] font-bold text-gray-600 truncate max-w-[100px]">{file.name}</span>
+                             <button 
+                               onClick={() => removeFile(file.url)}
+                               className="p-1 hover:text-red-500 transition-colors"
+                             >
+                                <Trash2 className="w-3 h-3" />
+                             </button>
+                          </div>
+                       ))}
+                       <button 
+                         onClick={() => fileInputRef.current?.click()}
+                         disabled={isUploading}
+                         className="flex items-center gap-2 px-3 py-2 border-2 border-dashed border-indigo-200 text-indigo-400 hover:border-indigo-400 hover:text-indigo-600 transition-all rounded-[2px] text-[10px] font-black uppercase"
+                       >
+                          {isUploading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Plus className="w-3 h-3" />}
+                          Add File
+                       </button>
+                       <input 
+                         type="file" 
+                         ref={fileInputRef} 
+                         className="hidden" 
+                         onChange={handleFileUpload}
+                       />
+                    </div>
                  </div>
 
                  <div className="flex items-center gap-2 pt-4">

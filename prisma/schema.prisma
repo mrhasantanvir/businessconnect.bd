@@ -831,7 +831,7 @@ model Order {
   shipments           Shipment[]
   commissions         StaffCommission[]
   chatChannel         ChatChannel?
-  tasks               Task[]
+  tasks               Task[]          @relation("OrderTasks")
 }
 
 model OrderActivity {
@@ -1392,13 +1392,14 @@ model Task {
   confirmedAt     DateTime?
   completedAt     DateTime?
   aiMetadata      String?        @db.Text // JSON string for AI context
+  attachments     String?        @db.Text // JSON string for file attachments
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
 
   merchantStore   MerchantStore  @relation(fields: [merchantStoreId], references: [id])
   creator         User           @relation("TaskCreator", fields: [creatorId], references: [id])
   assignee        User?          @relation("TaskAssignee", fields: [assigneeId], references: [id])
-  order           Order?         @relation(fields: [orderId], references: [id])
+  order           Order?         @relation("OrderTasks", fields: [orderId], references: [id])
   customer        Customer?      @relation(fields: [customerId], references: [id])
   messages        TaskMessage[]
   activities      TaskActivity[]

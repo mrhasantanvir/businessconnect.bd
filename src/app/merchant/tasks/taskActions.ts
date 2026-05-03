@@ -5,6 +5,37 @@ import { getSession } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import { generateTaskFromText } from "@/lib/ai/task-engine";
 import { sendEmail } from "@/lib/mail";
+import { writeFile, mkdir } from "fs/promises";
+import path from "path";
+import fs from "fs";
+
+export async function uploadTaskAttachmentAction(formData: FormData) {
+  const session = await getSession();
+  if (!session || !session.merchantStoreId) throw new Error("Unauthorized");
+
+  const file = formData.get("file") as File;
+  if (!file) throw new Error("No file uploaded");
+
+  const bytes = await file.arrayBuffer();
+  const buffer = Buffer.from(bytes);
+
+  const filename = `${Date.now()}-${file.name.replace(/\s+/g, "-")}`;
+  const dirPath = path.join(process.cwd(), "public", "uploads", "tasks");
+  
+  if (!fs.existsSync(dirPath)) {
+    await mkdir(dirPath, { recursive: true });
+  }
+
+  const uploadPath = path.join(dirPath, filename);
+  await writeFile(uploadPath, buffer);
+
+  return { 
+    url: `/uploads/tasks/${filename}`,
+    name: file.name,
+    size: file.size,
+    type: file.type
+  };
+}
 
 /**
  * Step 1: AI Task Suggestion
@@ -27,6 +58,7 @@ export async function createTaskAction(data: {
   orderId?: string;
   customerId?: string;
   deadline?: Date;
+  attachments?: string; // JSON string
 }) {
   const session = await getSession();
   if (!session || !session.merchantStoreId) throw new Error("Unauthorized");
@@ -40,6 +72,7 @@ export async function createTaskAction(data: {
       orderId: data.orderId || null,
       customerId: data.customerId || null,
       deadline: data.deadline ? new Date(data.deadline) : null,
+      attachments: data.attachments || null,
       merchantStoreId: session.merchantStoreId,
       creatorId: session.userId,
       status: data.assigneeId ? "PENDING_CONFIRMATION" : "ACTIVE"
