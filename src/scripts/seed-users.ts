@@ -56,7 +56,6 @@ async function main() {
       slug: "demo-store",
       phone: "01321141788",
       address: "Dhaka, Bangladesh",
-      isActive: true,
       ownerId: merchant.id,
       readableId: merchantId, // Store gets the same readable ID as merchant
       updatedAt: new Date(),
