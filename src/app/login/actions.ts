@@ -42,6 +42,7 @@ async function createSession(user: any) {
     permissions: permissions,
     merchantStoreId: user.merchantStoreId,
     readableId: user.readableId,
+    hasSeenCelebration: user.hasSeenCelebration,
     sessionId,
     expires,
   };
@@ -135,4 +136,17 @@ export async function complete2FALoginAction(userId: string, token: string) {
 export async function logoutAction() {
   (await cookies()).delete("session");
   redirect("/login");
+}
+
+export async function markCelebrationSeenAction(userId: string) {
+  try {
+    await prisma.user.update({
+      where: { id: userId },
+      data: { hasSeenCelebration: true }
+    });
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to mark celebration seen:", error);
+    return { success: false };
+  }
 }

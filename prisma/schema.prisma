@@ -64,6 +64,7 @@ model User {
   assignedTasks       Task[]               @relation("TaskAssignee")
   taskMessages        TaskMessage[]
   taskActivities      TaskActivity[]
+  hasSeenCelebration  Boolean              @default(false)
 }
 
 model MerchantStore {

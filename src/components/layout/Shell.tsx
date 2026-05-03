@@ -584,13 +584,14 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
         )}
         
         {/* Global Activation Celebration */}
-        {user?.id && (
+        {user?.id && !user?.hasSeenCelebration && (
           <ActivationCelebration 
             userId={user.id}
             storeId={user.merchantStoreId}
             activationStatus={user.role === "MERCHANT" ? user.activationStatus || "PENDING" : "ACTIVE"}
             entityName={user.role === "SUPER_ADMIN" ? "BusinessConnect Admin Panel" : "the store"}
             role={user.role}
+            hasSeenCelebration={user.hasSeenCelebration}
           />
         )}
       </main>

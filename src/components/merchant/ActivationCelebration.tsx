@@ -4,31 +4,28 @@ import React, { useEffect, useState } from "react";
 import confetti from "canvas-confetti";
 import { Sparkles, CheckCircle2, X, PartyPopper } from "lucide-react";
 
+import { markCelebrationSeenAction } from "@/app/login/actions";
+
 export function ActivationCelebration({ 
   userId, 
   storeId, 
   activationStatus, 
   entityName, 
-  role 
+  role,
+  hasSeenCelebration
 }: { 
   userId: string, 
   storeId?: string, 
   activationStatus: string, 
   entityName: string,
-  role: string 
+  role: string,
+  hasSeenCelebration?: boolean
 }) {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    if (activationStatus === "ACTIVE") {
-      // For merchants, it's tied to the store activation
-      // For staff/admins, it's tied to their user account (first login)
-      const isMerchant = role === "MERCHANT";
-      const storageKey = isMerchant ? `activation_celebrated_${storeId}` : `joined_celebrated_${userId}`;
-      const hasCelebrated = localStorage.getItem(storageKey);
-
-      if (!hasCelebrated) {
-        // Trigger fireworks
+    if (activationStatus === "ACTIVE" && !hasSeenCelebration) {
+      // Trigger fireworks
         const duration = 5 * 1000;
         const animationEnd = Date.now() + duration;
         const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 10000 };
@@ -48,10 +45,9 @@ export function ActivationCelebration({
         }, 250);
 
         setShowModal(true);
-        localStorage.setItem(storageKey, "true");
-      }
+        markCelebrationSeenAction(userId);
     }
-  }, [activationStatus, storeId, userId, role]);
+  }, [activationStatus, storeId, userId, role, hasSeenCelebration]);
 
   if (!showModal) return null;
 
