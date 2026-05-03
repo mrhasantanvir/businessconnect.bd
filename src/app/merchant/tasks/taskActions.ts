@@ -234,7 +234,8 @@ export async function getTaskAction(taskId: string) {
       },
       activities: {
         orderBy: { createdAt: "desc" }
-      }
+      },
+      workLogs: true
     }
   });
 }
@@ -266,4 +267,73 @@ export async function forwardTaskAction(taskId: string, newAssigneeId: string) {
 
   revalidatePath("/merchant/tasks");
   return task;
+}
+
+/**
+ * Start Work Log
+ */
+export async function startWorkLogAction(taskId: string) {
+  const session = await getSession();
+  if (!session) throw new Error("Unauthorized");
+
+  const log = await prisma.staffWorkLog.create({
+    data: {
+      taskId,
+      staffId: session.userId,
+      startTime: new Date()
+    }
+  });
+
+  await prisma.taskActivity.create({
+    data: {
+      taskId,
+      userId: session.userId,
+      type: "STATUS_CHANGE",
+      message: "Staff started working on this task"
+    }
+  });
+
+  revalidatePath("/merchant/tasks");
+  return log;
+}
+
+/**
+ * Stop Work Log
+ */
+export async function stopWorkLogAction(taskId: string) {
+  const session = await getSession();
+  if (!session) throw new Error("Unauthorized");
+
+  const activeLog = await prisma.staffWorkLog.findFirst({
+    where: { 
+      taskId, 
+      staffId: session.userId, 
+      endTime: null 
+    }
+  });
+
+  if (!activeLog) return null;
+
+  const endTime = new Date();
+  const duration = Math.round((endTime.getTime() - activeLog.startTime.getTime()) / 60000); // minutes
+
+  await prisma.staffWorkLog.update({
+    where: { id: activeLog.id },
+    data: {
+      endTime,
+      duration
+    }
+  });
+
+  await prisma.taskActivity.create({
+    data: {
+      taskId,
+      userId: session.userId,
+      type: "STATUS_CHANGE",
+      message: `Staff paused/stopped working. Session duration: ${duration}m`
+    }
+  });
+
+  revalidatePath("/merchant/tasks");
+  return { success: true };
 }

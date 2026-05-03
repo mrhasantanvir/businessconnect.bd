@@ -16,14 +16,18 @@ import {
   FileIcon,
   ArrowRight,
   UserPlus,
-  Loader2
+  Loader2,
+  Timer,
+  Pause
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { 
   sendTaskMessageAction, 
   updateTaskStatusAction, 
   getTaskAction, 
-  forwardTaskAction 
+  forwardTaskAction,
+  startWorkLogAction,
+  stopWorkLogAction
 } from "@/app/merchant/tasks/taskActions";
 import { toast } from "sonner";
 
@@ -45,10 +49,17 @@ export default function TaskDrawer({
   const [isLoading, setIsLoading] = useState(false);
   const [showForward, setShowForward] = useState(false);
   const [forwardUserId, setForwardUserId] = useState("");
+  const [isWorking, setIsWorking] = useState(false);
 
   useEffect(() => {
     refreshTask();
   }, [initialTask.id]);
+
+  useEffect(() => {
+    // Check if there's an active work log
+    const hasActiveLog = task.workLogs?.some((log: any) => !log.endTime);
+    setIsWorking(!!hasActiveLog);
+  }, [task]);
 
   async function refreshTask() {
     setIsLoading(true);
@@ -101,12 +112,66 @@ export default function TaskDrawer({
     }
   }
 
+  async function toggleWork() {
+    try {
+      if (isWorking) {
+        await stopWorkLogAction(task.id);
+        toast.success("Work session paused");
+      } else {
+        await startWorkLogAction(task.id);
+        toast.success("Work session started");
+        if (task.status === 'PENDING_CONFIRMATION' || task.status === 'ACTIVE') {
+           await handleStatusChange('IN_PROGRESS');
+        }
+      }
+      await refreshTask();
+    } catch (error) {
+      toast.error("Failed to update work status");
+    }
+  }
+
+  // Calculate real-time logged
+  const calculateTimeLogged = () => {
+    let totalMinutes = 0;
+    if (task.workLogs) {
+      task.workLogs.forEach((log: any) => {
+        if (log.duration) {
+          totalMinutes += log.duration;
+        } else if (!log.endTime) {
+          // Ongoing session
+          const now = new Date();
+          const start = new Date(log.startTime);
+          totalMinutes += Math.round((now.getTime() - start.getTime()) / 60000);
+        }
+      });
+    }
+    
+    if (totalMinutes === 0) {
+       // Show time since creation if no work logs yet
+       const now = new Date();
+       const created = new Date(task.createdAt);
+       totalMinutes = Math.round((now.getTime() - created.getTime()) / 60000);
+       return { label: "IN QUEUE", value: formatDuration(totalMinutes) };
+    }
+
+    return { label: "TIME LOGGED", value: formatDuration(totalMinutes) };
+  };
+
+  const formatDuration = (min: number) => {
+    if (min < 60) return `${min}m`;
+    const h = Math.floor(min / 60);
+    const m = min % 60;
+    return `${h}h ${m}m`;
+  };
+
+  const timeInfo = calculateTimeLogged();
+
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[60] flex items-center justify-center p-4 animate-in fade-in duration-300 font-inter">
       <div className="w-full max-w-2xl bg-white shadow-2xl border border-gray-100 flex flex-col animate-in zoom-in-95 duration-300 max-h-[90vh] rounded-none relative">
       
       {isLoading && (
-        <div className="absolute inset-0 bg-white/50 backdrop-blur-[1px] z-50 flex items-center justify-center">
+        <div className="absolute inset-0 bg-white/5 backdrop-blur-[1px] z-50 flex items-center justify-center">
            <Loader2 className="w-8 h-8 text-indigo-600 animate-spin" />
         </div>
       )}
@@ -116,39 +181,30 @@ export default function TaskDrawer({
          <div className="flex items-center gap-3">
             <div className={cn(
                "w-2 h-2 rounded-none animate-pulse",
-               task.status === 'COMPLETED' ? 'bg-emerald-500' : 'bg-indigo-500'
+               task.status === 'COMPLETED' ? 'bg-emerald-500' : 
+               isWorking ? 'bg-indigo-500' : 'bg-gray-300'
             )} />
-            <h2 className="text-sm font-black text-[#0F172A] uppercase tracking-widest">Task Master Control</h2>
+            <h2 className="text-sm font-black text-[#0F172A] uppercase tracking-widest">
+               {isWorking ? 'Operation Active' : 'Task Master Control'}
+            </h2>
          </div>
-         <div className="flex items-center gap-2">
-            <button 
-              onClick={() => setShowForward(!showForward)}
-              className={cn(
-                "p-2 hover:bg-indigo-50 transition-all group rounded-none",
-                showForward ? "text-indigo-600 bg-indigo-50" : "text-gray-400"
-              )}
-              title="Forward Task"
-            >
-               <UserPlus className="w-5 h-5" />
-            </button>
-            <button onClick={onClose} className="p-2 hover:bg-gray-50 rounded-none transition-all">
-               <X className="w-5 h-5 text-gray-400" />
-            </button>
-         </div>
+         <button onClick={onClose} className="p-2 hover:bg-gray-50 rounded-none transition-all">
+            <X className="w-5 h-5 text-gray-400" />
+         </button>
       </div>
 
       <div className="flex-1 overflow-y-auto no-scrollbar">
-         {/* Forward Section */}
+         {/* Forward Section Overlay */}
          {showForward && (
-            <div className="p-6 bg-indigo-600 animate-in slide-in-from-top-4 duration-300">
+            <div className="p-6 bg-[#0F172A] text-white animate-in slide-in-from-top-4 duration-300 sticky top-0 z-30">
                <div className="flex flex-col gap-4">
                   <div className="flex items-center justify-between">
-                     <h3 className="text-[11px] font-black text-white uppercase tracking-widest">Reassign / Forward Operation</h3>
-                     <button onClick={() => setShowForward(false)} className="text-white/60 hover:text-white transition-all"><X className="w-4 h-4" /></button>
+                     <h3 className="text-[11px] font-black uppercase tracking-widest text-indigo-400">Reassign / Forward Operation</h3>
+                     <button onClick={() => setShowForward(false)} className="text-white/40 hover:text-white"><X className="w-4 h-4" /></button>
                   </div>
                   <div className="flex gap-2">
                      <select 
-                       className="flex-1 bg-white/10 border border-white/20 text-white rounded-none p-3 text-xs font-bold outline-none focus:bg-white/20 transition-all appearance-none"
+                       className="flex-1 bg-white/5 border border-white/10 text-white rounded-none p-3 text-xs font-bold outline-none focus:bg-white/10"
                        value={forwardUserId}
                        onChange={(e) => setForwardUserId(e.target.value)}
                      >
@@ -160,9 +216,9 @@ export default function TaskDrawer({
                      <button 
                        onClick={handleForward}
                        disabled={!forwardUserId}
-                       className="px-6 py-3 bg-white text-indigo-600 rounded-none text-[10px] font-black uppercase tracking-widest hover:bg-indigo-50 transition-all disabled:opacity-50"
+                       className="px-6 py-3 bg-indigo-600 text-white rounded-none text-[10px] font-black uppercase tracking-widest hover:bg-indigo-700 transition-all disabled:opacity-50"
                      >
-                        Confirm Forward
+                        Execute Transfer
                      </button>
                   </div>
                </div>
@@ -188,22 +244,32 @@ export default function TaskDrawer({
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-               <div className="bg-gray-50 p-4 rounded-none border border-gray-100">
-                  <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest block mb-2">Assignee</label>
-                  {task.assignee ? (
-                    <div className="flex items-center gap-2">
-                       <div className="w-8 h-8 bg-white border border-gray-200 rounded-none flex items-center justify-center text-[11px] font-black text-indigo-600 uppercase">
-                          {task.assignee.name?.[0] || "?"}
+               <div className="bg-gray-50 p-5 rounded-none border border-gray-100 relative group">
+                  <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest block mb-3">Assignee</label>
+                  <div className="flex items-center justify-between">
+                     {task.assignee ? (
+                       <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 bg-white border border-gray-200 rounded-none flex items-center justify-center text-[12px] font-black text-indigo-600 uppercase">
+                             {task.assignee.name?.[0] || "?"}
+                          </div>
+                          <div>
+                             <p className="text-[11px] font-black text-[#0F172A] leading-none mb-1">{task.assignee.name || "Unknown"}</p>
+                             <p className="text-[9px] font-bold text-gray-400 uppercase">{task.assignee.staffProfile?.jobRole || 'Staff'}</p>
+                          </div>
                        </div>
-                       <div>
-                          <p className="text-[11px] font-black text-[#0F172A] leading-none">{task.assignee.name || "Unknown"}</p>
-                          <p className="text-[9px] font-bold text-gray-400 uppercase mt-1">{task.assignee.staffProfile?.jobRole || 'Staff'}</p>
-                       </div>
-                    </div>
-                  ) : <p className="text-[11px] font-black text-gray-300 italic uppercase">Unassigned</p>}
+                     ) : <p className="text-[11px] font-black text-gray-300 italic uppercase">Unassigned</p>}
+                     
+                     <button 
+                       onClick={() => setShowForward(true)}
+                       className="p-2 text-indigo-600 hover:bg-indigo-50 transition-all rounded-none border border-transparent hover:border-indigo-100"
+                       title="Forward Task"
+                     >
+                        <UserPlus className="w-4 h-4" />
+                     </button>
+                  </div>
                </div>
-               <div className="bg-gray-50 p-4 rounded-none border border-gray-100">
-                  <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest block mb-2">Status</label>
+               <div className="bg-gray-50 p-5 rounded-none border border-gray-100">
+                  <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest block mb-3">Operational Status</label>
                   <select 
                     className="bg-transparent border-none p-0 text-[11px] font-black uppercase text-indigo-600 focus:ring-0 w-full cursor-pointer"
                     value={task.status}
@@ -367,20 +433,37 @@ export default function TaskDrawer({
       {/* Footer / Time Tracking Status */}
       <div className="p-6 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-indigo-600 text-white rounded-none flex items-center justify-center">
-               <Activity className="w-4 h-4" />
+            <div className={cn(
+               "w-10 h-10 rounded-none flex items-center justify-center transition-all",
+               isWorking ? "bg-indigo-600 text-white animate-pulse" : "bg-gray-200 text-gray-400"
+            )}>
+               <Timer className="w-5 h-5" />
             </div>
             <div>
-               <p className="text-[10px] font-black text-[#0F172A] uppercase tracking-widest leading-none mb-1">Time Logged</p>
-               <p className="text-xs font-black text-indigo-600">2h 45m</p>
+               <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1.5">{timeInfo.label}</p>
+               <p className="text-sm font-black text-[#0F172A] tracking-tight">{timeInfo.value}</p>
             </div>
          </div>
          <button 
-           onClick={() => handleStatusChange("IN_PROGRESS")}
-           disabled={task.status === 'IN_PROGRESS'}
-           className="px-8 py-3 bg-white border border-gray-200 text-[10px] font-black uppercase tracking-widest text-[#0F172A] hover:bg-black hover:text-white transition-all rounded-none shadow-sm disabled:opacity-50"
+           onClick={toggleWork}
+           className={cn(
+             "px-8 py-3.5 text-[10px] font-black uppercase tracking-widest transition-all rounded-none shadow-sm flex items-center gap-2 border",
+             isWorking 
+              ? "bg-white border-indigo-200 text-indigo-600 hover:bg-red-50 hover:text-red-600 hover:border-red-100" 
+              : "bg-black border-black text-white hover:bg-gray-800"
+           )}
          >
-            {task.status === 'IN_PROGRESS' ? 'Operation Active' : 'Start Working'}
+            {isWorking ? (
+               <>
+                  <Pause className="w-3.5 h-3.5 fill-current" />
+                  Pause Session
+               </>
+            ) : (
+               <>
+                  <Timer className="w-3.5 h-3.5" />
+                  Start Working
+               </>
+            )}
          </button>
       </div>
 
