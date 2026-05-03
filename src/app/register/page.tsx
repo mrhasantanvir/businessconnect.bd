@@ -81,7 +81,7 @@ export default function RegisterPage() {
 
           <form action={formAction} className="space-y-8">
             {state?.error && (
-              <div className="bg-[#FEF2F2] border border-[#FEE2E2] text-[#DC2626] text-sm p-4 rounded-3xl animate-in fade-in slide-in-from-top-2 duration-300 font-bold">
+              <div className="bg-[#FEF2F2] border border-[#FEE2E2] text-[#DC2626] text-sm p-4 rounded-none animate-in fade-in slide-in-from-top-2 duration-300 font-bold">
                 {state.error}
               </div>
             )}
@@ -100,7 +100,7 @@ export default function RegisterPage() {
                            value={phone}
                            onChange={(e) => setPhone(e.target.value)}
                            readOnly={isVerified}
-                           className="w-full bg-[#F8F9FA] border-2 border-transparent focus:border-[#1E40AF]/10 focus:bg-white rounded-3xl py-5 pl-14 pr-4 outline-none transition-all font-bold text-[#0F172A] placeholder:text-slate-300 read-only:opacity-70"
+                           className="w-full bg-[#F8F9FA] border-2 border-transparent focus:border-[#1E40AF]/10 focus:bg-white rounded-none py-5 pl-14 pr-4 outline-none transition-all font-bold text-[#0F172A] placeholder:text-slate-300 read-only:opacity-70"
                            placeholder="+880 1XXX XXXXXX"
                         />
                      </div>
@@ -109,7 +109,7 @@ export default function RegisterPage() {
                            type="button"
                            onClick={handleSendOtp}
                            disabled={otpLoading || !phone}
-                           className="bg-slate-900 text-white px-6 rounded-3xl font-black text-[10px] uppercase tracking-widest hover:bg-black transition-all disabled:opacity-50"
+                           className="bg-slate-900 text-white px-6 rounded-none font-black text-[10px] uppercase tracking-widest hover:bg-black transition-all disabled:opacity-50"
                         >
                            {otpLoading ? <RefreshCw className="w-4 h-4 animate-spin" /> : "Send OTP"}
                         </button>
@@ -125,14 +125,14 @@ export default function RegisterPage() {
                            type="text"
                            value={otp}
                            onChange={(e) => setOtp(e.target.value)}
-                           className="flex-1 bg-[#F8F9FA] border-2 border-transparent focus:border-[#1E40AF]/10 focus:bg-white rounded-3xl py-5 px-8 outline-none transition-all font-black text-center tracking-[1em] text-[#1E40AF]"
+                           className="flex-1 bg-[#F8F9FA] border-2 border-transparent focus:border-[#1E40AF]/10 focus:bg-white rounded-none py-5 px-8 outline-none transition-all font-black text-center tracking-[1em] text-[#1E40AF]"
                            placeholder="000000"
                            maxLength={6}
                         />
                         <button
                            type="button"
                            onClick={handleVerifyOtp}
-                           className="bg-[#BEF264] text-[#064E3B] px-6 rounded-3xl font-black text-[10px] uppercase tracking-widest hover:scale-105 active:scale-95 transition-all"
+                           className="bg-[#BEF264] text-[#064E3B] px-6 rounded-none font-black text-[10px] uppercase tracking-widest hover:scale-105 active:scale-95 transition-all"
                         >
                            Verify
                         </button>
@@ -140,15 +140,20 @@ export default function RegisterPage() {
                   </div>
                )}
 
-               {isVerified && (
-                  <div className="bg-green-50 border border-green-100 p-4 rounded-3xl flex items-center gap-3 animate-in fade-in zoom-in duration-500">
-                     <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white">
-                        <CheckCircle2 className="w-5 h-5" />
-                     </div>
-                     <span className="text-xs font-black text-green-700 uppercase tracking-widest">Phone Verified</span>
+                {isVerified && (
+                  <div className="space-y-4 animate-in fade-in zoom-in duration-500">
+                    <div className="bg-green-50 border border-green-100 p-4 rounded-none flex items-center justify-between gap-3">
+                       <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-green-500 rounded-none flex items-center justify-center text-white">
+                             <CheckCircle2 className="w-5 h-5" />
+                          </div>
+                          <span className="text-xs font-black text-green-700 uppercase tracking-widest">Phone Verified</span>
+                       </div>
+                       <div className="text-[10px] font-black text-green-600 uppercase animate-pulse">Proceeding to Step 2...</div>
+                    </div>
                   </div>
-               )}
-            </div>
+                )}
+             </div>
 
             {/* Step 2: Name, Email & Password */}
             {isVerified && (
@@ -161,7 +166,7 @@ export default function RegisterPage() {
                            type="text"
                            name="name"
                            required
-                           className="w-full bg-[#F8F9FA] border-2 border-transparent focus:border-[#1E40AF]/10 focus:bg-white rounded-3xl py-5 pl-14 pr-4 outline-none transition-all font-bold text-[#0F172A]"
+                           className="w-full bg-[#F8F9FA] border-2 border-transparent focus:border-[#1E40AF]/10 focus:bg-white rounded-none py-5 pl-14 pr-4 outline-none transition-all font-bold text-[#0F172A]"
                            placeholder="Full Name"
                         />
                      </div>
@@ -175,7 +180,7 @@ export default function RegisterPage() {
                            type="email"
                            name="email"
                            required
-                           className="w-full bg-[#F8F9FA] border-2 border-transparent focus:border-[#1E40AF]/10 focus:bg-white rounded-3xl py-5 pl-14 pr-4 outline-none transition-all font-bold text-[#0F172A]"
+                           className="w-full bg-[#F8F9FA] border-2 border-transparent focus:border-[#1E40AF]/10 focus:bg-white rounded-none py-5 pl-14 pr-4 outline-none transition-all font-bold text-[#0F172A]"
                            placeholder="you@example.com"
                         />
                      </div>
@@ -189,7 +194,7 @@ export default function RegisterPage() {
                            type="password"
                            name="password"
                            required
-                           className="w-full bg-[#F8F9FA] border-2 border-transparent focus:border-[#1E40AF]/10 focus:bg-white rounded-3xl py-5 pl-14 pr-4 outline-none transition-all font-bold text-[#0F172A]"
+                           className="w-full bg-[#F8F9FA] border-2 border-transparent focus:border-[#1E40AF]/10 focus:bg-white rounded-none py-5 pl-14 pr-4 outline-none transition-all font-bold text-[#0F172A]"
                            placeholder="••••••••"
                         />
                      </div>
@@ -201,7 +206,7 @@ export default function RegisterPage() {
                   <button
                      type="submit"
                      disabled={isPending}
-                     className="w-full bg-[#1E40AF] text-white py-6 rounded-3xl font-black text-lg flex items-center justify-center gap-3 shadow-2xl shadow-[#1E40AF]/20 hover:bg-[#1E3A8A] hover:scale-[1.02] active:scale-[0.98] transition-all group disabled:opacity-70"
+                     className="w-full bg-[#1E40AF] text-white py-6 rounded-none font-black text-lg flex items-center justify-center gap-3 shadow-2xl shadow-[#1E40AF]/20 hover:bg-[#1E3A8A] hover:scale-[1.02] active:scale-[0.98] transition-all group disabled:opacity-70"
                   >
                      {isPending ? <RefreshCw className="w-6 h-6 animate-spin" /> : (
                        <>
