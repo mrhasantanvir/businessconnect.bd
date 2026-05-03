@@ -1049,6 +1049,7 @@ model PaymentTransaction {
   trxId           String?       @unique
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
+  invoiceUrl      String?
   user            User?         @relation(fields: [userId], references: [id])
   merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
 }

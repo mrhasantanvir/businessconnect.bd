@@ -1,6 +1,6 @@
 import React from 'react';
 import ResourceWalletWidget from '@/components/merchant/ResourceWalletWidget';
-import { ShieldCheck, Zap, Activity } from 'lucide-react';
+import { ShieldCheck, Zap, Activity, FileText, Download } from 'lucide-react';
 import { getSession } from '@/lib/auth';
 import { prisma } from '@/lib/db';
 import { redirect } from 'next/navigation';
@@ -12,7 +12,11 @@ export default async function MerchantBillingPage() {
 
   const store = await prisma.merchantStore.findUnique({
     where: { id: session.merchantStoreId },
-    include: { subscriptionPlan: true, invoices: { orderBy: { createdAt: 'desc' }, take: 10 } }
+    include: { 
+      subscriptionPlan: true, 
+      invoices: { orderBy: { createdAt: 'desc' }, take: 10 },
+      paymentTransactions: { orderBy: { createdAt: 'desc' }, take: 10 }
+    }
   });
 
   const plans = await prisma.subscriptionPlan.findMany({
@@ -212,7 +216,7 @@ export default async function MerchantBillingPage() {
           </div>
         </div>
 
-        {/* Sidebar - Usage Summary */}
+        {/* Sidebar - Transaction History */}
         <div className="space-y-6">
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
             <div className="flex items-center gap-2 mb-4">
@@ -221,32 +225,45 @@ export default async function MerchantBillingPage() {
             </div>
             
             <div className="space-y-4">
-              {/* Dummy Transaction */}
-              <div className="flex justify-between items-center pb-3 border-b border-gray-50 last:border-0 last:pb-0">
-                <div>
-                  <p className="text-sm font-medium text-gray-800">Recharge - SMS</p>
-                  <p className="text-xs text-gray-400">Today, 10:45 AM</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm font-semibold text-green-600">+৳250.00</p>
-                  <p className="text-[10px] text-gray-400">bKash (TrxID: 9AKJDF...)</p>
-                </div>
-              </div>
-              <div className="flex justify-between items-center pb-3 border-b border-gray-50 last:border-0 last:pb-0">
-                <div>
-                  <p className="text-sm font-medium text-gray-800">Usage - Auto SMS</p>
-                  <p className="text-xs text-gray-400">Yesterday, 02:15 PM</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm font-semibold text-red-500">-৳0.50</p>
-                  <p className="text-[10px] text-gray-400">Order Dispatch</p>
-                </div>
-              </div>
+              {store?.paymentTransactions.length === 0 ? (
+                <p className="text-xs text-gray-400 text-center py-4 italic">No transactions found.</p>
+              ) : (
+                store?.paymentTransactions.map((tx: any) => (
+                  <div key={tx.id} className="flex justify-between items-center pb-3 border-b border-gray-50 last:border-0 last:pb-0 group">
+                    <div className="flex items-center gap-3">
+                       <div className="w-8 h-8 bg-gray-50 rounded-lg flex items-center justify-center text-gray-400 group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors">
+                          <FileText className="w-4 h-4" />
+                       </div>
+                       <div>
+                         <p className="text-sm font-medium text-gray-800 uppercase tracking-tight">{tx.type.replace('_', ' ')}</p>
+                         <p className="text-[10px] text-gray-400">{new Date(tx.createdAt).toLocaleString()}</p>
+                       </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-black text-green-600 italic">৳{tx.amount.toLocaleString()}</p>
+                      {tx.invoiceUrl ? (
+                         <a 
+                           href={tx.invoiceUrl} 
+                           target="_blank" 
+                           rel="noopener noreferrer"
+                           className="flex items-center justify-end gap-1 text-[9px] font-black text-indigo-600 uppercase hover:underline"
+                         >
+                           <Download className="w-2.5 h-2.5" /> Invoice
+                         </a>
+                      ) : (
+                         <p className="text-[9px] text-gray-400 uppercase font-bold">{tx.paymentMethod}</p>
+                      )}
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
             
-            <button className="w-full text-center text-sm text-indigo-600 font-medium mt-4 hover:text-indigo-700">
-              View All History &rarr;
-            </button>
+            {store?.paymentTransactions.length > 0 && (
+              <button className="w-full text-center text-sm text-indigo-600 font-medium mt-4 hover:text-indigo-700">
+                View All History &rarr;
+              </button>
+            )}
           </div>
 
           <div className="bg-gray-900 rounded-2xl p-6 text-white relative overflow-hidden">
