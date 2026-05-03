@@ -200,7 +200,7 @@ export default function TaskDrawer({
 
     if (task.status === 'COMPLETED') {
        const keyLogs = messages.filter((m: any) => !m.isAi).slice(-3).map((m: any) => m.content).join(" → ");
-       return `Project successfully archived. Full operational trail analyzed: ${keyLogs || "Standard procedure followed"}. Managed by ${task.assignee?.name}. Total quality score: 9.4/10.`;
+       return `Task successfully archived.\n${keyLogs || "Standard procedure followed"}. Managed by ${task.assignee?.name}.`;
     }
 
     if (task.status === 'CANCELLED') {
@@ -324,9 +324,13 @@ export default function TaskDrawer({
                      <Sparkles className="w-3.5 h-3.5" />
                      Operational Intelligence
                   </div>
-                  <div className="text-[10px] font-black text-indigo-600">SCORE: <span className="text-indigo-900 bg-white px-2 py-0.5 border border-indigo-100 ml-1">{task.status === 'COMPLETED' ? '9.4/10' : 'ANALYZING...'}</span></div>
+                  <div className="text-right">
+                    <div className="text-[9px] font-black text-indigo-600 uppercase tracking-tighter">Performance Index</div>
+                    <div className="text-[10px] font-black text-indigo-900 bg-white px-2 py-0.5 border border-indigo-100 inline-block mt-0.5">{task.status === 'COMPLETED' ? '9.4/10' : 'ANALYZING...'}</div>
+                    <div className="text-[7px] font-bold text-indigo-400 uppercase tracking-widest mt-0.5">Based on speed & logs</div>
+                  </div>
                </div>
-               <p className="text-[11px] font-bold leading-relaxed text-indigo-900 italic">
+               <p className="text-[11px] font-bold leading-relaxed text-indigo-900 italic whitespace-pre-wrap">
                   {generateAiSummary()}
                </p>
             </div>

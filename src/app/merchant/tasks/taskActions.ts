@@ -85,7 +85,7 @@ export async function createTaskAction(data: {
 
   // Mandatory Email Handshake for Staff
   if (task.assigneeId && task.assignee?.email) {
-    const confirmationUrl = `https://businessconnect.bd/merchant/tasks/confirm?id=${task.id}`;
+    const confirmationUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://businessconnect.bd'}/merchant/tasks/confirm?id=${task.id}`;
     
     await sendEmail({
       to: task.assignee.email,
@@ -99,7 +99,7 @@ export async function createTaskAction(data: {
             <h2 style="font-size: 18px; font-weight: 900; margin-bottom: 16px;">${task.title}</h2>
             <p style="color: #64748b; font-size: 14px; line-height: 1.6;">${task.description || 'No description provided.'}</p>
             
-            <div style="margin: 24px 0; padding: 16px; bg: #f8fafc; border-radius: 2px;">
+            <div style="margin: 24px 0; padding: 16px; background: #f8fafc; border-radius: 2px;">
               <p style="margin: 0; font-size: 12px; font-weight: bold; color: #94a3b8; text-transform: uppercase;">Priority</p>
               <p style="margin: 4px 0 0; font-weight: 900; color: #1e40af;">${task.priority}</p>
             </div>
@@ -251,19 +251,63 @@ export async function forwardTaskAction(taskId: string, newAssigneeId: string) {
     where: { id: taskId },
     data: {
       assigneeId: newAssigneeId,
-      status: "PENDING_CONFIRMATION" // Reset status for new handshake
+      status: "PENDING_CONFIRMATION" 
     },
-    include: { assignee: true }
-  });
-
-  await prisma.taskActivity.create({
-    data: {
-      taskId,
-      userId: session.userId,
-      type: "STATUS_CHANGE",
-      message: `Task forwarded to ${task.assignee?.name || 'new staff'}`
+    include: { 
+      assignee: true,
+      merchantStore: true
     }
   });
+
+  if (task.assigneeId && task.assignee?.email) {
+    const confirmationUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://businessconnect.bd'}/merchant/tasks/confirm?id=${task.id}`;
+    
+    await sendEmail({
+      to: task.assignee.email,
+      subject: `[Task Forwarded] New Assignment: ${task.title}`,
+      html: `
+        <div style="font-family: 'Inter', sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 2px;">
+          <div style="background: #1e40af; padding: 24px; text-align: center;">
+            <h1 style="color: white; margin: 0; font-size: 20px;">Task Forwarded to You</h1>
+          </div>
+          <div style="padding: 32px;">
+            <h2 style="font-size: 18px; font-weight: 900; margin-bottom: 16px;">${task.title}</h2>
+            <p style="color: #64748b; font-size: 14px; line-height: 1.6;">${task.description || 'No description provided.'}</p>
+            
+            <div style="margin: 24px 0; padding: 16px; background: #f8fafc; border-radius: 2px;">
+              <p style="margin: 0; font-size: 12px; font-weight: bold; color: #94a3b8; text-transform: uppercase;">Priority</p>
+              <p style="margin: 4px 0 0; font-weight: 900; color: #1e40af;">${task.priority}</p>
+            </div>
+
+            <a href="${confirmationUrl}" style="display: block; width: 100%; padding: 16px; background: #bef264; color: #166534; text-align: center; text-decoration: none; font-weight: 900; font-size: 14px; text-transform: uppercase; border-radius: 2px;">
+              Confirm & Start Task
+            </a>
+          </div>
+          <div style="padding: 16px; background: #f8fafc; text-align: center; font-size: 10px; color: #94a3b8;">
+            Sent by ${task.merchantStore.name} via BusinessConnect.bd
+          </div>
+        </div>
+      `
+    });
+
+    await prisma.taskActivity.create({
+      data: {
+        taskId: task.id,
+        userId: session.userId,
+        type: "HANDSHAKE_SENT",
+        message: `Forwarding handshake email sent to ${task.assignee.name}`
+      }
+    });
+  } else {
+    await prisma.taskActivity.create({
+      data: {
+        taskId,
+        userId: session.userId,
+        type: "STATUS_CHANGE",
+        message: `Task forwarded to ${task.assignee?.name || 'new staff'}`
+      }
+    });
+  }
 
   revalidatePath("/merchant/tasks");
   return task;
