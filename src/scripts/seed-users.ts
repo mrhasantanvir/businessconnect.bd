@@ -28,8 +28,21 @@ async function main() {
   });
   console.log("Created Super Admin:", admin.email, "Password: 12345678");
 
-  // 2. Create Merchant
+  // 2. Create Store for Merchant
   const merchantId = await generateReadableId("MERCHANT");
+  const store = await prisma.merchantstore.upsert({
+    where: { id: "store-1" },
+    update: {},
+    create: {
+      id: "store-1",
+      name: "Demo Store",
+      slug: "demo-store",
+      phone: "01321141788",
+      address: "Dhaka, Bangladesh",
+      readableId: merchantId, // Store gets the same readable ID as merchant
+    }
+  });
+
   const merchant = await prisma.user.upsert({
     where: { id: "merchant-1" },
     update: {},
@@ -42,22 +55,7 @@ async function main() {
       role: "MERCHANT",
       isActive: true,
       readableId: merchantId,
-      updatedAt: new Date(),
-    }
-  });
-
-  // Create Store for Merchant
-  const store = await prisma.merchantstore.upsert({
-    where: { id: "store-1" },
-    update: {},
-    create: {
-      id: "store-1",
-      name: "Demo Store",
-      slug: "demo-store",
-      phone: "01321141788",
-      address: "Dhaka, Bangladesh",
-      ownerId: merchant.id,
-      readableId: merchantId, // Store gets the same readable ID as merchant
+      merchantStoreId: store.id,
       updatedAt: new Date(),
     }
   });
