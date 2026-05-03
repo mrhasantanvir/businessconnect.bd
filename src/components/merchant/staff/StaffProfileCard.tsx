@@ -85,11 +85,11 @@ export function StaffProfileCard({ user, isEditable = false, onUpdate, activityS
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
-      <div className="bg-white rounded-3xl overflow-hidden shadow-xl shadow-slate-200/60 border border-slate-100">
+      <div className="bg-white rounded-none overflow-hidden shadow-2xl shadow-slate-200/60 border border-slate-100">
         {/* Cover Photo */}
         <div 
           className={cn(
-            "h-48 md:h-64 bg-gradient-to-r from-blue-600 to-indigo-700 relative group overflow-hidden",
+            "h-48 md:h-64 bg-slate-900 relative group overflow-hidden",
             isRepositioning ? "cursor-ns-resize" : ""
           )}
           onMouseDown={handleRepositionStart}
@@ -103,7 +103,7 @@ export function StaffProfileCard({ user, isEditable = false, onUpdate, activityS
           {user.coverImage ? (
             <img 
               src={user.coverImage} 
-              className="w-full h-full object-cover transition-none pointer-events-none select-none" 
+              className="w-full h-full object-cover transition-none pointer-events-none select-none rounded-none" 
               style={{ objectPosition: `center ${isRepositioning ? tempPosition : (user.coverPosition || 50)}%` }}
               alt="Cover" 
             />
@@ -113,8 +113,8 @@ export function StaffProfileCard({ user, isEditable = false, onUpdate, activityS
 
           {isRepositioning && (
              <div className="absolute inset-0 bg-black/20 flex items-center justify-center pointer-events-none">
-                <div className="bg-white/90 backdrop-blur-md px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
-                   <Clock className="w-4 h-4 text-blue-600" />
+                <div className="bg-white/90 backdrop-blur-md px-4 py-2 rounded-none shadow-lg flex items-center gap-2">
+                   <Clock className="w-4 h-4 text-slate-900" />
                    <span className="text-[10px] font-black uppercase text-slate-900">Drag to reposition</span>
                 </div>
              </div>
@@ -126,12 +126,12 @@ export function StaffProfileCard({ user, isEditable = false, onUpdate, activityS
                 <>
                   <button 
                     onClick={() => { setIsRepositioning(true); setTempPosition(user.coverPosition || 50); }}
-                    className="px-4 py-2 bg-black/50 backdrop-blur-md rounded-xl text-white hover:bg-black/70 transition-all shadow-lg flex items-center gap-2 border border-white/20"
+                    className="px-4 py-2 bg-black/50 backdrop-blur-md rounded-none text-white hover:bg-black/70 transition-all shadow-lg flex items-center gap-2 border border-white/20"
                   >
                     <MapPin className="w-4 h-4" />
                     <span className="text-[10px] font-black uppercase tracking-widest">Reposition</span>
                   </button>
-                  <label className="px-4 py-2 bg-black/50 backdrop-blur-md rounded-xl text-white cursor-pointer hover:bg-black/70 transition-all shadow-lg flex items-center gap-2 border border-white/20">
+                  <label className="px-4 py-2 bg-black/50 backdrop-blur-md rounded-none text-white cursor-pointer hover:bg-black/70 transition-all shadow-lg flex items-center gap-2 border border-white/20">
                     {uploadingCover ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Camera className="w-4 h-4" />}
                     <span className="text-[10px] font-black uppercase tracking-widest">Change Cover</span>
                     <input type="file" className="hidden" accept="image/*" onChange={e => e.target.files?.[0] && handleFileUpload(e.target.files[0], 'cover')} />
@@ -141,13 +141,13 @@ export function StaffProfileCard({ user, isEditable = false, onUpdate, activityS
                 <>
                   <button 
                     onClick={() => setIsRepositioning(false)}
-                    className="px-4 py-2 bg-white rounded-xl text-slate-900 hover:bg-slate-100 transition-all shadow-lg flex items-center gap-2 font-black text-[10px] uppercase"
+                    className="px-4 py-2 bg-white rounded-none text-slate-900 hover:bg-slate-100 transition-all shadow-lg flex items-center gap-2 font-black text-[10px] uppercase"
                   >
                     Cancel
                   </button>
                   <button 
                     onClick={handleSavePosition}
-                    className="px-4 py-2 bg-blue-600 rounded-xl text-white hover:bg-blue-700 transition-all shadow-lg flex items-center gap-2 font-black text-[10px] uppercase"
+                    className="px-4 py-2 bg-slate-900 rounded-none text-white hover:bg-black transition-all shadow-lg flex items-center gap-2 font-black text-[10px] uppercase"
                   >
                     Save Position
                   </button>
@@ -161,18 +161,18 @@ export function StaffProfileCard({ user, isEditable = false, onUpdate, activityS
         <div className="px-6 md:px-10 pb-8 relative">
           {/* Avatar */}
           <div className="absolute -top-16 left-6 md:left-10 group">
-             <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white bg-white shadow-xl overflow-hidden relative">
+             <div className="w-32 h-32 md:w-40 md:h-40 rounded-none border-4 border-white bg-white shadow-2xl overflow-hidden relative">
                 {user.image ? (
-                  <img src={user.image} className="w-full h-full object-cover" alt="Avatar" />
+                  <img src={user.image} className="w-full h-full object-cover rounded-none" alt="Avatar" />
                 ) : (
-                  <div className="w-full h-full bg-slate-100 flex items-center justify-center text-slate-300">
+                  <div className="w-full h-full bg-slate-100 flex items-center justify-center text-slate-300 rounded-none">
                     <User className="w-16 h-16" />
                   </div>
                 )}
                 {isEditable && (
-                  <label className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-white cursor-pointer opacity-0 group-hover:opacity-100 transition-all backdrop-blur-[2px]">
+                  <label className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-white cursor-pointer opacity-0 group-hover:opacity-100 transition-all backdrop-blur-[2px] rounded-none">
                      {uploadingAvatar ? <RefreshCw className="w-6 h-6 animate-spin" /> : <Camera className="w-6 h-6" />}
-                     <span className="text-[9px] font-black uppercase tracking-widest mt-2">Change Photo</span>
+                     <span className="text-[9px] font-black uppercase tracking-widest mt-2 text-center px-2">Change Photo</span>
                      <input type="file" className="hidden" accept="image/*" onChange={e => e.target.files?.[0] && handleFileUpload(e.target.files[0], 'avatar')} />
                   </label>
                 )}
@@ -181,27 +181,27 @@ export function StaffProfileCard({ user, isEditable = false, onUpdate, activityS
 
           <div className="pt-20 md:pt-24 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="space-y-2">
-               <h1 className="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-2">
+               <h1 className="text-3xl font-black text-slate-900 tracking-tighter flex items-center gap-2 uppercase italic">
                  {user.name}
                  <CheckCircle2 className="w-5 h-5 text-blue-500" />
                </h1>
-               <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm font-bold text-slate-500">
-                  <div className="flex items-center gap-1.5 text-indigo-600">
+               <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[11px] font-black text-slate-400 uppercase tracking-widest">
+                  <div className="flex items-center gap-1.5 text-slate-900">
                      <Briefcase className="w-4 h-4" /> {jobTitle}
                   </div>
                   <div className="flex items-center gap-1.5">
                      <MapPin className="w-4 h-4" /> {storeName}
                   </div>
                   <div className="flex items-center gap-1.5 text-emerald-600">
-                     <Clock className="w-4 h-4" /> Working for {duration}
+                     <Clock className="w-4 h-4" /> Joined {duration} ago
                   </div>
                </div>
             </div>
             
             <div className="flex gap-3">
-               <div className="px-4 py-2 bg-slate-50 rounded-xl border border-slate-100 text-center">
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Joined On</p>
-                  <p className="text-sm font-black text-slate-700">{joinDate ? format(new Date(joinDate), 'MMM dd, yyyy') : "N/A"}</p>
+               <div className="px-6 py-3 bg-slate-50 rounded-none border border-slate-100 text-left">
+                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Registration Date</p>
+                  <p className="text-xs font-black text-slate-900 uppercase tracking-tight">{joinDate ? format(new Date(joinDate), 'MMMM dd, yyyy') : "N/A"}</p>
                </div>
             </div>
           </div>
@@ -211,111 +211,132 @@ export function StaffProfileCard({ user, isEditable = false, onUpdate, activityS
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
           {/* Personal Details */}
-          <div className="bg-white rounded-[32px] p-8 md:p-10 shadow-lg shadow-slate-200/40 border border-slate-100 space-y-8">
-             <div className="flex items-center justify-between">
-                <h3 className="text-xl font-black text-slate-900 uppercase italic tracking-tight">Personal Details</h3>
-                <div className="w-10 h-10 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600">
+          <div className="bg-white rounded-none p-8 md:p-12 shadow-2xl shadow-slate-200/40 border border-slate-100 space-y-10">
+             <div className="flex items-center justify-between border-b border-slate-50 pb-6">
+                <h3 className="text-xl font-black text-slate-900 uppercase italic tracking-tighter">Personal Details</h3>
+                <div className="w-10 h-10 bg-slate-900 rounded-none flex items-center justify-center text-white">
                    <User className="w-5 h-5" />
                 </div>
              </div>
 
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
                 <div className="space-y-1.5">
                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Full Name</p>
-                   <p className="text-sm font-bold text-slate-700 bg-slate-50 px-4 py-3 rounded-2xl border border-slate-100">{user.name}</p>
+                   <p className="text-sm font-black text-slate-900 bg-slate-50 px-5 py-4 rounded-none border-l-4 border-slate-900 uppercase tracking-tight">{user.name}</p>
                 </div>
                 <div className="space-y-1.5">
                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Email Address</p>
-                   <p className="text-sm font-bold text-slate-700 bg-slate-50 px-4 py-3 rounded-2xl border border-slate-100">{user.email}</p>
+                   <p className="text-sm font-black text-slate-900 bg-slate-50 px-5 py-4 rounded-none border-l-4 border-slate-900 lowercase tracking-tight">{user.email}</p>
                 </div>
                 <div className="space-y-1.5">
                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Phone Number</p>
-                   <p className="text-sm font-bold text-slate-700 bg-slate-50 px-4 py-3 rounded-2xl border border-slate-100">{user.phone || "Not Set"}</p>
+                   <p className="text-sm font-black text-slate-900 bg-slate-50 px-5 py-4 rounded-none border-l-4 border-slate-900 tracking-tight">{user.phone || "Not Set"}</p>
                 </div>
                 {staff && (
                   <>
                     <div className="space-y-1.5">
                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">NID Number</p>
-                       <p className="text-sm font-bold text-slate-700 bg-slate-50 px-4 py-3 rounded-2xl border border-slate-100">{staff.nidNumber || "N/A"}</p>
+                       <p className="text-sm font-black text-slate-900 bg-slate-50 px-5 py-4 rounded-none border-l-4 border-slate-900 tracking-tight">{staff.nidNumber || "N/A"}</p>
                     </div>
                     <div className="space-y-1.5 md:col-span-2">
-                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Home Address</p>
-                       <p className="text-sm font-bold text-slate-700 bg-slate-50 px-4 py-3 rounded-2xl border border-slate-100">{staff.currentAddress || staff.address || "N/A"}</p>
+                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Permanent Address</p>
+                       <p className="text-sm font-black text-slate-900 bg-slate-50 px-5 py-4 rounded-none border-l-4 border-slate-900 uppercase tracking-tight leading-relaxed">{staff.currentAddress || staff.address || "N/A"}</p>
                     </div>
                   </>
                 )}
              </div>
           </div>
 
-          {/* Documents */}
-          <div className="bg-white rounded-[32px] p-8 md:p-10 shadow-lg shadow-slate-200/40 border border-slate-100 space-y-8">
-             <div className="flex items-center justify-between">
-                <h3 className="text-xl font-black text-slate-900 uppercase italic tracking-tight">Verified Documents</h3>
-                <div className="w-10 h-10 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600">
+          {/* Documents Table */}
+          <div className="bg-white rounded-none p-8 md:p-12 shadow-2xl shadow-slate-200/40 border border-slate-100 space-y-10">
+             <div className="flex items-center justify-between border-b border-slate-50 pb-6">
+                <h3 className="text-xl font-black text-slate-900 uppercase italic tracking-tighter">Verified Documents</h3>
+                <div className="w-10 h-10 bg-slate-900 rounded-none flex items-center justify-center text-white">
                    <FileText className="w-5 h-5" />
                 </div>
              </div>
 
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {staff?.nidFrontUrl && (
-                  <a href={staff.nidFrontUrl} target="_blank" className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-100 hover:border-blue-300 transition-all group">
-                     <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm text-blue-600">
-                        <Shield className="w-6 h-6" />
-                     </div>
-                     <div className="flex-1">
-                        <p className="text-[11px] font-black text-slate-900 uppercase tracking-tight">NID Front Side</p>
-                        <p className="text-[10px] font-medium text-slate-400">Official Identity Card</p>
-                     </div>
-                     <ExternalLink className="w-4 h-4 text-slate-300 group-hover:text-blue-600 transition-colors" />
-                  </a>
-                )}
-                {staff?.nidBackUrl && (
-                  <a href={staff.nidBackUrl} target="_blank" className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-100 hover:border-blue-300 transition-all group">
-                     <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm text-blue-600">
-                        <Shield className="w-6 h-6" />
-                     </div>
-                     <div className="flex-1">
-                        <p className="text-[11px] font-black text-slate-900 uppercase tracking-tight">NID Back Side</p>
-                        <p className="text-[10px] font-medium text-slate-400">Address Verification</p>
-                     </div>
-                     <ExternalLink className="w-4 h-4 text-slate-300 group-hover:text-blue-600 transition-colors" />
-                  </a>
-                )}
-                {staff?.documents?.map((doc: any) => (
-                  <a key={doc.id} href={doc.url} target="_blank" className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-100 hover:border-blue-300 transition-all group">
-                     <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm text-indigo-600">
-                        <FileText className="w-6 h-6" />
-                     </div>
-                     <div className="flex-1">
-                        <p className="text-[11px] font-black text-slate-900 uppercase tracking-tight">{doc.name}</p>
-                        <p className="text-[10px] font-medium text-slate-400">Supporting Document</p>
-                     </div>
-                     <ExternalLink className="w-4 h-4 text-slate-300 group-hover:text-indigo-600 transition-colors" />
-                  </a>
-                ))}
+             <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                   <thead>
+                      <tr className="border-b-2 border-slate-900">
+                         <th className="py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Document Title</th>
+                         <th className="py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Identity Type</th>
+                         <th className="py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Actions</th>
+                      </tr>
+                   </thead>
+                   <tbody className="divide-y divide-slate-100">
+                      {staff?.nidFrontUrl && (
+                        <tr className="group hover:bg-slate-50 transition-colors">
+                           <td className="py-6 font-black text-xs text-slate-900 uppercase tracking-tight">NID Front Side</td>
+                           <td className="py-6">
+                              <span className="px-3 py-1 bg-blue-50 text-blue-600 text-[9px] font-black uppercase tracking-widest">Official ID</span>
+                           </td>
+                           <td className="py-6 text-right">
+                              <a href={staff.nidFrontUrl} target="_blank" className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 text-white text-[9px] font-black uppercase tracking-widest hover:bg-black transition-all">
+                                 View <ExternalLink className="w-3 h-3" />
+                              </a>
+                           </td>
+                        </tr>
+                      )}
+                      {staff?.nidBackUrl && (
+                        <tr className="group hover:bg-slate-50 transition-colors">
+                           <td className="py-6 font-black text-xs text-slate-900 uppercase tracking-tight">NID Back Side</td>
+                           <td className="py-6">
+                              <span className="px-3 py-1 bg-blue-50 text-blue-600 text-[9px] font-black uppercase tracking-widest">Official ID</span>
+                           </td>
+                           <td className="py-6 text-right">
+                              <a href={staff.nidBackUrl} target="_blank" className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 text-white text-[9px] font-black uppercase tracking-widest hover:bg-black transition-all">
+                                 View <ExternalLink className="w-3 h-3" />
+                              </a>
+                           </td>
+                        </tr>
+                      )}
+                      {staff?.documents?.map((doc: any) => (
+                        <tr key={doc.id} className="group hover:bg-slate-50 transition-colors">
+                           <td className="py-6 font-black text-xs text-slate-900 uppercase tracking-tight">{doc.name}</td>
+                           <td className="py-6">
+                              <span className="px-3 py-1 bg-slate-100 text-slate-500 text-[9px] font-black uppercase tracking-widest">Support Doc</span>
+                           </td>
+                           <td className="py-6 text-right">
+                              <a href={doc.url} target="_blank" className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 text-white text-[9px] font-black uppercase tracking-widest hover:bg-black transition-all">
+                                 View <ExternalLink className="w-3 h-3" />
+                              </a>
+                           </td>
+                        </tr>
+                      ))}
+                      {!staff?.nidFrontUrl && !staff?.nidBackUrl && (!staff?.documents || staff.documents.length === 0) && (
+                        <tr>
+                           <td colSpan={3} className="py-12 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest italic">
+                              No verified documents in registry
+                           </td>
+                        </tr>
+                      )}
+                   </tbody>
+                </table>
              </div>
           </div>
         </div>
 
         {/* Sidebar Activity */}
         <div className="space-y-8">
-           <div className="bg-white rounded-[32px] p-8 border border-slate-100 space-y-6 shadow-lg shadow-slate-200/40">
-              <div className="flex items-center justify-between">
-                 <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-widest">Performance Snapshot ({activityStats?.month || 'This Month'})</h3>
+           <div className="bg-white rounded-none p-8 md:p-10 border border-slate-100 space-y-8 shadow-2xl shadow-slate-200/40">
+              <div className="flex items-center justify-between border-b border-slate-50 pb-4">
+                 <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Performance Snapshot</h3>
                  <Clock className="w-4 h-4 text-slate-300" />
               </div>
-              <div className="space-y-4">
-                 <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Attendance</p>
-                    <p className="text-xl font-black text-slate-900">{activityStats?.attendance ?? staff?.attendance ?? 0} Sessions</p>
+              <div className="space-y-6">
+                 <div className="p-6 bg-slate-50 rounded-none border-l-4 border-slate-900">
+                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Attendance Record</p>
+                    <p className="text-2xl font-black text-slate-900 tracking-tighter uppercase italic">{activityStats?.attendance ?? staff?.attendance ?? 0} Sessions</p>
                  </div>
-                 <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Tasks Completed</p>
-                    <p className="text-xl font-black text-indigo-600">{activityStats?.tasksCompleted ?? 0} Units</p>
+                 <div className="p-6 bg-slate-50 rounded-none border-l-4 border-indigo-600">
+                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Units Dispatched</p>
+                    <p className="text-2xl font-black text-indigo-600 tracking-tighter uppercase italic">{activityStats?.tasksCompleted ?? 0} Units</p>
                  </div>
-                 <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Activity Score</p>
-                    <p className="text-xl font-black text-blue-600">{(activityStats?.avgActivityScore ?? staff?.avgActivityScore ?? 0).toFixed(1)}/100</p>
+                 <div className="p-6 bg-slate-50 rounded-none border-l-4 border-emerald-600">
+                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Activity Score</p>
+                    <p className="text-2xl font-black text-emerald-600 tracking-tighter uppercase italic">{(activityStats?.avgActivityScore ?? staff?.avgActivityScore ?? 0).toFixed(1)}%</p>
                  </div>
               </div>
            </div>

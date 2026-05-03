@@ -148,20 +148,20 @@ export default function ProfileClient({ user }: { user: any }) {
       />
 
       {/* Security Settings Section (Full Width, Light Mode) at the bottom */}
-      <div className="bg-white rounded-[32px] p-8 md:p-10 shadow-lg shadow-slate-200/40 border border-slate-100 space-y-8">
-          <div className="flex items-center justify-between">
+      <div className="bg-white rounded-none p-8 md:p-12 shadow-2xl shadow-slate-200/40 border border-slate-100 space-y-10">
+          <div className="flex items-center justify-between border-b border-slate-50 pb-6">
               <div className="space-y-1">
-                  <h3 className="text-xl font-black text-slate-900 uppercase italic tracking-tight">Security Settings</h3>
-                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Manage your credentials and 2FA</p>
+                  <h3 className="text-xl font-black text-slate-900 uppercase italic tracking-tighter">Security Settings</h3>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Manage your credentials and 2FA</p>
               </div>
-              <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600">
+              <div className="w-12 h-12 bg-slate-900 rounded-none flex items-center justify-center text-white">
                   <ShieldCheck className="w-6 h-6" />
               </div>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+              <form onSubmit={handleSubmit} className="space-y-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       <div className="space-y-2 md:col-span-2">
                           <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Current Password</label>
                           <div className="relative">
@@ -170,7 +170,7 @@ export default function ProfileClient({ user }: { user: any }) {
                                   type="password"
                                   value={formData.currentPassword}
                                   onChange={e => setFormData({...formData, currentPassword: e.target.value})}
-                                  className="w-full bg-slate-50 border-2 border-transparent focus:border-blue-600/20 focus:bg-white rounded-2xl pl-12 pr-6 py-4 text-sm font-bold outline-none transition-all"
+                                  className="w-full bg-slate-50 border border-slate-100 focus:border-slate-900 rounded-none pl-12 pr-6 py-4 text-sm font-black outline-none transition-all uppercase tracking-widest"
                                   placeholder="••••••••"
                               />
                           </div>
@@ -183,7 +183,7 @@ export default function ProfileClient({ user }: { user: any }) {
                                   type="password"
                                   value={formData.newPassword}
                                   onChange={e => setFormData({...formData, newPassword: e.target.value})}
-                                  className="w-full bg-slate-50 border-2 border-transparent focus:border-blue-600/20 focus:bg-white rounded-2xl pl-12 pr-6 py-4 text-sm font-bold outline-none transition-all"
+                                  className="w-full bg-slate-50 border border-slate-100 focus:border-slate-900 rounded-none pl-12 pr-6 py-4 text-sm font-black outline-none transition-all uppercase tracking-widest"
                                   placeholder="New password"
                               />
                           </div>
@@ -196,7 +196,7 @@ export default function ProfileClient({ user }: { user: any }) {
                                   type="password"
                                   value={formData.confirmPassword}
                                   onChange={e => setFormData({...formData, confirmPassword: e.target.value})}
-                                  className="w-full bg-slate-50 border-2 border-transparent focus:border-blue-600/20 focus:bg-white rounded-2xl pl-12 pr-6 py-4 text-sm font-bold outline-none transition-all"
+                                  className="w-full bg-slate-50 border border-slate-100 focus:border-slate-900 rounded-none pl-12 pr-6 py-4 text-sm font-black outline-none transition-all uppercase tracking-widest"
                                   placeholder="Confirm password"
                               />
                           </div>
@@ -205,30 +205,30 @@ export default function ProfileClient({ user }: { user: any }) {
                   <button 
                       type="submit"
                       disabled={loading}
-                      className="w-full bg-slate-900 hover:bg-blue-600 text-white rounded-2xl py-5 text-xs font-black uppercase tracking-widest transition-all shadow-xl shadow-slate-900/10 disabled:opacity-50 flex items-center justify-center gap-3"
+                      className="w-full bg-slate-900 hover:bg-black text-white rounded-none py-5 text-xs font-black uppercase tracking-widest transition-all shadow-xl shadow-slate-900/10 disabled:opacity-50 flex items-center justify-center gap-3"
                   >
                       {loading ? <RefreshCw className="w-5 h-5 animate-spin" /> : <><Key className="w-4 h-4" /> Update Credentials</>}
                   </button>
               </form>
 
               <div className="space-y-6">
-                  <div className="p-8 bg-slate-50 rounded-[32px] border border-slate-100 space-y-6">
-                      <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 bg-white rounded-2xl shadow-sm flex items-center justify-center text-blue-600">
+                  <div className="p-8 bg-slate-50 rounded-none border border-slate-100 space-y-8">
+                      <div className="flex items-center gap-4 border-b border-white pb-6">
+                          <div className="w-12 h-12 bg-white rounded-none shadow-sm flex items-center justify-center text-slate-900">
                               <QrCode className="w-6 h-6" />
                           </div>
                           <div>
-                              <p className="text-sm font-black text-slate-900 uppercase tracking-tight">Two-Factor Authentication</p>
+                              <p className="text-sm font-black text-slate-900 uppercase tracking-tighter italic">Two-Factor Authentication</p>
                               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Protect your account with 2FA</p>
                           </div>
                       </div>
-                      <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                      <p className="text-[11px] text-slate-500 font-bold leading-relaxed uppercase tracking-tight">
                           Add an extra layer of security to your account. When enabled, you'll need to enter a code from your authenticator app to log in.
                       </p>
                       
                       {user.isTwoFactorEnabled ? (
                         <div className="space-y-4">
-                           <div className="flex items-center justify-between p-4 bg-emerald-50 rounded-2xl border border-emerald-100">
+                           <div className="flex items-center justify-between p-5 bg-emerald-50 rounded-none border border-emerald-100">
                               <div className="flex items-center gap-2">
                                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                                  <span className="text-[10px] font-black text-emerald-700 uppercase tracking-widest">2FA is Enabled</span>
@@ -264,31 +264,31 @@ export default function ProfileClient({ user }: { user: any }) {
                                    setLoading(false);
                                  }
                                }}
-                               className="w-full bg-blue-600 text-white py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg"
+                               className="w-full bg-slate-900 text-white py-5 rounded-none font-black text-xs uppercase tracking-widest hover:bg-black transition-all shadow-lg"
                              >
                                Enable 2FA Now
                              </button>
                            ) : (
-                             <div className="bg-white p-6 rounded-2xl border border-slate-200 space-y-4 animate-in slide-in-from-bottom-2 duration-300">
-                                <p className="text-[10px] font-black text-slate-900 uppercase tracking-tight text-center">Scan QR Code with Authenticator App</p>
-                                <div className="flex justify-center p-2 bg-slate-50 rounded-xl">
-                                   <img src={twoFactorData.qrCodeUrl} className="w-32 h-32" alt="QR Code" />
+                             <div className="bg-white p-8 rounded-none border-2 border-slate-900 space-y-6 animate-in slide-in-from-bottom-4 duration-500">
+                                <p className="text-[10px] font-black text-slate-900 uppercase tracking-widest text-center">Scan QR Code with Authenticator App</p>
+                                <div className="flex justify-center p-4 bg-slate-50 rounded-none border border-slate-100">
+                                   <img src={twoFactorData.qrCodeUrl} className="w-40 h-40 rounded-none" alt="QR Code" />
                                 </div>
                                 <div className="space-y-2">
-                                   <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest text-center">Enter the 6-digit code</p>
+                                   <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest text-center">Enter the 6-digit code</p>
                                    <input 
                                      type="text" 
                                      maxLength={6}
                                      value={twoFactorToken}
                                      onChange={e => setTwoFactorToken(e.target.value)}
-                                     className="w-full text-center text-xl font-black tracking-[0.5em] py-3 bg-slate-50 border-none rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20"
+                                     className="w-full text-center text-2xl font-black tracking-[0.5em] py-4 bg-slate-50 border border-slate-100 rounded-none outline-none focus:border-slate-900"
                                      placeholder="000000"
                                    />
                                 </div>
-                                <div className="flex gap-2">
+                                <div className="flex gap-4">
                                    <button 
                                      onClick={() => setShow2FASetup(false)}
-                                     className="flex-1 py-3 text-[10px] font-black uppercase text-slate-400 hover:text-slate-900"
+                                     className="flex-1 py-4 text-[10px] font-black uppercase text-slate-400 hover:text-slate-900"
                                    >
                                      Cancel
                                    </button>
@@ -305,7 +305,7 @@ export default function ProfileClient({ user }: { user: any }) {
                                          setLoading(false);
                                        }
                                      }}
-                                     className="flex-1 bg-slate-900 text-white py-3 rounded-xl text-[10px] font-black uppercase tracking-widest"
+                                     className="flex-1 bg-slate-900 text-white py-4 rounded-none text-[10px] font-black uppercase tracking-widest"
                                    >
                                      Verify & Enable
                                    </button>
@@ -317,6 +317,7 @@ export default function ProfileClient({ user }: { user: any }) {
                   </div>
               </div>
           </div>
+      </div>
       </div>
     </div>
   );
