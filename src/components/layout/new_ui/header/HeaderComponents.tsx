@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { cn } from "@/lib/utils";
 
 export function ThemeToggleButton() {
   return (
@@ -32,16 +33,108 @@ export function NotificationDropdown() {
   );
 }
 
+import { 
+  User, Shield, Activity, LogOut, ChevronDown 
+} from "lucide-react";
+import Link from "next/link";
+import { logoutAction } from "@/app/login/actions";
+
 export function UserDropdown({ user }: { user?: any }) {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const dropdownRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
-    <div className="flex items-center gap-3 cursor-pointer">
-      <div className="hidden text-right lg:block">
-        <p className="text-sm font-semibold text-gray-900 dark:text-white">{user?.name || "User"}</p>
-        <p className="text-xs text-gray-500 dark:text-gray-400">{user?.role || "Merchant"}</p>
-      </div>
-      <div className="w-9 h-9 bg-brand-500 rounded-full flex items-center justify-center text-white font-bold text-xs">
-        {user?.name?.charAt(0) || "U"}
-      </div>
+    <div className="relative" ref={dropdownRef}>
+      <button 
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex items-center gap-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 p-1.5 rounded-2xl transition-all"
+      >
+        <div className="hidden text-right lg:block">
+          <p className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-tight">{user?.name || "Member"}</p>
+          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{user?.role || "Access"}</p>
+        </div>
+        <div className="relative">
+           <div className="w-9 h-9 bg-slate-900 rounded-xl flex items-center justify-center text-brand-500 font-black text-xs shadow-lg shadow-slate-200">
+             {user?.image ? (
+               <img src={user.image} alt="" className="w-full h-full rounded-xl object-cover" />
+             ) : (
+               user?.name?.charAt(0).toUpperCase() || "U"
+             )}
+           </div>
+           <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-white dark:bg-gray-900 rounded-full flex items-center justify-center border border-gray-100 dark:border-gray-800">
+              <ChevronDown className={cn("w-2.5 h-2.5 text-gray-400 transition-transform duration-300", isOpen && "rotate-180")} />
+           </div>
+        </div>
+      </button>
+
+      {isOpen && (
+        <div className="absolute right-0 mt-3 w-64 bg-white dark:bg-gray-900 rounded-[32px] shadow-2xl border border-gray-100 dark:border-gray-800 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-300 z-50">
+           <div className="p-6 border-b border-gray-50 dark:border-gray-800 bg-slate-50/50 dark:bg-gray-800/30">
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Account</p>
+              <p className="text-sm font-black text-slate-900 dark:text-white truncate">{user?.email || "user@businessconnect.bd"}</p>
+           </div>
+           
+           <div className="p-2">
+              <Link 
+                href="/settings/profile" 
+                onClick={() => setIsOpen(false)}
+                className="flex items-center gap-3 px-4 py-3.5 text-xs font-bold text-slate-600 dark:text-gray-300 hover:bg-slate-50 dark:hover:bg-gray-800 rounded-2xl transition-all group"
+              >
+                 <div className="w-8 h-8 bg-blue-50 dark:bg-blue-900/20 rounded-xl flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform">
+                    <User className="w-4 h-4" />
+                 </div>
+                 Profile Settings
+              </Link>
+
+              <Link 
+                href="/settings/security" 
+                onClick={() => setIsOpen(false)}
+                className="flex items-center gap-3 px-4 py-3.5 text-xs font-bold text-slate-600 dark:text-gray-300 hover:bg-slate-50 dark:hover:bg-gray-800 rounded-2xl transition-all group"
+              >
+                 <div className="w-8 h-8 bg-amber-50 dark:bg-amber-900/20 rounded-xl flex items-center justify-center text-amber-600 group-hover:scale-110 transition-transform">
+                    <Shield className="w-4 h-4" />
+                 </div>
+                 Security & 2FA
+              </Link>
+
+              <Link 
+                href="/settings/performance" 
+                onClick={() => setIsOpen(false)}
+                className="flex items-center gap-3 px-4 py-3.5 text-xs font-bold text-slate-600 dark:text-gray-300 hover:bg-slate-50 dark:hover:bg-gray-800 rounded-2xl transition-all group"
+              >
+                 <div className="w-8 h-8 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl flex items-center justify-center text-emerald-600 group-hover:scale-110 transition-transform">
+                    <Activity className="w-4 h-4" />
+                 </div>
+                 Performance Hub
+              </Link>
+           </div>
+
+           <div className="p-2 border-t border-gray-50 dark:border-gray-800">
+              <button 
+                onClick={async () => {
+                  setIsOpen(false);
+                  await logoutAction();
+                }}
+                className="w-full flex items-center gap-3 px-4 py-3.5 text-xs font-bold text-rose-600 hover:bg-rose-50 rounded-2xl transition-all group"
+              >
+                 <div className="w-8 h-8 bg-rose-50 rounded-xl flex items-center justify-center text-rose-600 group-hover:scale-110 transition-transform">
+                    <LogOut className="w-4 h-4" />
+                 </div>
+                 Sign Out
+              </button>
+           </div>
+        </div>
+      )}
     </div>
   );
 }
