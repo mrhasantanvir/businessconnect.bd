@@ -55,6 +55,7 @@ import { WebChatWidget } from "../chat/WebChatWidget";
 import { useSupport } from "@/context/SupportContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { Providers } from "./Providers";
+import { UserDropdown } from "./new_ui/header/HeaderComponents";
 
 
 function cn(...inputs: ClassValue[]) {
@@ -524,16 +525,8 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
               )}
             </button>
             
-            <div className="flex items-center gap-2 ml-1">
-               {(isSidebarExpanded || isMobileMenuOpen) && (
-                 <div className="text-right hidden sm:block">
-                   <div className="text-[13px] font-semibold text-[#0F172A] leading-none">{user?.name}</div>
-                   <div className="text-[10px] font-medium text-gray-400 mt-0.5 leading-none">{user?.role}</div>
-                 </div>
-               )}
-               <div className="w-7 h-7 rounded-none bg-slate-900 flex items-center justify-center text-white font-bold text-[10px] cursor-pointer">
-                {user?.name?.charAt(0) || "U"}
-               </div>
+            <div className="ml-1">
+               <UserDropdown user={user} />
             </div>
           </div>
         </header>
