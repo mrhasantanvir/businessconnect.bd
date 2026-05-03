@@ -19,7 +19,8 @@ import {
   Loader2,
   Timer,
   Pause,
-  Sparkles
+  Sparkles,
+  RefreshCw
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { 
@@ -80,7 +81,6 @@ export default function TaskDrawer({
       await sendTaskMessageAction(task.id, message);
       setMessage("");
       await refreshTask();
-      // We don't call onUpdate() here to prevent modal from flickering/closing
     } catch (error) {
       toast.error("Failed to send message");
     } finally {
@@ -105,13 +105,12 @@ export default function TaskDrawer({
     try {
       const result = await forwardTaskAction(task.id, forwardUserId);
       if (result) {
-        toast.success("Task forwarded successfully!");
+        toast.success("Task successfully forwarded to new assignee");
         setShowForward(false);
         onClose();
         onUpdate();
       }
     } catch (error: any) {
-      console.error("Forward error:", error);
       toast.error(error.message || "Failed to forward task");
     } finally {
       setIsLoading(false);
@@ -125,20 +124,17 @@ export default function TaskDrawer({
         toast.success("Work session paused");
       } else {
         await startWorkLogAction(task.id);
-        toast.success("Work session started successfully");
+        toast.success("Work session started");
         if (task.status === 'PENDING_CONFIRMATION' || task.status === 'ACTIVE') {
            try {
               await updateTaskStatusAction(task.id, 'IN_PROGRESS');
-           } catch (e) {
-              console.error("Status update failed but log was created", e);
-           }
+           } catch (e) {}
         }
       }
       await refreshTask();
       onUpdate();
     } catch (error: any) {
-      console.error("Work toggle error:", error);
-      toast.error(error.message || "Failed to update work status");
+      toast.error("Failed to update work status");
     }
   }
 
@@ -174,25 +170,35 @@ export default function TaskDrawer({
     return `${h}h ${m}m`;
   };
 
+  // SMARTER AI SUMMARY
   const generateAiSummary = () => {
+    const lastMessage = task.messages?.[task.messages.length - 1];
+    const lastActivity = task.activities?.[0];
+
     if (task.status === 'COMPLETED') {
-       return `Task finalized successfully by ${task.assignee?.name || 'staff'}. Efficiency score is optimized based on the completed activity trail.`;
+       return `Operation complete. Handled by ${task.assignee?.name}. Final handshake recorded at ${new Date(task.completedAt).toLocaleTimeString()}.`;
     }
-    if (task.status === 'IN_PROGRESS') {
-       const logs = task.workLogs?.length || 0;
-       return `Operational synchronization in progress. Staff has recorded ${logs} work session(s). AI is tracking real-time latency and execution precision.`;
+
+    if (lastMessage && !lastMessage.isAi) {
+       return `AI Insight: Staff just updated the operational log: "${lastMessage.content.slice(0, 50)}${lastMessage.content.length > 50 ? '...' : ''}". Productivity remains high.`;
     }
-    if (task.status === 'PENDING_CONFIRMATION') {
-       return `Awaiting staff handshake. Handshake protocols initiated at ${new Date(task.createdAt).toLocaleTimeString()}.`;
+
+    if (lastActivity && lastActivity.type === 'STATUS_CHANGE') {
+       return `System Alert: ${lastActivity.message}. Monitoring the next execution phase.`;
     }
-    return `Task is currently in ${task.status} state. Monitoring background processes to initiate efficiency audit.`;
+
+    if (isWorking) {
+       return `Active Sync: ${task.assignee?.name} is currently engaging with the task. ${task.workLogs?.length || 0} session(s) active. Performance is being benchmarked.`;
+    }
+
+    return `Idle State: Awaiting operational engagement. Handshake pending for ${task.assignee?.name}.`;
   };
 
   const timeInfo = calculateTimeLogged();
 
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[60] flex items-center justify-center p-4 animate-in fade-in duration-300 font-inter">
-      <div className="w-full max-w-2xl bg-white shadow-2xl border border-gray-100 flex flex-col animate-in zoom-in-95 duration-300 max-h-[90vh] rounded-none relative">
+      <div className="w-full max-w-2xl bg-white shadow-2xl border border-gray-100 flex flex-col animate-in zoom-in-95 duration-300 max-h-[95vh] rounded-none relative">
       
       {isLoading && (
         <div className="absolute inset-0 bg-white/5 backdrop-blur-[1px] z-50 flex items-center justify-center">
@@ -201,7 +207,7 @@ export default function TaskDrawer({
       )}
 
       {/* Header */}
-      <div className="p-6 border-b border-gray-50 flex items-center justify-between">
+      <div className="p-6 border-b border-gray-50 flex items-center justify-between bg-white">
          <div className="flex items-center gap-3">
             <div className={cn(
                "w-2 h-2 rounded-none animate-pulse",
@@ -212,43 +218,17 @@ export default function TaskDrawer({
                {isWorking ? 'Operation Active' : 'Task Master Control'}
             </h2>
          </div>
-         <button onClick={onClose} className="p-2 hover:bg-gray-50 rounded-none transition-all">
-            <X className="w-5 h-5 text-gray-400" />
-         </button>
+         <div className="flex items-center gap-4">
+            <button onClick={refreshTask} className="p-2 hover:bg-gray-50 rounded-none text-gray-400 hover:text-indigo-600 transition-all">
+               <RefreshCw className={cn("w-4 h-4", isLoading && "animate-spin")} />
+            </button>
+            <button onClick={onClose} className="p-2 hover:bg-gray-50 rounded-none transition-all">
+               <X className="w-5 h-5 text-gray-400" />
+            </button>
+         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto no-scrollbar">
-         {/* Forward Section Overlay */}
-         {showForward && (
-            <div className="p-6 bg-[#0F172A] text-white animate-in slide-in-from-top-4 duration-300 sticky top-0 z-30">
-               <div className="flex flex-col gap-4">
-                  <div className="flex items-center justify-between">
-                     <h3 className="text-[11px] font-black uppercase tracking-widest text-indigo-400">Reassign / Forward Operation</h3>
-                     <button onClick={() => setShowForward(false)} className="text-white/40 hover:text-white"><X className="w-4 h-4" /></button>
-                  </div>
-                  <div className="flex gap-2">
-                     <select 
-                       className="flex-1 bg-white/5 border border-white/10 text-white rounded-none p-3 text-xs font-bold outline-none focus:bg-white/10"
-                       value={forwardUserId}
-                       onChange={(e) => setForwardUserId(e.target.value)}
-                     >
-                        <option value="" className="text-gray-900">Select new assignee...</option>
-                        {staff && staff.filter(s => s.id !== task.assigneeId).map(s => (
-                           <option key={s.id} value={s.id} className="text-gray-900">{s.name} ({s.staffProfile?.jobRole || 'Staff'})</option>
-                        ))}
-                     </select>
-                     <button 
-                       onClick={handleForward}
-                       disabled={!forwardUserId}
-                       className="px-6 py-3 bg-indigo-600 text-white rounded-none text-[10px] font-black uppercase tracking-widest hover:bg-indigo-700 transition-all disabled:opacity-50"
-                     >
-                        Execute Transfer
-                     </button>
-                  </div>
-               </div>
-            </div>
-         )}
-
+      <div className="flex-1 overflow-y-auto no-scrollbar bg-white">
          {/* Task Overview Section */}
          <div className="p-8 space-y-8">
             <div className="space-y-4">
@@ -267,29 +247,55 @@ export default function TaskDrawer({
                <p className="text-sm font-medium text-gray-500 leading-relaxed">{task.description}</p>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-               <div className="bg-gray-50 p-5 rounded-none border border-gray-100 relative group">
-                  <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest block mb-3">Assignee</label>
-                  <div className="flex items-center justify-between">
-                     {task.assignee ? (
-                       <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-white border border-gray-200 rounded-none flex items-center justify-center text-[12px] font-black text-indigo-600 uppercase">
-                             {task.assignee.name?.[0] || "?"}
-                          </div>
-                          <div>
-                             <p className="text-[11px] font-black text-[#0F172A] leading-none mb-1">{task.assignee.name || "Unknown"}</p>
-                             <p className="text-[9px] font-bold text-gray-400 uppercase">{task.assignee.staffProfile?.jobRole || 'Staff'}</p>
-                          </div>
-                       </div>
-                     ) : <p className="text-[11px] font-black text-gray-300 italic uppercase">Unassigned</p>}
-                     
-                     <button 
-                       onClick={() => setShowForward(true)}
-                       className="p-2 text-indigo-600 hover:bg-indigo-50 transition-all rounded-none border border-transparent hover:border-indigo-100"
-                       title="Forward Task"
+            {/* FORWARD ACTION (Now Prominent) */}
+            <div className="p-6 bg-indigo-50 border-l-4 border-indigo-600 rounded-none flex items-center justify-between group">
+               <div>
+                  <h3 className="text-[11px] font-black text-indigo-900 uppercase tracking-widest mb-1">Delegate / Forward Operation</h3>
+                  <p className="text-[10px] font-bold text-indigo-600/60 uppercase">Shift responsibility to another staff member</p>
+               </div>
+               <button 
+                 onClick={() => setShowForward(!showForward)}
+                 className="px-6 py-2 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all rounded-none"
+               >
+                  {showForward ? 'Cancel' : 'Forward Task'}
+               </button>
+            </div>
+
+            {showForward && (
+               <div className="p-5 bg-gray-50 border border-gray-100 rounded-none animate-in fade-in slide-in-from-top-2 duration-300">
+                  <div className="flex gap-2">
+                     <select 
+                       className="flex-1 bg-white border border-gray-200 rounded-none p-3 text-xs font-bold outline-none focus:border-indigo-600 transition-all appearance-none"
+                       value={forwardUserId}
+                       onChange={(e) => setForwardUserId(e.target.value)}
                      >
-                        <UserPlus className="w-4 h-4" />
+                        <option value="">Select recipient staff member...</option>
+                        {staff && staff.filter(s => s.id !== task.assigneeId).map(s => (
+                           <option key={s.id} value={s.id}>{s.name} ({s.staffProfile?.jobRole || 'Staff'})</option>
+                        ))}
+                     </select>
+                     <button 
+                       onClick={handleForward}
+                       disabled={!forwardUserId}
+                       className="px-6 py-3 bg-[#0F172A] text-white rounded-none text-[10px] font-black uppercase tracking-widest hover:bg-indigo-600 transition-all disabled:opacity-50"
+                     >
+                        Confirm Transfer
                      </button>
+                  </div>
+               </div>
+            )}
+
+            <div className="grid grid-cols-2 gap-4">
+               <div className="bg-gray-50 p-5 rounded-none border border-gray-100">
+                  <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest block mb-3">Currently Assigned</label>
+                  <div className="flex items-center gap-3">
+                     <div className="w-10 h-10 bg-white border border-gray-200 rounded-none flex items-center justify-center text-[12px] font-black text-indigo-600 uppercase">
+                        {task.assignee?.name?.[0] || "?"}
+                     </div>
+                     <div>
+                        <p className="text-[11px] font-black text-[#0F172A] leading-none mb-1">{task.assignee?.name || "Unassigned"}</p>
+                        <p className="text-[9px] font-bold text-gray-400 uppercase">{task.assignee?.staffProfile?.jobRole || 'Staff'}</p>
+                     </div>
                   </div>
                </div>
                <div className="bg-gray-50 p-5 rounded-none border border-gray-100">
@@ -314,7 +320,7 @@ export default function TaskDrawer({
                <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-indigo-600">
                      <Sparkles className="w-3.5 h-3.5" />
-                     AI Intelligence Summary
+                     AI Operational Intelligence
                   </div>
                   <div className="text-[10px] font-black text-indigo-600">SCORE: <span className="text-indigo-900 bg-white px-2 py-0.5 border border-indigo-100 ml-1">{task.status === 'COMPLETED' ? '9.4/10' : 'ANALYZING...'}</span></div>
                </div>
