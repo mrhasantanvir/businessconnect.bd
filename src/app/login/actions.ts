@@ -20,6 +20,15 @@ async function createSession(user: any) {
     data: { currentSessionId: sessionId }
   });
 
+  // Parse permissions from JSON string if needed
+  let permissions = [];
+  try {
+    permissions = user.customRole?.permissions ? JSON.parse(user.customRole.permissions) : [];
+  } catch (err) {
+    console.error("Failed to parse permissions:", err);
+    permissions = [];
+  }
+
   // Create the session
   const expires = new Date(Date.now() + 2 * 60 * 60 * 1000); // 2 hours from now
   const sessionData = {
@@ -30,7 +39,7 @@ async function createSession(user: any) {
     phone: user.phone,
     role: user.role,
     customRoleId: user.customRoleId,
-    permissions: user.customRole?.permissions || [],
+    permissions: permissions,
     merchantStoreId: user.merchantStoreId,
     sessionId,
     expires,

@@ -17,17 +17,17 @@ import { getRolesAction, createRoleAction, updateRoleAction, deleteRoleAction } 
 import { toast } from "sonner";
 
 const AVAILABLE_PERMISSIONS = [
-  { key: "orders.view", label: "View Orders", group: "Sales" },
-  { key: "orders.manage", label: "Manage Orders", group: "Sales" },
-  { key: "pos.access", label: "Access POS", group: "Sales" },
-  { key: "inventory.view", label: "View Inventory", group: "Warehouse" },
-  { key: "inventory.manage", label: "Manage Inventory", group: "Warehouse" },
-  { key: "customers.view", label: "View Customers", group: "CRM" },
-  { key: "customers.manage", label: "Manage Customers", group: "CRM" },
-  { key: "marketing.manage", label: "Marketing Tools", group: "Growth" },
-  { key: "staff.manage", label: "Manage Staff", group: "Admin" },
-  { key: "accounting.view", label: "View Financials", group: "Admin" },
-  { key: "settings.manage", label: "Store Settings", group: "Admin" },
+  { key: "orders:view", label: "View Orders", group: "Sales" },
+  { key: "orders:manage", label: "Manage Orders", group: "Sales" },
+  { key: "pos:access", label: "Access POS", group: "Sales" },
+  { key: "inventory:view", label: "View Inventory", group: "Warehouse" },
+  { key: "inventory:manage", label: "Manage Inventory", group: "Warehouse" },
+  { key: "customers:view", label: "View Customers", group: "CRM" },
+  { key: "customers:manage", label: "Manage Customers", group: "CRM" },
+  { key: "marketing:manage", label: "Marketing Tools", group: "Growth" },
+  { key: "staff:manage", label: "Manage Staff", group: "Admin" },
+  { key: "accounting:view", label: "View Financials", group: "Admin" },
+  { key: "settings:manage", label: "Store Settings", group: "Admin" },
 ];
 
 export function MerchantRoleManagement({ roles, onUpdate }: { roles: any[], onUpdate: () => void }) {
@@ -155,7 +155,7 @@ export function MerchantRoleManagement({ roles, onUpdate }: { roles: any[], onUp
                   <div className="flex flex-wrap gap-1.5 pt-1">
                     {perms.length > 0 ? perms.slice(0, 4).map((p: string) => (
                       <span key={p} className="text-[9px] font-bold px-2 py-0.5 bg-gray-50 text-gray-600 rounded-[2px] border border-gray-100 uppercase tracking-tighter">
-                        {p.split('.')[1]}
+                        {p.split(':')[1]}
                       </span>
                     )) : <span className="text-[10px] text-gray-400 italic">No specific permissions</span>}
                     {perms.length > 4 && <span className="text-[9px] font-bold px-2 py-0.5 bg-indigo-50 text-indigo-600 rounded-[2px] border border-indigo-100">+{perms.length - 4} More</span>}

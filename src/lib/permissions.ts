@@ -9,9 +9,10 @@ export async function hasPermission(permission: string) {
     return true;
   }
 
-  // Check custom permissions for STAFF
-  if (session.permissions && session.permissions.includes(permission)) {
-    return true;
+  // Check custom permissions for STAFF (Handle both : and . notation for compatibility)
+  if (session.permissions && Array.isArray(session.permissions)) {
+    const requested = permission.replace(":", ".");
+    return session.permissions.some(p => p.toString().replace(":", ".") === requested);
   }
 
   return false;
