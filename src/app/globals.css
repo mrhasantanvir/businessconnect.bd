@@ -1,17 +1,74 @@
 @import "tailwindcss";
 
 @theme {
+  /* Fonts */
   --font-sans: "Inter", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
   --font-jakarta: "Plus Jakarta Sans", sans-serif;
   --font-bn: "Noto Sans Bengali", sans-serif;
+
+  /* Sharp Square Enforcement (No Round Corners Globally) */
+  --radius-none: 0;
+  --radius-xs: 0;
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+  --radius-2xl: 0;
+  --radius-3xl: 0;
+  --radius-full: 0;
+
+  /* Global Color Palette (Can be changed from here) */
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  --color-brand-200: var(--brand-200);
+  --color-brand-300: var(--brand-300);
+  --color-brand-400: var(--brand-400);
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+  --color-brand-800: var(--brand-800);
+  --color-brand-900: var(--brand-900);
+  --color-brand-950: var(--brand-950);
 }
 
 :root {
-  --background: #F9FAFB;
-  --foreground: #111827;
-  --border: #E5E7EB;
+  /* Core Colors */
+  --background: #F8F9FA;
+  --foreground: #0F172A;
+  --border: #E2E8F0;
   --card: #FFFFFF;
+
+  /* Brand Colors (Indigo/Navy Style) */
+  --brand-50: #EEF2FF;
+  --brand-100: #E0E7FF;
+  --brand-200: #C7D2FE;
+  --brand-300: #A5B4FC;
+  --brand-400: #818CF8;
+  --brand-500: #6366F1;
+  --brand-600: #4F46E5;
+  --brand-700: #4338CA;
+  --brand-800: #3730A3;
+  --brand-900: #312E81;
+  --brand-950: #1E1B4B;
+
+  /* Semantic Colors */
+  --success: #10B981;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  --info: #3B82F6;
+
+  /* Global Settings */
+  --global-radius: 0px; /* Sharp Square */
 }
+
+/* Global Reset */
+* {
+  border-radius: var(--global-radius) !important;
+}
+
+/* Specifically for Profile Images (The user previously requested round profile images) */
+/* We will use a special class for those if needed, but the rule above is strict. */
+/* If the user wants ALL round gone, the above rule does it. */
 
 body {
   background-color: var(--background);
@@ -24,26 +81,26 @@ body {
 }
 
 /* Typography Overrides */
-h1 { font-size: 20px; font-weight: 600; letter-spacing: -0.025em; }
-h2 { font-size: 18px; font-weight: 600; letter-spacing: -0.025em; }
-h3 { font-size: 16px; font-weight: 600; }
-p { font-size: 14px; }
-small { font-size: 12px; }
+h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.025em; color: var(--foreground); }
+h2 { font-size: 18px; font-weight: 600; letter-spacing: -0.025em; color: var(--foreground); }
+h3 { font-size: 16px; font-weight: 600; color: var(--foreground); }
+p { font-size: 14px; color: #64748B; }
 
 /* Global Compact Styles */
 .card-compact {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 4px;
   padding: 16px;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
 }
 
 .btn-compact {
-  border-radius: 4px;
   padding: 8px 16px;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
 }
 
 .table-compact {
@@ -53,19 +110,19 @@ small { font-size: 12px; }
 }
 
 .table-compact th {
-  background: #F3F4F6;
+  background: #F8FAFC;
   border-bottom: 1px solid var(--border);
-  padding: 10px 16px;
+  padding: 12px 16px;
   text-align: left;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #6B7280;
+  color: #64748B;
 }
 
 .table-compact td {
   padding: 12px 16px;
-  border-bottom: 1px solid #F3F4F6;
+  border-bottom: 1px solid #F1F5F9;
 }
 
 /* Custom Scrollbar */
@@ -77,11 +134,10 @@ small { font-size: 12px; }
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #E5E7EB;
-  border-radius: 10px;
+  background: #CBD5E1;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #D1D5DB;
+  background: #94A3B8;
 }
 
 .no-scrollbar::-webkit-scrollbar {
