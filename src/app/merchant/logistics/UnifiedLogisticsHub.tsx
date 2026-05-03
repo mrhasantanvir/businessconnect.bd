@@ -151,8 +151,8 @@ export function UnifiedLogisticsHub({ existingConfigs }: { existingConfigs: any[
                  <Server className="w-5 h-5 text-indigo-600" />
               </div>
               <div>
-                 <h2 className="text-sm font-black uppercase tracking-widest text-gray-900">Active Pipelines</h2>
-                 <p className="text-[10px] font-bold text-gray-400 uppercase">Managing {allCourierNames.length} delivery nodes</p>
+                 <h2 className="text-sm font-black uppercase tracking-widest text-gray-900">Courier Services</h2>
+                 <p className="text-[10px] font-bold text-slate-500 uppercase">Managing {allCourierNames.length} delivery nodes</p>
               </div>
            </div>
            <button 

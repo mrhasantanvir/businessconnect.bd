@@ -323,7 +323,7 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
                               "w-full flex items-center gap-2.5 px-3 py-1.5 rounded-none transition-all group relative",
                               isActive 
                                 ? "bg-indigo-50 text-indigo-700" 
-                                : "text-gray-500 hover:bg-gray-50"
+                                : "text-slate-700 hover:bg-gray-50"
                             )}
                           >
                             <item.icon className="w-4 h-4 flex-shrink-0" />
@@ -343,8 +343,8 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
                             className={cn(
                               "flex items-center gap-2.5 px-3 py-1.5 rounded-none transition-all group relative",
                               isActive 
-                                ? "bg-indigo-600 text-white shadow-sm" 
-                                : "text-gray-500 hover:bg-gray-50"
+                                ? "bg-slate-100 text-slate-900 border-l-2 border-slate-900 shadow-sm" 
+                                : "text-slate-700 hover:bg-gray-50"
                             )}
                           >
                              <item.icon className="w-4 h-4 flex-shrink-0" />

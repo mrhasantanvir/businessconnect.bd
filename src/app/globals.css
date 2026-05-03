@@ -84,7 +84,7 @@ body {
 h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.025em; color: var(--foreground); }
 h2 { font-size: 18px; font-weight: 600; letter-spacing: -0.025em; color: var(--foreground); }
 h3 { font-size: 16px; font-weight: 600; color: var(--foreground); }
-p { font-size: 14px; color: #64748B; }
+p { font-size: 14px; color: #111827; }
 
 /* Global Compact Styles */
 .card-compact {
