@@ -7,19 +7,27 @@ export default async function ProfileSettingsPage() {
   const session = await getSession();
   if (!session || !session.id) redirect("/login");
 
-  const user = await prisma.user.findUnique({
-    where: { id: session.id },
-    include: {
-      staffProfile: {
-        include: {
-          documents: true,
-          merchantStore: {
-            select: { name: true }
+  if (!session?.id) redirect("/login");
+  
+  let user;
+  try {
+    user = await prisma.user.findUnique({
+      where: { id: session.id as string },
+      include: {
+        staffProfile: {
+          include: {
+            documents: true,
+            merchantStore: {
+              select: { name: true }
+            }
           }
         }
       }
-    }
-  });
+    });
+  } catch (err) {
+    console.error("Database error in ProfileSettingsPage:", err);
+    return <div className="p-10 text-center font-bold text-red-500 bg-red-50 rounded-3xl border border-red-100">Profile module currently unavailable. Please try again later.</div>;
+  }
 
   if (!user) redirect("/login");
 

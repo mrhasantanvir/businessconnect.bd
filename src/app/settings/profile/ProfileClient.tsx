@@ -11,6 +11,7 @@ import {
   verifyAndEnable2FAAction, disable2FAAction 
 } from "./actions";
 import { cn } from "@/lib/utils";
+import { formatDistanceToNow } from "date-fns";
 import { StaffProfileCard } from "@/components/merchant/staff/StaffProfileCard";
 
 export default function ProfileClient({ user }: { user: any }) {
