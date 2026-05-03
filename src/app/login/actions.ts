@@ -41,6 +41,7 @@ async function createSession(user: any) {
     customRoleId: user.customRoleId,
     permissions: permissions,
     merchantStoreId: user.merchantStoreId,
+    readableId: user.readableId,
     sessionId,
     expires,
   };

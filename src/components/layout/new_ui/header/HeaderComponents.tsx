@@ -80,7 +80,14 @@ export function UserDropdown({ user }: { user?: any }) {
       {isOpen && (
         <div className="absolute right-0 mt-3 w-64 bg-white dark:bg-gray-900 rounded-none shadow-2xl border border-slate-900 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-300 z-50">
            <div className="p-6 border-b border-gray-100 dark:border-gray-800 bg-slate-50/50 dark:bg-gray-800/30">
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Account</p>
+              <div className="flex justify-between items-center mb-1">
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Account</p>
+                {user?.readableId && (
+                  <span className="text-[10px] font-bold text-[#1E40AF] bg-[#EFF6FF] px-2 py-0.5 rounded-none border border-[#BFDBFE]">
+                    {user.readableId}
+                  </span>
+                )}
+              </div>
               <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">{user?.email || "user@businessconnect.bd"}</p>
            </div>
            

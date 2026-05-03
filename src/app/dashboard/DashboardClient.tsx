@@ -107,7 +107,7 @@ export default function MerchantDashboard({
         </div>
       )}
 
-      <div className={`w-full max-w-7xl mx-auto space-y-4 md:space-y-8 animate-in fade-in duration-500 pb-20 px-4 md:px-0 ${(needsOnboarding || isArchived) ? 'blur-md pointer-events-none select-none opacity-50' : ''}`}>
+      <div className={`w-full max-w-7xl mx-auto space-y-4 md:space-y-8 animate-in fade-in duration-500 pb-20 px-4 md:px-0 ${(needsOnboarding || isArchived || isPending) ? 'blur-md pointer-events-none select-none opacity-50' : ''}`}>
         
         {/* Dynamic Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
