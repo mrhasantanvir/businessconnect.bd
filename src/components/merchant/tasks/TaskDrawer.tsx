@@ -247,44 +247,6 @@ export default function TaskDrawer({
                <p className="text-sm font-medium text-gray-500 leading-relaxed">{task.description}</p>
             </div>
 
-            {/* FORWARD ACTION (Now Prominent) */}
-            <div className="p-6 bg-indigo-50 border-l-4 border-indigo-600 rounded-none flex items-center justify-between group">
-               <div>
-                  <h3 className="text-[11px] font-black text-indigo-900 uppercase tracking-widest mb-1">Delegate / Forward Operation</h3>
-                  <p className="text-[10px] font-bold text-indigo-600/60 uppercase">Shift responsibility to another staff member</p>
-               </div>
-               <button 
-                 onClick={() => setShowForward(!showForward)}
-                 className="px-6 py-2 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all rounded-none"
-               >
-                  {showForward ? 'Cancel' : 'Forward Task'}
-               </button>
-            </div>
-
-            {showForward && (
-               <div className="p-5 bg-gray-50 border border-gray-100 rounded-none animate-in fade-in slide-in-from-top-2 duration-300">
-                  <div className="flex gap-2">
-                     <select 
-                       className="flex-1 bg-white border border-gray-200 rounded-none p-3 text-xs font-bold outline-none focus:border-indigo-600 transition-all appearance-none"
-                       value={forwardUserId}
-                       onChange={(e) => setForwardUserId(e.target.value)}
-                     >
-                        <option value="">Select recipient staff member...</option>
-                        {staff && staff.filter(s => s.id !== task.assigneeId).map(s => (
-                           <option key={s.id} value={s.id}>{s.name} ({s.staffProfile?.jobRole || 'Staff'})</option>
-                        ))}
-                     </select>
-                     <button 
-                       onClick={handleForward}
-                       disabled={!forwardUserId}
-                       className="px-6 py-3 bg-[#0F172A] text-white rounded-none text-[10px] font-black uppercase tracking-widest hover:bg-indigo-600 transition-all disabled:opacity-50"
-                     >
-                        Confirm Transfer
-                     </button>
-                  </div>
-               </div>
-            )}
-
             <div className="grid grid-cols-2 gap-4">
                <div className="bg-gray-50 p-5 rounded-none border border-gray-100">
                   <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest block mb-3">Currently Assigned</label>
@@ -391,7 +353,7 @@ export default function TaskDrawer({
             </button>
          </div>
 
-         <div className="p-6 h-[400px] flex flex-col bg-white">
+         <div className="p-6 h-[350px] flex flex-col bg-white">
             {activeTab === 'chat' ? (
               <>
                  <div className="flex-1 overflow-y-auto space-y-4 mb-4 pr-2 no-scrollbar">
@@ -456,14 +418,59 @@ export default function TaskDrawer({
               </div>
             )}
          </div>
+
+         {/* FORWARD ACTION (Now at bottom) */}
+         <div className="mt-auto border-t border-gray-100 bg-gray-50/50">
+            <div className="p-6 flex items-center justify-between">
+               <div className="flex items-center gap-3">
+                  <div className="p-2 bg-indigo-100 text-indigo-600 rounded-none">
+                     <UserPlus className="w-4 h-4" />
+                  </div>
+                  <div>
+                     <h3 className="text-[11px] font-black text-[#0F172A] uppercase tracking-widest leading-none mb-1.5">Delegate Operation</h3>
+                     <p className="text-[9px] font-bold text-gray-400 uppercase">Forward this task to another staff member</p>
+                  </div>
+               </div>
+               <button 
+                 onClick={() => setShowForward(!showForward)}
+                 className="px-4 py-2 border border-gray-200 text-[#0F172A] text-[9px] font-black uppercase tracking-widest hover:bg-white transition-all rounded-none shadow-sm"
+               >
+                  {showForward ? 'Hide Form' : 'Forward Now'}
+               </button>
+            </div>
+
+            {showForward && (
+               <div className="px-6 pb-6 animate-in slide-in-from-bottom-2 duration-300">
+                  <div className="flex gap-2 p-2 bg-white border border-gray-200 rounded-none shadow-sm">
+                     <select 
+                       className="flex-1 bg-transparent border-none p-2 text-xs font-bold outline-none appearance-none cursor-pointer"
+                       value={forwardUserId}
+                       onChange={(e) => setForwardUserId(e.target.value)}
+                     >
+                        <option value="">Select recipient...</option>
+                        {staff && staff.filter(s => s.id !== task.assigneeId).map(s => (
+                           <option key={s.id} value={s.id}>{s.name}</option>
+                        ))}
+                     </select>
+                     <button 
+                       onClick={handleForward}
+                       disabled={!forwardUserId}
+                       className="px-6 py-2 bg-[#0F172A] text-white rounded-none text-[9px] font-black uppercase tracking-widest hover:bg-indigo-600 transition-all disabled:opacity-50"
+                     >
+                        Confirm
+                     </button>
+                  </div>
+               </div>
+            )}
+         </div>
       </div>
 
       {/* Footer / Time Tracking Status */}
-      <div className="p-6 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
+      <div className="p-6 bg-white border-t border-gray-100 flex items-center justify-between">
          <div className="flex items-center gap-3">
             <div className={cn(
-               "w-10 h-10 rounded-none flex items-center justify-center transition-all",
-               isWorking ? "bg-indigo-600 text-white animate-pulse" : "bg-gray-200 text-gray-400"
+               "w-10 h-10 rounded-none flex items-center justify-center transition-all border",
+               isWorking ? "bg-indigo-50 border-indigo-200 text-indigo-600 animate-pulse" : "bg-gray-50 border-gray-100 text-gray-400"
             )}>
                <Timer className="w-5 h-5" />
             </div>
