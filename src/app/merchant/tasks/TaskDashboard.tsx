@@ -2,49 +2,49 @@
 
 import React, { useState, useMemo } from "react";
 import { 
-  LayoutGrid, 
-  List, 
   Plus, 
   Search, 
   Filter, 
   Clock, 
-  CheckCircle2, 
-  AlertCircle,
+  MessageSquare, 
+  FileIcon, 
+  Layers, 
+  SearchIcon,
+  ChevronLeft,
+  ChevronRight,
   MoreVertical,
-  Calendar,
-  MessageSquare,
-  FileIcon,
-  ArrowRight,
-  TrendingUp,
-  Box,
-  Layers,
-  SearchIcon
+  Activity,
+  User,
+  ArrowUpRight
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import TaskDrawer from "@/components/merchant/tasks/TaskDrawer";
 import { useRouter } from "next/navigation";
 
-const COLUMNS = [
-  "PENDING_CONFIRMATION",
-  "ACTIVE",
-  "IN_PROGRESS",
-  "COMPLETED",
-  "CANCELLED"
-];
+const ITEMS_PER_PAGE = 15;
 
-const COLUMN_NAMES: any = {
+const STATUS_COLORS: any = {
+  "PENDING_CONFIRMATION": "bg-amber-100 text-amber-700 border-amber-200",
+  "ACTIVE": "bg-blue-100 text-blue-700 border-blue-200",
+  "IN_PROGRESS": "bg-indigo-100 text-indigo-700 border-indigo-200",
+  "COMPLETED": "bg-emerald-100 text-emerald-700 border-emerald-200",
+  "CANCELLED": "bg-red-100 text-red-700 border-red-200"
+};
+
+const STATUS_NAMES: any = {
   "PENDING_CONFIRMATION": "Awaiting Handshake",
-  "ACTIVE": "Operations Ready",
+  "ACTIVE": "Active Operation",
   "IN_PROGRESS": "In Execution",
-  "COMPLETED": "Successful Delivery",
-  "CANCELLED": "Operations Halted"
+  "COMPLETED": "Completed",
+  "CANCELLED": "Cancelled"
 };
 
 export default function TaskDashboard({ tasks, staff }: { tasks: any[], staff: any[] }) {
   const router = useRouter();
   const [selectedTask, setSelectedTask] = useState<any>(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filterPriority, setFilterPriority] = useState<string>("ALL");
+  const [filterStatus, setFilterStatus] = useState<string>("ALL");
+  const [currentPage, setCurrentPage] = useState(1);
 
   const filteredTasks = useMemo(() => {
     return tasks.filter(task => {
@@ -52,142 +52,205 @@ export default function TaskDashboard({ tasks, staff }: { tasks: any[], staff: a
         task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         task.description?.toLowerCase().includes(searchQuery.toLowerCase());
       
-      const matchesPriority = filterPriority === "ALL" || task.priority === filterPriority;
+      const matchesStatus = filterStatus === "ALL" || task.status === filterStatus;
       
-      return matchesSearch && matchesPriority;
+      return matchesSearch && matchesStatus;
     });
-  }, [tasks, searchQuery, filterPriority]);
+  }, [tasks, searchQuery, filterStatus]);
+
+  // Pagination Logic
+  const totalPages = Math.ceil(filteredTasks.length / ITEMS_PER_PAGE);
+  const paginatedTasks = useMemo(() => {
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredTasks.slice(start, start + ITEMS_PER_PAGE);
+  }, [filteredTasks, currentPage]);
 
   return (
-    <div className="flex flex-col h-screen bg-[#F8FAFC] font-inter overflow-hidden">
+    <div className="flex flex-col min-h-screen bg-[#F8FAFC] font-inter">
       {/* Header Section */}
       <div className="bg-white border-b border-gray-100 p-6">
-        <div className="max-w-[1600px] mx-auto flex flex-col gap-6">
+        <div className="max-w-[1600px] mx-auto space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-1">
               <h1 className="text-2xl font-black text-[#0F172A] tracking-tight flex items-center gap-3">
                 <Layers className="w-8 h-8 text-indigo-600" />
-                TASK HUB CONTROL
+                TASK REPOSITORY
               </h1>
               <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
-                Real-time operational synchronization & staff management
+                Unified operational list & staff productivity logs
               </p>
             </div>
-            <div className="flex items-center gap-3">
-               <div className="bg-emerald-50 px-4 py-2 border border-emerald-100 flex items-center gap-2">
-                  <TrendingUp className="w-4 h-4 text-emerald-600" />
-                  <span className="text-[10px] font-black text-emerald-700 uppercase tracking-widest">Efficiency: 92%</span>
-               </div>
-               <button className="px-6 py-3 bg-black text-white text-[10px] font-black uppercase tracking-widest hover:bg-indigo-600 transition-all rounded-none flex items-center gap-2">
-                 <Plus className="w-4 h-4" />
-                 Initialize Operation
-               </button>
-            </div>
+            <button className="px-6 py-3 bg-black text-white text-[10px] font-black uppercase tracking-widest hover:bg-indigo-600 transition-all rounded-none flex items-center gap-2">
+              <Plus className="w-4 h-4" />
+              New Operation
+            </button>
           </div>
 
           {/* Search and Filters */}
           <div className="flex items-center gap-4">
-            <div className="flex-1 relative group">
-               <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-indigo-600 transition-colors" />
+            <div className="flex-1 relative">
+               <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                <input 
                  type="text" 
-                 placeholder="Search by operation title or description..."
+                 placeholder="Filter operations by title, ID or assignee..."
                  className="w-full bg-gray-50 border border-gray-100 rounded-none pl-11 pr-4 py-3 text-xs font-bold focus:bg-white focus:border-indigo-600 outline-none transition-all"
                  value={searchQuery}
-                 onChange={(e) => setSearchQuery(e.target.value)}
+                 onChange={(e) => {
+                   setSearchQuery(e.target.value);
+                   setCurrentPage(1);
+                 }}
                />
             </div>
-            <div className="flex items-center gap-2">
-               <select 
-                 className="bg-gray-50 border border-gray-100 rounded-none px-4 py-3 text-[10px] font-black uppercase tracking-widest outline-none focus:border-indigo-600"
-                 value={filterPriority}
-                 onChange={(e) => setFilterPriority(e.target.value)}
-               >
-                  <option value="ALL">All Priorities</option>
-                  <option value="URGENT">Urgent</option>
-                  <option value="HIGH">High</option>
-                  <option value="MEDIUM">Medium</option>
-                  <option value="LOW">Low</option>
-               </select>
-               <button className="p-3 bg-white border border-gray-100 rounded-none hover:bg-gray-50 text-gray-400 transition-all">
-                  <Filter className="w-4 h-4" />
-               </button>
-            </div>
+            <select 
+              className="bg-gray-50 border border-gray-100 rounded-none px-4 py-3 text-[10px] font-black uppercase tracking-widest outline-none focus:border-indigo-600"
+              value={filterStatus}
+              onChange={(e) => {
+                setFilterStatus(e.target.value);
+                setCurrentPage(1);
+              }}
+            >
+               <option value="ALL">All Statuses</option>
+               {Object.keys(STATUS_NAMES).map(status => (
+                  <option key={status} value={status}>{STATUS_NAMES[status]}</option>
+               ))}
+            </select>
           </div>
         </div>
       </div>
 
-      {/* Kanban Board - Scrollable Content */}
-      <div className="flex-1 overflow-x-auto no-scrollbar p-6">
-        <div className="flex gap-6 h-full min-w-max max-w-[1600px] mx-auto">
-          {COLUMNS.map(col => {
-            const columnTasks = filteredTasks.filter(t => t.status === col);
-            return (
-              <div key={col} className="w-[320px] flex flex-col h-full bg-gray-50/50 border border-gray-100 rounded-none overflow-hidden">
-                {/* Column Header */}
-                <div className="p-4 border-b border-gray-100 bg-white flex items-center justify-between sticky top-0 z-10">
-                   <div className="flex items-center gap-2">
-                      <div className={cn(
-                        "w-2 h-2 rounded-none",
-                        col === 'COMPLETED' ? 'bg-emerald-500' : col === 'CANCELLED' ? 'bg-red-500' : 'bg-indigo-500'
-                      )} />
-                      <h3 className="text-[11px] font-black text-[#0F172A] uppercase tracking-widest">{COLUMN_NAMES[col]}</h3>
-                   </div>
-                   <span className="bg-gray-100 text-[10px] font-black px-2 py-0.5 rounded-none text-gray-500">{columnTasks.length}</span>
-                </div>
+      {/* Table View */}
+      <div className="flex-1 max-w-[1600px] mx-auto w-full p-6">
+         <div className="bg-white border border-gray-100 shadow-sm overflow-hidden">
+            <table className="w-full text-left border-collapse">
+               <thead>
+                  <tr className="bg-gray-50/50 border-b border-gray-100">
+                     <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Operation Detail</th>
+                     <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Assignee</th>
+                     <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Priority</th>
+                     <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Status</th>
+                     <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-right">Operational Health</th>
+                     <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-right"></th>
+                  </tr>
+               </thead>
+               <tbody className="divide-y divide-gray-50">
+                  {paginatedTasks.map((task) => (
+                     <tr 
+                       key={task.id} 
+                       onClick={() => setSelectedTask(task)}
+                       className="group hover:bg-indigo-50/30 transition-all cursor-pointer"
+                     >
+                        <td className="px-6 py-5">
+                           <div className="flex flex-col gap-1">
+                              <span className="text-sm font-black text-[#0F172A] group-hover:text-indigo-600 transition-colors leading-none">{task.title}</span>
+                              <span className="text-[10px] font-bold text-gray-400 uppercase">Created {new Date(task.createdAt).toLocaleDateString()}</span>
+                           </div>
+                        </td>
+                        <td className="px-6 py-5">
+                           {task.assignee ? (
+                              <div className="flex items-center gap-3">
+                                 <div className="w-8 h-8 bg-gray-100 border border-gray-200 rounded-none flex items-center justify-center text-[10px] font-black text-indigo-600 uppercase">
+                                    {task.assignee.name?.[0]}
+                                 </div>
+                                 <div className="flex flex-col">
+                                    <span className="text-[11px] font-black text-[#0F172A]">{task.assignee.name}</span>
+                                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-tighter">{task.assignee.staffProfile?.jobRole || 'Staff'}</span>
+                                 </div>
+                              </div>
+                           ) : (
+                              <span className="text-[10px] font-black text-gray-300 italic uppercase">Unassigned</span>
+                           )}
+                        </td>
+                        <td className="px-6 py-5 text-center">
+                           <span className={cn(
+                             "px-2 py-0.5 text-[9px] font-black uppercase tracking-widest border rounded-none inline-block",
+                             task.priority === 'URGENT' ? 'bg-red-50 text-red-600 border-red-100' : 
+                             task.priority === 'HIGH' ? 'bg-orange-50 text-orange-600 border-orange-100' : 'bg-indigo-50 text-indigo-600 border-indigo-100'
+                           )}>
+                              {task.priority}
+                           </span>
+                        </td>
+                        <td className="px-6 py-5 text-center">
+                           <span className={cn(
+                             "px-3 py-1 text-[9px] font-black uppercase tracking-widest border rounded-none inline-block",
+                             STATUS_COLORS[task.status]
+                           )}>
+                              {STATUS_NAMES[task.status]}
+                           </span>
+                        </td>
+                        <td className="px-6 py-5 text-right">
+                           <div className="flex flex-col items-end gap-1.5">
+                              <div className="flex items-center gap-3">
+                                 <div className="flex items-center gap-1 text-[10px] font-black text-indigo-500">
+                                    <MessageSquare className="w-3 h-3" />
+                                    {task.messages?.length || 0}
+                                 </div>
+                                 {task.attachments && <FileIcon className="w-3 h-3 text-gray-300" />}
+                              </div>
+                              <div className="flex items-center gap-1.5 text-[9px] font-black text-gray-400 uppercase">
+                                 <Clock className="w-3 h-3" />
+                                 Due {task.deadline ? new Date(task.deadline).toLocaleDateString() : 'ASAP'}
+                              </div>
+                           </div>
+                        </td>
+                        <td className="px-6 py-5 text-right">
+                           <button className="p-2 text-gray-300 hover:text-indigo-600 transition-colors">
+                              <ArrowUpRight className="w-4 h-4" />
+                           </button>
+                        </td>
+                     </tr>
+                  ))}
+                  {paginatedTasks.length === 0 && (
+                     <tr>
+                        <td colSpan={6} className="px-6 py-20 text-center">
+                           <div className="flex flex-col items-center opacity-20">
+                              <Layers className="w-12 h-12 mb-3" />
+                              <p className="text-[12px] font-black uppercase tracking-[0.2em]">No operations found in repository</p>
+                           </div>
+                        </td>
+                     </tr>
+                  )}
+               </tbody>
+            </table>
 
-                {/* Column Tasks - Independent Scroll */}
-                <div className="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar">
-                   {columnTasks.map(task => (
-                      <div 
-                        key={task.id} 
-                        onClick={() => setSelectedTask(task)}
-                        className="bg-white border border-gray-100 p-5 rounded-none shadow-sm hover:shadow-md transition-all group cursor-pointer border-l-4" 
-                        style={{ borderLeftColor: task.priority === 'URGENT' ? '#ef4444' : task.priority === 'HIGH' ? '#f97316' : '#6366f1' }}
-                      >
-                         <div className="flex items-center justify-between mb-3">
-                            <span className={cn(
-                              "text-[8px] font-black uppercase tracking-[0.15em]",
-                              task.priority === 'URGENT' ? 'text-red-600' : 'text-indigo-600'
-                            )}>{task.priority}</span>
-                            {task.attachments && <FileIcon className="w-3 h-3 text-gray-300" />}
-                         </div>
-                         <h4 className="text-sm font-black text-[#0F172A] group-hover:text-indigo-600 transition-colors mb-2 leading-snug">{task.title}</h4>
-                         
-                         {/* Card Meta Info */}
-                         <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-50">
-                            <div className="flex items-center gap-3">
-                               <div className="flex items-center gap-1 text-[9px] font-black text-indigo-500">
-                                  <MessageSquare className="w-2.5 h-2.5" />
-                                  {task.messages?.length || 0}
-                               </div>
-                               {task.assignee && (
-                                  <div className="flex items-center gap-1.5">
-                                     <div className="w-4 h-4 bg-slate-100 border border-gray-200 rounded-none flex items-center justify-center text-[7px] font-black uppercase">
-                                        {task.assignee.name?.[0] || "?"}
-                                     </div>
-                                  </div>
-                               )}
-                            </div>
-                            <div className="flex items-center gap-1 text-[9px] font-black text-gray-400 uppercase tracking-tight">
-                               <Clock className="w-3 h-3" />
-                               {task.deadline ? new Date(task.deadline).toLocaleDateString() : 'ASAP'}
-                            </div>
-                         </div>
-                      </div>
-                   ))}
-                   
-                   {columnTasks.length === 0 && (
-                      <div className="h-full flex flex-col items-center justify-center text-center opacity-20 py-10">
-                         <Box className="w-8 h-8 mb-2" />
-                         <p className="text-[9px] font-black uppercase">No Operations</p>
-                      </div>
-                   )}
-                </div>
-              </div>
-            );
-          })}
-        </div>
+            {/* Pagination Navigation */}
+            {totalPages > 1 && (
+               <div className="bg-white border-t border-gray-100 p-6 flex items-center justify-between">
+                  <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                     Showing {Math.min(filteredTasks.length, (currentPage - 1) * ITEMS_PER_PAGE + 1)} to {Math.min(filteredTasks.length, currentPage * ITEMS_PER_PAGE)} of {filteredTasks.length} Operations
+                  </p>
+                  <div className="flex items-center gap-2">
+                     <button 
+                       disabled={currentPage === 1}
+                       onClick={() => setCurrentPage(p => p - 1)}
+                       className="p-2 border border-gray-200 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                     >
+                        <ChevronLeft className="w-4 h-4" />
+                     </button>
+                     <div className="flex items-center gap-1">
+                        {Array.from({ length: totalPages }).map((_, i) => (
+                           <button 
+                             key={i}
+                             onClick={() => setCurrentPage(i + 1)}
+                             className={cn(
+                               "w-8 h-8 text-[10px] font-black transition-all border",
+                               currentPage === i + 1 ? "bg-[#0F172A] border-[#0F172A] text-white" : "bg-white border-gray-200 text-gray-400 hover:bg-gray-50"
+                             )}
+                           >
+                              {i + 1}
+                           </button>
+                        ))}
+                     </div>
+                     <button 
+                       disabled={currentPage === totalPages}
+                       onClick={() => setCurrentPage(p => p + 1)}
+                       className="p-2 border border-gray-200 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                     >
+                        <ChevronRight className="w-4 h-4" />
+                     </button>
+                  </div>
+               </div>
+            )}
+         </div>
       </div>
 
       {/* Task Detail Drawer */}
