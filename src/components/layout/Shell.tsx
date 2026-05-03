@@ -56,6 +56,7 @@ import { useSupport } from "@/context/SupportContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { Providers } from "./Providers";
 import { UserDropdown } from "./new_ui/header/HeaderComponents";
+import { ActivationCelebration } from "../merchant/ActivationCelebration";
 
 
 function cn(...inputs: ClassValue[]) {
@@ -580,6 +581,17 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
         {/* SIP Cloud Dialer */}
         {user?.id && (
           <SipDialer userId={user?.id} merchantStoreId={user?.merchantStoreId} />
+        )}
+        
+        {/* Global Activation Celebration */}
+        {user?.id && (
+          <ActivationCelebration 
+            userId={user.id}
+            storeId={user.merchantStoreId}
+            activationStatus={user.role === "MERCHANT" ? user.activationStatus || "PENDING" : "ACTIVE"}
+            entityName={user.role === "SUPER_ADMIN" ? "BusinessConnect Admin Panel" : "the store"}
+            role={user.role}
+          />
         )}
       </main>
     </div>

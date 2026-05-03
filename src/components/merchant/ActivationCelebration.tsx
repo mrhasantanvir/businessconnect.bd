@@ -2,14 +2,29 @@
 
 import React, { useEffect, useState } from "react";
 import confetti from "canvas-confetti";
-import { Sparkles, CheckCircle2, X } from "lucide-react";
+import { Sparkles, CheckCircle2, X, PartyPopper } from "lucide-react";
 
-export function ActivationCelebration({ storeId, activationStatus, storeName }: { storeId: string, activationStatus: string, storeName: string }) {
+export function ActivationCelebration({ 
+  userId, 
+  storeId, 
+  activationStatus, 
+  entityName, 
+  role 
+}: { 
+  userId: string, 
+  storeId?: string, 
+  activationStatus: string, 
+  entityName: string,
+  role: string 
+}) {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (activationStatus === "ACTIVE") {
-      const storageKey = `activation_celebrated_${storeId}`;
+      // For merchants, it's tied to the store activation
+      // For staff/admins, it's tied to their user account (first login)
+      const isMerchant = role === "MERCHANT";
+      const storageKey = isMerchant ? `activation_celebrated_${storeId}` : `joined_celebrated_${userId}`;
       const hasCelebrated = localStorage.getItem(storageKey);
 
       if (!hasCelebrated) {
@@ -32,16 +47,15 @@ export function ActivationCelebration({ storeId, activationStatus, storeName }: 
           confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
         }, 250);
 
-        // Show modal
         setShowModal(true);
-
-        // Mark as celebrated
         localStorage.setItem(storageKey, "true");
       }
     }
-  }, [activationStatus, storeId]);
+  }, [activationStatus, storeId, userId, role]);
 
   if (!showModal) return null;
+
+  const isMerchant = role === "MERCHANT";
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-500">
@@ -55,7 +69,7 @@ export function ActivationCelebration({ storeId, activationStatus, storeName }: 
 
         <div className="w-24 h-24 bg-[#F0FDF4] rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner relative">
            <div className="absolute inset-0 bg-[#16A34A] rounded-full animate-ping opacity-20"></div>
-           <CheckCircle2 className="w-12 h-12 text-[#16A34A]" />
+           {isMerchant ? <CheckCircle2 className="w-12 h-12 text-[#16A34A]" /> : <PartyPopper className="w-12 h-12 text-[#16A34A]" />}
            <Sparkles className="absolute -top-2 -right-2 w-8 h-8 text-amber-400 animate-pulse" />
         </div>
 
@@ -64,15 +78,24 @@ export function ActivationCelebration({ storeId, activationStatus, storeName }: 
         </h2>
         
         <p className="text-lg font-medium text-slate-600 mb-8 leading-relaxed">
-          Your store <strong className="text-slate-900">{storeName}</strong> is now officially <span className="text-[#16A34A] font-bold">ACTIVE</span>. 
-          You now have full access to all merchant ecosystem features. Let's start growing your business!
+          {isMerchant ? (
+            <>
+              Your store <strong className="text-slate-900">{entityName}</strong> is now officially <span className="text-[#16A34A] font-bold">ACTIVE</span>. 
+              You now have full access to all merchant ecosystem features. Let's start growing your business!
+            </>
+          ) : (
+            <>
+              You have successfully joined <strong className="text-slate-900">{entityName}</strong>. 
+              Your account is now <span className="text-[#16A34A] font-bold">ACTIVE</span> and ready to use. Welcome aboard!
+            </>
+          )}
         </p>
 
         <button 
           onClick={() => setShowModal(false)}
           className="w-full bg-[#16A34A] text-white px-8 py-4 rounded-none font-black text-sm uppercase tracking-widest hover:bg-[#15803D] transition-all shadow-xl hover:shadow-2xl active:scale-95"
         >
-          Explore Dashboard
+          {isMerchant ? "Explore Dashboard" : "Get Started"}
         </button>
       </div>
     </div>
