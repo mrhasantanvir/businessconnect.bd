@@ -5,43 +5,58 @@ import {
   Zap, Plus, Search, Filter, Calendar, Clock, 
   Trash2, Edit3, ChevronRight, BarChart3, Package,
   TrendingUp, Clock4, AlertCircle, CheckCircle2,
-  MoreVertical, X, ShoppingBag
+  MoreVertical, X, ShoppingBag, Loader2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 
-// Mock data for initial UI development
-const mockFlashSales = [
-  {
-    id: "fs_1",
-    name: "Midnight Madness",
-    status: "ACTIVE",
-    startTime: new Date(Date.now() - 3600000),
-    endTime: new Date(Date.now() + 7200000),
-    itemsCount: 12,
-    totalSold: 450,
-    revenue: 125000,
-  },
-  {
-    id: "fs_2",
-    name: "Weekend Blast",
-    status: "PENDING",
-    startTime: new Date(Date.now() + 86400000),
-    endTime: new Date(Date.now() + 172800000),
-    itemsCount: 5,
-    totalSold: 0,
-    revenue: 0,
-  }
-];
+import { 
+  getFlashSalesAction, 
+  deleteFlashSaleAction, 
+  updateFlashSaleStatusAction 
+} from "./actions";
+import { toast } from "sonner";
 
 export default function FlashSalesPage() {
   const [isPending, startTransition] = useTransition();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [flashSales, setFlashSales] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchFlashSales = async () => {
+    setLoading(true);
+    try {
+      const data = await getFlashSalesAction();
+      setFlashSales(data);
+    } catch (error) {
+      console.error("Failed to fetch flash sales:", error);
+      toast.error("Failed to load campaigns");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   React.useEffect(() => {
     setMounted(true);
+    fetchFlashSales();
   }, []);
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this campaign?")) return;
+    try {
+      await deleteFlashSaleAction(id);
+      toast.success("Campaign deleted");
+      fetchFlashSales();
+    } catch (error) {
+      toast.error("Failed to delete campaign");
+    }
+  };
+
+  // Calculate real analytics
+  const activeCampaigns = flashSales.filter(fs => fs.status === "ACTIVE").length;
+  const totalItems = flashSales.reduce((acc, fs) => acc + fs.items.length, 0);
+  const totalRevenue = flashSales.reduce((acc, fs) => acc + fs.items.reduce((sum: number, item: any) => sum + (item.soldCount * item.salePrice), 0), 0);
 
   return (
     <div className="space-y-10 animate-in fade-in duration-700">
@@ -70,9 +85,9 @@ export default function FlashSalesPage() {
       {/* Analytics Snapshot */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
          {[
-           { label: "Active Campaigns", value: "02", sub: "Currently Live", icon: Clock4, color: "text-amber-500", bg: "bg-amber-500/10" },
-           { label: "Items Discounted", value: "248", sub: "Across all sales", icon: Package, color: "text-blue-500", bg: "bg-blue-500/10" },
-           { label: "Gross Revenue", value: "৳84,200", sub: "Last 7 days", icon: TrendingUp, color: "text-green-500", bg: "bg-green-500/10" },
+           { label: "Active Campaigns", value: String(activeCampaigns).padStart(2, '0'), sub: "Currently Live", icon: Clock4, color: "text-amber-500", bg: "bg-amber-500/10" },
+           { label: "Items Discounted", value: String(totalItems), sub: "Across all sales", icon: Package, color: "text-blue-500", bg: "bg-blue-500/10" },
+           { label: "Gross Revenue", value: `৳${totalRevenue.toLocaleString()}`, sub: "Total Lifetime", icon: TrendingUp, color: "text-green-500", bg: "bg-green-500/10" },
          ].map((stat, i) => (
            <div key={i} className="p-8 rounded-[40px] bg-white  border border-slate-100  shadow-sm hover:shadow-xl transition-all group">
               <div className="flex items-center justify-between mb-4">
@@ -114,63 +129,100 @@ export default function FlashSalesPage() {
                   </tr>
                </thead>
                <tbody className="divide-y divide-slate-50 ">
-                  {mockFlashSales.map((sale) => (
-                     <tr key={sale.id} className="hover:bg-slate-50/50  transition-colors group">
-                        <td className="px-10 py-8">
-                           <div className="flex items-center gap-4">
-                              <div className="w-14 h-14 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-500 group-hover:scale-110 transition-transform">
-                                 <Zap className="w-6 h-6" />
+                  {flashSales.map((sale) => {
+                      const itemsCount = sale.items.length;
+                      const totalSold = sale.items.reduce((sum: number, item: any) => sum + item.soldCount, 0);
+                      const revenue = sale.items.reduce((sum: number, item: any) => sum + (item.soldCount * item.salePrice), 0);
+                      
+                      return (
+                        <tr key={sale.id} className="hover:bg-slate-50/50  transition-colors group">
+                           <td className="px-10 py-8">
+                              <div className="flex items-center gap-4">
+                                 <div className="w-14 h-14 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-500 group-hover:scale-110 transition-transform">
+                                    <Zap className="w-6 h-6" />
+                                 </div>
+                                 <div>
+                                    <div className="text-base font-black text-slate-900  tracking-tight">{sale.name}</div>
+                                    <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{itemsCount} SKU Items</div>
+                                 </div>
                               </div>
-                              <div>
-                                 <div className="text-base font-black text-slate-900  tracking-tight">{sale.name}</div>
-                                 <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{sale.itemsCount} SKU Items</div>
+                           </td>
+                           <td className="px-10 py-8">
+                              <div className="space-y-2">
+                                 <div className="flex items-center gap-2 text-[11px] font-black text-slate-700 ">
+                                    <Calendar className="w-3 h-3 text-blue-500" /> {mounted ? format(new Date(sale.startTime), "MMM d, yyyy") : "--"}
+                                 </div>
+                                 <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-tighter">
+                                    <Clock className="w-3 h-3" /> {mounted ? `${format(new Date(sale.startTime), "hh:mm a")} - ${format(new Date(sale.endTime), "hh:mm a")}` : "--:--"}
+                                 </div>
                               </div>
-                           </div>
-                        </td>
-                        <td className="px-10 py-8">
-                           <div className="space-y-2">
-                              <div className="flex items-center gap-2 text-[11px] font-black text-slate-700 ">
-                                 <Calendar className="w-3 h-3 text-blue-500" /> {mounted ? format(sale.startTime, "MMM d, yyyy") : "--"}
+                           </td>
+                           <td className="px-10 py-8">
+                              <div className="space-y-1">
+                                 <div className="text-sm font-black text-slate-900 ">৳{revenue.toLocaleString()}</div>
+                                 <div className="text-[10px] font-bold text-green-600 uppercase tracking-widest">{totalSold} Units Dispatched</div>
                               </div>
-                              <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-tighter">
-                                 <Clock className="w-3 h-3" /> {mounted ? `${format(sale.startTime, "hh:mm a")} - ${format(sale.endTime, "hh:mm a")}` : "--:--"}
+                           </td>
+                           <td className="px-10 py-8">
+                              <div className={cn(
+                                 "inline-flex items-center gap-2 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest",
+                                 sale.status === "ACTIVE" ? "bg-green-500/10 text-green-600 border border-green-500/20" : 
+                                 sale.status === "PENDING" ? "bg-amber-500/10 text-amber-600 border border-amber-500/20" : "bg-slate-100 text-slate-500"
+                              )}>
+                                 {sale.status === "ACTIVE" ? <CheckCircle2 className="w-3 h-3" /> : <Clock4 className="w-3 h-3" />}
+                                 {sale.status}
                               </div>
-                           </div>
-                        </td>
-                        <td className="px-10 py-8">
-                           <div className="space-y-1">
-                              <div className="text-sm font-black text-slate-900 ">৳{sale.revenue.toLocaleString()}</div>
-                              <div className="text-[10px] font-bold text-green-600 uppercase tracking-widest">{sale.totalSold} Units Dispatched</div>
-                           </div>
-                        </td>
-                        <td className="px-10 py-8">
-                           <div className={cn(
-                              "inline-flex items-center gap-2 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest",
-                              sale.status === "ACTIVE" ? "bg-green-500/10 text-green-600 border border-green-500/20" : 
-                              sale.status === "PENDING" ? "bg-amber-500/10 text-amber-600 border border-amber-500/20" : "bg-slate-100 text-slate-500"
-                           )}>
-                              {sale.status === "ACTIVE" ? <CheckCircle2 className="w-3 h-3" /> : <Clock4 className="w-3 h-3" />}
-                              {sale.status}
-                           </div>
-                        </td>
-                        <td className="px-10 py-8 text-right">
-                           <div className="flex items-center justify-end gap-2">
-                              <button className="p-3 bg-white  rounded-xl border border-slate-200  text-slate-500 hover:text-slate-900  hover:shadow-lg transition-all">
-                                 <Edit3 className="w-4 h-4" />
-                              </button>
-                              <button className="p-3 bg-white text-slate-900 text-slate-900 text-slate-900  rounded-xl border border-slate-200  text-red-500 hover:bg-red-500 hover:text-white hover:shadow-lg transition-all">
-                                 <Trash2 className="w-4 h-4" />
-                              </button>
-                           </div>
-                        </td>
+                           </td>
+                           <td className="px-10 py-8 text-right">
+                              <div className="flex items-center justify-end gap-2">
+                                 <button className="p-3 bg-white  rounded-xl border border-slate-200  text-slate-500 hover:text-slate-900  hover:shadow-lg transition-all">
+                                    <Edit3 className="w-4 h-4" />
+                                 </button>
+                                 <button 
+                                   onClick={() => handleDelete(sale.id)}
+                                   className="p-3 bg-white text-red-500 rounded-xl border border-slate-200 hover:bg-red-500 hover:text-white hover:shadow-lg transition-all"
+                                 >
+                                    <Trash2 className="w-4 h-4" />
+                                 </button>
+                              </div>
+                           </td>
+                        </tr>
+                      );
+                   })}
+                   {flashSales.length === 0 && !loading && (
+                     <tr>
+                       <td colSpan={5} className="px-10 py-32 text-center">
+                          <div className="max-w-xs mx-auto space-y-4">
+                             <div className="w-20 h-20 bg-slate-50 rounded-[32px] flex items-center justify-center mx-auto text-slate-300">
+                                <AlertCircle className="w-10 h-10" />
+                             </div>
+                             <div className="space-y-1">
+                                <h3 className="text-sm font-black text-slate-900 uppercase tracking-tighter italic">No Campaigns Initialized</h3>
+                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Start your first flash sale to boost conversions</p>
+                             </div>
+                             <button 
+                               onClick={() => setShowCreateModal(true)}
+                               className="px-6 py-3 bg-amber-500 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-amber-500/20"
+                             >
+                               Create Now
+                             </button>
+                          </div>
+                       </td>
                      </tr>
-                  ))}
+                   )}
+                   {loading && (
+                     <tr>
+                       <td colSpan={5} className="px-10 py-32 text-center">
+                          <Loader2 className="w-8 h-8 animate-spin text-amber-500 mx-auto" />
+                       </td>
+                     </tr>
+                   )}
                </tbody>
             </table>
          </div>
          
          <div className="p-8 border-t border-slate-50  bg-slate-50/30  flex items-center justify-between">
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Showing 2 Campaigns in Pipeline</p>
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Showing {flashSales.length} Campaigns in Pipeline</p>
             <div className="flex gap-2">
                <button className="px-4 py-2 bg-white  border border-slate-200  rounded-xl text-[10px] font-black text-slate-400 uppercase">Previous</button>
                <button className="px-4 py-2 bg-slate-900  text-white  rounded-xl text-[10px] font-black uppercase">Next</button>
