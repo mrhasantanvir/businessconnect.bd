@@ -181,7 +181,7 @@ export function StaffProfileCard({ user, isEditable = false, onUpdate, activityS
 
           <div className="pt-20 md:pt-24 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="space-y-2">
-               <h1 className="text-3xl font-black text-slate-900 tracking-tighter flex items-center gap-2 uppercase italic">
+               <h1 className="text-3xl font-bold text-slate-900 tracking-tight flex items-center gap-2 italic">
                  {user.name}
                  <CheckCircle2 className="w-5 h-5 text-blue-500" />
                </h1>
@@ -220,28 +220,28 @@ export function StaffProfileCard({ user, isEditable = false, onUpdate, activityS
              </div>
 
              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
-                <div className="space-y-1.5">
-                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Full Name</p>
-                   <p className="text-sm font-black text-slate-900 bg-slate-50 px-5 py-4 rounded-none border-l-4 border-slate-900 uppercase tracking-tight">{user.name}</p>
-                </div>
-                <div className="space-y-1.5">
-                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Email Address</p>
-                   <p className="text-sm font-black text-slate-900 bg-slate-50 px-5 py-4 rounded-none border-l-4 border-slate-900 lowercase tracking-tight">{user.email}</p>
-                </div>
-                <div className="space-y-1.5">
-                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Phone Number</p>
-                   <p className="text-sm font-black text-slate-900 bg-slate-50 px-5 py-4 rounded-none border-l-4 border-slate-900 tracking-tight">{user.phone || "Not Set"}</p>
-                </div>
+                 <div className="space-y-1.5">
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Full Name</p>
+                    <p className="text-sm font-semibold text-slate-900 bg-slate-50 px-5 py-4 rounded-none border-l-2 border-slate-900 tracking-tight">{user.name}</p>
+                 </div>
+                 <div className="space-y-1.5">
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Email Address</p>
+                    <p className="text-sm font-semibold text-slate-900 bg-slate-50 px-5 py-4 rounded-none border-l-2 border-slate-900 lowercase tracking-tight">{user.email}</p>
+                 </div>
+                 <div className="space-y-1.5">
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Phone Number</p>
+                    <p className="text-sm font-semibold text-slate-900 bg-slate-50 px-5 py-4 rounded-none border-l-2 border-slate-900 tracking-tight">{user.phone || "Not Set"}</p>
+                 </div>
                 {staff && (
                   <>
-                    <div className="space-y-1.5">
-                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">NID Number</p>
-                       <p className="text-sm font-black text-slate-900 bg-slate-50 px-5 py-4 rounded-none border-l-4 border-slate-900 tracking-tight">{staff.nidNumber || "N/A"}</p>
-                    </div>
-                    <div className="space-y-1.5 md:col-span-2">
-                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Permanent Address</p>
-                       <p className="text-sm font-black text-slate-900 bg-slate-50 px-5 py-4 rounded-none border-l-4 border-slate-900 uppercase tracking-tight leading-relaxed">{staff.currentAddress || staff.address || "N/A"}</p>
-                    </div>
+                     <div className="space-y-1.5">
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">NID Number</p>
+                        <p className="text-sm font-semibold text-slate-900 bg-slate-50 px-5 py-4 rounded-none border-l-2 border-slate-900 tracking-tight">{staff.nidNumber || "N/A"}</p>
+                     </div>
+                     <div className="space-y-1.5 md:col-span-2">
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Permanent Address</p>
+                        <p className="text-sm font-semibold text-slate-900 bg-slate-50 px-5 py-4 rounded-none border-l-2 border-slate-900 tracking-tight leading-relaxed">{staff.currentAddress || staff.address || "N/A"}</p>
+                     </div>
                   </>
                 )}
              </div>
@@ -258,53 +258,53 @@ export function StaffProfileCard({ user, isEditable = false, onUpdate, activityS
 
              <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
-                   <thead>
-                      <tr className="border-b-2 border-slate-900">
-                         <th className="py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Document Title</th>
-                         <th className="py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Identity Type</th>
-                         <th className="py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Actions</th>
-                      </tr>
-                   </thead>
+                    <thead>
+                       <tr className="border-b border-slate-100">
+                          <th className="py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Document Title</th>
+                          <th className="py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Identity Type</th>
+                          <th className="py-5 text-right text-[10px] font-bold text-slate-400 uppercase tracking-widest">Actions</th>
+                       </tr>
+                    </thead>
                    <tbody className="divide-y divide-slate-100">
-                      {staff?.nidFrontUrl && (
-                        <tr className="group hover:bg-slate-50 transition-colors">
-                           <td className="py-6 font-black text-xs text-slate-900 uppercase tracking-tight">NID Front Side</td>
-                           <td className="py-6">
-                              <span className="px-3 py-1 bg-blue-50 text-blue-600 text-[9px] font-black uppercase tracking-widest">Official ID</span>
-                           </td>
-                           <td className="py-6 text-right">
-                              <a href={staff.nidFrontUrl} target="_blank" className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 text-white text-[9px] font-black uppercase tracking-widest hover:bg-black transition-all">
-                                 View <ExternalLink className="w-3 h-3" />
-                              </a>
-                           </td>
-                        </tr>
-                      )}
-                      {staff?.nidBackUrl && (
-                        <tr className="group hover:bg-slate-50 transition-colors">
-                           <td className="py-6 font-black text-xs text-slate-900 uppercase tracking-tight">NID Back Side</td>
-                           <td className="py-6">
-                              <span className="px-3 py-1 bg-blue-50 text-blue-600 text-[9px] font-black uppercase tracking-widest">Official ID</span>
-                           </td>
-                           <td className="py-6 text-right">
-                              <a href={staff.nidBackUrl} target="_blank" className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 text-white text-[9px] font-black uppercase tracking-widest hover:bg-black transition-all">
-                                 View <ExternalLink className="w-3 h-3" />
-                              </a>
-                           </td>
-                        </tr>
-                      )}
-                      {staff?.documents?.map((doc: any) => (
-                        <tr key={doc.id} className="group hover:bg-slate-50 transition-colors">
-                           <td className="py-6 font-black text-xs text-slate-900 uppercase tracking-tight">{doc.name}</td>
-                           <td className="py-6">
-                              <span className="px-3 py-1 bg-slate-100 text-slate-500 text-[9px] font-black uppercase tracking-widest">Support Doc</span>
-                           </td>
-                           <td className="py-6 text-right">
-                              <a href={doc.url} target="_blank" className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 text-white text-[9px] font-black uppercase tracking-widest hover:bg-black transition-all">
-                                 View <ExternalLink className="w-3 h-3" />
-                              </a>
-                           </td>
-                        </tr>
-                      ))}
+                       {staff?.nidFrontUrl && (
+                         <tr className="group hover:bg-slate-50 transition-colors">
+                            <td className="py-6 font-bold text-xs text-slate-900 tracking-tight">NID Front Side</td>
+                            <td className="py-6">
+                               <span className="px-3 py-1 bg-blue-50 text-blue-600 text-[9px] font-bold uppercase tracking-widest">Official ID</span>
+                            </td>
+                            <td className="py-6 text-right">
+                               <a href={staff.nidFrontUrl} target="_blank" className="inline-flex items-center gap-2 px-4 py-2 border border-slate-200 text-slate-900 text-[9px] font-bold uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all shadow-sm">
+                                  View <ExternalLink className="w-3 h-3" />
+                               </a>
+                            </td>
+                         </tr>
+                       )}
+                       {staff?.nidBackUrl && (
+                         <tr className="group hover:bg-slate-50 transition-colors">
+                            <td className="py-6 font-bold text-xs text-slate-900 tracking-tight">NID Back Side</td>
+                            <td className="py-6">
+                               <span className="px-3 py-1 bg-blue-50 text-blue-600 text-[9px] font-bold uppercase tracking-widest">Official ID</span>
+                            </td>
+                            <td className="py-6 text-right">
+                               <a href={staff.nidBackUrl} target="_blank" className="inline-flex items-center gap-2 px-4 py-2 border border-slate-200 text-slate-900 text-[9px] font-bold uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all shadow-sm">
+                                  View <ExternalLink className="w-3 h-3" />
+                               </a>
+                            </td>
+                         </tr>
+                       )}
+                       {staff?.documents?.map((doc: any) => (
+                         <tr key={doc.id} className="group hover:bg-slate-50 transition-colors">
+                            <td className="py-6 font-bold text-xs text-slate-900 tracking-tight">{doc.name}</td>
+                            <td className="py-6">
+                               <span className="px-3 py-1 bg-slate-100 text-slate-500 text-[9px] font-bold uppercase tracking-widest">Support Doc</span>
+                            </td>
+                            <td className="py-6 text-right">
+                               <a href={doc.url} target="_blank" className="inline-flex items-center gap-2 px-4 py-2 border border-slate-200 text-slate-900 text-[9px] font-bold uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all shadow-sm">
+                                  View <ExternalLink className="w-3 h-3" />
+                               </a>
+                            </td>
+                         </tr>
+                       ))}
                       {!staff?.nidFrontUrl && !staff?.nidBackUrl && (!staff?.documents || staff.documents.length === 0) && (
                         <tr>
                            <td colSpan={3} className="py-12 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest italic">
@@ -326,17 +326,17 @@ export function StaffProfileCard({ user, isEditable = false, onUpdate, activityS
                  <Clock className="w-4 h-4 text-slate-300" />
               </div>
               <div className="space-y-6">
-                 <div className="p-6 bg-slate-50 rounded-none border-l-4 border-slate-900">
-                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Attendance Record</p>
-                    <p className="text-2xl font-black text-slate-900 tracking-tighter uppercase italic">{activityStats?.attendance ?? staff?.attendance ?? 0} Sessions</p>
+                 <div className="p-6 bg-slate-50 rounded-none border-l-2 border-slate-900">
+                    <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Attendance Record</p>
+                    <p className="text-2xl font-bold text-slate-900 tracking-tight italic">{activityStats?.attendance ?? staff?.attendance ?? 0} Sessions</p>
                  </div>
-                 <div className="p-6 bg-slate-50 rounded-none border-l-4 border-indigo-600">
-                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Units Dispatched</p>
-                    <p className="text-2xl font-black text-indigo-600 tracking-tighter uppercase italic">{activityStats?.tasksCompleted ?? 0} Units</p>
+                 <div className="p-6 bg-slate-50 rounded-none border-l-2 border-indigo-600">
+                    <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Units Dispatched</p>
+                    <p className="text-2xl font-bold text-indigo-600 tracking-tight italic">{activityStats?.tasksCompleted ?? 0} Units</p>
                  </div>
-                 <div className="p-6 bg-slate-50 rounded-none border-l-4 border-emerald-600">
-                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Activity Score</p>
-                    <p className="text-2xl font-black text-emerald-600 tracking-tighter uppercase italic">{(activityStats?.avgActivityScore ?? staff?.avgActivityScore ?? 0).toFixed(1)}%</p>
+                 <div className="p-6 bg-slate-50 rounded-none border-l-2 border-emerald-600">
+                    <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Activity Score</p>
+                    <p className="text-2xl font-bold text-emerald-600 tracking-tight italic">{(activityStats?.avgActivityScore ?? staff?.avgActivityScore ?? 0).toFixed(1)}%</p>
                  </div>
               </div>
            </div>
