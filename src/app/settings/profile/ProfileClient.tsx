@@ -256,10 +256,14 @@ export default function ProfileClient({ user }: { user: any }) {
                                  setLoading(true);
                                  try {
                                    const res = await generate2FASecretAction();
-                                   setTwoFactorData(res);
-                                   setShow2FASetup(true);
+                                   if (res.success) {
+                                     setTwoFactorData(res);
+                                     setShow2FASetup(true);
+                                   } else {
+                                     toast.error(res.error || "Failed to setup 2FA");
+                                   }
                                  } catch (err: any) {
-                                   toast.error(err.message);
+                                   toast.error("An unexpected error occurred");
                                  } finally {
                                    setLoading(false);
                                  }
@@ -296,11 +300,15 @@ export default function ProfileClient({ user }: { user: any }) {
                                      onClick={async () => {
                                        setLoading(true);
                                        try {
-                                         await verifyAndEnable2FAAction(twoFactorData.secret, twoFactorToken);
-                                         toast.success("2FA Enabled Successfully!");
-                                         setShow2FASetup(false);
+                                         const res = await verifyAndEnable2FAAction(twoFactorData.secret, twoFactorToken);
+                                         if (res.success) {
+                                           toast.success("2FA Enabled Successfully!");
+                                           setShow2FASetup(false);
+                                         } else {
+                                           toast.error(res.error || "Verification failed");
+                                         }
                                        } catch (err: any) {
-                                         toast.error(err.message);
+                                         toast.error("An unexpected error occurred");
                                        } finally {
                                          setLoading(false);
                                        }

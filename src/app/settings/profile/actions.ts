@@ -4,8 +4,7 @@ import { db as prisma } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcrypt";
-import { TOTP } from "otplib";
-const totp = new TOTP();
+import { authenticator } from "otplib";
 import QRCode from "qrcode";
 import { logAdminAction } from "@/lib/audit";
 
@@ -74,41 +73,50 @@ export async function updateProfileAction(data: {
 }
 
 export async function generate2FASecretAction() {
-  const session = await getSession();
-  if (!session || !session.id) throw new Error("Unauthorized");
+  try {
+    const session = await getSession();
+    if (!session || !session.id) throw new Error("Unauthorized");
 
-  const user = await prisma.user.findUnique({ where: { id: session.id } });
-  if (!user) throw new Error("User not found");
+    const user = await prisma.user.findUnique({ where: { id: session.id } });
+    if (!user) throw new Error("User not found");
 
-  const secret = totp.generateSecret();
-  const otpauth = totp.generateURI({
-    issuer: "BusinessConnect.bd",
-    label: user.email || user.id,
-    secret
-  });
-  const qrCodeUrl = await QRCode.toDataURL(otpauth);
+    const secret = authenticator.generateSecret();
+    const otpauth = authenticator.keyuri(
+      user.email || user.id,
+      "BusinessConnect.bd",
+      secret
+    );
+    
+    const qrCodeUrl = await QRCode.toDataURL(otpauth);
 
-  // We don't save the secret yet, only when they verify it
-  return { secret, qrCodeUrl };
+    return { success: true, secret, qrCodeUrl };
+  } catch (error: any) {
+    console.error("2FA Error:", error);
+    return { success: false, error: error.message || "Failed to generate 2FA secret" };
+  }
 }
 
 export async function verifyAndEnable2FAAction(secret: string, token: string) {
-  const session = await getSession();
-  if (!session || !session.id) throw new Error("Unauthorized");
+  try {
+    const session = await getSession();
+    if (!session || !session.id) throw new Error("Unauthorized");
 
-  const isValid = totp.verify({ token, secret });
-  if (!isValid) throw new Error("Invalid verification code");
+    const isValid = authenticator.verify({ token, secret });
+    if (!isValid) throw new Error("Invalid verification code");
 
-  await prisma.user.update({
-    where: { id: session.id },
-    data: {
-      twoFactorSecret: secret,
-      isTwoFactorEnabled: true
-    }
-  });
+    await prisma.user.update({
+      where: { id: session.id },
+      data: {
+        twoFactorSecret: secret,
+        isTwoFactorEnabled: true
+      }
+    });
 
-  revalidatePath("/settings/profile");
-  return { success: true };
+    revalidatePath("/settings/profile");
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message || "Verification failed" };
+  }
 }
 
 export async function disable2FAAction() {
