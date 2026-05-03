@@ -95,71 +95,99 @@ export function TwoFactorSetup({ isEnabledInitial }: { isEnabledInitial: boolean
       </div>
 
       {showSetup && setupData && (
-        <div className="pt-6 border-t border-gray-50 animate-in fade-in slide-in-from-top-4 duration-500">
-          <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">
-            <div className="w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] md:w-[600px] md:h-[600px] bg-white border-8 border-gray-50 rounded-[64px] p-6 shadow-inner relative group flex items-center justify-center overflow-hidden mx-auto">
-              <img 
-                src={setupData.qrCodeUrl} 
-                alt="2FA QR Code" 
-                className="w-full h-full block" 
-                style={{ 
-                  imageRendering: 'pixelated',
-                  aspectRatio: '1 / 1',
-                  objectFit: 'contain'
-                }}
-              />
-              <div className="absolute inset-0 bg-white/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-[32px]">
-                <QrCode className="w-14 h-14 text-[#1E40AF]" />
-              </div>
-            </div>
-            
-            <div className="flex-1 space-y-6 w-full">
-              <div className="space-y-2">
-                <h4 className="text-sm font-black text-[#0F172A]">Step 1: Scan QR Code</h4>
-                <p className="text-xs font-bold text-gray-500 leading-relaxed">
-                  Open your authenticator app (like Google Authenticator or Authy) and scan this QR code. 
-                  Alternatively, you can enter the secret key manually.
-                </p>
-                <div className="mt-3 p-3 bg-gray-50 rounded-xl border border-gray-100 flex items-center justify-between group">
-                  <code className="text-[10px] font-mono font-bold text-[#1E40AF] tracking-widest">{setupData.secret}</code>
-                  <button 
-                    onClick={() => { navigator.clipboard.writeText(setupData.secret); toast.success("Secret copied"); }}
-                    className="p-1.5 hover:bg-white rounded-lg transition-colors"
-                  >
-                    <Copy className="w-3.5 h-3.5 text-gray-400" />
-                  </button>
-                </div>
+        <div className="fixed inset-0 bg-[#0F172A]/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4 animate-in fade-in duration-300">
+           <div className="bg-white w-full max-w-2xl rounded-[48px] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300">
+              <div className="p-8 border-b border-gray-50 flex items-center justify-between bg-gray-50/30">
+                 <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-indigo-600 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-100">
+                       <QrCode className="w-6 h-6" />
+                    </div>
+                    <div>
+                       <h3 className="text-xl font-black text-[#0F172A] tracking-tight">Security Token Setup</h3>
+                       <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Follow steps to secure your account</p>
+                    </div>
+                 </div>
+                 <button 
+                   onClick={() => setShowSetup(false)}
+                   className="w-10 h-10 bg-white border border-gray-100 rounded-xl flex items-center justify-center text-gray-400 hover:text-rose-500 hover:border-rose-100 transition-all"
+                 >
+                    <X className="w-5 h-5" />
+                 </button>
               </div>
 
-              <div className="space-y-4">
-                <h4 className="text-sm font-black text-[#0F172A]">Step 2: Enter Verification Code</h4>
-                <div className="flex gap-4">
-                  <input
-                    type="text"
-                    maxLength={6}
-                    value={verificationCode}
-                    onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, ''))}
-                    className="flex-1 bg-gray-50 border border-gray-100 rounded-2xl px-4 py-3 text-xl font-black tracking-[0.5em] text-center outline-none focus:border-[#1E40AF] transition-all"
-                    placeholder="000000"
-                  />
-                  <button 
-                    onClick={handleVerifyAndEnable}
-                    disabled={loading || verificationCode.length !== 6}
-                    className="px-8 bg-[#1E40AF] text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-[#1E3A8A] transition-all flex items-center justify-center gap-2"
-                  >
-                    {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><CheckCircle2 className="w-4 h-4" /> Verify</>}
-                  </button>
-                </div>
-              </div>
+              <div className="p-8 md:p-12 space-y-10">
+                 <div className="flex flex-col md:flex-row gap-10 items-center md:items-start">
+                    <div className="flex-shrink-0">
+                       <div className="w-64 h-64 bg-white border-8 border-gray-50 rounded-[48px] p-4 shadow-inner relative flex items-center justify-center overflow-hidden">
+                          <img 
+                            src={setupData.qrCodeUrl} 
+                            alt="2FA QR Code" 
+                            className="w-full h-full block" 
+                            style={{ 
+                              imageRendering: 'pixelated',
+                              aspectRatio: '1 / 1',
+                              objectFit: 'contain'
+                            }}
+                          />
+                       </div>
+                    </div>
 
-              <button 
-                onClick={() => setShowSetup(false)}
-                className="text-[10px] font-black text-gray-400 uppercase tracking-widest hover:text-red-500 transition-colors flex items-center gap-1"
-              >
-                <X className="w-3 h-3" /> Cancel Setup
-              </button>
-            </div>
-          </div>
+                    <div className="flex-1 space-y-8 w-full">
+                       <div className="space-y-3">
+                          <h4 className="text-sm font-black text-[#0F172A] flex items-center gap-2">
+                             <div className="w-5 h-5 bg-[#BEF264] text-[#0F172A] rounded-full flex items-center justify-center text-[10px]">1</div>
+                             Scan with Authenticator
+                          </h4>
+                          <p className="text-xs font-bold text-gray-500 leading-relaxed">
+                            Open Google Authenticator or Authy and scan this QR code to generate tokens.
+                          </p>
+                          <div className="p-3 bg-indigo-50/50 rounded-xl border border-indigo-100/50 flex items-center justify-between group">
+                            <code className="text-[10px] font-mono font-black text-indigo-600 tracking-widest">{setupData.secret}</code>
+                            <button 
+                              onClick={() => { navigator.clipboard.writeText(setupData.secret); toast.success("Secret copied"); }}
+                              className="p-1.5 bg-white shadow-sm rounded-lg hover:text-indigo-600 transition-colors"
+                            >
+                              <Copy className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                       </div>
+
+                       <div className="space-y-4">
+                          <h4 className="text-sm font-black text-[#0F172A] flex items-center gap-2">
+                             <div className="w-5 h-5 bg-[#BEF264] text-[#0F172A] rounded-full flex items-center justify-center text-[10px]">2</div>
+                             Verification Code
+                          </h4>
+                          <div className="flex gap-4">
+                            <input
+                              type="text"
+                              maxLength={6}
+                              value={verificationCode}
+                              onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, ''))}
+                              className="flex-1 bg-gray-50 border border-gray-100 rounded-2xl px-4 py-4 text-2xl font-black tracking-[0.5em] text-center outline-none focus:border-indigo-600 transition-all shadow-inner"
+                              placeholder="000000"
+                            />
+                          </div>
+                       </div>
+                    </div>
+                 </div>
+
+                 <div className="pt-6 border-t border-gray-50 flex gap-4">
+                    <button 
+                      onClick={() => setShowSetup(false)}
+                      className="flex-1 py-4 bg-gray-50 text-gray-400 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-gray-100 transition-all"
+                    >
+                      Cancel
+                    </button>
+                    <button 
+                      onClick={handleVerifyAndEnable}
+                      disabled={loading || verificationCode.length !== 6}
+                      className="flex-[2] py-4 bg-[#0F172A] text-[#BEF264] rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-black transition-all flex items-center justify-center gap-2 shadow-xl shadow-indigo-100"
+                    >
+                      {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><CheckCircle2 className="w-4 h-4" /> Activate Security</>}
+                    </button>
+                 </div>
+              </div>
+           </div>
         </div>
       )}
     </div>
