@@ -33,9 +33,15 @@ export async function createTaskAction(data: {
 
   const task = await prisma.task.create({
     data: {
-      ...data,
+      title: data.title,
+      description: data.description,
+      priority: data.priority,
+      assigneeId: data.assigneeId || null,
+      orderId: data.orderId || null,
+      customerId: data.customerId || null,
+      deadline: data.deadline ? new Date(data.deadline) : null,
       merchantStoreId: session.merchantStoreId,
-      creatorId: session.id,
+      creatorId: session.userId,
       status: data.assigneeId ? "PENDING_CONFIRMATION" : "ACTIVE"
     },
     include: {
@@ -114,7 +120,7 @@ export async function confirmTaskAction(taskId: string) {
   await prisma.taskActivity.create({
     data: {
       taskId,
-      userId: session.id,
+      userId: session.userId,
       type: "STATUS_CHANGE",
       message: "Staff confirmed the task and moved it to ACTIVE"
     }
@@ -147,7 +153,7 @@ export async function updateTaskStatusAction(taskId: string, status: string) {
   await prisma.taskActivity.create({
     data: {
       taskId,
-      userId: session.id,
+      userId: session.userId,
       type: "STATUS_CHANGE",
       message: `Task moved to ${status}`
     }
@@ -167,7 +173,7 @@ export async function sendTaskMessageAction(taskId: string, content: string) {
   const message = await prisma.taskMessage.create({
     data: {
       taskId,
-      userId: session.id,
+      userId: session.userId,
       content
     }
   });

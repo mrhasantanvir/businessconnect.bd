@@ -135,7 +135,7 @@ export default function TaskDashboardClient({ tasks, staff, merchantStoreId }: {
                        <input 
                          type="date"
                          className="w-full bg-white border-none rounded-[2px] p-2 text-xs font-bold"
-                         value={suggestedTask.deadline?.split('T')[0]}
+                         value={suggestedTask.deadline?.split('T')[0] || ""}
                          onChange={(e) => setSuggestedTask({...suggestedTask, deadline: e.target.value})}
                        />
                     </div>
