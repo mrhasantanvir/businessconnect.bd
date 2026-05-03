@@ -9,10 +9,18 @@ export default async function SecuritySettingsPage() {
   const session = await getSession();
   if (!session || !session.userId) redirect("/login");
 
-  const user = await prisma.user.findUnique({
-    where: { id: session.userId },
-    select: { isTwoFactorEnabled: true }
-  });
+  if (!session?.userId) redirect("/login");
+  
+  let user;
+  try {
+    user = await prisma.user.findUnique({
+      where: { id: session.userId as string },
+      select: { isTwoFactorEnabled: true }
+    });
+  } catch (err) {
+    console.error("Database error in SecuritySettingsPage:", err);
+    return <div className="p-10 text-center font-bold text-red-500 bg-red-50 rounded-3xl border border-red-100">Security module currently unavailable. Please try again later.</div>;
+  }
 
   if (!user) redirect("/login");
 
