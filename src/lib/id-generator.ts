@@ -19,42 +19,49 @@ export async function generateReadableId(type: IdType, merchantStoreId?: string)
     });
 
     if (type === "ADMIN") {
-      return `BC-ADM-${sequence.adminCount.toString().padStart(4, "0")}`;
+      return `BC-ADM${sequence.adminCount.toString().padStart(2, "0")}`;
     } else {
-      return `BC-MR-${sequence.merchantCount.toString().padStart(4, "0")}`;
+      return `BC-MR${sequence.merchantCount.toString().padStart(3, "0")}`;
     }
   }
 
-  // 2. Handle Merchant-Scoped IDs (Staff, Customer, Task, Order)
-  if (!merchantStoreId) {
-    throw new Error(`MerchantStoreId is required for type: ${type}`);
-  }
+  // 2. Handle Scoped IDs (Staff, Customer, Task, Order)
+  let ownerPrefix = "BC-SYS";
 
-  // Get merchant readable ID first
-  const merchant = await prisma.merchantStore.findUnique({
-    where: { id: merchantStoreId },
-    select: { readableId: true }
-  });
+  if (merchantStoreId) {
+    const merchant = await prisma.merchantStore.findUnique({
+      where: { id: merchantStoreId },
+      select: { readableId: true }
+    });
 
-  // If merchant doesn't have a readableId yet, they should probably get one
-  let mPrefix = merchant?.readableId;
-  if (!mPrefix) {
-     // Generate one for the merchant if missing (fallback)
-     // This is useful during migration
-     const sequence = await prisma.systemSequence.upsert({
+    if (merchant?.readableId) {
+      ownerPrefix = merchant.readableId;
+    } else {
+      // Fallback for merchants without readableId
+      const sequence = await prisma.systemSequence.upsert({
         where: { id: "GLOBAL" },
         update: { merchantCount: { increment: 1 } },
         create: { id: "GLOBAL", merchantCount: 1 }
-     });
-     mPrefix = `BC-MR-${sequence.merchantCount.toString().padStart(4, "0")}`;
-     await prisma.merchantStore.update({
+      });
+      ownerPrefix = `BC-MR${sequence.merchantCount.toString().padStart(3, "0")}`;
+      await prisma.merchantStore.update({
         where: { id: merchantStoreId },
-        data: { readableId: mPrefix }
-     });
+        data: { readableId: ownerPrefix }
+      });
+    }
+  } else {
+    // If no merchantStoreId, it might be a Super Admin staff/task
+    const admin = await prisma.user.findFirst({
+      where: { role: "SUPER_ADMIN" },
+      select: { readableId: true }
+    });
+    if (admin?.readableId) {
+      ownerPrefix = admin.readableId;
+    }
   }
 
   const mSeq = await prisma.merchantSequence.upsert({
-    where: { merchantStoreId },
+    where: { merchantStoreId: merchantStoreId || "GLOBAL_ADMIN" },
     update: {
       customerSeq: type === "CUSTOMER" ? { increment: 1 } : undefined,
       taskSeq: type === "TASK" ? { increment: 1 } : undefined,
@@ -62,8 +69,8 @@ export async function generateReadableId(type: IdType, merchantStoreId?: string)
       orderSeq: type === "ORDER" ? { increment: 1 } : undefined,
     },
     create: {
-      id: crypto.randomUUID(), // Manual ID since merchantsequence doesn't have cuid() default in db pull
-      merchantStoreId,
+      id: crypto.randomUUID(),
+      merchantStoreId: merchantStoreId || "GLOBAL_ADMIN",
       customerSeq: type === "CUSTOMER" ? 1 : 0,
       taskSeq: type === "TASK" ? 1 : 0,
       staffSeq: type === "STAFF" ? 1 : 0,
@@ -85,5 +92,6 @@ export async function generateReadableId(type: IdType, merchantStoreId?: string)
     "ORDER": mSeq.orderSeq
   }[type as keyof typeof val];
 
-  return `${mPrefix}-${suffix}-${val.toString().padStart(4, "0")}`;
+  const padSize = (type === "STAFF" || type === "CUSTOMER") ? 2 : 4;
+  return `${ownerPrefix}-${suffix}${val.toString().padStart(padSize, "0")}`;
 }

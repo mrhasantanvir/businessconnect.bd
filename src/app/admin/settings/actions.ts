@@ -380,3 +380,19 @@ export async function updateEmailTemplateAction(id: string, data: any) {
     return { success: false, error: error.message };
   }
 }
+
+import { CommunicationService } from "@/services/CommunicationService";
+
+export async function testSmsConnectionAction(phoneNumber: string) {
+  try {
+    const session = await getSession();
+    if (!session || session.role !== "SUPER_ADMIN") throw new Error("Unauthorized");
+
+    const result = await CommunicationService.sendSms("SYSTEM", phoneNumber, "BusinessConnect SMS Test: Connection Successful! 🎉");
+    
+    return result;
+  } catch (error: any) {
+    console.error("SMS Test Error:", error);
+    return { success: false, error: error.message || "Failed to send test SMS." };
+  }
+}

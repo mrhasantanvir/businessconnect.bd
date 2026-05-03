@@ -312,29 +312,17 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
               if (!hasRole) return false;
 
               // 2. Strict Permission Check for STAFF or anyone with a Custom Role
-              // If a user has a custom role, they MUST be restricted by permissions
               const isRestricted = role === "STAFF" || user?.customRoleId;
-              
+
+              // 3. Final decision
               if (isRestricted) {
-                // If the item is primarily for MERCHANTS but allows STAFF, 
-                // it MUST have a permission key to be visible to STAFF.
-                // If it doesn't have a permission key, we assume it's MERCHANT-only.
-                if (item.permission) {
-                   return user.permissions?.includes(item.permission);
-                }
+                // If it's a restricted user, we already checked permission above.
+                // If it passed item.permission check, it will continue.
+                // If it reached here without returning, and it has a permission key, it means it failed includes().
+                if (item.permission) return user.permissions?.includes(item.permission);
                 
-                // If no permission key but user is restricted, only allow if item is NOT merchant-only
-                // Actually, if it's a restricted user, we only show items they have explicit permission for
-                // or common items that don't need protection (but most sidebar items do).
-                
-                // To be safe: if an item has NO permission key but allows STAFF, 
-                // we only show it if the user is NOT restricted.
-                // UNLESS it's a basic item (we can add a list of basic items if needed).
-                
-                // For now, if restricted, and item has no permission key, hide it if it's a merchant-level feature
-                if (item.roles.includes("MERCHANT") && !item.permission) {
-                   return false;
-                }
+                // If no permission key, we only show it if it's NOT a restricted merchant/admin feature
+                if (item.roles.includes("MERCHANT") || item.roles.includes("SUPER_ADMIN")) return false;
               }
 
               // Owners and Super Admins (without custom roles) see everything allowed for their role

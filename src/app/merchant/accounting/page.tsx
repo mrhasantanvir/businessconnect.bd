@@ -43,7 +43,7 @@ export default async function MerchantAccountingPage() {
           </div>
           <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter italic">Access Denied</h2>
           <p className="text-slate-500 font-bold uppercase text-[10px] tracking-widest text-center max-w-xs">
-             Your current security node does not have authorization to access the Treasury module.
+             You do not have permission to access the Accounting module.
           </p>
        </div>
     );
@@ -104,16 +104,16 @@ export default async function MerchantAccountingPage() {
             <div className="space-y-4">
                <div className="flex items-center gap-3">
                   <div className="px-4 py-1.5 bg-slate-900 text-[#BEF264] text-[10px] font-black uppercase tracking-[0.3em] rounded-full flex items-center gap-2">
-                     <Zap className="w-3 h-3 fill-current" /> Financial OS Enterprise
+                     <Zap className="w-3 h-3 fill-current" /> Merchant Accounting Hub
                   </div>
                   <span className="text-slate-300 font-medium">/</span>
-                  <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Global Treasury</div>
+                  <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Accounts Management</div>
                </div>
                <h1 className="text-7xl font-black text-slate-900 tracking-tighter leading-none italic">
-                  TREASURY<span className="text-indigo-600">.</span>NODE
+                  ACCOUNTS<span className="text-indigo-600">.</span>
                </h1>
                <p className="max-w-md text-slate-500 font-medium text-lg leading-relaxed uppercase tracking-tight">
-                  High-frequency financial governance and multi-entity profitability engine.
+                  Manage your store's income, expenses, and profitability in one place.
                </p>
             </div>
 
@@ -165,7 +165,7 @@ export default async function MerchantAccountingPage() {
                         <BarChart3 className="w-7 h-7" />
                      </div>
                      <div>
-                        <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tight">Performance Matrix</h2>
+                        <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tight">Profitability Report</h2>
                         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1 italic">Real-time branch profitability analysis</p>
                      </div>
                   </div>
@@ -219,9 +219,9 @@ export default async function MerchantAccountingPage() {
                   <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-3xl flex items-center justify-center text-[#BEF264] border border-white/20 shadow-xl">
                      <Layers className="w-8 h-8" />
                   </div>
-                  <h4 className="text-4xl font-black tracking-tighter italic leading-[0.9] uppercase">Treasury<br/>Intelligence</h4>
+                  <h4 className="text-4xl font-black tracking-tighter italic leading-[0.9] uppercase">Accounting<br/>Insights</h4>
                   <p className="text-sm font-medium text-indigo-100 leading-relaxed uppercase tracking-tight opacity-90">
-                     Track Buy, Sell, Salaries and Courier settlements in one unified node.
+                     Track Buy, Sell, Salaries and Courier settlements in one unified dashboard.
                   </p>
                   <div className="pt-8 border-t border-white/10 flex items-center justify-between">
                      <div className="flex flex-col">

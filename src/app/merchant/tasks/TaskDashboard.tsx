@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import TaskDrawer from "@/components/merchant/tasks/TaskDrawer";
+import CreateTaskModal from "@/components/merchant/tasks/CreateTaskModal";
 import { useRouter } from "next/navigation";
 
 const ITEMS_PER_PAGE = 15;
@@ -33,7 +34,7 @@ const STATUS_COLORS: any = {
 };
 
 const STATUS_NAMES: any = {
-  "PENDING_CONFIRMATION": "Awaiting Handshake",
+  "PENDING_CONFIRMATION": "Awaiting Response",
   "ACTIVE": "Active Operation",
   "IN_PROGRESS": "In Execution",
   "COMPLETED": "Completed",
@@ -48,12 +49,13 @@ const STATUS_PROGRESS: any = {
   "CANCELLED": 0
 };
 
-export default function TaskDashboard({ tasks, staff }: { tasks: any[], staff: any[] }) {
+export default function TaskDashboard({ tasks = [], staff = [] }: { tasks: any[], staff: any[] }) {
   const router = useRouter();
   const [selectedTask, setSelectedTask] = useState<any>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState<string>("ALL");
   const [currentPage, setCurrentPage] = useState(1);
+  const [showCreateModal, setShowCreateModal] = useState(false);
 
   const filteredTasks = useMemo(() => {
     return tasks.filter(task => {
@@ -86,10 +88,13 @@ export default function TaskDashboard({ tasks, staff }: { tasks: any[], staff: a
                 TASK REPOSITORY
               </h1>
               <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
-                Unified operational list & staff productivity logs
+                Unified task list & staff productivity logs
               </p>
             </div>
-            <button className="px-6 py-3 bg-black text-white text-[10px] font-black uppercase tracking-widest hover:bg-indigo-600 transition-all rounded-none flex items-center gap-2">
+            <button 
+              onClick={() => setShowCreateModal(true)}
+              className="px-6 py-3 bg-black text-white text-[10px] font-black uppercase tracking-widest hover:bg-indigo-600 transition-all rounded-none flex items-center gap-2"
+            >
               <Plus className="w-4 h-4" />
               New Operation
             </button>
@@ -137,7 +142,7 @@ export default function TaskDashboard({ tasks, staff }: { tasks: any[], staff: a
                      <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Assignee</th>
                      <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Execution Progress</th>
                      <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Status</th>
-                     <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-right">Operational Health</th>
+                     <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-right">Activity Status</th>
                      <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-right"></th>
                   </tr>
                </thead>
@@ -229,7 +234,7 @@ export default function TaskDashboard({ tasks, staff }: { tasks: any[], staff: a
                         <td colSpan={6} className="px-6 py-24 text-center">
                            <div className="flex flex-col items-center opacity-20">
                               <BarChart3 className="w-12 h-12 mb-3" />
-                              <p className="text-[12px] font-black uppercase tracking-[0.2em]">No operational data detected</p>
+                              <p className="text-[12px] font-black uppercase tracking-[0.2em]">No task data detected</p>
                            </div>
                         </td>
                      </tr>
@@ -285,6 +290,16 @@ export default function TaskDashboard({ tasks, staff }: { tasks: any[], staff: a
           staff={staff}
           onClose={() => setSelectedTask(null)} 
           onUpdate={() => {
+            router.refresh();
+          }} 
+        />
+      )}
+
+      {showCreateModal && (
+        <CreateTaskModal 
+          staff={staff} 
+          onClose={() => setShowCreateModal(false)} 
+          onCreated={() => {
             router.refresh();
           }} 
         />

@@ -20,7 +20,7 @@ export default async function InventoryOverviewPage() {
           </div>
           <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter italic">Access Denied</h2>
           <p className="text-slate-500 font-bold uppercase text-[10px] tracking-widest text-center max-w-xs">
-             Your node is not authorized for WMS operations. Please contact the Fleet Commander.
+             Your account is not authorized for WMS operations. Please contact the System Administrator.
           </p>
        </div>
     );

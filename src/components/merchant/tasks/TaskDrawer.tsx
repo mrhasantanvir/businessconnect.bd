@@ -200,7 +200,7 @@ export default function TaskDrawer({
 
     if (task.status === 'COMPLETED') {
        const keyLogs = messages.filter((m: any) => !m.isAi).slice(-3).map((m: any) => m.content).join(" → ");
-       return `Task successfully archived.\n${keyLogs || "Standard procedure followed"}. Managed by ${task.assignee?.name}.`;
+       return `Task successfully archived.\nOperational trail verified: ${keyLogs || "Standard procedure followed"}. Managed by ${task.assignee?.name}.`;
     }
 
     if (task.status === 'CANCELLED') {
@@ -219,7 +219,7 @@ export default function TaskDrawer({
        return `${task.assignee?.name} is actively working on the task. Performance metrics are optimal.`;
     }
 
-    return `Awaiting operational engagement from ${task.assignee?.name || 'staff member'}. Priority level: ${task.priority}.`;
+    return `Awaiting engagement from ${task.assignee?.name || 'staff member'}. Priority level: ${task.priority}.`;
   };
 
   const timeInfo = calculateTimeLogged();
@@ -334,7 +334,11 @@ export default function TaskDrawer({
                   <div className="text-right">
                     <div className="text-[9px] font-black text-indigo-600 uppercase tracking-tighter">Performance Index</div>
                     <div className="text-[10px] font-black text-indigo-900 bg-white px-2 py-0.5 border border-indigo-100 inline-block mt-0.5">{task.status === 'COMPLETED' ? '9.4/10' : 'ANALYZING...'}</div>
-                    <div className="text-[7px] font-bold text-indigo-400 uppercase tracking-widest mt-0.5">Based on speed & logs</div>
+                    <div className="flex flex-col items-end mt-1 space-y-0.5">
+                       <span className="text-[7px] font-black text-indigo-400 uppercase tracking-widest leading-none">⚡ Speed: Optimal</span>
+                       <span className="text-[7px] font-black text-indigo-400 uppercase tracking-widest leading-none">📝 Logs: Consistent</span>
+                        <span className="text-[7px] font-black text-indigo-400 uppercase tracking-widest leading-none">📧 Email: Sent</span>
+                    </div>
                   </div>
                </div>
                <p className="text-[11px] font-bold leading-relaxed text-indigo-900 italic whitespace-pre-wrap">

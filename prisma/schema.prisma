@@ -998,6 +998,8 @@ model SystemSettings {
   aiCreditPrice       Float    @default(0.50)
   smsRate             Float    @default(0.50)
   sipRate             Float    @default(1.00)
+  currentVersion      String   @default("1.0.0")
+  devStatus           String   @default("STABLE") // STABLE, BETA, ALPHA, DEVELOPMENT
   staffSubscriptionPrice Float  @default(300)
   additionalDevicePrice  Float  @default(250)
   masterPassword      String?
@@ -1451,4 +1453,15 @@ model SystemSequence {
   id            String @id @default("GLOBAL")
   merchantCount Int    @default(0)
   adminCount    Int    @default(0)
+}
+
+model DevelopmentLog {
+  id            String   @id @default(cuid())
+  feature       String
+  action        String
+  developer     String   // AI or MANUAL
+  developerName String?
+  version       String
+  createdAt     DateTime @default(now())
+  details       String?  @db.Text
 }

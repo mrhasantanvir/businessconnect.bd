@@ -193,7 +193,7 @@ export function AdminChatQueueUI({ initialChats, currentAdminId }: { initialChat
              <div className="w-20 h-20 bg-[#F1F5F9] flex items-center justify-center mb-6">
                 <ShieldCheck className="w-10 h-10 text-[#A1A1AA]" />
              </div>
-             <h3 className="text-xl font-black text-[#0F172A] uppercase tracking-tight mb-2">Platform Command Center</h3>
+             <h3 className="text-xl font-black text-[#0F172A] uppercase tracking-tight mb-2">Support Management Hub</h3>
              <p className="text-xs text-[#64748B] font-medium max-w-sm uppercase tracking-widest leading-loose">Select a merchant from the queue to initiate a secure support session.</p>
           </div>
         )}

@@ -53,7 +53,7 @@ export function BrandForm() {
         <div className="w-10 h-10 rounded-2xl bg-[#EFF6FF] text-[#1E40AF] flex items-center justify-center">
           <Plus className="w-5 h-5" />
         </div>
-        <h3 className="text-xl font-bold text-[#0F172A]">Registry Entry</h3>
+        <h3 className="text-xl font-bold text-[#0F172A]">Brand Entry</h3>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5">
@@ -95,13 +95,13 @@ export function BrandForm() {
         </div>
 
         <div className="space-y-2">
-          <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Brand Brief</label>
+          <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Brand Description</label>
           <textarea 
             rows={2}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             className="w-full px-5 py-3.5 bg-gray-50 border-none rounded-2xl font-bold focus:ring-2 focus:ring-blue-100 outline-none resize-none"
-            placeholder="One-liner about this entity..."
+            placeholder="One-liner about this brand..."
           />
         </div>
 
@@ -113,7 +113,7 @@ export function BrandForm() {
              className="w-full px-5 py-4 flex items-center justify-between bg-gray-50/50 hover:bg-gray-50 transition-colors"
            >
               <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[#1E40AF]">
-                 <Globe className="w-4 h-4" /> SEO Integrity
+                 <Globe className="w-4 h-4" /> SEO Settings
               </div>
               <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${isSeoOpen ? 'rotate-180' : ''}`} />
            </button>
@@ -129,7 +129,7 @@ export function BrandForm() {
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-[9px] font-black text-gray-400 uppercase">Search Snippet</label>
+                  <label className="text-[9px] font-black text-gray-400 uppercase">Meta Description</label>
                   <textarea 
                     rows={2}
                     value={seoDescription}
@@ -147,7 +147,7 @@ export function BrandForm() {
           className="w-full py-5 bg-white text-slate-900 text-slate-900 text-slate-900 border border-slate-100 text-white rounded-[24px] font-black shadow-xl shadow-gray-200 hover:bg-black transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2"
         >
           {isPending ? <Sparkles className="w-5 h-5 animate-pulse" /> : <Save className="w-5 h-5" />}
-          {isPending ? "Validating Entry..." : "Register Brand"}
+          {isPending ? "Saving..." : "Save Brand"}
         </button>
       </form>
     </div>

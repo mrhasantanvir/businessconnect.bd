@@ -71,7 +71,7 @@ export function CategoryForm({ allCategories }: { allCategories: any[] }) {
         <div className="w-10 h-10 rounded-none bg-blue-50 flex items-center justify-center text-blue-600">
           <Plus className="w-5 h-5" />
         </div>
-        <h3 className="text-xl font-bold text-[#0F172A]">Category Add</h3>
+        <h3 className="text-xl font-bold text-[#0F172A]">Add Category</h3>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5">
@@ -87,7 +87,7 @@ export function CategoryForm({ allCategories }: { allCategories: any[] }) {
         </div>
 
         <div className="space-y-2">
-          <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Direct Slug</label>
+          <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">URL Slug</label>
           <div className="flex items-center gap-2 bg-gray-50 px-5 py-3.5 rounded-none border-none">
             <span className="text-xs text-gray-400 font-medium">/catalog/</span>
             <input 
@@ -100,7 +100,7 @@ export function CategoryForm({ allCategories }: { allCategories: any[] }) {
         </div>
 
         <div className="space-y-2">
-          <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Parent Node (Depth Control)</label>
+          <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Parent Category</label>
           <select 
             value={parentId}
             onChange={(e) => setParentId(e.target.value)}
@@ -145,7 +145,7 @@ export function CategoryForm({ allCategories }: { allCategories: any[] }) {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             className="w-full px-5 py-3.5 bg-gray-50 border-none rounded-none font-bold focus:ring-2 focus:ring-blue-100 outline-none resize-none"
-            placeholder="Brief narrative for this catalog segment..."
+            placeholder="Write a short description for this category..."
           />
         </div>
 
@@ -157,7 +157,7 @@ export function CategoryForm({ allCategories }: { allCategories: any[] }) {
              className="w-full px-5 py-4 flex items-center justify-between bg-gray-50/50 hover:bg-gray-50 transition-colors"
            >
               <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[#1E40AF]">
-                 <Globe className="w-4 h-4" /> SEO Power Suite
+                 <Globe className="w-4 h-4" /> SEO Settings
               </div>
               <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${isSeoOpen ? 'rotate-180' : ''}`} />
            </button>
@@ -191,7 +191,7 @@ export function CategoryForm({ allCategories }: { allCategories: any[] }) {
           className="w-full py-5 bg-slate-900 text-white rounded-none font-black shadow-xl shadow-gray-200 hover:bg-black transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2"
         >
           {isPending ? <Sparkles className="w-5 h-5 animate-pulse" /> : <Save className="w-5 h-5" />}
-          {isPending ? "Configuring Catalog..." : "Commit Category"}
+          {isPending ? "Saving..." : "Save Category"}
         </button>
       </form>
     </div>

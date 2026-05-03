@@ -51,8 +51,8 @@ export default async function TaskConfirmPage({ searchParams }: { searchParams: 
             <div className="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6">
                <ShieldCheck className="w-8 h-8" />
             </div>
-            <h1 className="text-2xl font-black text-[#0F172A] uppercase tracking-tighter italic">Handshake <span className="text-indigo-600">Required</span></h1>
-            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Mandatory Confirmation for New Assignment</p>
+            <h1 className="text-2xl font-black text-[#0F172A] uppercase tracking-tighter italic">Task <span className="text-indigo-600">Confirmation</span></h1>
+            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Acknowledgment for New Assignment</p>
          </div>
 
          <div className="bg-gray-50 p-6 rounded-[2px] space-y-4 border border-gray-100">
@@ -98,7 +98,7 @@ export default async function TaskConfirmPage({ searchParams }: { searchParams: 
          </form>
 
          <p className="text-center text-[9px] font-bold text-gray-400 leading-relaxed px-6">
-            By confirming, you acknowledge that you have read the task details and will begin working on it immediately. Your activity will be tracked as part of the operational workflow.
+            By confirming, you acknowledge that you have read the task details and will begin working on it immediately. Your activity will be tracked as part of the task management system.
          </p>
       </div>
     </div>

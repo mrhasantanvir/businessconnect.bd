@@ -48,7 +48,7 @@ export async function suggestTaskAction(rawText: string) {
 }
 
 /**
- * Step 2: Create Task & Trigger Handshake
+ * Step 2: Create Task & Trigger Email Notification
  */
 export async function createTaskAction(data: {
   title: string;
@@ -87,13 +87,13 @@ export async function createTaskAction(data: {
     }
   });
 
-  // Mandatory Email Handshake for Staff
+  // Mandatory Email Notification for Staff
   if (task.assigneeId && task.assignee?.email) {
     const confirmationUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://businessconnect.bd'}/merchant/tasks/confirm?id=${task.id}`;
     
     await sendEmail({
       to: task.assignee.email,
-      subject: `[Task Handshake] New Assignment: ${task.title}`,
+      subject: `[Task Notification] New Assignment: ${task.title}`,
       html: `
         <div style="font-family: 'Inter', sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 2px;">
           <div style="background: #1e40af; padding: 24px; text-align: center;">
@@ -122,8 +122,8 @@ export async function createTaskAction(data: {
     await prisma.taskActivity.create({
       data: {
         taskId: task.id,
-        type: "HANDSHAKE_SENT",
-        message: `Handshake email sent to ${task.assignee.name}`
+        type: "EMAIL_SENT",
+        message: `Notification email sent to ${task.assignee.name}`
       }
     });
   }
@@ -133,7 +133,7 @@ export async function createTaskAction(data: {
 }
 
 /**
- * Step 3: Confirmation Handshake
+ * Step 3: Confirmation Response
  */
 export async function confirmTaskAction(taskId: string) {
   const session = await getSession();
@@ -298,8 +298,8 @@ export async function forwardTaskAction(taskId: string, newAssigneeId: string) {
       data: {
         taskId: task.id,
         userId: session.userId,
-        type: "HANDSHAKE_SENT",
-        message: `Forwarding handshake email sent to ${task.assignee.name}`
+        type: "EMAIL_SENT",
+        message: `Forwarding notification email sent to ${task.assignee.name}`
       }
     });
   } else {
@@ -327,7 +327,9 @@ export async function startWorkLogAction(taskId: string) {
   const log = await prisma.staffWorkLog.create({
     data: {
       taskId,
-      staffId: session.userId,
+      userId: session.userId,
+      merchantStoreId: session.merchantStoreId,
+      staffProfileId: (await prisma.staffProfile.findUnique({ where: { userId: session.userId } }))?.id || "",
       startTime: new Date()
     }
   });
@@ -355,7 +357,7 @@ export async function stopWorkLogAction(taskId: string) {
   const activeLog = await prisma.staffWorkLog.findFirst({
     where: { 
       taskId, 
-      staffId: session.userId, 
+      userId: session.userId, 
       endTime: null 
     }
   });

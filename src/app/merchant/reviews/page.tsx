@@ -40,7 +40,7 @@ export default async function MerchantReviewsPage() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
          <div className="space-y-4">
             <h1 className="text-4xl font-black text-slate-900 tracking-tighter uppercase italic">
-               Review <span className="text-indigo-600">Commander</span>
+               Review <span className="text-indigo-600">Manager</span>
             </h1>
             <p className="text-slate-500 text-sm font-bold max-w-xl uppercase tracking-widest leading-relaxed">
                Manage customer sentiment and boost conversion by engaging with feedback.

@@ -8,7 +8,7 @@ import {
   MessageCircle, DollarSign, Search, Cloud,
   Key, Shield
 } from "lucide-react";
-import { getSystemSettingsAction, updateSystemSettingsAction, getEmailTemplatesAction, updateEmailTemplateAction, testOpenAIConnectionAction } from "@/app/admin/settings/actions";
+import { getSystemSettingsAction, updateSystemSettingsAction, getEmailTemplatesAction, updateEmailTemplateAction, testOpenAIConnectionAction, testSmsConnectionAction } from "@/app/admin/settings/actions";
 import { RichEditor } from "@/components/ui/RichEditor";
 import { Sparkles, BrainCircuit, Scan, Terminal } from "lucide-react";
 
@@ -434,6 +434,55 @@ function SmsSettings({ settings, onSave, saving }: any) {
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
         Update SMS Gateway
       </button>
+
+      <div className="pt-8 border-t border-gray-100 space-y-4">
+         <div className="flex flex-col">
+            <h4 className="text-sm font-black text-[#0F172A] uppercase tracking-tight">Diagnostics</h4>
+            <p className="text-[10px] text-[#64748B] font-bold uppercase tracking-widest">Verify API Credentials</p>
+         </div>
+         
+         <div className="flex flex-col sm:flex-row gap-4">
+            <input 
+               type="text" 
+               id="test-sms-phone"
+               placeholder="Enter phone number (e.g. 01700000000)" 
+               className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-none focus:outline-none focus:ring-2 focus:ring-[#1E40AF] text-xs font-bold"
+            />
+            <button
+               id="test-sms-btn"
+               onClick={async () => {
+                  const input = document.getElementById('test-sms-phone') as HTMLInputElement;
+                  const phone = input.value;
+                  if (!phone) return alert("Please enter a phone number first.");
+                  
+                  const btn = document.getElementById('test-sms-btn');
+                  if (btn) {
+                     btn.innerHTML = "Sending...";
+                     (btn as HTMLButtonElement).disabled = true;
+                  }
+
+                  try {
+                     const res = await testSmsConnectionAction(phone);
+                     if (res.success) {
+                        alert("✅ SMS Sent Successfully! Please check the device.");
+                     } else {
+                        alert("❌ Failed to send SMS: " + res.error);
+                     }
+                  } catch (err: any) {
+                     alert("❌ Error: " + err.message);
+                  } finally {
+                     if (btn) {
+                        btn.innerHTML = "Test SMS Connection";
+                        (btn as HTMLButtonElement).disabled = false;
+                     }
+                  }
+               }}
+               className="px-6 py-3 bg-white text-[#1E40AF] border border-[#1E40AF] font-black text-[10px] uppercase tracking-widest rounded-none hover:bg-gray-50 transition-all whitespace-nowrap"
+            >
+               Test SMS Connection
+            </button>
+         </div>
+      </div>
     </div>
   );
 }
