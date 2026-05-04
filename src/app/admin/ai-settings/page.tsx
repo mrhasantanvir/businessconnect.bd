@@ -48,6 +48,18 @@ export default async function AiSettingsPage() {
     return acc + (curr._count._all * price);
   }, 0);
 
+   const usageByProvider = usageStats.reduce<Record<string, number>>((acc, curr) => {
+      const provider = curr.provider || "UNKNOWN";
+      acc[provider] = curr._count._all;
+      return acc;
+   }, {});
+
+   const providerCallCounts = Object.entries(providerPrices).map(([provider, info]) => ({
+      provider,
+      label: info.label,
+      count: usageByProvider[provider] || 0,
+   }));
+
   return (
     <div className="space-y-10 animate-in fade-in duration-700 pb-20">
       <div className="space-y-1">
@@ -340,27 +352,36 @@ export default async function AiSettingsPage() {
 
          {/* Right Column: Platform Revenue Stats */}
          <div className="space-y-8">
-            <div className="bg-[#1E40AF] p-8 rounded-none text-white space-y-6 shadow-xl border border-[#1E40AF]">
+            <div className="bg-white p-8 rounded-none text-black space-y-6 shadow-sm border border-[#E5E7EB]">
                <div className="flex items-center gap-3">
-                  <TrendingUp className="w-6 h-6" />
+                  <TrendingUp className="w-6 h-6 text-[#1E40AF]" />
                   <h3 className="text-xl font-black">AI Revenue Stream</h3>
                </div>
                <div>
-                  <div className="text-[10px] font-black uppercase tracking-widest opacity-80 mb-1">Total Internal AI Cost (This Month)</div>
+                  <div className="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-1">Total Internal AI Cost (This Month)</div>
                   <div className="text-4xl font-black tracking-tight flex items-baseline gap-1">
                      <span className="text-xl">$</span>{totalInternalCost.toFixed(2)}
                   </div>
-                  <div className="text-[10px] mt-1 opacity-70">Estimated base cost paid to providers</div>
+                  <div className="text-[10px] mt-1 text-gray-500">Estimated base cost paid to providers</div>
                </div>
-               <div className="pt-4 border-t border-white/20 grid grid-cols-2 gap-4">
+               <div className="pt-4 border-t border-gray-100 grid grid-cols-2 gap-4">
                   <div>
-                     <div className="text-[8px] font-black uppercase opacity-70">Total Inferences</div>
+                     <div className="text-[8px] font-black uppercase text-gray-500">Total Inferences</div>
                      <div className="text-lg font-bold">{totalInferences.toLocaleString()}</div>
                   </div>
                   <div>
-                     <div className="text-[8px] font-black uppercase opacity-70">Revenue (Estimated)</div>
+                     <div className="text-[8px] font-black uppercase text-gray-500">Revenue (Estimated)</div>
                      <div className="text-lg font-bold">৳ {(totalInferences * (settings?.aiCreditPrice || 0.5)).toLocaleString()}</div>
                   </div>
+               </div>
+               <div className="pt-4 border-t border-gray-100 space-y-2">
+                  <div className="text-[9px] font-black uppercase tracking-widest text-gray-500">Per Provider Call Count</div>
+                  {providerCallCounts.map((item) => (
+                    <div key={item.provider} className="flex items-center justify-between text-xs">
+                      <span className="font-semibold text-gray-700">{item.label}</span>
+                      <span className="font-black text-[#0F172A]">{item.count.toLocaleString()} calls</span>
+                    </div>
+                  ))}
                </div>
             </div>
 
