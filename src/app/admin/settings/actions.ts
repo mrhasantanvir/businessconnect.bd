@@ -600,3 +600,173 @@ export async function deployDbClusterConfigAction() {
     return { success: false, error: error.message || "Failed to deploy DB cluster config." };
   }
 }
+
+// ─── Maintenance Actions ───────────────────────────────────────────────────────
+
+export async function clearAllCacheAction() {
+  try {
+    const session = await getSession();
+    if (!session || session.role !== "SUPER_ADMIN") {
+      throw new Error("Unauthorized");
+    }
+
+    const results: Record<string, string> = {};
+
+    // 1. Revalidate all Next.js cached routes
+    revalidatePath("/", "layout");
+    results["Next.js Page Cache"] = "✓ Cleared";
+
+    if (process.platform !== "win32") {
+      // 2. Clear .next/cache (ISR, fetch cache, etc.)
+      try {
+        const cacheDir = path.join(process.cwd(), ".next", "cache");
+        await execPromise(`rm -rf "${cacheDir}"/* 2>/dev/null; true`);
+        results["Next.js Build Cache"] = "✓ Cleared";
+      } catch {
+        results["Next.js Build Cache"] = "⚠ Skipped";
+      }
+
+      // 3. Clear Nginx proxy cache
+      try {
+        await execPromise("rm -rf /www/server/nginx/proxy_cache_dir/* 2>/dev/null; true");
+        results["Nginx Proxy Cache"] = "✓ Cleared";
+      } catch {
+        results["Nginx Proxy Cache"] = "⚠ Skipped";
+      }
+    } else {
+      results["Next.js Build Cache"] = "⚠ Skipped (Windows)";
+      results["Nginx Proxy Cache"] = "⚠ Skipped (Windows)";
+    }
+
+    return { success: true, results };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}
+
+export type GarbageCleanOptions = {
+  aiTransactions: boolean;
+  campaignLogs: boolean;
+  inventoryLogs: boolean;
+  orderActivities: boolean;
+  staffWorkLogs: boolean;
+  staffActivityFrames: boolean;
+  abandonedCarts: boolean;
+  callLogs: boolean;
+  internalMessages: boolean;
+  resolvedIncidents: boolean;
+  retentionDays: number;
+  dryRun: boolean;
+};
+
+export async function cleanGarbageDataAction(options: GarbageCleanOptions) {
+  try {
+    const session = await getSession();
+    if (!session || session.role !== "SUPER_ADMIN") {
+      throw new Error("Unauthorized");
+    }
+
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - Math.max(1, options.retentionDays));
+
+    const counts: Record<string, number> = {};
+
+    if (options.aiTransactions) {
+      if (options.dryRun) {
+        counts["AI Transactions"] = await prisma.aiTransaction.count({ where: { createdAt: { lt: cutoff } } });
+      } else {
+        const r = await prisma.aiTransaction.deleteMany({ where: { createdAt: { lt: cutoff } } });
+        counts["AI Transactions"] = r.count;
+      }
+    }
+
+    if (options.campaignLogs) {
+      if (options.dryRun) {
+        counts["Campaign Logs"] = await prisma.campaignLog.count({ where: { createdAt: { lt: cutoff } } });
+      } else {
+        const r = await prisma.campaignLog.deleteMany({ where: { createdAt: { lt: cutoff } } });
+        counts["Campaign Logs"] = r.count;
+      }
+    }
+
+    if (options.inventoryLogs) {
+      if (options.dryRun) {
+        counts["Inventory Logs"] = await prisma.inventoryLog.count({ where: { createdAt: { lt: cutoff } } });
+      } else {
+        const r = await prisma.inventoryLog.deleteMany({ where: { createdAt: { lt: cutoff } } });
+        counts["Inventory Logs"] = r.count;
+      }
+    }
+
+    if (options.orderActivities) {
+      if (options.dryRun) {
+        counts["Order Activities"] = await prisma.orderActivity.count({ where: { createdAt: { lt: cutoff } } });
+      } else {
+        const r = await prisma.orderActivity.deleteMany({ where: { createdAt: { lt: cutoff } } });
+        counts["Order Activities"] = r.count;
+      }
+    }
+
+    if (options.staffWorkLogs) {
+      if (options.dryRun) {
+        counts["Staff Work Logs"] = await prisma.staffWorkLog.count({ where: { startTime: { lt: cutoff } } });
+      } else {
+        const r = await prisma.staffWorkLog.deleteMany({ where: { startTime: { lt: cutoff } } });
+        counts["Staff Work Logs"] = r.count;
+      }
+    }
+
+    if (options.staffActivityFrames) {
+      if (options.dryRun) {
+        counts["Staff Activity Frames"] = await prisma.staffActivityFrame.count({ where: { createdAt: { lt: cutoff } } });
+      } else {
+        const r = await prisma.staffActivityFrame.deleteMany({ where: { createdAt: { lt: cutoff } } });
+        counts["Staff Activity Frames"] = r.count;
+      }
+    }
+
+    if (options.abandonedCarts) {
+      if (options.dryRun) {
+        counts["Abandoned Carts"] = await prisma.abandonedCart.count({ where: { createdAt: { lt: cutoff } } });
+      } else {
+        const r = await prisma.abandonedCart.deleteMany({ where: { createdAt: { lt: cutoff } } });
+        counts["Abandoned Carts"] = r.count;
+      }
+    }
+
+    if (options.callLogs) {
+      if (options.dryRun) {
+        counts["Call Logs"] = await prisma.callLog.count({ where: { createdAt: { lt: cutoff } } });
+      } else {
+        const r = await prisma.callLog.deleteMany({ where: { createdAt: { lt: cutoff } } });
+        counts["Call Logs"] = r.count;
+      }
+    }
+
+    if (options.internalMessages) {
+      if (options.dryRun) {
+        counts["Internal Messages"] = await prisma.internalMessage.count({ where: { createdAt: { lt: cutoff } } });
+      } else {
+        const r = await prisma.internalMessage.deleteMany({ where: { createdAt: { lt: cutoff } } });
+        counts["Internal Messages"] = r.count;
+      }
+    }
+
+    if (options.resolvedIncidents) {
+      if (options.dryRun) {
+        counts["Resolved Incidents"] = await prisma.incident.count({
+          where: { status: "RESOLVED", updatedAt: { lt: cutoff } },
+        });
+      } else {
+        const r = await prisma.incident.deleteMany({
+          where: { status: "RESOLVED", updatedAt: { lt: cutoff } },
+        });
+        counts["Resolved Incidents"] = r.count;
+      }
+    }
+
+    return { success: true, counts, dryRun: options.dryRun };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}

@@ -14,7 +14,7 @@ export default async function AdminSettingsTabPage({ params }: { params: any }) 
 
   const validTabs = [
     "general", "sms", "realtime", "mail", "whatsapp", 
-    "pricing", "google", "seo", "storage", "email-templates", "payments", "db-cluster"
+    "pricing", "google", "seo", "storage", "email-templates", "payments", "db-cluster", "maintenance"
   ];
 
   if (tab === "ai") {
@@ -38,7 +38,8 @@ export default async function AdminSettingsTabPage({ params }: { params: any }) 
     "storage": "STORAGE",
     "email-templates": "EMAIL_TEMPLATES",
     "payments": "PAYMENTS",
-    "db-cluster": "DB_CLUSTER"
+    "db-cluster": "DB_CLUSTER",
+    "maintenance": "MAINTENANCE"
   };
 
   return (

@@ -6,7 +6,8 @@ import {
   Smartphone, Save, ShieldCheck, Database, 
   CheckCircle2, AlertCircle, Loader2, Globe,
   MessageCircle, DollarSign, Search, Cloud,
-  Key, Shield, CreditCard
+  Key, Shield, CreditCard, Trash2, RefreshCw,
+  AlertTriangle, ClipboardList, Zap
 } from "lucide-react";
 import {
   getSystemSettingsAction,
@@ -17,13 +18,16 @@ import {
   testSmsConnectionAction,
   testDbClusterNodesAction,
   deployDbClusterConfigAction,
+  clearAllCacheAction,
+  cleanGarbageDataAction,
+  type GarbageCleanOptions,
 } from "@/app/admin/settings/actions";
 import { RichEditor } from "@/components/ui/RichEditor";
 import { Sparkles, BrainCircuit, Scan, Terminal } from "lucide-react";
 
 import { useRouter, usePathname } from "next/navigation";
 
-type Tab = "GENERAL" | "SMS" | "REALTIME" | "MAIL" | "WHATSAPP" | "PRICING" | "GOOGLE" | "SEO" | "STORAGE" | "EMAIL_TEMPLATES" | "PAYMENTS" | "DB_CLUSTER";
+type Tab = "GENERAL" | "SMS" | "REALTIME" | "MAIL" | "WHATSAPP" | "PRICING" | "GOOGLE" | "SEO" | "STORAGE" | "EMAIL_TEMPLATES" | "PAYMENTS" | "DB_CLUSTER" | "MAINTENANCE";
 
 interface AdminSettingsUIProps {
   activeTab: Tab;
@@ -185,6 +189,13 @@ export function AdminSettingsUI({ activeTab }: AdminSettingsUIProps) {
             label="DB Cluster" 
             sub="Read/Write Nodes"
           />
+          <TabButton 
+            active={activeTab === "MAINTENANCE"} 
+            onClick={() => router.push("/admin/settings/maintenance")} 
+            icon={Trash2} 
+            label="Maintenance" 
+            sub="Cache & Garbage Clean"
+          />
         </div>
 
         {/* Content Area */}
@@ -271,6 +282,9 @@ export function AdminSettingsUI({ activeTab }: AdminSettingsUIProps) {
                   onSave={handleSave}
                   saving={saving}
                 />
+              )}
+              {activeTab === "MAINTENANCE" && (
+                <MaintenanceSettings />
               )}
            </div>
         </div>
@@ -1369,6 +1383,290 @@ function PaymentSettings({ settings, onSave, saving }: any) {
         {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
         DEPLOY PAYMENT SETTINGS
       </button>
+    </div>
+  );
+}
+
+function MaintenanceSettings() {
+  const [cacheLoading, setCacheLoading] = useState(false);
+  const [cacheResult, setCacheResult] = useState<{ success: boolean; results?: Record<string, string>; error?: string } | null>(null);
+
+  const [retentionDays, setRetentionDays] = useState(90);
+  const [selected, setSelected] = useState({
+    aiTransactions: true,
+    campaignLogs: true,
+    inventoryLogs: true,
+    orderActivities: false,
+    staffWorkLogs: true,
+    staffActivityFrames: true,
+    abandonedCarts: true,
+    callLogs: true,
+    internalMessages: false,
+    resolvedIncidents: false,
+  });
+  const [garbageLoading, setGarbageLoading] = useState(false);
+  const [previewLoading, setPreviewLoading] = useState(false);
+  const [garbageResult, setGarbageResult] = useState<{
+    success: boolean;
+    counts?: Record<string, number>;
+    dryRun?: boolean;
+    error?: string;
+  } | null>(null);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+
+  async function handleClearCache() {
+    setCacheLoading(true);
+    setCacheResult(null);
+    try {
+      const res = await clearAllCacheAction();
+      setCacheResult(res);
+    } finally {
+      setCacheLoading(false);
+    }
+  }
+
+  function buildOptions(dryRun: boolean): GarbageCleanOptions {
+    return { ...selected, retentionDays, dryRun };
+  }
+
+  async function handlePreview() {
+    setPreviewLoading(true);
+    setGarbageResult(null);
+    try {
+      const res = await cleanGarbageDataAction(buildOptions(true));
+      setGarbageResult(res);
+    } finally {
+      setPreviewLoading(false);
+    }
+  }
+
+  async function handleClean() {
+    setConfirmOpen(false);
+    setGarbageLoading(true);
+    setGarbageResult(null);
+    try {
+      const res = await cleanGarbageDataAction(buildOptions(false));
+      setGarbageResult(res);
+    } finally {
+      setGarbageLoading(false);
+    }
+  }
+
+  const dataItems: { key: keyof typeof selected; label: string; desc: string }[] = [
+    { key: "aiTransactions", label: "AI Transactions", desc: "Old AI usage/credit logs" },
+    { key: "campaignLogs", label: "Campaign Logs", desc: "SMS/Email campaign delivery logs" },
+    { key: "inventoryLogs", label: "Inventory Logs", desc: "Stock movement history" },
+    { key: "orderActivities", label: "Order Activities", desc: "Order status change audit trail" },
+    { key: "staffWorkLogs", label: "Staff Work Logs", desc: "Attendance & session records" },
+    { key: "staffActivityFrames", label: "Staff Activity Frames", desc: "Keyboard/mouse activity frames" },
+    { key: "abandonedCarts", label: "Abandoned Carts", desc: "Incomplete checkout records" },
+    { key: "callLogs", label: "Call Logs", desc: "Voice/SIP call history" },
+    { key: "internalMessages", label: "Internal Chat Messages", desc: "Staff chat history" },
+    { key: "resolvedIncidents", label: "Resolved Incidents", desc: "Closed support incidents" },
+  ];
+
+  const totalSelected = Object.values(selected).filter(Boolean).length;
+
+  return (
+    <div className="space-y-8">
+      <div>
+        <h2 className="text-xl font-semibold text-[#0F172A] flex items-center gap-2">
+          <Zap size={20} className="text-amber-500" />
+          System Maintenance
+        </h2>
+        <p className="text-sm text-[#64748B] mt-1">Clear cache and remove garbage data to keep the system fast and clean.</p>
+      </div>
+
+      {/* ── Cache Clear ── */}
+      <div className="border border-[#E5E7EB] bg-white p-6 space-y-4">
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-blue-50 rounded">
+            <RefreshCw size={20} className="text-blue-600" />
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold text-[#0F172A]">Clear Full Cache</h3>
+            <p className="text-xs text-[#64748B]">Clears Next.js page cache, build cache, and Nginx proxy cache.</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-3 gap-3 text-xs">
+          {[
+            { label: "Next.js Page Cache", desc: "All server-rendered pages" },
+            { label: "Next.js Build Cache", desc: ".next/cache directory" },
+            { label: "Nginx Proxy Cache", desc: "/www/server/nginx/proxy_cache_dir" },
+          ].map((item) => (
+            <div key={item.label} className="bg-blue-50 border border-blue-100 p-3">
+              <p className="font-semibold text-blue-800">{item.label}</p>
+              <p className="text-blue-600 mt-0.5">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+
+        <button
+          onClick={handleClearCache}
+          disabled={cacheLoading}
+          className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 disabled:opacity-60 transition-colors"
+        >
+          {cacheLoading ? <Loader2 size={16} className="animate-spin" /> : <RefreshCw size={16} />}
+          {cacheLoading ? "Clearing..." : "Clear All Cache Now"}
+        </button>
+
+        {cacheResult && (
+          <div className={`border p-4 space-y-2 ${cacheResult.success ? "bg-green-50 border-green-200" : "bg-red-50 border-red-200"}`}>
+            {cacheResult.success ? (
+              <>
+                <p className="text-sm font-semibold text-green-800 flex items-center gap-1">
+                  <CheckCircle2 size={14} /> Cache cleared successfully
+                </p>
+                <div className="space-y-1">
+                  {Object.entries(cacheResult.results || {}).map(([k, v]) => (
+                    <p key={k} className="text-xs text-green-700">
+                      <span className="font-medium">{k}:</span> {v}
+                    </p>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <p className="text-sm text-red-700 flex items-center gap-1">
+                <AlertCircle size={14} /> {cacheResult.error}
+              </p>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* ── Garbage Data Cleanup ── */}
+      <div className="border border-[#E5E7EB] bg-white p-6 space-y-5">
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-red-50 rounded">
+            <Trash2 size={20} className="text-red-600" />
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold text-[#0F172A]">Garbage Data Cleanup</h3>
+            <p className="text-xs text-[#64748B]">Permanently delete old records to reclaim database space. This action cannot be undone.</p>
+          </div>
+        </div>
+
+        {/* Retention days */}
+        <div className="flex items-center gap-3">
+          <label className="text-xs font-bold uppercase tracking-widest text-[#64748B] whitespace-nowrap">
+            Delete records older than
+          </label>
+          <input
+            type="number"
+            min={7}
+            value={retentionDays}
+            onChange={(e) => setRetentionDays(Math.max(7, Number(e.target.value)))}
+            className="w-24 h-10 px-3 border border-gray-200 bg-gray-50 text-sm text-center focus:outline-none focus:ring-2 focus:ring-red-400"
+          />
+          <span className="text-sm text-[#64748B]">days</span>
+        </div>
+
+        {/* Checkboxes */}
+        <div className="grid grid-cols-2 gap-2">
+          {dataItems.map((item) => (
+            <label
+              key={item.key}
+              className={`flex items-start gap-3 p-3 border cursor-pointer transition-colors ${
+                selected[item.key] ? "bg-red-50 border-red-200" : "bg-gray-50 border-gray-200 hover:bg-gray-100"
+              }`}
+            >
+              <input
+                type="checkbox"
+                checked={selected[item.key]}
+                onChange={(e) => setSelected((s) => ({ ...s, [item.key]: e.target.checked }))}
+                className="mt-0.5 accent-red-600"
+              />
+              <div>
+                <p className="text-sm font-semibold text-[#0F172A]">{item.label}</p>
+                <p className="text-xs text-[#64748B]">{item.desc}</p>
+              </div>
+            </label>
+          ))}
+        </div>
+
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handlePreview}
+            disabled={previewLoading || totalSelected === 0}
+            className="flex items-center gap-2 px-5 py-2.5 border border-gray-300 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50 transition-colors"
+          >
+            {previewLoading ? <Loader2 size={14} className="animate-spin" /> : <ClipboardList size={14} />}
+            {previewLoading ? "Counting..." : "Preview (Dry Run)"}
+          </button>
+          <button
+            onClick={() => setConfirmOpen(true)}
+            disabled={garbageLoading || totalSelected === 0}
+            className="flex items-center gap-2 px-5 py-2.5 bg-red-600 text-white text-sm font-semibold hover:bg-red-700 disabled:opacity-50 transition-colors"
+          >
+            {garbageLoading ? <Loader2 size={14} className="animate-spin" /> : <Trash2 size={14} />}
+            {garbageLoading ? "Cleaning..." : "Clean Now"}
+          </button>
+          {totalSelected === 0 && (
+            <span className="text-xs text-amber-600">Select at least one data type.</span>
+          )}
+        </div>
+
+        {/* Confirm modal */}
+        {confirmOpen && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div className="bg-white border border-gray-200 p-6 max-w-sm w-full shadow-2xl space-y-4">
+              <div className="flex items-center gap-2 text-red-600">
+                <AlertTriangle size={20} />
+                <h3 className="text-lg font-semibold">Confirm Permanent Deletion</h3>
+              </div>
+              <p className="text-sm text-gray-600">
+                This will permanently delete <strong>{totalSelected} data type(s)</strong> older than <strong>{retentionDays} days</strong>. This cannot be undone.
+              </p>
+              <div className="flex gap-3">
+                <button
+                  onClick={handleClean}
+                  className="flex-1 py-2.5 bg-red-600 text-white text-sm font-semibold hover:bg-red-700"
+                >
+                  Yes, Delete Permanently
+                </button>
+                <button
+                  onClick={() => setConfirmOpen(false)}
+                  className="flex-1 py-2.5 border border-gray-300 text-sm text-gray-700 hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Result */}
+        {garbageResult && (
+          <div className={`border p-4 space-y-2 ${garbageResult.success ? (garbageResult.dryRun ? "bg-blue-50 border-blue-200" : "bg-green-50 border-green-200") : "bg-red-50 border-red-200"}`}>
+            {garbageResult.success ? (
+              <>
+                <p className={`text-sm font-semibold flex items-center gap-1 ${garbageResult.dryRun ? "text-blue-800" : "text-green-800"}`}>
+                  {garbageResult.dryRun ? (
+                    <><ClipboardList size={14} /> Preview — records that would be deleted:</>
+                  ) : (
+                    <><CheckCircle2 size={14} /> Cleanup complete — records deleted:</>
+                  )}
+                </p>
+                <div className="grid grid-cols-2 gap-1">
+                  {Object.entries(garbageResult.counts || {}).map(([k, v]) => (
+                    <p key={k} className={`text-xs ${garbageResult.dryRun ? "text-blue-700" : "text-green-700"}`}>
+                      <span className="font-medium">{k}:</span> {v.toLocaleString()} records
+                    </p>
+                  ))}
+                </div>
+                {Object.keys(garbageResult.counts || {}).length === 0 && (
+                  <p className="text-xs text-gray-500">No records found matching the criteria.</p>
+                )}
+              </>
+            ) : (
+              <p className="text-sm text-red-700 flex items-center gap-1">
+                <AlertCircle size={14} /> {garbageResult.error}
+              </p>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
