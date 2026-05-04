@@ -31,7 +31,7 @@ export default async function StockTransfersPage() {
          <div className="flex items-center gap-2 text-orange-600  font-bold text-xs uppercase tracking-widest">
             <Truck className="w-3.5 h-3.5" /> Logistics Routing
          </div>
-         <h1 className="text-4xl font-extrabold text-[#0F172A]  tracking-tight">Stock Movements</h1>
+         <h1 className="text-2xl font-bold text-[#0F172A]  tracking-tight">Stock Movements</h1>
          <p className="text-[#64748B]  text-sm max-w-xl leading-relaxed">
             Digitally coordinate product transfers between your fulfillment hubs with full audit traceability.
          </p>
@@ -47,7 +47,7 @@ export default async function StockTransfersPage() {
                <div className="p-6 border-b border-[#F1F5F9]  flex items-center justify-between bg-gray-50/50 ">
                   <div className="flex items-center gap-3">
                      <Send className="w-5 h-5 text-orange-500" />
-                     <h3 className="font-extrabold text-[#0F172A] ">Active & Past Transfers</h3>
+                     <h3 className="font-bold text-[#0F172A] ">Active & Past Transfers</h3>
                   </div>
                </div>
                
@@ -72,25 +72,25 @@ export default async function StockTransfersPage() {
                                   <div className="text-[10px] font-bold text-gray-500 mt-1 uppercase text-center w-16">{tr.toWarehouse.name.split(' ')[0]}</div>
                                </div>
                                <div className="ml-4 flex-1">
-                                  <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1">Transfer ID</div>
+                                  <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none mb-1">Transfer ID</div>
                                   <div className="font-bold text-[#0F172A] ">#TR-{tr.id.slice(-6).toUpperCase()}</div>
                                </div>
                             </div>
                             
                             <div className="flex items-center gap-8">
                                <div className="text-right">
-                                  <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Items</div>
+                                  <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Items</div>
                                   <div className="flex items-center gap-2 font-bold text-[#0F172A] ">
                                      <Box className="w-4 h-4 text-gray-400" /> {items.length} SKUs
                                   </div>
                                </div>
                                <div className="text-right min-w-[100px]">
-                                  <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Date</div>
+                                  <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Date</div>
                                   <div className="flex items-center justify-end gap-2 text-xs font-medium text-gray-500">
                                      <Calendar className="w-3.5 h-3.5" /> {new Date(tr.createdAt).toLocaleDateString()}
                                   </div>
                                </div>
-                               <div className="bg-green-50  text-green-600  px-3 py-1.5 rounded-xl text-[10px] font-black uppercase border border-green-100 ">
+                               <div className="bg-green-50  text-green-600  px-3 py-1.5 rounded-xl text-[10px] font-bold uppercase border border-green-100 ">
                                   {tr.status}
                                </div>
                             </div>

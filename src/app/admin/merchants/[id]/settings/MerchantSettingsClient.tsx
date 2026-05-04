@@ -63,7 +63,7 @@ export function MerchantSettingsClient({ merchant }: { merchant: any }) {
             <ArrowLeft className="w-6 h-6 text-slate-900" />
          </Link>
          <div>
-            <h1 className="text-4xl font-black text-slate-900 tracking-tighter uppercase">Manage <span className="text-blue-600">{merchant.name}</span></h1>
+            <h1 className="text-2xl font-bold text-slate-900 tracking-tight uppercase">Manage <span className="text-blue-600">{merchant.name}</span></h1>
             <p className="text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mt-1">Resource & Credential Control Center</p>
          </div>
       </div>
@@ -78,14 +78,14 @@ export function MerchantSettingsClient({ merchant }: { merchant: any }) {
                      <KeyRound className="w-6 h-6" />
                   </div>
                   <div>
-                     <h2 className="text-xl font-black text-slate-900 uppercase">Core Credentials</h2>
+                     <h2 className="text-xl font-bold text-slate-900 uppercase">Core Credentials</h2>
                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Configure platform-level connectivity</p>
                   </div>
                </div>
 
                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-3">
-                     <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">SIP Username</label>
+                     <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">SIP Username</label>
                      <input 
                         value={creds.sipUsername}
                         onChange={e => setCreds({...creds, sipUsername: e.target.value})}
@@ -93,7 +93,7 @@ export function MerchantSettingsClient({ merchant }: { merchant: any }) {
                      />
                   </div>
                   <div className="space-y-3">
-                     <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">SIP Password</label>
+                     <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">SIP Password</label>
                      <input 
                         type="password"
                         value={creds.sipPassword}
@@ -102,7 +102,7 @@ export function MerchantSettingsClient({ merchant }: { merchant: any }) {
                      />
                   </div>
                   <div className="space-y-3">
-                     <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">SIP Domain</label>
+                     <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">SIP Domain</label>
                      <input 
                         value={creds.sipDomain}
                         onChange={e => setCreds({...creds, sipDomain: e.target.value})}
@@ -110,7 +110,7 @@ export function MerchantSettingsClient({ merchant }: { merchant: any }) {
                      />
                   </div>
                   <div className="space-y-3">
-                     <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">SIP Port</label>
+                     <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">SIP Port</label>
                      <input 
                         value={creds.sipPort}
                         onChange={e => setCreds({...creds, sipPort: e.target.value})}
@@ -118,7 +118,7 @@ export function MerchantSettingsClient({ merchant }: { merchant: any }) {
                      />
                   </div>
                   <div className="space-y-3">
-                     <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">SMS Rate (Per SMS)</label>
+                     <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">SMS Rate (Per SMS)</label>
                      <input 
                         type="number"
                         step="0.01"
@@ -128,7 +128,7 @@ export function MerchantSettingsClient({ merchant }: { merchant: any }) {
                      />
                   </div>
                   <div className="space-y-3">
-                     <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">SIP Rate (Per Minute)</label>
+                     <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">SIP Rate (Per Minute)</label>
                      <input 
                         type="number"
                         step="0.01"
@@ -142,7 +142,7 @@ export function MerchantSettingsClient({ merchant }: { merchant: any }) {
                <button 
                   onClick={handleSaveCreds}
                   disabled={loading}
-                  className="w-full h-16 bg-blue-600 text-white rounded-[24px] font-black text-xs uppercase tracking-[0.3em] shadow-xl shadow-blue-100 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50"
+                  className="w-full h-16 bg-blue-600 text-white rounded-[24px] font-bold text-xs uppercase tracking-[0.3em] shadow-xl shadow-blue-100 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50"
                >
                   {loading ? <RefreshCw className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
                   Synchronize Credentials
@@ -160,7 +160,7 @@ export function MerchantSettingsClient({ merchant }: { merchant: any }) {
                         <PlusCircle className="w-6 h-6 text-blue-600" />
                      </div>
                      <div>
-                        <h3 className="text-xl font-black uppercase text-slate-900">Sell Credits</h3>
+                        <h3 className="text-xl font-bold uppercase text-slate-900">Sell Credits</h3>
                         <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Top up merchant balance</p>
                      </div>
                   </div>
@@ -171,7 +171,7 @@ export function MerchantSettingsClient({ merchant }: { merchant: any }) {
                            <button 
                               key={t}
                               onClick={() => setTopup({...topup, type: t})}
-                              className={`flex-1 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest border transition-all ${
+                              className={`flex-1 py-4 rounded-2xl text-[10px] font-bold uppercase tracking-widest border transition-all ${
                                  topup.type === t ? 'bg-blue-600 text-white border-blue-500 shadow-lg' : 'bg-slate-50 border-slate-200 text-slate-400 hover:bg-slate-100'
                               }`}
                            >
@@ -181,7 +181,7 @@ export function MerchantSettingsClient({ merchant }: { merchant: any }) {
                      </div>
 
                      <div className="space-y-3">
-                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Amount to Add</label>
+                        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">Amount to Add</label>
                         <input 
                            type="number"
                            value={topup.amount}
@@ -193,7 +193,7 @@ export function MerchantSettingsClient({ merchant }: { merchant: any }) {
                      <button 
                         onClick={handleTopup}
                         disabled={!!topupLoading}
-                        className="w-full py-5 bg-blue-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:scale-[1.05] active:scale-95 transition-all shadow-xl shadow-blue-100 disabled:opacity-50 flex items-center justify-center gap-2"
+                        className="w-full py-5 bg-blue-600 text-white rounded-2xl font-bold text-[10px] uppercase tracking-widest hover:scale-[1.05] active:scale-95 transition-all shadow-xl shadow-blue-100 disabled:opacity-50 flex items-center justify-center gap-2"
                      >
                         {topupLoading === topup.type ? <RefreshCw className="w-4 h-4 animate-spin" /> : <ShieldCheck className="w-4 h-4" />}
                         Execute Top-up
@@ -206,14 +206,14 @@ export function MerchantSettingsClient({ merchant }: { merchant: any }) {
                            <MessageSquare className="w-4 h-4 text-blue-500" />
                            <span className="text-[10px] font-bold text-slate-400 uppercase">Current SMS</span>
                         </div>
-                        <span className="text-xl font-black text-slate-900">৳{merchant.smsBalance.toLocaleString()}</span>
+                        <span className="text-xl font-bold text-slate-900">৳{merchant.smsBalance.toLocaleString()}</span>
                      </div>
                      <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                            <Phone className="w-4 h-4 text-emerald-500" />
                            <span className="text-[10px] font-bold text-slate-400 uppercase">Current SIP</span>
                         </div>
-                        <span className="text-xl font-black text-slate-900">{merchant.sipBalance.toLocaleString()}</span>
+                        <span className="text-xl font-bold text-slate-900">{merchant.sipBalance.toLocaleString()}</span>
                      </div>
                   </div>
                </div>
@@ -229,7 +229,7 @@ export function MerchantSettingsClient({ merchant }: { merchant: any }) {
                <ShieldCheck className="w-6 h-6" />
             </div>
             <div>
-               <h2 className="text-xl font-black text-slate-900 uppercase">Merchant Account Management</h2>
+               <h2 className="text-xl font-bold text-slate-900 uppercase">Merchant Account Management</h2>
                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Update owner credentials and login information</p>
             </div>
          </div>
@@ -276,22 +276,22 @@ function MerchantUserEditCard({ user }: { user: any }) {
     <div className="p-8 bg-slate-50 rounded-[32px] border border-slate-100 space-y-8">
        <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-             <div className="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center text-indigo-600 font-black">
+             <div className="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center text-indigo-600 font-bold">
                 {user.name.substring(0,2).toUpperCase()}
              </div>
              <div>
-                <p className="text-sm font-black text-slate-900">{user.name}</p>
+                <p className="text-sm font-bold text-slate-900">{user.name}</p>
                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{user.email}</p>
              </div>
           </div>
-          <div className="px-3 py-1 bg-indigo-50 text-indigo-600 rounded-lg text-[10px] font-black uppercase">
+          <div className="px-3 py-1 bg-indigo-50 text-indigo-600 rounded-lg text-[10px] font-bold uppercase">
              Merchant Owner
           </div>
        </div>
 
        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="space-y-2">
-             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Full Name</label>
+             <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Full Name</label>
              <div className="relative">
                 <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input 
@@ -302,7 +302,7 @@ function MerchantUserEditCard({ user }: { user: any }) {
              </div>
           </div>
           <div className="space-y-2">
-             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Login Email (User ID)</label>
+             <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Login Email (User ID)</label>
              <div className="relative">
                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input 
@@ -313,7 +313,7 @@ function MerchantUserEditCard({ user }: { user: any }) {
              </div>
           </div>
           <div className="space-y-2">
-             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Phone</label>
+             <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Phone</label>
              <div className="relative">
                 <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input 
@@ -324,7 +324,7 @@ function MerchantUserEditCard({ user }: { user: any }) {
              </div>
           </div>
           <div className="space-y-2">
-             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Reset Password</label>
+             <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Reset Password</label>
              <div className="relative">
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input 
@@ -341,7 +341,7 @@ function MerchantUserEditCard({ user }: { user: any }) {
        <button 
           onClick={handleUpdate}
           disabled={loading}
-          className="px-8 h-12 bg-indigo-600 text-white rounded-xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-indigo-100 hover:scale-[1.05] active:scale-95 transition-all flex items-center gap-2 disabled:opacity-50"
+          className="px-8 h-12 bg-indigo-600 text-white rounded-xl font-bold text-[10px] uppercase tracking-widest shadow-lg shadow-indigo-100 hover:scale-[1.05] active:scale-95 transition-all flex items-center gap-2 disabled:opacity-50"
        >
           {loading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           Update User Info

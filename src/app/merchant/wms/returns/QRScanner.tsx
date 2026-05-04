@@ -56,7 +56,7 @@ export function QRScanner({ onScan, onClose }: QRScannerProps) {
                   <Camera className="w-5 h-5 text-indigo-600 " />
                </div>
                <div>
-                  <h3 className="text-xl font-black text-[#0F172A]  tracking-tight">Lens Scan Mode</h3>
+                  <h3 className="text-xl font-semibold text-[#0F172A]  tracking-tight">Lens Scan Mode</h3>
                   <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mt-0.5 flex items-center gap-1">
                      <Zap className="w-2.5 h-2.5 text-indigo-500" /> Real-time AR Decoder Active
                   </p>

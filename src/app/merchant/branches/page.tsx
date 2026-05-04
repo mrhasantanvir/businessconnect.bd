@@ -31,15 +31,15 @@ export default async function MerchantBranchesPage() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-             <span className="text-[10px] font-black text-indigo-500 uppercase tracking-[0.2em] bg-indigo-50 px-2 py-0.5 rounded">Multi-Location Engine</span>
+             <span className="text-[10px] font-bold text-indigo-500 uppercase tracking-[0.2em] bg-indigo-50 px-2 py-0.5 rounded">Multi-Location Engine</span>
           </div>
-          <h1 className="text-4xl font-black text-[#0F172A] tracking-tighter uppercase">Branch Network</h1>
+          <h1 className="text-2xl font-bold text-[#0F172A] tracking-tight uppercase">Branch Network</h1>
           <p className="text-[#64748B] text-sm font-medium mt-1">
             Manage your decentralized business ecosystem across multiple physical and digital locations.
           </p>
         </div>
         <div className="flex items-center gap-3">
-           <div className="bg-white text-slate-900 px-6 py-3 rounded-2xl text-xs font-black border border-slate-100 shadow-sm flex items-center gap-2">
+           <div className="bg-white text-slate-900 px-6 py-3 rounded-2xl text-xs font-bold border border-slate-100 shadow-sm flex items-center gap-2">
               <Building2 className="w-4 h-4 text-indigo-500" /> {branches.length} Registered Nodes
            </div>
         </div>
@@ -62,8 +62,8 @@ export default async function MerchantBranchesPage() {
                  <div className="w-10 h-10 bg-[#BEF264] rounded-xl flex items-center justify-center text-green-900 shadow-xl">
                     <Globe className="w-6 h-6" />
                  </div>
-                 <h4 className="text-sm font-black uppercase tracking-tight text-indigo-200">Network Intelligence</h4>
-                 <p className="text-[10px] font-medium text-slate-300 leading-relaxed uppercase tracking-tighter">
+                 <h4 className="text-sm font-bold uppercase tracking-tight text-indigo-200">Network Intelligence</h4>
+                 <p className="text-[10px] font-medium text-slate-300 leading-relaxed uppercase tracking-tight">
                    Centralized control for all branches. Orders and inventory are automatically routed based on branch assignment.
                  </p>
               </div>

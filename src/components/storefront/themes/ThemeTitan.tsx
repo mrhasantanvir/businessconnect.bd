@@ -26,19 +26,19 @@ export function ThemeTitan({ store, brandColor }: { store: any, brandColor: stri
                <div className="w-10 h-10 bg-gradient-to-tr from-cyan-600 to-blue-600 rounded-lg flex items-center justify-center text-white shadow-lg shadow-cyan-500/20">
                   <Cpu className="w-6 h-6" />
                </div>
-               <h1 className="text-xl font-black tracking-tighter uppercase">{store.name}</h1>
+               <h1 className="text-xl font-bold tracking-tight uppercase">{store.name}</h1>
             </div>
 
             <nav className="hidden md:flex items-center gap-8">
                {["Components", "Gaming", "Mobile", "Support"].map(link => (
-                 <a key={link} href="#" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-cyan-400 transition-colors">{link}</a>
+                 <a key={link} href="#" className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 hover:text-cyan-400 transition-colors">{link}</a>
                ))}
             </nav>
 
             <div className="flex items-center gap-4">
                <div className="px-4 py-2 bg-white/5 border border-white/10 rounded-full flex items-center gap-2">
                   <Activity className="w-3 h-3 text-cyan-400 animate-pulse" />
-                  <span className="text-[8px] font-black uppercase tracking-widest text-slate-400">System Online</span>
+                  <span className="text-[8px] font-bold uppercase tracking-widest text-slate-400">System Online</span>
                </div>
             </div>
          </div>
@@ -54,21 +54,21 @@ export function ThemeTitan({ store, brandColor }: { store: any, brandColor: stri
                <div className="space-y-10">
                   <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-cyan-500/10 border border-cyan-500/20 rounded-full">
                      <Zap className="w-4 h-4 text-cyan-400" />
-                     <span className="text-[10px] font-black text-cyan-400 uppercase tracking-widest">Next-Gen Technology</span>
+                     <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest">Next-Gen Technology</span>
                   </div>
-                  <h2 className="text-6xl lg:text-8xl font-black tracking-tighter uppercase leading-[0.9]">
+                  <h2 className="text-2xl lg:text-2xl font-bold tracking-tight uppercase leading-[0.9]">
                      Power <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Unleashed</span>
                   </h2>
                   <p className="text-lg text-slate-400 max-w-md leading-relaxed font-medium">
                      Experience the pinnacle of electronic engineering. Our 2026 lineup is designed for creators, gamers, and visionaries.
                   </p>
                   <div className="flex flex-wrap gap-6">
-                     <button className="px-10 py-5 bg-cyan-500 text-black rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-cyan-400 hover:scale-105 transition-all shadow-xl shadow-cyan-500/20 flex items-center gap-4">
+                     <button className="px-10 py-5 bg-cyan-500 text-black rounded-2xl font-bold text-xs uppercase tracking-widest hover:bg-cyan-400 hover:scale-105 transition-all shadow-xl shadow-cyan-500/20 flex items-center gap-4">
                         View Hardware <ArrowRight className="w-5 h-5" />
                      </button>
                      <div className="flex items-center gap-4 px-8 py-5 bg-white/5 border border-white/10 rounded-2xl">
                         <TrendingUp className="w-5 h-5 text-emerald-400" />
-                        <span className="text-[10px] font-black uppercase tracking-widest">Top Rated 2026</span>
+                        <span className="text-[10px] font-bold uppercase tracking-widest">Top Rated 2026</span>
                      </div>
                   </div>
                </div>
@@ -96,7 +96,7 @@ export function ThemeTitan({ store, brandColor }: { store: any, brandColor: stri
             ].map((cat, i) => (
               <div key={i} className="p-8 bg-white/5 border border-white/5 rounded-[32px] hover:bg-white/10 hover:border-cyan-500/30 transition-all group cursor-pointer">
                  <cat.icon className="w-8 h-8 text-cyan-400 mb-6 group-hover:scale-110 transition-transform" />
-                 <h4 className="text-sm font-black uppercase tracking-widest">{cat.label}</h4>
+                 <h4 className="text-sm font-bold uppercase tracking-widest">{cat.label}</h4>
                  <p className="text-[10px] font-bold text-slate-500 uppercase mt-2">{cat.count}</p>
               </div>
             ))}
@@ -107,10 +107,10 @@ export function ThemeTitan({ store, brandColor }: { store: any, brandColor: stri
       <section className="max-w-7xl mx-auto px-6 pb-32 space-y-20">
          <div className="flex items-end justify-between border-b border-white/5 pb-12">
             <div>
-               <h3 className="text-4xl font-black uppercase tracking-tighter">Engineered <span className="text-cyan-400">Superiority</span></h3>
-               <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-2">Latest technical arrivals</p>
+               <h3 className="text-lg font-bold uppercase tracking-tight">Engineered <span className="text-cyan-400">Superiority</span></h3>
+               <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-2">Latest technical arrivals</p>
             </div>
-            <button className="text-[10px] font-black uppercase tracking-[0.2em] text-cyan-400 border-b-2 border-cyan-500 pb-2">Full Inventory</button>
+            <button className="text-[10px] font-bold uppercase tracking-[0.2em] text-cyan-400 border-b-2 border-cyan-500 pb-2">Full Inventory</button>
          </div>
 
          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
@@ -122,10 +122,10 @@ export function ThemeTitan({ store, brandColor }: { store: any, brandColor: stri
                  </div>
                  <div className="p-10 space-y-6">
                     <div className="flex items-center justify-between">
-                       <span className="px-3 py-1 bg-cyan-500/10 text-cyan-400 text-[8px] font-black uppercase tracking-widest rounded-full border border-cyan-500/20">Tech Specs</span>
-                       <span className="text-lg font-black text-white">৳{product.price}</span>
+                       <span className="px-3 py-1 bg-cyan-500/10 text-cyan-400 text-[8px] font-bold uppercase tracking-widest rounded-full border border-cyan-500/20">Tech Specs</span>
+                       <span className="text-lg font-bold text-white">৳{product.price}</span>
                     </div>
-                    <h4 className="text-xl font-black uppercase tracking-tight">{product.name}</h4>
+                    <h4 className="text-xl font-bold uppercase tracking-tight">{product.name}</h4>
                     
                     <div className="space-y-3 pt-4 border-t border-white/5">
                        <div className="flex justify-between text-[10px] font-bold text-slate-500 uppercase tracking-widest">
@@ -138,7 +138,7 @@ export function ThemeTitan({ store, brandColor }: { store: any, brandColor: stri
                        </div>
                     </div>
 
-                    <button className="w-full py-5 bg-white/5 hover:bg-cyan-500 hover:text-black border border-white/10 hover:border-cyan-500 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all">
+                    <button className="w-full py-5 bg-white/5 hover:bg-cyan-500 hover:text-black border border-white/10 hover:border-cyan-500 rounded-2xl text-[10px] font-bold uppercase tracking-widest transition-all">
                        Initialize Checkout
                     </button>
                  </div>
@@ -157,7 +157,7 @@ export function ThemeTitan({ store, brandColor }: { store: any, brandColor: stri
             ].map((f, i) => (
               <div key={i} className="p-10 bg-white/5 border border-white/5 rounded-[40px] space-y-6">
                  <f.icon className="w-10 h-10 text-cyan-400" />
-                 <h5 className="text-lg font-black uppercase tracking-tight">{f.title || f.label}</h5>
+                 <h5 className="text-lg font-bold uppercase tracking-tight">{f.title || f.label}</h5>
                  <p className="text-sm text-slate-500 font-medium leading-relaxed">{f.desc}</p>
               </div>
             ))}
@@ -169,14 +169,14 @@ export function ThemeTitan({ store, brandColor }: { store: any, brandColor: stri
          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12 text-slate-500">
             <div className="flex items-center gap-3">
                <Cpu className="w-6 h-6 text-cyan-500" />
-               <h2 className="text-xl font-black text-white uppercase tracking-tighter">{store.name}</h2>
+               <h2 className="text-xl font-bold text-white uppercase tracking-tight">{store.name}</h2>
             </div>
             <div className="flex items-center gap-10">
                {["Protocols", "Compliance", "Architecture"].map(l => (
-                 <span key={l} className="text-[10px] font-black uppercase tracking-widest hover:text-cyan-400 transition-colors cursor-pointer">{l}</span>
+                 <span key={l} className="text-[10px] font-bold uppercase tracking-widest hover:text-cyan-400 transition-colors cursor-pointer">{l}</span>
                ))}
             </div>
-            <p className="text-[10px] font-black uppercase tracking-widest">© 2026 Titanium-OS Powered</p>
+            <p className="text-[10px] font-bold uppercase tracking-widest">© 2026 Titanium-OS Powered</p>
          </div>
       </footer>
 

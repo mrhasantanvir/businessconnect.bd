@@ -24,12 +24,12 @@ export function ThemeOrganic({ store, brandColor }: { store: any, brandColor: st
                <div className="w-10 h-10 bg-emerald-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-emerald-200">
                   <Leaf className="w-6 h-6" />
                </div>
-               <h1 className="text-xl font-black tracking-tight text-emerald-900">{store.name}</h1>
+               <h1 className="text-xl font-bold tracking-tight text-emerald-900">{store.name}</h1>
             </div>
 
             <nav className="hidden md:flex items-center gap-10">
                {["Our Farm", "Categories", "Subscription", "Offers"].map(link => (
-                 <a key={link} href="#" className="text-xs font-black uppercase tracking-widest hover:text-emerald-600 transition-colors">{link}</a>
+                 <a key={link} href="#" className="text-xs font-bold uppercase tracking-widest hover:text-emerald-600 transition-colors">{link}</a>
                ))}
             </nav>
 
@@ -49,19 +49,19 @@ export function ThemeOrganic({ store, brandColor }: { store: any, brandColor: st
             <div className="space-y-8 relative z-10">
                <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-100 text-emerald-700 rounded-full">
                   <TrendingUp className="w-4 h-4" />
-                  <span className="text-[10px] font-black uppercase tracking-widest">Fresh From the Root</span>
+                  <span className="text-[10px] font-bold uppercase tracking-widest">Fresh From the Root</span>
                </div>
-               <h2 className="text-6xl lg:text-8xl font-black leading-tight tracking-tight text-emerald-950">
+               <h2 className="text-2xl lg:text-2xl font-bold leading-tight tracking-tight text-emerald-950">
                   Organic <br /> <span className="text-emerald-600">Nutrition</span> <br /> For Life
                </h2>
                <p className="text-lg text-emerald-800/60 max-w-md leading-relaxed">
                   We bridge the gap between farmers and your table. 100% Pesticide-free, hand-picked daily.
                </p>
                <div className="flex flex-wrap gap-4 pt-4">
-                  <button className="px-10 py-5 bg-emerald-600 text-white rounded-[24px] font-black text-xs uppercase tracking-widest shadow-2xl shadow-emerald-200 hover:scale-105 transition-all flex items-center gap-4">
+                  <button className="px-10 py-5 bg-emerald-600 text-white rounded-[24px] font-bold text-xs uppercase tracking-widest shadow-2xl shadow-emerald-200 hover:scale-105 transition-all flex items-center gap-4">
                      Browse Harvest <ArrowRight className="w-5 h-5" />
                   </button>
-                  <button className="px-10 py-5 border-2 border-emerald-100 text-emerald-700 rounded-[24px] font-black text-xs uppercase tracking-widest hover:bg-emerald-50 transition-all">
+                  <button className="px-10 py-5 border-2 border-emerald-100 text-emerald-700 rounded-[24px] font-bold text-xs uppercase tracking-widest hover:bg-emerald-50 transition-all">
                      Our Story
                   </button>
                </div>
@@ -80,8 +80,8 @@ export function ThemeOrganic({ store, brandColor }: { store: any, brandColor: st
                         <Zap className="w-6 h-6" />
                      </div>
                      <div>
-                        <p className="text-[10px] font-black uppercase text-slate-400 leading-none">Express Delivery</p>
-                        <p className="text-sm font-black text-slate-900 mt-1 uppercase">Under 30 Mins</p>
+                        <p className="text-[10px] font-bold uppercase text-slate-400 leading-none">Express Delivery</p>
+                        <p className="text-sm font-bold text-slate-900 mt-1 uppercase">Under 30 Mins</p>
                      </div>
                   </div>
                </div>
@@ -93,10 +93,10 @@ export function ThemeOrganic({ store, brandColor }: { store: any, brandColor: st
       <section className="max-w-7xl mx-auto px-6 py-32 space-y-20">
          <div className="flex items-center justify-between">
             <div>
-               <h3 className="text-4xl font-black text-emerald-950 tracking-tight">Today's <span className="text-emerald-600">Fresh</span> Pick</h3>
+               <h3 className="text-lg font-bold text-emerald-950 tracking-tight">Today's <span className="text-emerald-600">Fresh</span> Pick</h3>
                <p className="text-xs font-bold text-emerald-800/40 uppercase tracking-widest mt-2">Supplied by local artisan farmers</p>
             </div>
-            <button className="text-xs font-black uppercase tracking-widest text-emerald-600 border-b-2 border-emerald-100 pb-2 hover:border-emerald-600 transition-all">View All Products</button>
+            <button className="text-xs font-bold uppercase tracking-widest text-emerald-600 border-b-2 border-emerald-100 pb-2 hover:border-emerald-600 transition-all">View All Products</button>
          </div>
 
          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
@@ -109,10 +109,10 @@ export function ThemeOrganic({ store, brandColor }: { store: any, brandColor: st
                     </button>
                  </div>
                  <div className="text-center space-y-2">
-                    <h4 className="text-lg font-black text-emerald-950 uppercase leading-none">{product.name}</h4>
+                    <h4 className="text-lg font-bold text-emerald-950 uppercase leading-none">{product.name}</h4>
                     <p className="text-xs font-bold text-emerald-800/40 uppercase tracking-widest">৳{product.price} / KG</p>
                     <div className="pt-4">
-                       <button className="px-6 py-3 bg-emerald-50 text-emerald-700 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-600 hover:text-white transition-all">Add To Basket</button>
+                       <button className="px-6 py-3 bg-emerald-50 text-emerald-700 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-emerald-600 hover:text-white transition-all">Add To Basket</button>
                     </div>
                  </div>
               </div>
@@ -125,7 +125,7 @@ export function ThemeOrganic({ store, brandColor }: { store: any, brandColor: st
          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] opacity-10" />
          <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div className="space-y-10 relative z-10">
-               <h2 className="text-5xl lg:text-7xl font-black tracking-tighter leading-none">
+               <h2 className="text-2xl lg:text-2xl font-bold tracking-tight leading-none">
                   Supporting Our <br /> <span className="text-emerald-400">Local Heroes</span>
                </h2>
                <p className="text-lg text-emerald-200/60 leading-relaxed max-w-lg">
@@ -133,12 +133,12 @@ export function ThemeOrganic({ store, brandColor }: { store: any, brandColor: st
                </p>
                <div className="grid grid-cols-2 gap-8">
                   <div className="space-y-2">
-                     <p className="text-4xl font-black text-[#BEF264]">50+</p>
-                     <p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-40">Local Farms</p>
+                     <p className="text-2xl font-bold text-[#BEF264]">50+</p>
+                     <p className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-40">Local Farms</p>
                   </div>
                   <div className="space-y-2">
-                     <p className="text-4xl font-black text-[#BEF264]">100%</p>
-                     <p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-40">Plastic Free</p>
+                     <p className="text-2xl font-bold text-[#BEF264]">100%</p>
+                     <p className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-40">Plastic Free</p>
                   </div>
                </div>
             </div>
@@ -157,14 +157,14 @@ export function ThemeOrganic({ store, brandColor }: { store: any, brandColor: st
          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12">
             <div className="flex items-center gap-3">
                <Leaf className="w-6 h-6 text-emerald-600" />
-               <h2 className="text-xl font-black text-emerald-950 uppercase">{store.name}</h2>
+               <h2 className="text-xl font-bold text-emerald-950 uppercase">{store.name}</h2>
             </div>
             <p className="text-xs font-bold text-emerald-800/40 uppercase tracking-widest text-center">
                © 2026 {store.name}. Sustainable Commerce Engine.
             </p>
             <div className="flex items-center gap-8">
                {["Terms", "Policy", "BIN: 12345678"].map(link => (
-                 <span key={link} className="text-[10px] font-black uppercase tracking-widest text-emerald-800/60">{link}</span>
+                 <span key={link} className="text-[10px] font-bold uppercase tracking-widest text-emerald-800/60">{link}</span>
                ))}
             </div>
          </div>

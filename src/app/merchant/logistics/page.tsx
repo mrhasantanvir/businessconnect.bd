@@ -20,10 +20,10 @@ export default async function MerchantLogisticsPage() {
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-gray-200 pb-6">
            <div>
-              <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-indigo-600 mb-2">
+              <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-indigo-600 mb-2">
                  <Truck className="w-4 h-4" /> Logistics Intelligence Layer
               </div>
-              <h1 className="text-4xl font-black text-gray-900 tracking-tighter uppercase">
+              <h1 className="text-2xl font-bold text-gray-900 tracking-tight uppercase">
                  Logistics <span className="text-indigo-600">Control</span> Center
               </h1>
               <p className="text-gray-500 text-sm font-medium mt-2 opacity-80">
@@ -38,7 +38,7 @@ export default async function MerchantLogisticsPage() {
              <img src="/images/courier_illustration.png" alt="" className="w-full h-full object-contain object-right" />
           </div>
           <div className="relative z-10 space-y-4">
-            <h2 className="text-2xl font-black uppercase tracking-tight">Custom Delivery Rules & Routing</h2>
+            <h2 className="text-2xl font-bold uppercase tracking-tight">Custom Delivery Rules & Routing</h2>
             <p className="text-slate-600 font-medium max-w-2xl leading-relaxed text-sm">
               You can explicitly route individual products to specific couriers and districts right inside the "Add Product" module! 
               For example, you can enforce that "Rajshahi Mangoes" are strictly delivered via "STEADFAST" and only to "Dhaka, Rajshahi" districts. 

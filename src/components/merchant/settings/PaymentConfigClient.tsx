@@ -125,11 +125,11 @@ export default function PaymentConfigClient({ initialConfigs = [] }: { initialCo
             <div className="w-12 h-12 bg-indigo-600 text-white rounded-2xl flex items-center justify-center shadow-xl shadow-indigo-100">
                <CreditCard className="w-6 h-6" />
             </div>
-            <h1 className="text-3xl font-black text-[#0F172A]  uppercase tracking-tighter">
+            <h1 className="text-2xl font-bold text-[#0F172A]  uppercase tracking-tight">
               Payment <span className="text-indigo-600">Gateways</span>
             </h1>
           </div>
-          <p className="text-gray-400 text-xs font-black uppercase tracking-widest">
+          <p className="text-gray-400 text-xs font-bold uppercase tracking-widest">
             Configure secure payment methods for your customers
           </p>
         </div>
@@ -139,7 +139,7 @@ export default function PaymentConfigClient({ initialConfigs = [] }: { initialCo
         
         {/* Gateway Selection Sidebar */}
         <div className="lg:col-span-4 space-y-4">
-           <h3 className="text-[10px] font-black uppercase text-gray-400 tracking-[0.2em] mb-6">Select Gateway</h3>
+           <h3 className="text-[10px] font-bold uppercase text-gray-400 tracking-[0.2em] mb-6">Select Gateway</h3>
            <div className="space-y-3">
              {GATEWAYS.map((gw) => {
                const isActive = configs.find(c => c.provider === gw.id)?.isActive;
@@ -161,7 +161,7 @@ export default function PaymentConfigClient({ initialConfigs = [] }: { initialCo
                          {gw.logo}
                       </div>
                       <div className="text-left">
-                         <div className="text-sm font-black text-[#0F172A] ">{gw.name}</div>
+                         <div className="text-sm font-bold text-[#0F172A] ">{gw.name}</div>
                          <div className="text-[9px] font-bold text-gray-400 uppercase">Direct Integration</div>
                       </div>
                    </div>
@@ -175,7 +175,7 @@ export default function PaymentConfigClient({ initialConfigs = [] }: { initialCo
               <div className="flex gap-3 items-start">
                  <Info className="w-5 h-5 text-indigo-600 shrink-0" />
                  <div>
-                    <h4 className="text-xs font-black text-indigo-900 uppercase mb-1">Global Security</h4>
+                    <h4 className="text-xs font-bold text-indigo-900 uppercase mb-1">Global Security</h4>
                     <p className="text-[10px] text-indigo-700/70 font-medium leading-relaxed">
                       All credentials are encrypted at rest. We never store raw keys in readable format.
                     </p>
@@ -196,12 +196,12 @@ export default function PaymentConfigClient({ initialConfigs = [] }: { initialCo
                  >
                     {selectedGateway.logo}
                  </div>
-                 <h2 className="text-xl font-black text-[#0F172A]  uppercase tracking-tight">
+                 <h2 className="text-xl font-bold text-[#0F172A]  uppercase tracking-tight">
                    {selectedGateway.name} <span className="text-gray-400 opacity-30">Settings</span>
                  </h2>
               </div>
               <div className="flex items-center gap-3">
-                 <span className={`text-[9px] font-black uppercase px-3 py-1 rounded-full ${currentConfig.isActive ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400'}`}>
+                 <span className={`text-[9px] font-bold uppercase px-3 py-1 rounded-full ${currentConfig.isActive ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400'}`}>
                     {currentConfig.isActive ? "Active" : "Disabled"}
                  </span>
               </div>
@@ -213,7 +213,7 @@ export default function PaymentConfigClient({ initialConfigs = [] }: { initialCo
                  <div className="flex items-center justify-between p-4 bg-gray-50  rounded-2xl border border-gray-100 ">
                     <div className="flex items-center gap-3">
                        <Zap className="w-5 h-5 text-indigo-600" />
-                       <span className="text-xs font-black uppercase tracking-wider text-gray-700">Live Gateway</span>
+                       <span className="text-xs font-bold uppercase tracking-wider text-gray-700">Live Gateway</span>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input type="checkbox" name="isActive" defaultChecked={currentConfig.isActive} className="sr-only peer" />
@@ -224,7 +224,7 @@ export default function PaymentConfigClient({ initialConfigs = [] }: { initialCo
                  <div className="flex items-center justify-between p-4 bg-gray-50  rounded-2xl border border-gray-100 ">
                     <div className="flex items-center gap-3">
                        <Settings2 className="w-5 h-5 text-orange-500" />
-                       <span className="text-xs font-black uppercase tracking-wider text-gray-700">Sandbox Mode</span>
+                       <span className="text-xs font-bold uppercase tracking-wider text-gray-700">Sandbox Mode</span>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input type="checkbox" name="isTestMode" defaultChecked={currentConfig.isTestMode} className="sr-only peer" />
@@ -236,7 +236,7 @@ export default function PaymentConfigClient({ initialConfigs = [] }: { initialCo
               <div className="space-y-6 pt-6 border-t border-gray-50 ">
                  {selectedGateway.fields.map((field) => (
                     <div key={field} className="space-y-2">
-                       <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest flex items-center gap-2">
+                       <label className="text-[10px] font-bold uppercase text-gray-400 tracking-widest flex items-center gap-2">
                           <Key className="w-3 h-3" /> {(selectedGateway as any).fieldLabels[field]}
                        </label>
                        <input 
@@ -254,14 +254,14 @@ export default function PaymentConfigClient({ initialConfigs = [] }: { initialCo
                  <button 
                    type="submit"
                    disabled={isSaving}
-                   className="flex-1 py-5 bg-indigo-600 text-white rounded-2xl text-xs font-black uppercase shadow-xl shadow-indigo-100 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3"
+                   className="flex-1 py-5 bg-indigo-600 text-white rounded-2xl text-xs font-bold uppercase shadow-xl shadow-indigo-100 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3"
                  >
                     {isSaving ? <RefreshCw className="w-5 h-5 animate-spin" /> : <ShieldCheck className="w-5 h-5" />}
                     {isSaving ? "Syncing..." : "Update Gateway Configuration"}
                  </button>
                  <button 
                    type="button"
-                   className="px-10 py-5 bg-white  border border-gray-200  text-gray-400 rounded-2xl text-[10px] font-black uppercase hover:bg-gray-50 transition-all"
+                   className="px-10 py-5 bg-white  border border-gray-200  text-gray-400 rounded-2xl text-[10px] font-bold uppercase hover:bg-gray-50 transition-all"
                  >
                     Documentation
                  </button>

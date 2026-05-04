@@ -33,7 +33,7 @@ export function ChatLiveMonitor() {
                 <MessageSquare className="w-5 h-5" />
              </div>
              <div>
-                <h3 className="text-xs font-black uppercase tracking-widest">Unified Chat Intelligence</h3>
+                <h3 className="text-xs font-semibold uppercase tracking-widest">Unified Chat Intelligence</h3>
                 <div className="flex items-center gap-2 mt-0.5">
                    <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
                    <span className="text-[9px] font-black text-gray-400 uppercase tracking-tight">AI Agent Active</span>

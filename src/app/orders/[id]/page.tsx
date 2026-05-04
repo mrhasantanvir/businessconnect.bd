@@ -78,14 +78,14 @@ export default async function OrderDetailPage({ params }: { params: { id: string
             </Link>
             <div>
                <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                  <h1 className="text-2xl md:text-3xl font-black text-[#0F172A]  tracking-tight">Order #{order.id.slice(-6).toUpperCase()}</h1>
-                   <div className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border ${
+                  <h1 className="text-2xl md:text-2xl font-bold text-[#0F172A]  tracking-tight">Order #{order.id.slice(-6).toUpperCase()}</h1>
+                   <div className={`px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest border ${
                     order.status === 'CANCELLED' ? 'bg-red-50 text-red-600 border-red-100' : 'bg-[#BEF264]/10 text-green-700  border-[#BEF264]/30'
                   }`}>
                      {order.status.replace("_", " ")}
                   </div>
                   {order.confirmedAt && order.status !== 'SHIPPED' && order.status !== 'DELIVERED' && order.status !== 'CANCELLED' && (
-                     <div className="flex items-center gap-2 px-4 py-1.5 bg-amber-50  border border-amber-100  rounded-full text-[10px] font-black uppercase text-amber-700 ">
+                     <div className="flex items-center gap-2 px-4 py-1.5 bg-amber-50  border border-amber-100  rounded-full text-[10px] font-bold uppercase text-amber-700 ">
                         <Clock className="w-3.5 h-3.5" /> 24h Deadline
                      </div>
                   )}
@@ -98,10 +98,10 @@ export default async function OrderDetailPage({ params }: { params: { id: string
             </div>
          </div>
          <div className="flex items-center gap-2 md:gap-3">
-            <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 md:px-6 py-3 bg-white  border border-gray-100  rounded-2xl text-[9px] md:text-[10px] font-black uppercase hover:bg-gray-50 transition-all shadow-sm">
+            <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 md:px-6 py-3 bg-white  border border-gray-100  rounded-2xl text-[9px] md:text-[10px] font-bold uppercase hover:bg-gray-50 transition-all shadow-sm">
                <Printer className="w-4 h-4" /> Invoice
             </button>
-            <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 md:px-6 py-3 bg-white text-slate-900 border border-slate-100 hover:bg-black hover:text-white rounded-2xl text-[9px] md:text-[10px] font-black uppercase transition-all shadow-xl shadow-gray-200">
+            <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 md:px-6 py-3 bg-white text-slate-900 border border-slate-100 hover:bg-black hover:text-white rounded-2xl text-[9px] md:text-[10px] font-bold uppercase transition-all shadow-xl shadow-gray-200">
                <FileSignature className="w-4 h-4" /> Label
             </button>
          </div>
@@ -117,7 +117,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
             <div className="mt-8 flex items-center gap-3 bg-indigo-50/50 p-4 rounded-2xl border border-indigo-100/50 animate-pulse">
                <Truck className="w-5 h-5 text-indigo-600" />
                <div>
-                  <p className="text-[10px] font-black text-indigo-600 uppercase tracking-widest leading-none">Parcel is on the way</p>
+                  <p className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest leading-none">Parcel is on the way</p>
                   <p className="text-xs font-bold text-[#0F172A] mt-1">Expected Delivery: 2-3 Business Days</p>
                </div>
             </div>
@@ -131,7 +131,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
             {/* Items Card */}
             <div className="bg-white  border border-[#E5E7EB]  rounded-3xl md:rounded-[48px] overflow-hidden shadow-sm">
                <div className="p-4 md:p-8 border-b border-[#F1F5F9]  bg-[#F8F9FA] ">
-                  <h3 className="text-[10px] md:text-sm font-black flex items-center gap-2 uppercase tracking-widest">
+                  <h3 className="text-[10px] md:text-sm font-bold flex items-center gap-2 uppercase tracking-widest">
                     <Box className="w-5 h-5 text-indigo-500" /> Fulfillment Manifest ({order.items.length})
                   </h3>
                </div>
@@ -155,14 +155,14 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                              )}
                           </div>
                           <div>
-                             <h4 className="text-xs md:text-sm font-black text-[#0F172A] ">{item.product?.name || item.name || "Product Deleted"}</h4>
+                             <h4 className="text-xs md:text-sm font-bold text-[#0F172A] ">{item.product?.name || item.name || "Product Deleted"}</h4>
                              <p className="text-[9px] md:text-[10px] font-bold text-gray-400 mt-1 uppercase tracking-widest leading-none">
                                 ৳{item.price.toLocaleString()} • Qty: {item.quantity} 
                              </p>
                           </div>
                        </div>
                        <div className="text-right shrink-0">
-                          <div className="text-xs md:text-sm font-black text-[#0F172A] ">৳{(item.price * item.quantity).toLocaleString()}</div>
+                          <div className="text-xs md:text-sm font-bold text-[#0F172A] ">৳{(item.price * item.quantity).toLocaleString()}</div>
                           <div className="text-[8px] md:text-[10px] font-bold text-gray-400 uppercase">Item Value</div>
                        </div>
                     </div>
@@ -170,17 +170,17 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                </div>
                <div className="p-6 md:p-8 bg-[#F8F9FA]  border-t border-[#F1F5F9]  flex justify-end">
                   <div className="w-full max-w-xs space-y-3 md:space-y-4 text-right">
-                     <div className="flex justify-between text-[8px] md:text-[10px] font-black text-gray-500 uppercase tracking-widest">
+                     <div className="flex justify-between text-[8px] md:text-[10px] font-bold text-gray-500 uppercase tracking-widest">
                         <span>Items Value</span>
                         <span>৳{order.total.toLocaleString('en-US')}</span>
                      </div>
-                     <div className="flex justify-between text-[8px] md:text-[10px] font-black text-gray-500 uppercase tracking-widest">
+                     <div className="flex justify-between text-[8px] md:text-[10px] font-bold text-gray-500 uppercase tracking-widest">
                         <span>Logistics Fee</span>
                         <span>৳0</span>
                      </div>
                      <div className="pt-4 border-t border-[#F1F5F9]  flex justify-between items-end">
-                        <span className="text-xs md:text-sm font-black text-[#0F172A]  uppercase tracking-widest">Grand Total</span>
-                        <span className="text-xl md:text-2xl font-black text-indigo-600">৳{order.total.toLocaleString('en-US')}</span>
+                        <span className="text-xs md:text-sm font-bold text-[#0F172A]  uppercase tracking-widest">Grand Total</span>
+                        <span className="text-xl md:text-2xl font-bold text-indigo-600">৳{order.total.toLocaleString('en-US')}</span>
                      </div>
                   </div>
                </div>
@@ -188,7 +188,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
             {/* Audit Logs Experience */}
             <div className="bg-white border border-gray-100 p-6 md:p-10 rounded-3xl md:rounded-[48px] shadow-sm space-y-8 md:space-y-12">
-               <h3 className="text-sm font-black flex items-center gap-2 uppercase tracking-widest text-[#BEF264]">
+               <h3 className="text-sm font-bold flex items-center gap-2 uppercase tracking-widest text-[#BEF264]">
                  <ShieldCheck className="w-5 h-5" /> Immutable Audit Trail
                </h3>
                <div className="space-y-10 relative">
@@ -205,7 +205,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
              {(order.status === "SHIPPED" || order.status === "PARTIAL_SHIPPED" || order.status === "DELIVERED") && (
                <div className="space-y-6">
-                  <h3 className="text-sm font-black flex items-center gap-2 uppercase tracking-widest text-indigo-500">
+                  <h3 className="text-sm font-bold flex items-center gap-2 uppercase tracking-widest text-indigo-500">
                     <Send className="w-5 h-5" /> Shipment History ({order.shipments.length})
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -216,7 +216,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                                  <div className="w-8 h-8 bg-indigo-50  rounded-lg flex items-center justify-center text-indigo-600">
                                     <Send className="w-4 h-4" />
                                  </div>
-                                 <span className="text-[10px] font-black uppercase tracking-widest">{shipment.courierName}</span>
+                                 <span className="text-[10px] font-bold uppercase tracking-widest">{shipment.courierName}</span>
                               </div>
                               <span className="text-[9px] font-mono font-bold text-gray-400">{new Date(shipment.shippedAt).toLocaleDateString()}</span>
                            </div>
@@ -228,7 +228,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                               {shipment.items.map((si) => (
                                  <div key={si.id} className="flex items-center justify-between text-[10px]">
                                     <span className="font-bold text-gray-500">{si.orderItem.product?.name || si.orderItem.productId}</span>
-                                    <span className="font-black text-indigo-600">x{si.quantity}</span>
+                                    <span className="font-bold text-indigo-600">x{si.quantity}</span>
                                  </div>
                               ))}
                            </div>
@@ -255,7 +255,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
             {/* Customer Intelligence Blueprint */}
             <div className="bg-[#F8F9FA]  border border-[#E5E7EB]  rounded-3xl md:rounded-[48px] p-6 md:p-8 space-y-6 md:space-y-8">
                <div className="flex items-center justify-between">
-                  <h3 className="text-xs font-black uppercase text-indigo-500 tracking-[0.2em]">CRM 360° Insight</h3>
+                  <h3 className="text-xs font-bold uppercase text-indigo-500 tracking-[0.2em]">CRM 360° Insight</h3>
                   {order.customerEntityId && (
                      <Link href={`/merchant/customers/${order.customerEntityId}`}>
                         <ExternalLink className="w-4 h-4 text-gray-400 hover:text-indigo-500 transition-all" />
@@ -264,13 +264,13 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                </div>
                
                <div className="flex items-center gap-4">
-                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center border shadow-sm font-black text-xl ${
+                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center border shadow-sm font-bold text-xl ${
                     trustInsights.riskLevel === 'HIGH' ? 'bg-red-50 border-red-100 text-red-400' : 'bg-white  border-indigo-100  text-indigo-400'
                   }`}>
                      {order.customerName?.[0].toUpperCase() || "G"}
                   </div>
                   <div className="flex-1">
-                     <h4 className="text-sm font-black flex items-center gap-2">
+                     <h4 className="text-sm font-bold flex items-center gap-2">
                        {order.customerName || "Guest Customer"}
                        {trustInsights.riskLevel === 'HIGH' && <AlertTriangle className="w-4 h-4 text-red-500" />}
                      </h4>
@@ -284,12 +284,12 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                   {(order.status === 'RETURNED' || order.returnRequest) && (
                     <Link 
                       href={`/orders/${order.id}/return-slip`}
-                      className="w-full py-4 bg-white border border-red-100 text-red-600 rounded-3xl font-black text-[11px] uppercase tracking-widest hover:bg-red-50 transition-all flex items-center justify-center gap-2"
+                      className="w-full py-4 bg-white border border-red-100 text-red-600 rounded-3xl font-bold text-[11px] uppercase tracking-widest hover:bg-red-50 transition-all flex items-center justify-center gap-2"
                     >
                         <Printer className="w-4 h-4" /> Print Return Manifest
                     </Link>
                   )}
-                  <button className="w-full py-4 bg-white  border border-red-100  text-red-600 rounded-3xl font-black text-[11px] uppercase tracking-widest hover:bg-red-50 transition-all">
+                  <button className="w-full py-4 bg-white  border border-red-100  text-red-600 rounded-3xl font-bold text-[11px] uppercase tracking-widest hover:bg-red-50 transition-all">
                       Cancel Fulfillment
                   </button>
                </div>
@@ -303,30 +303,30 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                        style={{ width: `${trustInsights.trustScore}%` }} 
                      />
                   </div>
-                  <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest">
+                  <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
                      <span className="text-gray-400">Trust Score</span>
                      <span className={trustInsights.trustScore < 50 ? 'text-red-600' : 'text-indigo-600'}>{trustInsights.trustScore}% / 100</span>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                      <div className="p-4 bg-white  rounded-2xl border border-gray-50 ">
-                        <div className="text-[8px] font-black text-gray-400 uppercase mb-1">Local Success</div>
+                        <div className="text-[8px] font-bold text-gray-400 uppercase mb-1">Local Success</div>
                         <div className="flex items-baseline gap-1">
-                           <span className="text-sm font-black text-indigo-600">{trustInsights.localStats.delivered}</span>
+                           <span className="text-sm font-bold text-indigo-600">{trustInsights.localStats.delivered}</span>
                            <span className="text-[8px] text-gray-400">/ {trustInsights.localStats.total}</span>
                         </div>
                      </div>
                      <div className="p-4 bg-white  rounded-2xl border border-gray-50 ">
-                        <div className="text-[8px] font-black text-gray-400 uppercase mb-1">Global Success</div>
+                        <div className="text-[8px] font-bold text-gray-400 uppercase mb-1">Global Success</div>
                         <div className="flex items-baseline gap-1">
-                           <span className="text-sm font-black text-[#65A30D]">{trustInsights.globalStats.delivered}</span>
+                           <span className="text-sm font-bold text-[#65A30D]">{trustInsights.globalStats.delivered}</span>
                            <span className="text-[8px] text-gray-400">/ {trustInsights.globalStats.total}</span>
                         </div>
                      </div>
                   </div>
 
                   <div className="bg-white  p-4 rounded-2xl border border-dashed border-gray-200 ">
-                     <h5 className="text-[9px] font-black uppercase text-gray-400 mb-2 flex items-center gap-1">
+                     <h5 className="text-[9px] font-bold uppercase text-gray-400 mb-2 flex items-center gap-1">
                        <ShieldCheck className="w-3 h-3" /> Intelligence Recommendation
                      </h5>
                      <p className={`text-[11px] font-bold leading-relaxed ${trustInsights.riskLevel === 'HIGH' ? 'text-red-600' : 'text-gray-500'}`}>
@@ -344,7 +344,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                   <div className="flex items-start gap-4">
                      <MapPin className="w-4 h-4 text-gray-400 mt-1 shrink-0" />
                      <div>
-                        <h5 className="text-[9px] font-black uppercase text-gray-400 mb-1">Dispatch Destination</h5>
+                        <h5 className="text-[9px] font-bold uppercase text-gray-400 mb-1">Dispatch Destination</h5>
                         <p className="text-[11px] font-bold text-gray-500  leading-relaxed">{order.deliveryAddress || "Awaiting Data"}</p>
                      </div>
                   </div>
@@ -353,8 +353,8 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                <div className="p-6 bg-white  rounded-[32px] border border-indigo-50  flex items-center gap-4 group">
                   <ShieldCheck className="w-8 h-8 text-[#BEF264] shrink-0" />
                   <div>
-                     <span className="text-[10px] font-black text-[#0F172A] ">Verified Identity</span>
-                     <p className="text-[8px] font-bold text-gray-400 uppercase tracking-tighter mt-0.5">Automated Fraud Sync: Passed</p>
+                     <span className="text-[10px] font-bold text-[#0F172A] ">Verified Identity</span>
+                     <p className="text-[8px] font-bold text-gray-400 uppercase tracking-tight mt-0.5">Automated Fraud Sync: Passed</p>
                   </div>
                </div>
             </div>

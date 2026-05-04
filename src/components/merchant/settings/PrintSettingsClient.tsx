@@ -63,14 +63,14 @@ export default function PrintSettingsClient({ initialConfig }: { initialConfig: 
               <div className="w-10 h-10 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-200">
                  <Printer className="w-5 h-5" />
               </div>
-              <h1 className="text-2xl font-black text-[#0F172A] uppercase tracking-tighter">Document <span className="text-indigo-600">& Print Engine</span></h1>
+              <h1 className="text-2xl font-bold text-[#0F172A] uppercase tracking-tight">Document <span className="text-indigo-600">& Print Engine</span></h1>
            </div>
-           <p className="text-gray-400 text-xs font-black uppercase tracking-widest">Customize your invoices, labels and reports</p>
+           <p className="text-gray-400 text-xs font-bold uppercase tracking-widest">Customize your invoices, labels and reports</p>
         </div>
         <button 
           onClick={handleSave}
           disabled={isSaving}
-          className="flex items-center gap-2 px-8 py-4 bg-indigo-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-indigo-100"
+          className="flex items-center gap-2 px-8 py-4 bg-indigo-600 text-white rounded-2xl font-bold text-xs uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-indigo-100"
         >
           {isSaving ? "Saving..." : <><Save className="w-4 h-4" /> Save Configuration</>}
         </button>
@@ -83,7 +83,7 @@ export default function PrintSettingsClient({ initialConfig }: { initialConfig: 
            
            {/* Paper Size Selection */}
            <section className="bg-white border border-gray-100 rounded-[32px] p-8 shadow-sm">
-              <h3 className="text-[10px] font-black uppercase text-gray-400 tracking-widest mb-6 flex items-center gap-2">
+              <h3 className="text-[10px] font-bold uppercase text-gray-400 tracking-widest mb-6 flex items-center gap-2">
                  <Square className="w-4 h-4 text-indigo-600" /> Page Size & Format
               </h3>
                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -97,7 +97,7 @@ export default function PrintSettingsClient({ initialConfig }: { initialConfig: 
                      >
                         <size.icon className={`w-6 h-6 ${config.paperSize === size.id ? 'text-indigo-600' : 'text-gray-300 group-hover:text-indigo-400'}`} />
                         <div className="text-center">
-                           <p className={`text-[10px] font-black uppercase tracking-tight ${config.paperSize === size.id ? 'text-indigo-900' : 'text-gray-500'}`}>{size.name}</p>
+                           <p className={`text-[10px] font-bold uppercase tracking-tight ${config.paperSize === size.id ? 'text-indigo-900' : 'text-gray-500'}`}>{size.name}</p>
                            <p className="text-[8px] font-bold text-gray-400 mt-0.5">{size.desc}</p>
                         </div>
                      </button>
@@ -106,19 +106,19 @@ export default function PrintSettingsClient({ initialConfig }: { initialConfig: 
 
                <div className="mt-8 flex items-center gap-6 p-6 bg-gray-50 rounded-3xl border border-gray-100">
                   <div className="flex-1">
-                     <p className="text-[10px] font-black uppercase text-gray-400 tracking-widest mb-1">Page Orientation</p>
+                     <p className="text-[10px] font-bold uppercase text-gray-400 tracking-widest mb-1">Page Orientation</p>
                      <p className="text-[9px] font-bold text-gray-500">Choose how the content is laid out on paper</p>
                   </div>
                   <div className="flex bg-white p-1 rounded-2xl border border-gray-100 shadow-sm">
                      <button 
                         onClick={() => setConfig({...config, orientation: "portrait"})}
-                        className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${config.orientation === "portrait" ? "bg-indigo-600 text-white shadow-lg" : "text-gray-400 hover:text-indigo-600"}`}
+                        className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${config.orientation === "portrait" ? "bg-indigo-600 text-white shadow-lg" : "text-gray-400 hover:text-indigo-600"}`}
                      >
                         Portrait
                      </button>
                      <button 
                         onClick={() => setConfig({...config, orientation: "landscape"})}
-                        className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${config.orientation === "landscape" ? "bg-indigo-600 text-white shadow-lg" : "text-gray-400 hover:text-indigo-600"}`}
+                        className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${config.orientation === "landscape" ? "bg-indigo-600 text-white shadow-lg" : "text-gray-400 hover:text-indigo-600"}`}
                      >
                         Landscape
                      </button>
@@ -128,7 +128,7 @@ export default function PrintSettingsClient({ initialConfig }: { initialConfig: 
 
            {/* Brand & Content Controls */}
            <section className="bg-white border border-gray-100 rounded-[32px] p-8 shadow-sm space-y-6">
-              <h3 className="text-[10px] font-black uppercase text-gray-400 tracking-widest mb-6 flex items-center gap-2">
+              <h3 className="text-[10px] font-bold uppercase text-gray-400 tracking-widest mb-6 flex items-center gap-2">
                  <Layout className="w-4 h-4 text-indigo-600" /> Branding & Visibility
               </h3>
               
@@ -186,7 +186,7 @@ export default function PrintSettingsClient({ initialConfig }: { initialConfig: 
 
               <div className="pt-6 space-y-4">
                  <div>
-                    <label className="text-[9px] font-black uppercase text-gray-400 tracking-widest ml-1 mb-2 block">Invoice Title</label>
+                    <label className="text-[9px] font-bold uppercase text-gray-400 tracking-widest ml-1 mb-2 block">Invoice Title</label>
                     <input 
                        value={config.invoiceTitle}
                        onChange={(e) => setConfig({...config, invoiceTitle: e.target.value})}
@@ -194,7 +194,7 @@ export default function PrintSettingsClient({ initialConfig }: { initialConfig: 
                     />
                  </div>
                   <div>
-                     <label className="text-[9px] font-black uppercase text-gray-400 tracking-widest ml-1 mb-2 block">Special Footnotes / Terms</label>
+                     <label className="text-[9px] font-bold uppercase text-gray-400 tracking-widest ml-1 mb-2 block">Special Footnotes / Terms</label>
                      <textarea 
                         value={config.returnPolicy}
                         onChange={(e) => setConfig({...config, returnPolicy: e.target.value})}
@@ -203,7 +203,7 @@ export default function PrintSettingsClient({ initialConfig }: { initialConfig: 
                      />
                   </div>
                   <div>
-                     <label className="text-[9px] font-black uppercase text-gray-400 tracking-widest ml-1 mb-2 block">Invoice Footer Message</label>
+                     <label className="text-[9px] font-bold uppercase text-gray-400 tracking-widest ml-1 mb-2 block">Invoice Footer Message</label>
                      <textarea 
                         value={config.footerText}
                         onChange={(e) => setConfig({...config, footerText: e.target.value})}
@@ -218,7 +218,7 @@ export default function PrintSettingsClient({ initialConfig }: { initialConfig: 
         {/* Live Preview */}
         <div className="lg:col-span-1">
            <div className="sticky top-24 space-y-6">
-              <h3 className="text-[10px] font-black uppercase text-gray-400 tracking-widest flex items-center gap-2">
+              <h3 className="text-[10px] font-bold uppercase text-gray-400 tracking-widest flex items-center gap-2">
                  <CheckCircle2 className="w-4 h-4 text-emerald-500" /> Interactive Preview
               </h3>
               
@@ -228,10 +228,10 @@ export default function PrintSettingsClient({ initialConfig }: { initialConfig: 
               }`}>
                  <div className="flex justify-between items-start border-b-2 border-slate-100 pb-4 mb-4">
                     <div className="space-y-2">
-                       {config.showLogo && <div className="w-12 h-6 bg-indigo-100 rounded flex items-center justify-center text-[8px] font-black text-indigo-400">LOGO</div>}
-                       {config.showStoreName && <p className="text-[10px] font-black text-slate-900">MY STORE</p>}
+                       {config.showLogo && <div className="w-12 h-6 bg-indigo-100 rounded flex items-center justify-center text-[8px] font-bold text-indigo-400">LOGO</div>}
+                       {config.showStoreName && <p className="text-[10px] font-bold text-slate-900">MY STORE</p>}
                     </div>
-                    <p className="text-[9px] font-black text-indigo-600">{config.invoiceTitle}</p>
+                    <p className="text-[9px] font-bold text-indigo-600">{config.invoiceTitle}</p>
                  </div>
                  
                  <div className="space-y-3">
@@ -269,12 +269,12 @@ export default function PrintSettingsClient({ initialConfig }: { initialConfig: 
                   <div className="mt-6 flex justify-between gap-4">
                      {config.showCustomerSignature && (
                         <div className="flex-1 border-t border-slate-900 pt-1">
-                           <p className="text-[6px] font-black text-center uppercase">Customer Signature</p>
+                           <p className="text-[6px] font-bold text-center uppercase">Customer Signature</p>
                         </div>
                      )}
                      {config.showMerchantSignature && (
                         <div className="flex-1 border-t border-slate-900 pt-1">
-                           <p className="text-[6px] font-black text-center uppercase">Authorized Signature</p>
+                           <p className="text-[6px] font-bold text-center uppercase">Authorized Signature</p>
                         </div>
                      )}
                   </div>
@@ -308,7 +308,7 @@ function ToggleCard({ title, desc, icon: Icon, enabled, onChange }: any) {
                <Icon className="w-5 h-5" />
             </div>
             <div>
-               <p className={`text-xs font-black uppercase tracking-tight ${enabled ? 'text-indigo-900' : 'text-gray-500'}`}>{title}</p>
+               <p className={`text-xs font-bold uppercase tracking-tight ${enabled ? 'text-indigo-900' : 'text-gray-500'}`}>{title}</p>
                <p className="text-[9px] font-bold text-gray-400 mt-0.5">{desc}</p>
             </div>
          </div>

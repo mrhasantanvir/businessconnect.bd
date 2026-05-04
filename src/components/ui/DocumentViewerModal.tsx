@@ -27,7 +27,7 @@ export function DocumentViewerModal({ url, title, onClose }: DocumentViewerModal
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-100 bg-white shrink-0">
           <div>
-            <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight">{title}</h3>
+            <h3 className="text-lg font-semibold text-slate-900 uppercase tracking-tight">{title}</h3>
             <p className="text-xs font-bold text-slate-400 mt-0.5">Document Viewer</p>
           </div>
           <div className="flex items-center gap-2">

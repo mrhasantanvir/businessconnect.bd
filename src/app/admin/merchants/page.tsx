@@ -28,9 +28,9 @@ export default async function AdminMerchantsPage() {
          <div className="space-y-4">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-50 rounded-full">
                <ShieldCheck className="w-3.5 h-3.5 text-blue-500" />
-               <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Platform Control</span>
+               <span className="text-[10px] font-bold text-blue-600 uppercase tracking-widest">Platform Control</span>
             </div>
-            <h1 className="text-5xl font-black tracking-tighter text-slate-900 uppercase">
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900 uppercase">
                Merchant <span className="text-blue-600">Ecosystem</span>
             </h1>
          </div>

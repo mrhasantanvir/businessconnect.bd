@@ -36,9 +36,9 @@ export default async function MerchantAiHubPage() {
             <div className="flex items-center gap-2 text-indigo-600 font-bold text-xs uppercase tracking-widest">
                <BrainCircuit className="w-3.5 h-3.5" /> Commerce Intelligence
             </div>
-            <h1 className="text-4xl font-extrabold text-[#0F172A] tracking-tight">AI Workspace</h1>
+            <h1 className="text-2xl font-bold text-[#0F172A] tracking-tight">AI Workspace</h1>
          </div>
-         <button className="px-6 py-3 bg-white text-slate-900 text-slate-900 text-slate-900 border border-slate-100 text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:scale-105 transition-all flex items-center gap-2">
+         <button className="px-6 py-3 bg-white text-slate-900 text-slate-900 text-slate-900 border border-slate-100 text-white rounded-2xl text-xs font-bold uppercase tracking-widest hover:scale-105 transition-all flex items-center gap-2">
             <Plus className="w-4 h-4" /> Top-up Credits
          </button>
       </div>
@@ -48,14 +48,14 @@ export default async function MerchantAiHubPage() {
          <div className="bg-white  border border-[#E5E7EB]  p-8 rounded-[48px] shadow-sm space-y-8 flex flex-col justify-between">
             <div className="space-y-6">
                <div className="flex items-center justify-between border-b border-gray-50  pb-4">
-                  <h3 className="text-xl font-black flex items-center gap-3">
+                  <h3 className="text-xl font-bold flex items-center gap-3">
                     <Wallet className="w-5 h-5 text-indigo-500" /> AI Balance
                   </h3>
                   <RefreshCcw className="w-4 h-4 text-gray-300 animate-spin-slow cursor-pointer" />
                </div>
                <div>
-                  <div className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Available Units</div>
-                  <div className="text-5xl font-black text-[#0F172A]  tracking-tight">
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-1">Available Units</div>
+                  <div className="text-2xl font-bold text-[#0F172A]  tracking-tight">
                     {store.aiBalance.toLocaleString()}
                   </div>
                </div>
@@ -71,10 +71,10 @@ export default async function MerchantAiHubPage() {
          {/* Knowledge Base Training */}
          <div className="lg:col-span-2 bg-white  border border-[#E5E7EB]  p-8 rounded-[48px] shadow-sm space-y-8">
             <div className="flex items-center justify-between border-b border-gray-50  pb-4">
-               <h3 className="text-xl font-black flex items-center gap-3">
+               <h3 className="text-xl font-bold flex items-center gap-3">
                  <FileUp className="w-5 h-5 text-indigo-500" /> Training Documents
                </h3>
-               <button className="text-[10px] font-black uppercase text-indigo-600  flex items-center gap-1">
+               <button className="text-[10px] font-bold uppercase text-indigo-600  flex items-center gap-1">
                   Upload PDF <Plus className="w-3 h-3" />
                </button>
             </div>
@@ -88,15 +88,15 @@ export default async function MerchantAiHubPage() {
                        </div>
                        <div>
                           <div className="text-sm font-bold text-[#0F172A]  truncate max-w-[200px]">{doc.fileName}</div>
-                          <div className="text-[9px] font-black text-gray-400 uppercase tracking-widest">{doc.fileType} • {new Date(doc.createdAt).toLocaleDateString()}</div>
+                          <div className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{doc.fileType} • {new Date(doc.createdAt).toLocaleDateString()}</div>
                        </div>
                     </div>
                     {doc.isIndexed ? (
-                      <div className="flex items-center gap-2 text-green-500 text-[10px] font-black uppercase tracking-widest">
+                      <div className="flex items-center gap-2 text-green-500 text-[10px] font-bold uppercase tracking-widest">
                         <CheckCircle2 className="w-3.5 h-3.5" /> Trained
                       </div>
                     ) : (
-                      <div className="flex items-center gap-2 text-orange-500 text-[10px] font-black uppercase tracking-widest">
+                      <div className="flex items-center gap-2 text-orange-500 text-[10px] font-bold uppercase tracking-widest">
                         <RefreshCcw className="w-3.5 h-3.5 animate-spin" /> Indexing
                       </div>
                     )}
@@ -120,11 +120,11 @@ export default async function MerchantAiHubPage() {
                   <Facebook className="w-6 h-6 text-indigo-600" />
                </div>
                <div>
-                  <h2 className="text-2xl font-black tracking-tighter text-slate-900">Facebook Commerce Swarm</h2>
+                  <h2 className="text-2xl font-bold tracking-tight text-slate-900">Facebook Commerce Swarm</h2>
                   <p className="text-xs text-slate-500 font-medium">Automatic comment Filtering & AI Auto-Reply active.</p>
                </div>
             </div>
-            <button className="px-6 py-3 bg-indigo-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-lg shadow-indigo-600/20 active:scale-95 transition-all">
+            <button className="px-6 py-3 bg-indigo-600 text-white rounded-2xl text-[10px] font-bold uppercase tracking-[0.2em] shadow-lg shadow-indigo-600/20 active:scale-95 transition-all">
                Connect Page
             </button>
          </div>

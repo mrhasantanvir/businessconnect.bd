@@ -76,7 +76,7 @@ export function BarcodeScanner({ onScan, onClose, title = "Scan Item Barcode" }:
                  <Camera className="w-6 h-6 text-indigo-600" />
               </div>
               <div>
-                 <h3 className="text-lg font-black tracking-tight text-[#0F172A]  uppercase">{title}</h3>
+                 <h3 className="text-lg font-semibold tracking-tight text-[#0F172A]  uppercase">{title}</h3>
                  <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-1">AI-Powered Optical Recognition</p>
               </div>
            </div>

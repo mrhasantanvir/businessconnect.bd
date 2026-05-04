@@ -23,7 +23,7 @@ export default async function DamageReportPage() {
          <div className="flex items-center gap-2 text-red-600  font-bold text-xs uppercase tracking-widest">
             <AlertTriangle className="w-3.5 h-3.5" /> Loss Prevention
          </div>
-         <h1 className="text-4xl font-extrabold text-[#0F172A]  tracking-tight">Damage Inventory Log</h1>
+         <h1 className="text-2xl font-bold text-[#0F172A]  tracking-tight">Damage Inventory Log</h1>
          <p className="text-[#64748B]  text-sm max-w-xl leading-relaxed">
             Consolidated record of all items marked as damaged, expired, or non-sellable during RMA inspections.
          </p>
@@ -33,7 +33,7 @@ export default async function DamageReportPage() {
          <div className="p-6 border-b border-[#F1F5F9]  flex items-center justify-between">
             <div className="flex items-center gap-3">
                <Trash2 className="w-5 h-5 text-red-500" />
-               <h3 className="font-extrabold text-[#0F172A] ">Active Damage Repository</h3>
+               <h3 className="font-bold text-[#0F172A] ">Active Damage Repository</h3>
             </div>
          </div>
 
@@ -60,7 +60,7 @@ export default async function DamageReportPage() {
                              <Warehouse className="w-3.5 h-3.5 text-gray-400" /> {log.warehouse.name}
                           </div>
                        </td>
-                       <td className="px-6 py-4 text-center font-black text-red-600">
+                       <td className="px-6 py-4 text-center font-bold text-red-600">
                           {log.quantity}
                        </td>
                        <td className="px-6 py-4 text-xs text-gray-500 max-w-xs truncate">

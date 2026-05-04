@@ -127,7 +127,7 @@ export function PosInterface({ initialProducts }: { initialProducts: any[] }) {
       {/* 1. Product Explorer */}
       <div className="flex-1 bg-white  border border-slate-100  rounded-[40px] p-8 flex flex-col space-y-6 shadow-sm overflow-hidden">
          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-black text-slate-900  uppercase flex items-center gap-3">
+            <h2 className="text-xl font-bold text-slate-900  uppercase flex items-center gap-3">
                <Calculator className="w-6 h-6 text-indigo-600" /> POS Terminal
             </h2>
             <div className="flex items-center gap-3">
@@ -160,8 +160,8 @@ export function PosInterface({ initialProducts }: { initialProducts: any[] }) {
                     <img src={p.images?.[0] || 'https://via.placeholder.com/150'} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                     <div className="absolute inset-0 bg-indigo-600/0 group-hover:bg-indigo-600/10 transition-all" />
                  </div>
-                 <h3 className="text-[11px] font-black uppercase text-slate-900  line-clamp-2 leading-tight">{p.name}</h3>
-                 <p className="text-sm font-black text-indigo-600 mt-2">৳{p.price}</p>
+                 <h3 className="text-[11px] font-bold uppercase text-slate-900  line-clamp-2 leading-tight">{p.name}</h3>
+                 <p className="text-sm font-bold text-indigo-600 mt-2">৳{p.price}</p>
                  <div className="mt-3 w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all scale-75 group-hover:scale-100">
                     <Plus className="w-4 h-4" />
                  </div>
@@ -175,10 +175,10 @@ export function PosInterface({ initialProducts }: { initialProducts: any[] }) {
          <div className="absolute top-0 right-0 p-20 transform translate-x-1/2 -translate-y-1/2 bg-indigo-500/5 w-64 h-64 rounded-full blur-3xl" />
          
          <div className="flex items-center justify-between relative z-10">
-            <h2 className="text-sm font-black uppercase tracking-widest flex items-center gap-2">
+            <h2 className="text-sm font-bold uppercase tracking-widest flex items-center gap-2">
                <ShoppingCart className="w-5 h-5 text-indigo-600" /> {t("active_cart")}
             </h2>
-            <span className="px-3 py-1 bg-slate-100 rounded-full text-[10px] font-black text-slate-600">{cart.length} Items</span>
+            <span className="px-3 py-1 bg-slate-100 rounded-full text-[10px] font-bold text-slate-600">{cart.length} Items</span>
          </div>
 
          {/* Cart Items */}
@@ -189,12 +189,12 @@ export function PosInterface({ initialProducts }: { initialProducts: any[] }) {
                     <img src={item.images?.[0] || 'https://via.placeholder.com/150'} className="w-full h-full object-cover" />
                  </div>
                  <div className="flex-1 min-w-0">
-                    <div className="text-[10px] font-black uppercase truncate">{item.name}</div>
+                    <div className="text-[10px] font-bold uppercase truncate">{item.name}</div>
                     <div className="text-[10px] font-bold text-indigo-600 mt-1">৳{item.price}</div>
                  </div>
                  <div className="flex items-center gap-2 bg-white rounded-2xl p-1 border border-slate-100">
                     <button onClick={() => updateQuantity(item.id, -1)} className="w-6 h-6 flex items-center justify-center hover:bg-slate-50 rounded-lg transition-all"><Minus className="w-3 h-3 text-slate-400" /></button>
-                    <span className="text-[10px] font-black w-4 text-center text-slate-700">{item.quantity}</span>
+                    <span className="text-[10px] font-bold w-4 text-center text-slate-700">{item.quantity}</span>
                     <button onClick={() => addToCart(item)} className="w-6 h-6 flex items-center justify-center hover:bg-slate-50 rounded-lg transition-all"><Plus className="w-3 h-3 text-slate-400" /></button>
                  </div>
                  <button onClick={() => removeFromCart(item.id)} className="p-2 text-slate-300 hover:text-red-400 transition-all"><Trash2 className="w-4 h-4" /></button>
@@ -203,7 +203,7 @@ export function PosInterface({ initialProducts }: { initialProducts: any[] }) {
             {cart.length === 0 && (
               <div className="h-full flex flex-col items-center justify-center text-slate-300 space-y-4 py-20">
                  <Layout className="w-12 h-12 opacity-20" />
-                 <p className="text-[10px] font-black uppercase tracking-widest">Cart is Empty</p>
+                 <p className="text-[10px] font-bold uppercase tracking-widest">Cart is Empty</p>
               </div>
             )}
          </div>
@@ -212,42 +212,42 @@ export function PosInterface({ initialProducts }: { initialProducts: any[] }) {
          <div className="space-y-4 pt-6 border-t border-slate-100 relative z-10">
             <div className="grid grid-cols-2 gap-4">
                <div className="space-y-2">
-                  <label className="text-[9px] font-black uppercase text-slate-400 tracking-widest ml-1">{t("name")}</label>
+                  <label className="text-[9px] font-bold uppercase text-slate-400 tracking-widest ml-1">{t("name")}</label>
                   <input 
                     placeholder="Guest" 
                     value={customer.name}
                     onChange={(e) => setCustomer({...customer, name: e.target.value})}
-                    className="w-full h-12 px-5 bg-slate-50 rounded-2xl text-[10px] font-black outline-none border border-transparent focus:border-indigo-500/50 transition-all text-slate-900" 
+                    className="w-full h-12 px-5 bg-slate-50 rounded-2xl text-[10px] font-bold outline-none border border-transparent focus:border-indigo-500/50 transition-all text-slate-900" 
                   />
                </div>
                <div className="space-y-2">
-                  <label className="text-[9px] font-black uppercase text-slate-400 tracking-widest ml-1">{t("phone")}</label>
+                  <label className="text-[9px] font-bold uppercase text-slate-400 tracking-widest ml-1">{t("phone")}</label>
                   <input 
                     placeholder="017..." 
                     value={customer.phone}
                     onChange={(e) => setCustomer({...customer, phone: e.target.value})}
-                    className="w-full h-12 px-5 bg-slate-50 rounded-2xl text-[10px] font-black outline-none border border-transparent focus:border-indigo-500/50 transition-all text-slate-900" 
+                    className="w-full h-12 px-5 bg-slate-50 rounded-2xl text-[10px] font-bold outline-none border border-transparent focus:border-indigo-500/50 transition-all text-slate-900" 
                   />
                </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
                <div className="space-y-2">
-                  <label className="text-[9px] font-black uppercase text-slate-400 tracking-widest ml-1">Discount (৳)</label>
+                  <label className="text-[9px] font-bold uppercase text-slate-400 tracking-widest ml-1">Discount (৳)</label>
                   <input 
                     type="number"
                     value={discount}
                     onChange={(e) => setDiscount(parseFloat(e.target.value) || 0)}
-                    className="w-full h-12 px-5 bg-slate-50 rounded-2xl text-[10px] font-black outline-none border border-transparent focus:border-indigo-500/50 transition-all text-indigo-600" 
+                    className="w-full h-12 px-5 bg-slate-50 rounded-2xl text-[10px] font-bold outline-none border border-transparent focus:border-indigo-500/50 transition-all text-indigo-600" 
                   />
                </div>
                <div className="space-y-2">
-                  <label className="text-[9px] font-black uppercase text-slate-400 tracking-widest ml-1">VAT/Tax (%)</label>
+                  <label className="text-[9px] font-bold uppercase text-slate-400 tracking-widest ml-1">VAT/Tax (%)</label>
                   <input 
                     type="number"
                     value={taxRate}
                     onChange={(e) => setTaxRate(parseFloat(e.target.value) || 0)}
-                    className="w-full h-12 px-5 bg-slate-50 rounded-2xl text-[10px] font-black outline-none border border-transparent focus:border-indigo-500/50 transition-all text-orange-600" 
+                    className="w-full h-12 px-5 bg-slate-50 rounded-2xl text-[10px] font-bold outline-none border border-transparent focus:border-indigo-500/50 transition-all text-orange-600" 
                   />
                </div>
             </div>
@@ -269,8 +269,8 @@ export function PosInterface({ initialProducts }: { initialProducts: any[] }) {
             </div>
             <div className="pt-4 border-t border-slate-200 flex justify-between items-end">
                <div>
-                  <p className="text-[9px] font-black uppercase text-indigo-600 tracking-widest leading-none mb-1">{t("total_payable")}</p>
-                  <h3 className="text-4xl font-black tracking-tighter text-slate-900">৳{grandTotal.toLocaleString()}</h3>
+                  <p className="text-[9px] font-bold uppercase text-indigo-600 tracking-widest leading-none mb-1">{t("total_payable")}</p>
+                  <h3 className="text-lg font-bold tracking-tight text-slate-900">৳{grandTotal.toLocaleString()}</h3>
                </div>
                <div className="flex gap-2">
                   {[
@@ -295,7 +295,7 @@ export function PosInterface({ initialProducts }: { initialProducts: any[] }) {
             <button 
                onClick={handleCheckout}
                disabled={checkoutLoading || cart.length === 0}
-               className="w-full h-16 bg-slate-900 text-white rounded-[28px] font-black text-xs uppercase tracking-[0.3em] shadow-xl hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50 mt-4"
+               className="w-full h-16 bg-slate-900 text-white rounded-[28px] font-bold text-xs uppercase tracking-[0.3em] shadow-xl hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50 mt-4"
             >
                {checkoutLoading ? <RefreshCw className="w-5 h-5 animate-spin" /> : <CheckCircle2 className="w-5 h-5 text-indigo-400" />}
                {t("complete_checkout")}
@@ -309,13 +309,13 @@ export function PosInterface({ initialProducts }: { initialProducts: any[] }) {
             <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-md" onClick={() => setShowPrintSettings(false)} />
             <div className="bg-white w-full max-w-lg rounded-[48px] p-12 relative z-10 shadow-2xl border border-slate-100 space-y-10">
                <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-black uppercase tracking-tight text-slate-900">Printing <span className="text-indigo-600">Preferences</span></h2>
+                  <h2 className="text-2xl font-bold uppercase tracking-tight text-slate-900">Printing <span className="text-indigo-600">Preferences</span></h2>
                   <button onClick={() => setShowPrintSettings(false)} className="p-3 bg-slate-50 rounded-2xl text-slate-400 hover:text-red-500 transition-all"><X className="w-5 h-5" /></button>
                </div>
 
                <div className="space-y-8">
                   <div className="space-y-3">
-                     <label className="text-[10px] font-black uppercase text-slate-400 tracking-widest ml-1">Store Name on Receipt</label>
+                     <label className="text-[10px] font-bold uppercase text-slate-400 tracking-widest ml-1">Store Name on Receipt</label>
                      <input 
                         value={printConfig.storeName}
                         onChange={(e) => setPrintConfig({...printConfig, storeName: e.target.value})}
@@ -324,7 +324,7 @@ export function PosInterface({ initialProducts }: { initialProducts: any[] }) {
                   </div>
 
                   <div className="space-y-3">
-                     <label className="text-[10px] font-black uppercase text-slate-400 tracking-widest ml-1">Footer Message</label>
+                     <label className="text-[10px] font-bold uppercase text-slate-400 tracking-widest ml-1">Footer Message</label>
                      <input 
                         value={printConfig.footerText}
                         onChange={(e) => setPrintConfig({...printConfig, footerText: e.target.value})}
@@ -341,7 +341,7 @@ export function PosInterface({ initialProducts }: { initialProducts: any[] }) {
                         )}
                      >
                         <Printer className="w-6 h-6 mb-3" />
-                        <div className="text-[10px] font-black uppercase">Thermal Receipt</div>
+                        <div className="text-[10px] font-bold uppercase">Thermal Receipt</div>
                         <div className="text-[9px] opacity-60">80mm Wide</div>
                      </button>
                      <button 
@@ -352,7 +352,7 @@ export function PosInterface({ initialProducts }: { initialProducts: any[] }) {
                         )}
                      >
                         <FileText className="w-6 h-6 mb-3" />
-                        <div className="text-[10px] font-black uppercase">A4 Invoice</div>
+                        <div className="text-[10px] font-bold uppercase">A4 Invoice</div>
                         <div className="text-[9px] opacity-60">Full Page</div>
                      </button>
                   </div>
@@ -360,7 +360,7 @@ export function PosInterface({ initialProducts }: { initialProducts: any[] }) {
 
                <button 
                   onClick={() => setShowPrintSettings(false)}
-                  className="w-full h-16 bg-slate-900 text-white rounded-[24px] font-black text-xs uppercase tracking-[0.3em]"
+                  className="w-full h-16 bg-slate-900 text-white rounded-[24px] font-bold text-xs uppercase tracking-[0.3em]"
                >
                   Save Configuration
                </button>

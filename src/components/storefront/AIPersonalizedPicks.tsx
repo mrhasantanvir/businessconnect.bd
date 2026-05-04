@@ -40,7 +40,7 @@ export function AIPersonalizedPicks({ products, storeId }: { products: any[], st
                <Sparkles className="w-3.5 h-3.5" />
                <span className="text-[10px] font-black uppercase tracking-widest">AI Intelligence</span>
             </div>
-            <h3 className="text-4xl font-black tracking-tighter uppercase text-slate-900">
+            <h3 className="text-lg font-semibold tracking-tighter uppercase text-slate-900">
                Suggested <span className="text-indigo-600">For You</span>
             </h3>
             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Based on your browsing patterns</p>

@@ -86,7 +86,7 @@ export default async function AdminBillingControlPage(props: Props) {
         </div>
         <Link 
           href="/admin/billing/revenue"
-          className="flex items-center gap-2 bg-slate-900 text-white px-6 py-3 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-black transition-all shadow-xl shadow-slate-100"
+          className="flex items-center gap-2 bg-slate-900 text-white px-6 py-3 rounded-2xl text-xs font-bold uppercase tracking-widest hover:bg-black transition-all shadow-xl shadow-slate-100"
         >
           <TrendingUp className="w-4 h-4" /> View Revenue Intelligence
         </Link>
@@ -98,36 +98,36 @@ export default async function AdminBillingControlPage(props: Props) {
            <div className="absolute -right-4 -bottom-4 opacity-5 group-hover:scale-110 transition-transform">
               <Activity className="w-24 h-24" />
            </div>
-           <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Active Merchants</p>
-           <p className="text-3xl font-black text-gray-900">{activeMerchantsCount}</p>
+           <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Active Merchants</p>
+           <p className="text-2xl font-bold text-gray-900">{activeMerchantsCount}</p>
         </div>
         <div className="p-6 bg-white border border-gray-200 rounded-[32px] shadow-sm relative overflow-hidden group">
            <div className="absolute -right-4 -bottom-4 opacity-5 group-hover:scale-110 transition-transform">
               <UserPlus className="w-24 h-24" />
            </div>
-           <p className="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-1">Active Users</p>
-           <p className="text-3xl font-black text-emerald-600">{activeStaffCount}</p>
+           <p className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest mb-1">Active Users</p>
+           <p className="text-2xl font-bold text-emerald-600">{activeStaffCount}</p>
         </div>
         <div className="p-6 bg-white border border-gray-200 rounded-[32px] shadow-sm relative overflow-hidden group">
            <div className="absolute -right-4 -bottom-4 opacity-5 group-hover:scale-110 transition-transform">
               <UserMinus className="w-24 h-24" />
            </div>
-           <p className="text-[10px] font-black text-rose-400 uppercase tracking-widest mb-1">Deactive Users</p>
-           <p className="text-3xl font-black text-rose-600">{deactiveStaffCount}</p>
+           <p className="text-[10px] font-bold text-rose-400 uppercase tracking-widest mb-1">Deactive Users</p>
+           <p className="text-2xl font-bold text-rose-600">{deactiveStaffCount}</p>
         </div>
         <div className="p-6 bg-indigo-900 text-white rounded-[32px] shadow-2xl shadow-indigo-100 relative overflow-hidden group">
            <div className="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform">
               <Wallet className="w-24 h-24" />
            </div>
-           <p className="text-[10px] font-black text-indigo-300 uppercase tracking-widest mb-1">Current Revenue ({currentMonth})</p>
-           <p className="text-3xl font-black">৳{(currentRevenue._sum.amount || 0).toLocaleString()}</p>
+           <p className="text-[10px] font-bold text-indigo-300 uppercase tracking-widest mb-1">Current Revenue ({currentMonth})</p>
+           <p className="text-2xl font-bold">৳{(currentRevenue._sum.amount || 0).toLocaleString()}</p>
         </div>
         <div className="p-6 bg-slate-900 text-white rounded-[32px] shadow-sm relative overflow-hidden group">
            <div className="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform">
               <Wallet className="w-24 h-24" />
            </div>
-           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Last Month Revenue ({lastMonth})</p>
-           <p className="text-3xl font-black">৳{(lastRevenue._sum.amount || 0).toLocaleString()}</p>
+           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Last Month Revenue ({lastMonth})</p>
+           <p className="text-2xl font-bold">৳{(lastRevenue._sum.amount || 0).toLocaleString()}</p>
         </div>
       </div>
 
@@ -136,7 +136,7 @@ export default async function AdminBillingControlPage(props: Props) {
          <div className="lg:col-span-1 bg-white border border-gray-200 rounded-[32px] p-8 shadow-sm">
             <div className="flex items-center gap-3 mb-6">
                <Settings className="w-5 h-5 text-indigo-600" />
-               <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight">Subscription Setup</h3>
+               <h3 className="text-lg font-bold text-slate-900 uppercase tracking-tight">Subscription Setup</h3>
             </div>
             <form action={async (formData) => {
                "use server";
@@ -145,30 +145,30 @@ export default async function AdminBillingControlPage(props: Props) {
                await updateStaffPriceAction(staffPrice, devicePrice);
             }} className="space-y-6">
                <div>
-                  <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block">Per-User Base Rate (1st Device)</label>
+                  <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Per-User Base Rate (1st Device)</label>
                   <div className="relative">
-                     <span className="absolute left-4 top-1/2 -translate-y-1/2 font-black text-slate-400 text-lg">৳</span>
+                     <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-slate-400 text-lg">৳</span>
                      <input 
                        name="staffPrice"
                        type="number" 
                        defaultValue={sysSettings?.staffSubscriptionPrice || 300}
-                       className="w-full pl-10 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl font-black text-slate-900 text-xl outline-none focus:ring-4 focus:ring-indigo-50 transition-all"
+                       className="w-full pl-10 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl font-bold text-slate-900 text-xl outline-none focus:ring-4 focus:ring-indigo-50 transition-all"
                      />
                   </div>
                </div>
                <div>
-                  <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block">Additional Device Rate (BDT)</label>
+                  <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Additional Device Rate (BDT)</label>
                   <div className="relative">
-                     <span className="absolute left-4 top-1/2 -translate-y-1/2 font-black text-slate-400 text-lg">৳</span>
+                     <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-slate-400 text-lg">৳</span>
                      <input 
                        name="devicePrice"
                        type="number" 
                        defaultValue={sysSettings?.additionalDevicePrice || 250}
-                       className="w-full pl-10 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl font-black text-slate-900 text-xl outline-none focus:ring-4 focus:ring-indigo-50 transition-all"
+                       className="w-full pl-10 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl font-bold text-slate-900 text-xl outline-none focus:ring-4 focus:ring-indigo-50 transition-all"
                      />
                   </div>
                </div>
-               <button className="w-full py-4 bg-indigo-600 text-white font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-100">
+               <button className="w-full py-4 bg-indigo-600 text-white font-bold uppercase tracking-widest text-xs rounded-2xl hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-100">
                   Update Pricing Policy
                </button>
             </form>
@@ -176,12 +176,12 @@ export default async function AdminBillingControlPage(props: Props) {
 
          <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="p-8 bg-indigo-50 rounded-[32px] flex flex-col justify-center">
-               <p className="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-1">Total SMS Floating</p>
-               <p className="text-4xl font-black text-indigo-600">{totalSmsInSystem.toLocaleString()}</p>
+               <p className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mb-1">Total SMS Floating</p>
+               <p className="text-2xl font-bold text-indigo-600">{totalSmsInSystem.toLocaleString()}</p>
             </div>
             <div className="p-8 bg-emerald-50 rounded-[32px] flex flex-col justify-center">
-               <p className="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-1">Total SIP Minutes Floating</p>
-               <p className="text-4xl font-black text-emerald-600">{totalSipInSystem.toLocaleString()}</p>
+               <p className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest mb-1">Total SIP Minutes Floating</p>
+               <p className="text-2xl font-bold text-emerald-600">{totalSipInSystem.toLocaleString()}</p>
             </div>
          </div>
       </div>

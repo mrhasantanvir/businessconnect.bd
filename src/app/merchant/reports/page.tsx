@@ -105,10 +105,10 @@ export default function ReportsPage() {
       {/* 1. Page Header & Actions */}
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
          <div>
-            <h1 className="text-4xl font-black tracking-tighter uppercase flex items-center gap-4">
+            <h1 className="text-2xl font-bold tracking-tight uppercase flex items-center gap-4">
               <BarChart3 className="w-10 h-10 text-[#0F172A]" /> Advanced Intelligence
             </h1>
-            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mt-2 flex items-center gap-2">
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-2 flex items-center gap-2">
                <TrendingUp className="w-4 h-4 text-emerald-500" /> Enterprise-Grade Customizable Reports
             </p>
          </div>
@@ -116,13 +116,13 @@ export default function ReportsPage() {
          <div className="flex items-center gap-3">
             <button 
               onClick={exportToExcel}
-              className="px-6 py-4 bg-white border border-gray-100 rounded-3xl text-[10px] font-black uppercase tracking-widest hover:bg-gray-50 transition-all flex items-center gap-2 shadow-sm"
+              className="px-6 py-4 bg-white border border-gray-100 rounded-3xl text-[10px] font-bold uppercase tracking-widest hover:bg-gray-50 transition-all flex items-center gap-2 shadow-sm"
             >
                <Download className="w-4 h-4" /> Download Excel
             </button>
             <button 
               onClick={() => window.print()}
-              className="px-6 py-4 bg-white text-slate-900 text-slate-900 text-slate-900 border border-slate-100 text-white rounded-3xl text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all flex items-center gap-2 shadow-xl"
+              className="px-6 py-4 bg-white text-slate-900 text-slate-900 text-slate-900 border border-slate-100 text-white rounded-3xl text-[10px] font-bold uppercase tracking-widest hover:bg-black transition-all flex items-center gap-2 shadow-xl"
             >
                <Printer className="w-4 h-4" /> Print PDF
             </button>
@@ -139,7 +139,7 @@ export default function ReportsPage() {
            <button
              key={tab.id}
              onClick={() => setReportType(tab.id as ReportType)}
-             className={`flex-1 py-4 rounded-[32px] text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all ${
+             className={`flex-1 py-4 rounded-[32px] text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-all ${
                reportType === tab.id 
                  ? "bg-white text-slate-900 text-slate-900 text-slate-900 border border-slate-100 text-white shadow-xl" 
                  : "text-gray-400 hover:text-indigo-600 hover:bg-indigo-50"
@@ -154,7 +154,7 @@ export default function ReportsPage() {
       <div className="bg-white  border border-[#E5E7EB]  rounded-[48px] p-8 lg:p-10 shadow-sm grid grid-cols-1 md:grid-cols-4 gap-8 items-end">
          
          <div className="space-y-4">
-            <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest ml-2">Start Date</label>
+            <label className="text-[10px] font-bold uppercase text-gray-400 tracking-widest ml-2">Start Date</label>
             <div className="relative">
                <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                <input 
@@ -167,7 +167,7 @@ export default function ReportsPage() {
          </div>
 
          <div className="space-y-4">
-            <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest ml-2">End Date</label>
+            <label className="text-[10px] font-bold uppercase text-gray-400 tracking-widest ml-2">End Date</label>
             <div className="relative">
                <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                <input 
@@ -180,7 +180,7 @@ export default function ReportsPage() {
          </div>
 
          <div className="space-y-4">
-            <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest ml-2">Status / Segment</label>
+            <label className="text-[10px] font-bold uppercase text-gray-400 tracking-widest ml-2">Status / Segment</label>
             <div className="relative">
                <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                <select 
@@ -199,7 +199,7 @@ export default function ReportsPage() {
          <button 
            onClick={fetchReport}
            disabled={isPending}
-           className="h-[58px] bg-[#1E40AF] text-white rounded-[24px] text-[10px] font-black uppercase tracking-widest hover:bg-blue-700 transition-all shadow-xl disabled:opacity-50 flex items-center justify-center gap-2"
+           className="h-[58px] bg-[#1E40AF] text-white rounded-[24px] text-[10px] font-bold uppercase tracking-widest hover:bg-blue-700 transition-all shadow-xl disabled:opacity-50 flex items-center justify-center gap-2"
          >
             {isPending ? <RefreshCw className="w-4 h-4 animate-spin" /> : <><Search className="w-4 h-4" /> Run Engine</>}
          </button>
@@ -213,8 +213,8 @@ export default function ReportsPage() {
            {/* Primary Visualization */}
            <div className="lg:col-span-2 bg-white  border border-[#E5E7EB]  rounded-[48px] p-10 shadow-sm space-y-8">
               <div className="flex items-center justify-between border-b border-gray-100  pb-8">
-                 <h3 className="text-xl font-black uppercase tracking-tight">Performance Trend</h3>
-                 <div className="flex items-center gap-2 text-[10px] font-black text-emerald-600 bg-emerald-50 px-4 py-1.5 rounded-full">
+                 <h3 className="text-xl font-bold uppercase tracking-tight">Performance Trend</h3>
+                 <div className="flex items-center gap-2 text-[10px] font-bold text-emerald-600 bg-emerald-50 px-4 py-1.5 rounded-full">
                     <TrendingUp className="w-3 h-3" /> Real-time Sync
                  </div>
               </div>
@@ -252,7 +252,7 @@ export default function ReportsPage() {
            <div className="bg-white text-slate-900 text-slate-900 text-slate-900 border border-slate-100 text-white rounded-[48px] p-10 shadow-2xl space-y-10 relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-20 transform translate-x-1/2 -translate-y-1/2 bg-[#BEF264]/10 w-64 h-64 rounded-full blur-3xl" />
               
-              <h3 className="text-xs font-black uppercase text-[#BEF264] tracking-[0.2em] mb-4">Executive Snapshot</h3>
+              <h3 className="text-xs font-bold uppercase text-[#BEF264] tracking-[0.2em] mb-4">Executive Snapshot</h3>
               
               <div className="space-y-12">
                  {reportType === "SALES" && (
@@ -278,7 +278,7 @@ export default function ReportsPage() {
               </div>
 
               <div className="pt-10 border-t border-white/10 mt-auto">
-                 <p className="text-[10px] font-black uppercase tracking-widest text-indigo-300">Global Market Intelligence Powered</p>
+                 <p className="text-[10px] font-bold uppercase tracking-widest text-indigo-300">Global Market Intelligence Powered</p>
               </div>
            </div>
         </div>
@@ -288,11 +288,11 @@ export default function ReportsPage() {
       {data && (
         <div className="bg-white  border border-[#E5E7EB]  rounded-[48px] overflow-hidden shadow-sm">
            <div className="p-10 border-b border-[#F1F5F9]  flex items-center justify-between bg-gray-50 ">
-              <h3 className="text-sm font-black flex items-center gap-3 uppercase tracking-widest">
+              <h3 className="text-sm font-bold flex items-center gap-3 uppercase tracking-widest">
                 <LayoutGrid className="w-6 h-6 text-indigo-500" /> Consolidated Report Ledger
               </h3>
               <div className="flex items-center gap-3">
-                 <div className="px-4 py-2 bg-white  border border-gray-100  rounded-xl text-[10px] font-black uppercase tracking-widest">
+                 <div className="px-4 py-2 bg-white  border border-gray-100  rounded-xl text-[10px] font-bold uppercase tracking-widest">
                     Showing {data.tableData.length} records
                  </div>
               </div>
@@ -303,7 +303,7 @@ export default function ReportsPage() {
                  <thead>
                     <tr className="bg-gray-50  border-b border-gray-100 ">
                        {Object.keys(data.tableData[0] || {}).map((header, i) => (
-                         <th key={i} className="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-[#64748B]">
+                         <th key={i} className="px-8 py-6 text-[10px] font-bold uppercase tracking-widest text-[#64748B]">
                            {header}
                          </th>
                        ))}
@@ -333,7 +333,7 @@ export default function ReportsPage() {
                   <RefreshCw className="w-6 h-6 text-[#BEF264]" />
                </div>
                <div>
-                  <h3 className="text-xl font-black uppercase tracking-tight">Schedule Intelligence</h3>
+                  <h3 className="text-xl font-bold uppercase tracking-tight">Schedule Intelligence</h3>
                   <p className="text-[10px] font-bold text-blue-100 uppercase tracking-widest leading-none mt-1">Automated Multi-Tenant Delivery</p>
                </div>
             </div>
@@ -341,7 +341,7 @@ export default function ReportsPage() {
             <form onSubmit={handleSubscribe} className="space-y-6">
                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-4">
-                     <label className="text-[10px] font-black uppercase text-blue-200 tracking-widest ml-1">Delivery Frequency</label>
+                     <label className="text-[10px] font-bold uppercase text-blue-200 tracking-widest ml-1">Delivery Frequency</label>
                      <select 
                        value={subForm.frequency}
                        onChange={(e) => setSubForm(f => ({ ...f, frequency: e.target.value }))}
@@ -353,7 +353,7 @@ export default function ReportsPage() {
                      </select>
                   </div>
                   <div className="space-y-4">
-                     <label className="text-[10px] font-black uppercase text-blue-200 tracking-widest ml-1">Current Intelligence</label>
+                     <label className="text-[10px] font-bold uppercase text-blue-200 tracking-widest ml-1">Current Intelligence</label>
                      <div className="h-14 px-6 bg-white/10 border border-white/10 rounded-2xl flex items-center text-xs font-bold uppercase text-[#BEF264]">
                         {reportType} REPORT
                      </div>
@@ -361,7 +361,7 @@ export default function ReportsPage() {
                </div>
 
                <div className="space-y-4">
-                  <label className="text-[10px] font-black uppercase text-blue-200 tracking-widest ml-1">Target Email Address</label>
+                  <label className="text-[10px] font-bold uppercase text-blue-200 tracking-widest ml-1">Target Email Address</label>
                   <input 
                     type="email"
                     required
@@ -374,7 +374,7 @@ export default function ReportsPage() {
 
                <button 
                  disabled={isPending}
-                 className="w-full py-5 bg-[#BEF264] text-black rounded-3xl font-black text-[11px] uppercase tracking-widest hover:scale-[1.02] shadow-xl shadow-blue-900/40 transition-all flex items-center justify-center gap-2"
+                 className="w-full py-5 bg-[#BEF264] text-black rounded-3xl font-bold text-[11px] uppercase tracking-widest hover:scale-[1.02] shadow-xl shadow-blue-900/40 transition-all flex items-center justify-center gap-2"
                >
                   {isPending ? <RefreshCw className="w-4 h-4 animate-spin" /> : "Authorize Automation"}
                </button>
@@ -382,7 +382,7 @@ export default function ReportsPage() {
          </div>
 
          <div className="bg-white  border border-[#E5E7EB]  rounded-[48px] p-10 shadow-sm space-y-8">
-            <h3 className="text-sm font-black flex items-center gap-3 uppercase tracking-widest">
+            <h3 className="text-sm font-bold flex items-center gap-3 uppercase tracking-widest">
                <ShieldCheck className="w-6 h-6 text-[#1E40AF]" /> Active Subscriptions
             </h3>
             
@@ -394,7 +394,7 @@ export default function ReportsPage() {
                           <Calendar className="w-5 h-5" />
                        </div>
                        <div>
-                          <div className="text-xs font-black text-[#0F172A]  uppercase">{sub.reportType}</div>
+                          <div className="text-xs font-bold text-[#0F172A]  uppercase">{sub.reportType}</div>
                           <div className="text-[9px] font-bold text-gray-400 uppercase tracking-tight">{sub.frequency} • {sub.email}</div>
                        </div>
                     </div>
@@ -409,7 +409,7 @@ export default function ReportsPage() {
                {subscriptions.length === 0 && (
                  <div className="py-12 text-center space-y-2 opacity-30">
                     <LayoutGrid className="w-12 h-12 mx-auto" />
-                    <p className="text-[10px] font-black uppercase tracking-widest">No active automated reports</p>
+                    <p className="text-[10px] font-bold uppercase tracking-widest">No active automated reports</p>
                  </div>
                )}
             </div>
@@ -426,9 +426,9 @@ function Metric({ label, value, icon: Icon, color = "text-[#BEF264]" }: any) {
           <div className="w-8 h-8 rounded-xl bg-white/5 flex items-center justify-center border border-white/10">
              <Icon className="w-4 h-4 text-white/50" />
           </div>
-          <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none">{label}</span>
+          <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">{label}</span>
        </div>
-       <div className={`text-4xl font-black tracking-tight ${color}`}>{value}</div>
+       <div className={`text-2xl font-bold tracking-tight ${color}`}>{value}</div>
     </div>
   );
 }

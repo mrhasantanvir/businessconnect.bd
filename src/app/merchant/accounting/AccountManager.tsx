@@ -46,7 +46,7 @@ export function AccountManager({ branches, accounts }: { branches: any[], accoun
                <Landmark className="w-7 h-7" />
             </div>
             <div>
-               <h3 className="text-2xl font-black uppercase tracking-tighter">Treasury Nodes</h3>
+               <h3 className="text-lg font-semibold uppercase tracking-tighter">Treasury Nodes</h3>
                <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mt-1">Manage bank & cash liquidity</p>
             </div>
          </div>

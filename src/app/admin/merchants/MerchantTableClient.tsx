@@ -308,7 +308,7 @@ function EditPhoneModal({ userId, currentPhone, onClose }: { userId: string, cur
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in">
       <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-6 flex flex-col space-y-6">
          <div>
-            <h3 className="text-xl font-black text-slate-900 tracking-tight uppercase">Update Merchant Phone</h3>
+            <h3 className="text-xl font-semibold text-slate-900 tracking-tight uppercase">Update Merchant Phone</h3>
             <p className="text-xs text-slate-500 mt-1">Careful: Changing this will affect their login credentials.</p>
          </div>
 
@@ -371,7 +371,7 @@ function RequestReuploadModal({ storeId, onClose }: { storeId: string, onClose: 
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in">
       <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-6 flex flex-col space-y-6">
          <div>
-            <h3 className="text-xl font-black text-slate-900 tracking-tight">Request Documents</h3>
+            <h3 className="text-xl font-semibold text-slate-900 tracking-tight">Request Documents</h3>
             <p className="text-xs text-slate-500 mt-1">Select the documents the merchant needs to reupload.</p>
          </div>
 

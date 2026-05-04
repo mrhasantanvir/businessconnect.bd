@@ -60,7 +60,7 @@ export default function RegisterPage() {
         <div className="flex flex-col items-center mb-8">
           <div className="flex items-center gap-2 mb-4 group">
             <Box className="w-10 h-10 text-[#1E40AF] group-hover:scale-110 transition-transform" />
-            <span className="font-extrabold tracking-tight text-2xl text-[#0F172A]">BusinessConnect.bd</span>
+            <span className="font-bold tracking-tight text-2xl text-[#0F172A]">BusinessConnect.bd</span>
           </div>
           <div className="flex items-center gap-1.5 px-3 py-1 bg-[#F0FDF4] border border-[#BBF7D0] rounded-full">
             <Sparkles className="w-3.5 h-3.5 text-[#16A34A]" />
@@ -73,7 +73,7 @@ export default function RegisterPage() {
           <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#1E40AF] via-[#3B82F6] to-[#BEF264]"></div>
           
           <div className="mb-12">
-            <h1 className="text-4xl font-black text-[#0F172A] mb-3 tracking-tighter uppercase">
+            <h1 className="text-2xl font-bold text-[#0F172A] mb-3 tracking-tight uppercase">
               Join the <span className="text-[#1E40AF]">Grid.</span>
             </h1>
             <p className="text-[#64748B] text-sm font-medium">Verify your phone to start your business journey.</p>
@@ -89,7 +89,7 @@ export default function RegisterPage() {
             {/* Step 1: Phone & OTP */}
             <div className="space-y-6">
                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-[#64748B] uppercase tracking-[0.2em] ml-1">Business Phone</label>
+                  <label className="text-[10px] font-bold text-[#64748B] uppercase tracking-[0.2em] ml-1">Business Phone</label>
                   <div className="flex gap-3">
                      <div className="relative flex-1 group">
                         <Phone className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-[#A1A1AA] group-focus-within:text-[#1E40AF] transition-colors" />
@@ -109,7 +109,7 @@ export default function RegisterPage() {
                            type="button"
                            onClick={handleSendOtp}
                            disabled={otpLoading || !phone}
-                           className="bg-slate-900 text-white px-6 rounded-none font-black text-[10px] uppercase tracking-widest hover:bg-black transition-all disabled:opacity-50"
+                           className="bg-slate-900 text-white px-6 rounded-none font-bold text-[10px] uppercase tracking-widest hover:bg-black transition-all disabled:opacity-50"
                         >
                            {otpLoading ? <RefreshCw className="w-4 h-4 animate-spin" /> : "Send OTP"}
                         </button>
@@ -119,20 +119,20 @@ export default function RegisterPage() {
 
                {otpSent && !isVerified && (
                   <div className="space-y-2 animate-in fade-in zoom-in duration-300">
-                     <label className="text-[10px] font-black text-[#64748B] uppercase tracking-[0.2em] ml-1">Verification Code</label>
+                     <label className="text-[10px] font-bold text-[#64748B] uppercase tracking-[0.2em] ml-1">Verification Code</label>
                      <div className="flex gap-3">
                         <input
                            type="text"
                            value={otp}
                            onChange={(e) => setOtp(e.target.value)}
-                           className="flex-1 bg-[#F8F9FA] border-2 border-transparent focus:border-[#1E40AF]/10 focus:bg-white rounded-none py-5 px-8 outline-none transition-all font-black text-center tracking-[1em] text-[#1E40AF]"
+                           className="flex-1 bg-[#F8F9FA] border-2 border-transparent focus:border-[#1E40AF]/10 focus:bg-white rounded-none py-5 px-8 outline-none transition-all font-bold text-center tracking-[1em] text-[#1E40AF]"
                            placeholder="000000"
                            maxLength={6}
                         />
                         <button
                            type="button"
                            onClick={handleVerifyOtp}
-                           className="bg-[#BEF264] text-[#064E3B] px-6 rounded-none font-black text-[10px] uppercase tracking-widest hover:scale-105 active:scale-95 transition-all"
+                           className="bg-[#BEF264] text-[#064E3B] px-6 rounded-none font-bold text-[10px] uppercase tracking-widest hover:scale-105 active:scale-95 transition-all"
                         >
                            Verify
                         </button>
@@ -147,9 +147,9 @@ export default function RegisterPage() {
                           <div className="w-8 h-8 bg-green-500 rounded-none flex items-center justify-center text-white">
                              <CheckCircle2 className="w-5 h-5" />
                           </div>
-                          <span className="text-xs font-black text-green-700 uppercase tracking-widest">Phone Verified</span>
+                          <span className="text-xs font-bold text-green-700 uppercase tracking-widest">Phone Verified</span>
                        </div>
-                       <div className="text-[10px] font-black text-green-600 uppercase animate-pulse">Proceeding to Step 2...</div>
+                       <div className="text-[10px] font-bold text-green-600 uppercase animate-pulse">Proceeding to Step 2...</div>
                     </div>
                   </div>
                 )}
@@ -159,7 +159,7 @@ export default function RegisterPage() {
             {isVerified && (
                <div className="space-y-6 animate-in slide-in-from-bottom-4 duration-500">
                   <div className="space-y-2">
-                     <label className="text-[10px] font-black text-[#64748B] uppercase tracking-[0.2em] ml-1">Owner Name</label>
+                     <label className="text-[10px] font-bold text-[#64748B] uppercase tracking-[0.2em] ml-1">Owner Name</label>
                      <div className="relative group">
                         <UserSquare2 className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-[#A1A1AA] group-focus-within:text-[#1E40AF] transition-colors" />
                         <input
@@ -173,7 +173,7 @@ export default function RegisterPage() {
                   </div>
 
                   <div className="space-y-2">
-                     <label className="text-[10px] font-black text-[#64748B] uppercase tracking-[0.2em] ml-1">Email Address</label>
+                     <label className="text-[10px] font-bold text-[#64748B] uppercase tracking-[0.2em] ml-1">Email Address</label>
                      <div className="relative group">
                         <Mail className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-[#A1A1AA] group-focus-within:text-[#1E40AF] transition-colors" />
                         <input
@@ -187,7 +187,7 @@ export default function RegisterPage() {
                   </div>
 
                   <div className="space-y-2">
-                     <label className="text-[10px] font-black text-[#64748B] uppercase tracking-[0.2em] ml-1">Secure Password</label>
+                     <label className="text-[10px] font-bold text-[#64748B] uppercase tracking-[0.2em] ml-1">Secure Password</label>
                      <div className="relative group">
                         <Lock className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-[#A1A1AA] group-focus-within:text-[#1E40AF] transition-colors" />
                         <input
@@ -206,7 +206,7 @@ export default function RegisterPage() {
                   <button
                      type="submit"
                      disabled={isPending}
-                     className="w-full bg-[#1E40AF] text-white py-6 rounded-none font-black text-lg flex items-center justify-center gap-3 shadow-2xl shadow-[#1E40AF]/20 hover:bg-[#1E3A8A] hover:scale-[1.02] active:scale-[0.98] transition-all group disabled:opacity-70"
+                     className="w-full bg-[#1E40AF] text-white py-6 rounded-none font-bold text-lg flex items-center justify-center gap-3 shadow-2xl shadow-[#1E40AF]/20 hover:bg-[#1E3A8A] hover:scale-[1.02] active:scale-[0.98] transition-all group disabled:opacity-70"
                   >
                      {isPending ? <RefreshCw className="w-6 h-6 animate-spin" /> : (
                        <>
@@ -228,7 +228,7 @@ export default function RegisterPage() {
         </div>
 
         <div className="mt-8 text-center">
-          <p className="text-[#A1A1AA] text-[10px] font-black uppercase tracking-widest leading-loose">
+          <p className="text-[#A1A1AA] text-[10px] font-bold uppercase tracking-widest leading-loose">
             By registering, you agree to our <span className="text-[#0F172A]">Terms of Service</span><br/>
             and <span className="text-[#0F172A]">Privacy Policy.</span>
           </p>

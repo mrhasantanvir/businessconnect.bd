@@ -198,7 +198,7 @@ export function SipDialer({ userId, merchantStoreId }: { userId?: string, mercha
                    </div>
                 </div>
                 <div>
-                   <h3 className="text-3xl font-black tracking-tight">{number || "Incoming Guest"}</h3>
+                   <h3 className="text-lg font-semibold tracking-tight">{number || "Incoming Guest"}</h3>
                    <div className="flex items-center justify-center gap-2 mt-2">
                       <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                       <p className="text-[#A1A1AA] text-[10px] font-black uppercase tracking-[0.3em]">

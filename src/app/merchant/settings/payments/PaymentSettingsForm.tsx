@@ -92,7 +92,7 @@ export function PaymentSettingsForm({ initialConfigs }: { initialConfigs: any[] 
                     {p.icon}
                   </div>
                   <div>
-                    <h3 className="text-2xl font-black text-slate-900  tracking-tighter">{p.name}</h3>
+                    <h3 className="text-lg font-semibold text-slate-900  tracking-tighter">{p.name}</h3>
                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Payment Gateway Provider</p>
                   </div>
                 </div>

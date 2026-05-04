@@ -72,14 +72,14 @@ export default function AnalyticsSettingsPage() {
             <ArrowLeft className="w-5 h-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-2xl font-black text-foreground tracking-tight uppercase">Tracking & Analytics</h1>
+            <h1 className="text-2xl font-bold text-foreground tracking-tight uppercase">Tracking & Analytics</h1>
             <p className="text-xs text-muted-foreground font-bold uppercase tracking-widest mt-1">Configure your marketing and measurement pixels</p>
           </div>
         </div>
         <button 
           onClick={handleSave}
           disabled={saving}
-          className="flex items-center justify-center gap-2 px-8 py-3 bg-indigo-600 text-white rounded-2xl text-xs font-black uppercase shadow-xl shadow-indigo-600/20 hover:scale-105 active:scale-95 transition-all disabled:opacity-50"
+          className="flex items-center justify-center gap-2 px-8 py-3 bg-indigo-600 text-white rounded-2xl text-xs font-bold uppercase shadow-xl shadow-indigo-600/20 hover:scale-105 active:scale-95 transition-all disabled:opacity-50"
         >
           {saving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           Save Configuration
@@ -95,12 +95,12 @@ export default function AnalyticsSettingsPage() {
               <div className="w-10 h-10 bg-gray-50  p-2 rounded-xl border border-surface-border">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_Ads_logo.svg" className="w-full h-full object-contain" alt="Google" />
               </div>
-              <h3 className="text-sm font-black uppercase tracking-tight">Google Analytics & GTM</h3>
+              <h3 className="text-sm font-bold uppercase tracking-tight">Google Analytics & GTM</h3>
             </div>
             
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase text-muted-foreground tracking-widest ml-1">GA4 Measurement ID</label>
+                <label className="text-[10px] font-bold uppercase text-muted-foreground tracking-widest ml-1">GA4 Measurement ID</label>
                 <input 
                   type="text" 
                   value={settings.googleAnalyticsId}
@@ -110,7 +110,7 @@ export default function AnalyticsSettingsPage() {
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase text-muted-foreground tracking-widest ml-1">Tag Manager ID</label>
+                <label className="text-[10px] font-bold uppercase text-muted-foreground tracking-widest ml-1">Tag Manager ID</label>
                 <input 
                   type="text" 
                   value={settings.gtmId}
@@ -128,11 +128,11 @@ export default function AnalyticsSettingsPage() {
               <div className="w-10 h-10 bg-gray-50  p-2 rounded-xl border border-surface-border">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Microsoft_Logo.svg" className="w-full h-full object-contain" alt="Microsoft" />
               </div>
-              <h3 className="text-sm font-black uppercase tracking-tight">Microsoft Clarity</h3>
+              <h3 className="text-sm font-bold uppercase tracking-tight">Microsoft Clarity</h3>
             </div>
             
             <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase text-muted-foreground tracking-widest ml-1">Clarity Project ID</label>
+              <label className="text-[10px] font-bold uppercase text-muted-foreground tracking-widest ml-1">Clarity Project ID</label>
               <input 
                 type="text" 
                 value={settings.msClarityId}
@@ -152,11 +152,11 @@ export default function AnalyticsSettingsPage() {
               <div className="w-10 h-10 bg-gray-50  p-2 rounded-xl border border-surface-border">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png" className="w-full h-full object-contain" alt="Meta" />
               </div>
-              <h3 className="text-sm font-black uppercase tracking-tight">Meta Pixel</h3>
+              <h3 className="text-sm font-bold uppercase tracking-tight">Meta Pixel</h3>
             </div>
             
             <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase text-muted-foreground tracking-widest ml-1">Pixel ID</label>
+              <label className="text-[10px] font-bold uppercase text-muted-foreground tracking-widest ml-1">Pixel ID</label>
               <input 
                 type="text" 
                 value={settings.fbPixelId}
@@ -173,11 +173,11 @@ export default function AnalyticsSettingsPage() {
               <div className="w-10 h-10 bg-indigo-500/10 p-2 rounded-xl flex items-center justify-center">
                 <Zap className="w-6 h-6 text-indigo-500" />
               </div>
-              <h3 className="text-sm font-black uppercase tracking-tight">Custom Header Scripts</h3>
+              <h3 className="text-sm font-bold uppercase tracking-tight">Custom Header Scripts</h3>
             </div>
             
             <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase text-muted-foreground tracking-widest ml-1">Head Scripts (HTML)</label>
+              <label className="text-[10px] font-bold uppercase text-muted-foreground tracking-widest ml-1">Head Scripts (HTML)</label>
               <textarea 
                 rows={6}
                 value={settings.customScripts}
@@ -185,7 +185,7 @@ export default function AnalyticsSettingsPage() {
                 placeholder="<!-- Paste your custom tracking scripts here -->"
                 className="w-full bg-gray-50  border border-surface-border rounded-xl px-4 py-3 text-[10px] font-mono focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all"
               />
-              <p className="text-[8px] font-black text-amber-600 uppercase tracking-widest flex items-center gap-1.5 px-1">
+              <p className="text-[8px] font-bold text-amber-600 uppercase tracking-widest flex items-center gap-1.5 px-1">
                 <AlertTriangle className="w-3 h-3" /> Warning: Scripts will be injected into the storefront header. Use with caution.
               </p>
             </div>
@@ -198,7 +198,7 @@ export default function AnalyticsSettingsPage() {
       <div className="p-8 rounded-[32px] bg-indigo-600 text-white space-y-4 shadow-xl shadow-indigo-600/20">
          <div className="flex items-center gap-3">
             <Zap className="w-6 h-6 text-indigo-200" />
-            <h4 className="text-sm font-black uppercase tracking-tight">Marketing Intelligence Guide</h4>
+            <h4 className="text-sm font-bold uppercase tracking-tight">Marketing Intelligence Guide</h4>
          </div>
          <p className="text-xs font-medium text-indigo-100 leading-relaxed opacity-80">
             By integrating these tracking tools, you'll gain deep insights into your customer's behavior. Google Analytics helps you track traffic, while Facebook Pixel enables high-performance retargeting ads. Microsoft Clarity provides heatmaps and session recordings to see how users interact with your store.

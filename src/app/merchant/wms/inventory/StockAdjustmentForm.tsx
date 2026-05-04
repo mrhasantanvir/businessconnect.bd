@@ -32,7 +32,7 @@ export function StockAdjustmentForm({ warehouses, products }: { warehouses: any[
     <form onSubmit={handleSubmit} className="bg-white  border border-[#E5E7EB]  p-8 rounded-[32px] shadow-sm space-y-5 animate-in slide-in-from-right-8 duration-700">
       <div className="flex items-center gap-2 mb-2 text-indigo-600">
          <Zap className="w-5 h-5 fill-current" />
-         <h2 className="text-xl font-black text-[#0F172A]  tracking-tight">Quick Adjustment</h2>
+         <h2 className="text-xl font-semibold text-[#0F172A]  tracking-tight">Quick Adjustment</h2>
       </div>
 
       <div className="space-y-4">

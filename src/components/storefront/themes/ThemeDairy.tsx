@@ -21,7 +21,7 @@ export function ThemeDairy({ store, brandColor }: { store: any, brandColor: stri
       {/* 1. Utility Header */}
       <header className="bg-white border-b border-slate-200 sticky top-0 z-[100]">
          <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-            <h1 className="text-xl font-black text-slate-900 flex items-center gap-2">
+            <h1 className="text-xl font-bold text-slate-900 flex items-center gap-2">
                <ShoppingBag className="w-6 h-6 text-indigo-600" />
                {store.name}
             </h1>
@@ -34,7 +34,7 @@ export function ThemeDairy({ store, brandColor }: { store: any, brandColor: stri
             <div className="flex items-center gap-4">
                <button className="p-2 text-slate-600 relative">
                   <ShoppingBag className="w-6 h-6" />
-                  <span className="absolute top-0 right-0 w-4 h-4 bg-red-500 text-white text-[8px] font-black flex items-center justify-center rounded-full">0</span>
+                  <span className="absolute top-0 right-0 w-4 h-4 bg-red-500 text-white text-[8px] font-bold flex items-center justify-center rounded-full">0</span>
                </button>
             </div>
          </div>
@@ -46,7 +46,7 @@ export function ThemeDairy({ store, brandColor }: { store: any, brandColor: stri
          {/* Sidebar Filters */}
          <aside className="hidden lg:block space-y-10">
             <div className="space-y-4">
-               <h3 className="text-xs font-black uppercase tracking-widest text-slate-400">Categories</h3>
+               <h3 className="text-xs font-bold uppercase tracking-widest text-slate-400">Categories</h3>
                <div className="space-y-2">
                   {["All Items", "Dairy & Eggs", "Beverages", "Snacks", "Household"].map(c => (
                     <button key={c} className="w-full text-left px-4 py-2 rounded-lg text-sm font-bold text-slate-600 hover:bg-white hover:text-indigo-600 transition-all flex items-center justify-between">
@@ -58,7 +58,7 @@ export function ThemeDairy({ store, brandColor }: { store: any, brandColor: stri
 
             <div className="p-6 bg-indigo-600 rounded-3xl text-white space-y-4">
                <Clock className="w-8 h-8" />
-               <h4 className="font-black uppercase tracking-tight text-lg">Fast Delivery</h4>
+               <h4 className="font-bold uppercase tracking-tight text-lg">Fast Delivery</h4>
                <p className="text-xs font-bold text-indigo-100 leading-relaxed">We deliver within 60 minutes in your local area.</p>
             </div>
          </aside>
@@ -70,9 +70,9 @@ export function ThemeDairy({ store, brandColor }: { store: any, brandColor: stri
                   <button className="p-2 bg-slate-50 rounded-lg text-indigo-600"><Grid className="w-5 h-5" /></button>
                   <button className="p-2 text-slate-400"><List className="w-5 h-5" /></button>
                </div>
-               <div className="flex items-center gap-4 text-xs font-black uppercase tracking-widest text-slate-400">
+               <div className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest text-slate-400">
                   <span>Sort by:</span>
-                  <select className="bg-transparent border-none outline-none text-slate-900 font-black">
+                  <select className="bg-transparent border-none outline-none text-slate-900 font-bold">
                      <option>Newest</option>
                      <option>Price: Low to High</option>
                   </select>
@@ -88,12 +88,12 @@ export function ThemeDairy({ store, brandColor }: { store: any, brandColor: stri
                     <div className="space-y-1">
                        <div className="flex items-center gap-1">
                           <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
-                          <span className="text-[10px] font-black">4.8</span>
+                          <span className="text-[10px] font-bold">4.8</span>
                        </div>
-                       <h4 className="text-xs font-black text-slate-900 truncate uppercase tracking-tight">{product.name}</h4>
-                       <p className="text-sm font-black text-indigo-600">৳{product.price}</p>
+                       <h4 className="text-xs font-bold text-slate-900 truncate uppercase tracking-tight">{product.name}</h4>
+                       <p className="text-sm font-bold text-indigo-600">৳{product.price}</p>
                     </div>
-                    <button className="w-full py-3 bg-indigo-50 text-indigo-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all">
+                    <button className="w-full py-3 bg-indigo-50 text-indigo-600 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all">
                        Add to Cart
                     </button>
                  </div>
@@ -106,8 +106,8 @@ export function ThemeDairy({ store, brandColor }: { store: any, brandColor: stri
          <div className="flex items-center justify-center gap-6">
             <ShieldCheck className="w-8 h-8 text-emerald-500" />
             <div className="text-left">
-               <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Verified Secure</p>
-               <h5 className="text-sm font-black uppercase">Safe Commerce Engine</h5>
+               <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Verified Secure</p>
+               <h5 className="text-sm font-bold uppercase">Safe Commerce Engine</h5>
             </div>
          </div>
          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">© 2026 {store.name}. All Rights Reserved.</p>

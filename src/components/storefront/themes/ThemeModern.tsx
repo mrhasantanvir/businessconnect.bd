@@ -7,7 +7,7 @@ export function ThemeModern({ store, brandColor }: { store: any, brandColor: str
   return (
     <div className="min-h-screen bg-white text-slate-900 font-sans">
       <header className="h-20 border-b flex items-center justify-between px-8">
-         <h1 className="text-xl font-black uppercase tracking-tight">{store.name}</h1>
+         <h1 className="text-xl font-bold uppercase tracking-tight">{store.name}</h1>
          <div className="flex items-center gap-6">
             <button className="text-sm font-bold uppercase tracking-widest">Shop</button>
             <button className="p-3 bg-slate-900 text-white rounded-full"><ShoppingBag className="w-5 h-5" /></button>
@@ -16,9 +16,9 @@ export function ThemeModern({ store, brandColor }: { store: any, brandColor: str
 
       <section className="py-20 px-8 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
          <div className="space-y-8">
-            <h2 className="text-7xl font-black tracking-tighter uppercase leading-none">Simple. <br /> <span className="text-indigo-600">Elegant.</span></h2>
+            <h2 className="text-2xl font-bold tracking-tight uppercase leading-none">Simple. <br /> <span className="text-indigo-600">Elegant.</span></h2>
             <p className="text-lg text-slate-500 font-medium leading-relaxed">Upgrade your lifestyle with our curated collection of essential products.</p>
-            <button className="px-10 py-5 bg-slate-900 text-white rounded-full font-black text-xs uppercase tracking-widest flex items-center gap-4">
+            <button className="px-10 py-5 bg-slate-900 text-white rounded-full font-bold text-xs uppercase tracking-widest flex items-center gap-4">
                Start Shopping <ArrowRight className="w-5 h-5" />
             </button>
          </div>
@@ -35,8 +35,8 @@ export function ThemeModern({ store, brandColor }: { store: any, brandColor: str
                     <img src={p.images?.[0]} className="w-full h-full object-cover" />
                  </div>
                  <div>
-                    <h4 className="text-xs font-black uppercase tracking-widest">{p.name}</h4>
-                    <p className="text-sm font-black text-indigo-600 mt-1">৳{p.price}</p>
+                    <h4 className="text-xs font-bold uppercase tracking-widest">{p.name}</h4>
+                    <p className="text-sm font-bold text-indigo-600 mt-1">৳{p.price}</p>
                  </div>
               </div>
             ))}

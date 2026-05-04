@@ -35,7 +35,7 @@ export default async function UnifiedInboxPage({ searchParams }: { searchParams:
       {/* 1. Chat List Sidebar */}
       <div className="w-80 lg:w-96 border-r border-[#E5E7EB]  flex flex-col bg-[#F8F9FA] ">
          <div className="p-6 space-y-4">
-            <h2 className="text-xl font-black flex items-center gap-2">
+            <h2 className="text-xl font-semibold flex items-center gap-2">
               <MessageSquare className="w-5 h-5 text-indigo-500" /> Unified Inbox
             </h2>
             <div className="relative">
@@ -90,7 +90,7 @@ export default async function UnifiedInboxPage({ searchParams }: { searchParams:
                       {activeChat.customerName?.charAt(0)}
                    </div>
                    <div>
-                      <h3 className="text-sm font-black flex items-center gap-2">
+                      <h3 className="text-sm font-semibold flex items-center gap-2">
                         {activeChat.customerName} <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
                       </h3>
                       <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest leading-none">External Lead • {activeChat.source}</p>
@@ -158,7 +158,7 @@ export default async function UnifiedInboxPage({ searchParams }: { searchParams:
                  <MessageSquare className="w-10 h-10 text-indigo-400" />
               </div>
               <div className="space-y-2">
-                 <h3 className="text-xl font-black">No Conversation Selected</h3>
+                 <h3 className="text-xl font-semibold">No Conversation Selected</h3>
                  <p className="text-xs font-medium max-w-[280px]">Select a lead from the sidebar to start omni-channel support.</p>
               </div>
            </div>

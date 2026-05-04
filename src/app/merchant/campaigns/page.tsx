@@ -39,13 +39,13 @@ export default async function MarketingDashboard() {
       {/* 1. Header & Actions Hub */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
          <div>
-            <h1 className="text-4xl font-black text-[#0F172A]  tracking-tight">Marketing Hub</h1>
+            <h1 className="text-2xl font-bold text-[#0F172A]  tracking-tight">Marketing Hub</h1>
             <p className="text-sm font-bold text-gray-400 mt-2 uppercase tracking-widest leading-none">Automate your sales growth with targeted campaigns</p>
          </div>
          <div className="flex items-center gap-3">
             <Link 
               href="/merchant/campaigns/create" 
-              className="flex items-center gap-2 px-6 py-4 bg-white text-slate-900 text-slate-900 text-slate-900 border border-slate-100 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all shadow-xl shadow-gray-200"
+              className="flex items-center gap-2 px-6 py-4 bg-white text-slate-900 text-slate-900 text-slate-900 border border-slate-100 text-white rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-black transition-all shadow-xl shadow-gray-200"
             >
                <Plus className="w-4 h-4" /> Start New Campaign
             </Link>
@@ -63,8 +63,8 @@ export default async function MarketingDashboard() {
                  <stat.icon className="w-7 h-7" />
               </div>
               <div>
-                 <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none">{stat.label}</p>
-                 <h2 className="text-3xl font-black mt-2 text-[#0F172A]  leading-none">{stat.value}</h2>
+                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">{stat.label}</p>
+                 <h2 className="text-2xl font-bold mt-2 text-[#0F172A]  leading-none">{stat.value}</h2>
               </div>
            </div>
          ))}
@@ -74,7 +74,7 @@ export default async function MarketingDashboard() {
       <div className="bg-white  border border-[#E5E7EB]  rounded-[48px] overflow-hidden shadow-sm">
          
          <div className="p-8 border-b border-[#F1F5F9]  flex items-center justify-between">
-            <h2 className="text-sm font-black flex items-center gap-2 uppercase tracking-widest">
+            <h2 className="text-sm font-bold flex items-center gap-2 uppercase tracking-widest">
                <Clock className="w-5 h-5 text-indigo-500" /> Recent Campaign History
             </h2>
             <div className="relative group flex-1 max-w-xs mx-4">
@@ -85,7 +85,7 @@ export default async function MarketingDashboard() {
 
          <div className="overflow-x-auto text-[#0F172A] ">
             <table className="w-full text-sm text-left">
-               <thead className="bg-[#F8F9FA]  text-[9px] uppercase font-black text-gray-400 tracking-[0.2em]">
+               <thead className="bg-[#F8F9FA]  text-[9px] uppercase font-bold text-gray-400 tracking-[0.2em]">
                   <tr>
                      <th className="px-10 py-6">Campaign Strategy</th>
                      <th className="px-6 py-6 text-center">Status</th>
@@ -103,13 +103,13 @@ export default async function MarketingDashboard() {
                                 <Megaphone className="w-5 h-5 text-indigo-500" />
                              </div>
                              <div>
-                                <h4 className="font-black text-sm uppercase tracking-tight">{c.name}</h4>
+                                <h4 className="font-bold text-sm uppercase tracking-tight">{c.name}</h4>
                                 <p className="text-[10px] font-bold text-gray-400 mt-1">{new Date(c.createdAt).toLocaleDateString()} • {c.type}</p>
                              </div>
                           </div>
                        </td>
                        <td className="px-6 py-7 text-center">
-                          <span className={`px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-widest border ${
+                          <span className={`px-3 py-1 rounded-full text-[8px] font-bold uppercase tracking-widest border ${
                             c.status === 'COMPLETED' ? 'bg-green-50 text-green-700 border-green-100' : 
                             c.status === 'SENDING' ? 'bg-blue-50 text-blue-700 border-blue-100 animate-pulse' : 
                             'bg-gray-50 text-gray-600 border-gray-100'
@@ -119,11 +119,11 @@ export default async function MarketingDashboard() {
                        </td>
                        <td className="px-6 py-7 text-center">
                           <div className="flex flex-col items-center">
-                             <div className="text-sm font-black text-[#0F172A] ">{c.sentCount} / {c.totalTarget}</div>
+                             <div className="text-sm font-bold text-[#0F172A] ">{c.sentCount} / {c.totalTarget}</div>
                              <div className="text-[10px] font-bold text-gray-400 uppercase mt-1">Delivered</div>
                           </div>
                        </td>
-                       <td className="px-6 py-7 text-right font-black">
+                       <td className="px-6 py-7 text-right font-bold">
                           <div className="text-sm">৳{c.totalCost.toLocaleString()}</div>
                        </td>
                        <td className="px-10 py-7 text-right">
@@ -143,9 +143,9 @@ export default async function MarketingDashboard() {
                              <div className="w-20 h-20 bg-gray-50  rounded-[32px] flex items-center justify-center mx-auto">
                                 <Megaphone className="w-10 h-10 text-gray-300" />
                              </div>
-                             <h4 className="text-sm font-black uppercase tracking-widest">No Campaigns Found</h4>
+                             <h4 className="text-sm font-bold uppercase tracking-widest">No Campaigns Found</h4>
                              <p className="text-xs text-gray-400 font-medium leading-relaxed">Start your first marketing campaign to engage with your customers and boost sales.</p>
-                             <Link href="/merchant/campaigns/create" className="inline-block mt-4 text-[10px] font-black uppercase tracking-widest text-indigo-600 border-b border-indigo-200 pb-1">Create Now</Link>
+                             <Link href="/merchant/campaigns/create" className="inline-block mt-4 text-[10px] font-bold uppercase tracking-widest text-indigo-600 border-b border-indigo-200 pb-1">Create Now</Link>
                           </div>
                        </td>
                     </tr>
@@ -163,12 +163,12 @@ export default async function MarketingDashboard() {
                <div className="w-10 h-10 bg-[#BEF264] rounded-xl flex items-center justify-center text-green-900 shadow-xl">
                   <BarChart3 className="w-6 h-6" />
                </div>
-               <h3 className="text-xl font-black uppercase tracking-tight leading-none">AI Market Insight</h3>
+               <h3 className="text-xl font-bold uppercase tracking-tight leading-none">AI Market Insight</h3>
             </div>
             <p className="text-sm text-indigo-200/60 leading-relaxed">Your VIP segment (Spent {`>`} ৳5000) has a 25% higher open rate on weekend mornings. Consider launching an SMS blast this Saturday at 10:00 AM.</p>
             <div className="pt-4 border-t border-white/10 flex items-center justify-between">
-               <span className="text-[10px] font-black uppercase tracking-widest text-[#BEF264]">Phase 18 Integration: Active</span>
-               <button className="text-[10px] font-black uppercase underline tracking-tighter hover:text-[#BEF264] transition-colors">Apply Strategy</button>
+               <span className="text-[10px] font-bold uppercase tracking-widest text-[#BEF264]">Phase 18 Integration: Active</span>
+               <button className="text-[10px] font-bold uppercase underline tracking-tight hover:text-[#BEF264] transition-colors">Apply Strategy</button>
             </div>
          </div>
 
@@ -177,7 +177,7 @@ export default async function MarketingDashboard() {
                <AlertCircle className="w-10 h-10" />
             </div>
             <div className="space-y-2">
-               <h4 className="text-lg font-black text-[#0F172A]  uppercase leading-none">Compliance Hub</h4>
+               <h4 className="text-lg font-bold text-[#0F172A]  uppercase leading-none">Compliance Hub</h4>
                <p className="text-xs text-gray-400 font-medium leading-relaxed">Ensure all marketing SMS include an "Opt-out" keyword to comply with local regulations. Automated unsubscribe logic is coming in Phase 19.</p>
             </div>
          </div>

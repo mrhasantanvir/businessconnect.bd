@@ -46,7 +46,7 @@ export function ResolutionModal({ incidentId, onClose, onSuccess }: ResolutionMo
                  <ShieldCheck className="w-6 h-6" />
                </div>
                <div>
-                  <h2 className="text-xl font-black text-[#0F172A] ">Resolve Incident</h2>
+                  <h2 className="text-xl font-semibold text-[#0F172A] ">Resolve Incident</h2>
                   <p className="text-xs font-bold text-[#64748B]">Follow ServiceNow Standard Closure</p>
                </div>
              </div>

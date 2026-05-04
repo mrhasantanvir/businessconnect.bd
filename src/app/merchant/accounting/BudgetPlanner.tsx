@@ -37,7 +37,7 @@ export function BudgetPlanner({ categories, branches, budgets }: { categories: a
                <Target className="w-6 h-6" />
             </div>
             <div>
-               <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight">Budget Governance</h3>
+               <h3 className="text-xl font-semibold text-slate-900 uppercase tracking-tight">Budget Governance</h3>
                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Set monthly expenditure limits</p>
             </div>
          </div>

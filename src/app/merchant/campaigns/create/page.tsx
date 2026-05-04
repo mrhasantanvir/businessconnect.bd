@@ -22,7 +22,7 @@ export default async function CreateCampaignPage() {
             <ArrowLeft className="w-6 h-6 text-slate-900" />
          </Link>
          <div>
-            <h1 className="text-4xl font-black text-slate-900 tracking-tighter uppercase">Campaign <span className="text-blue-600">Manager</span></h1>
+            <h1 className="text-2xl font-bold text-slate-900 tracking-tight uppercase">Campaign <span className="text-blue-600">Manager</span></h1>
             <p className="text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mt-1">Multi-Channel Audience Engagement Engine</p>
          </div>
       </div>

@@ -161,7 +161,7 @@ export default function WarehouseClient() {
             <Warehouse className="w-8 h-8 text-white" />
           </div>
           <div>
-            <h1 className="text-3xl font-black text-[#0F172A] tracking-tight leading-none">
+            <h1 className="text-2xl font-bold text-[#0F172A] tracking-tight leading-none">
               Warehouse Hub
             </h1>
             <p className="text-slate-500 font-bold mt-2 flex items-center gap-2">
@@ -173,7 +173,7 @@ export default function WarehouseClient() {
         <div className="relative z-10 flex items-center gap-4">
           <div className="hidden sm:flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-2xl border border-slate-100">
              <div className="text-right">
-                <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Active Hubs</div>
+                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-1">Active Hubs</div>
                 <div className="text-sm font-bold text-slate-900">{warehouses.length}</div>
              </div>
           </div>
@@ -216,7 +216,7 @@ export default function WarehouseClient() {
 
         {activeTab === 'list' && (
            <div className="flex items-center gap-4">
-              <div className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">Sort by:</div>
+              <div className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em]">Sort by:</div>
               <select className="bg-white border border-slate-100 px-6 py-3 rounded-2xl font-bold text-xs uppercase tracking-widest outline-none shadow-sm focus:ring-2 ring-blue-500/10">
                  <option>Recent First</option>
                  <option>Name A-Z</option>
@@ -234,7 +234,7 @@ export default function WarehouseClient() {
                <div className="absolute inset-0 border-4 border-blue-50 rounded-[24px]"></div>
                <div className="absolute inset-0 border-4 border-blue-600 rounded-[24px] border-t-transparent animate-spin"></div>
             </div>
-            <p className="font-black text-slate-400 uppercase tracking-[0.3em] text-[10px]">Synchronizing Logistics Data</p>
+            <p className="font-bold text-slate-400 uppercase tracking-[0.3em] text-[10px]">Synchronizing Logistics Data</p>
           </div>
         ) : activeTab === 'list' ? (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10">
@@ -244,7 +244,7 @@ export default function WarehouseClient() {
                   <Warehouse size={64} />
                 </div>
                 <div className="mt-8 space-y-4">
-                  <h3 className="text-2xl font-black text-slate-900 tracking-tight">Warehouse Setup Required</h3>
+                  <h3 className="text-lg font-bold text-slate-900 tracking-tight">Warehouse Setup Required</h3>
                   <p className="text-slate-400 font-medium max-w-sm mx-auto">Your inventory management is currently inactive. Add your first warehouse to begin managing stock.</p>
                   <div className="flex flex-col sm:flex-row items-center gap-4 mt-8">
                     <button 
@@ -277,7 +277,7 @@ export default function WarehouseClient() {
                       </div>
                       <div className="flex items-center gap-2">
                         {w.isDefault && (
-                          <div className="bg-emerald-50 text-emerald-600 text-[10px] font-black px-4 py-2 rounded-full uppercase tracking-widest border border-emerald-100">
+                          <div className="bg-emerald-50 text-emerald-600 text-[10px] font-bold px-4 py-2 rounded-full uppercase tracking-widest border border-emerald-100">
                             Primary
                           </div>
                         )}
@@ -293,7 +293,7 @@ export default function WarehouseClient() {
                     </div>
 
                     <div>
-                      <h3 className="text-2xl font-black text-[#0F172A] tracking-tight group-hover:text-blue-600 transition-colors">{w.name}</h3>
+                      <h3 className="text-lg font-bold text-[#0F172A] tracking-tight group-hover:text-blue-600 transition-colors">{w.name}</h3>
                       <div className="flex items-center gap-2 text-slate-400 text-sm mt-3 font-bold">
                         <MapPin className="w-4 h-4 text-blue-400" />
                         {w.location || "Global Coordinates Missing"}
@@ -302,22 +302,22 @@ export default function WarehouseClient() {
 
                     <div className="grid grid-cols-2 gap-6 pt-8 border-t border-slate-50">
                       <div className="space-y-2">
-                        <div className="flex items-center gap-2 text-[9px] font-black text-slate-400 uppercase tracking-widest">
+                        <div className="flex items-center gap-2 text-[9px] font-bold text-slate-400 uppercase tracking-widest">
                            <Box className="w-3 h-3" /> SKUs Managed
                         </div>
-                        <div className="text-xl font-black text-slate-900">{w.stocks?.length || 0}</div>
+                        <div className="text-xl font-bold text-slate-900">{w.stocks?.length || 0}</div>
                       </div>
                       <div className="space-y-2">
-                        <div className="flex items-center gap-2 text-[9px] font-black text-slate-400 uppercase tracking-widest">
+                        <div className="flex items-center gap-2 text-[9px] font-bold text-slate-400 uppercase tracking-widest">
                            <History className="w-3 h-3" /> Last Sync
                         </div>
-                        <div className="text-xl font-black text-slate-900">Active</div>
+                        <div className="text-xl font-bold text-slate-900">Active</div>
                       </div>
                     </div>
 
                     <button 
                       onClick={() => setActiveTab('stocks')}
-                      className="w-full py-5 bg-[#0F172A] text-white rounded-[24px] font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-slate-900/10 hover:bg-blue-600 hover:shadow-blue-500/20 transition-all flex items-center justify-center gap-3 active:scale-95"
+                      className="w-full py-5 bg-[#0F172A] text-white rounded-[24px] font-bold text-xs uppercase tracking-[0.2em] shadow-xl shadow-slate-900/10 hover:bg-blue-600 hover:shadow-blue-500/20 transition-all flex items-center justify-center gap-3 active:scale-95"
                     >
                       Audit Inventory <ChevronRight className="w-4 h-4" />
                     </button>
@@ -330,7 +330,7 @@ export default function WarehouseClient() {
           <div className="bg-white border border-slate-100 rounded-[60px] shadow-2xl shadow-slate-200/20 overflow-hidden">
              <div className="p-10 border-b border-slate-50 flex flex-col xl:flex-row xl:items-center justify-between gap-8">
                 <div>
-                   <h2 className="text-2xl font-black text-slate-900 tracking-tight">Global Stock Ledger</h2>
+                   <h2 className="text-2xl font-bold text-slate-900 tracking-tight">Global Stock Ledger</h2>
                    <p className="text-slate-400 text-sm font-bold mt-1 tracking-wide uppercase tracking-[0.1em] text-[10px]">Real-time synchronization across all established nodes</p>
                 </div>
                 <div className="flex flex-col sm:flex-row items-center gap-4">
@@ -342,7 +342,7 @@ export default function WarehouseClient() {
                        className="w-full pl-14 pr-8 py-5 bg-slate-50 border-none rounded-[24px] font-bold text-sm outline-none focus:ring-2 ring-blue-500/10 transition-all"
                      />
                   </div>
-                  <button className="px-8 py-5 bg-white border border-slate-100 text-slate-600 rounded-[24px] font-black text-[10px] uppercase tracking-widest hover:bg-slate-50 transition-all flex items-center gap-2">
+                  <button className="px-8 py-5 bg-white border border-slate-100 text-slate-600 rounded-[24px] font-bold text-[10px] uppercase tracking-widest hover:bg-slate-50 transition-all flex items-center gap-2">
                      <Layers className="w-4 h-4" /> Export Data
                   </button>
                 </div>
@@ -351,11 +351,11 @@ export default function WarehouseClient() {
                 <table className="w-full text-left border-collapse">
                    <thead>
                       <tr className="bg-slate-50/50">
-                         <th className="px-10 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Product Details</th>
-                         <th className="px-10 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Location Allocation</th>
-                         <th className="px-10 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Current Volume</th>
-                         <th className="px-10 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Status</th>
-                         <th className="px-10 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-right">Actions</th>
+                         <th className="px-10 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Product Details</th>
+                         <th className="px-10 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Location Allocation</th>
+                         <th className="px-10 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Current Volume</th>
+                         <th className="px-10 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Status</th>
+                         <th className="px-10 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] text-right">Actions</th>
                       </tr>
                    </thead>
                    <tbody className="divide-y divide-slate-50">
@@ -367,8 +367,8 @@ export default function WarehouseClient() {
                                      <Box className="w-7 h-7 text-blue-600" />
                                   </div>
                                   <div>
-                                     <div className="font-black text-slate-900 tracking-tight">{s.product.name}</div>
-                                     <div className="text-[10px] font-black text-blue-500 uppercase tracking-widest mt-1">{s.product.sku}</div>
+                                     <div className="font-bold text-slate-900 tracking-tight">{s.product.name}</div>
+                                     <div className="text-[10px] font-bold text-blue-500 uppercase tracking-widest mt-1">{s.product.sku}</div>
                                   </div>
                                </div>
                             </td>
@@ -379,12 +379,12 @@ export default function WarehouseClient() {
                                </div>
                             </td>
                             <td className="px-10 py-8">
-                               <div className="text-lg font-black text-slate-900">
+                               <div className="text-lg font-bold text-slate-900">
                                   {s.quantity} <span className="text-[10px] text-slate-400 uppercase tracking-widest ml-1">{s.product.unitType || 'Units'}</span>
                                 </div>
                             </td>
                             <td className="px-10 py-8">
-                               <span className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest ${
+                               <span className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest ${
                                   s.quantity > 10 ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'
                                }`}>
                                   <div className={`w-1.5 h-1.5 rounded-full ${s.quantity > 10 ? 'bg-emerald-600' : 'bg-red-600 animate-pulse'}`}></div>
@@ -394,7 +394,7 @@ export default function WarehouseClient() {
                             <td className="px-10 py-8 text-right">
                                <button 
                                  onClick={() => openAdjustModal(w, s)}
-                                 className="px-6 py-3 bg-white border border-slate-100 text-[#0F172A] rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all shadow-sm"
+                                 className="px-6 py-3 bg-white border border-slate-100 text-[#0F172A] rounded-xl font-bold text-[10px] uppercase tracking-widest hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all shadow-sm"
                                >
                                  Adjust
                                </button>
@@ -412,10 +412,10 @@ export default function WarehouseClient() {
                 <ArrowRightLeft size={64} />
              </div>
              <div className="space-y-4">
-                <h3 className="text-3xl font-black text-slate-900 tracking-tight">Warehouse Logistics</h3>
+                <h3 className="text-lg font-bold text-slate-900 tracking-tight">Warehouse Logistics</h3>
                 <p className="text-slate-400 font-bold max-w-md mx-auto uppercase tracking-[0.1em] text-xs">Track and manage stock movements between your established warehouses.</p>
              </div>
-             <button className="bg-[#0F172A] text-white px-12 py-5 rounded-[24px] font-black text-sm uppercase tracking-[0.2em] shadow-2xl shadow-slate-900/20 hover:scale-105 active:scale-95 transition-all">
+             <button className="bg-[#0F172A] text-white px-12 py-5 rounded-[24px] font-bold text-sm uppercase tracking-[0.2em] shadow-2xl shadow-slate-900/20 hover:scale-105 active:scale-95 transition-all">
                 Initialize Transfer Protocol
               </button>
           </div>
@@ -430,8 +430,8 @@ export default function WarehouseClient() {
               <div className="p-12">
                  <div className="flex items-center justify-between mb-10">
                     <div className="space-y-1">
-                       <h2 className="text-2xl font-black text-slate-900 tracking-tight">Adjust Inventory</h2>
-                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{selectedStock?.product.name}</p>
+                       <h2 className="text-2xl font-bold text-slate-900 tracking-tight">Adjust Inventory</h2>
+                       <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{selectedStock?.product.name}</p>
                     </div>
                     <button onClick={() => setIsAdjustModalOpen(false)} className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400 hover:text-red-500">
                        <X className="w-5 h-5" />
@@ -443,7 +443,7 @@ export default function WarehouseClient() {
                        <button 
                          type="button"
                          onClick={() => setAdjustData({...adjustData, type: 'ADD'})}
-                         className={`p-6 rounded-[32px] font-black text-xs uppercase tracking-widest flex flex-col items-center justify-center gap-3 transition-all border-2 ${
+                         className={`p-6 rounded-[32px] font-bold text-xs uppercase tracking-widest flex flex-col items-center justify-center gap-3 transition-all border-2 ${
                            adjustData.type === 'ADD' ? 'bg-blue-600 text-white border-blue-600 shadow-xl shadow-blue-500/20' : 'bg-slate-50 text-slate-400 border-transparent hover:border-slate-200'
                          }`}
                        >
@@ -456,7 +456,7 @@ export default function WarehouseClient() {
                        <button 
                          type="button"
                          onClick={() => setAdjustData({...adjustData, type: 'SET'})}
-                         className={`p-6 rounded-[32px] font-black text-xs uppercase tracking-widest flex flex-col items-center justify-center gap-3 transition-all border-2 ${
+                         className={`p-6 rounded-[32px] font-bold text-xs uppercase tracking-widest flex flex-col items-center justify-center gap-3 transition-all border-2 ${
                            adjustData.type === 'SET' ? 'bg-[#0F172A] text-white border-[#0F172A] shadow-xl shadow-slate-900/20' : 'bg-slate-50 text-slate-400 border-transparent hover:border-slate-200'
                          }`}
                        >
@@ -469,7 +469,7 @@ export default function WarehouseClient() {
                     </div>
 
                     <div className="space-y-4">
-                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">
+                       <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-2">
                           {adjustData.type === 'ADD' ? 'Quantity to Add/Remove' : 'New Absolute Quantity'}
                        </label>
                        <div className="relative">
@@ -478,9 +478,9 @@ export default function WarehouseClient() {
                             required
                             value={adjustData.quantity}
                             onChange={e => setAdjustData({...adjustData, quantity: parseInt(e.target.value)})}
-                            className="w-full px-8 py-5 bg-slate-50 border-none rounded-[24px] font-black text-2xl outline-none focus:ring-4 ring-blue-500/5 transition-all text-center"
+                            className="w-full px-8 py-5 bg-slate-50 border-none rounded-[24px] font-bold text-2xl outline-none focus:ring-4 ring-blue-500/5 transition-all text-center"
                           />
-                          <div className="absolute right-8 top-1/2 -translate-y-1/2 font-black text-slate-300 uppercase tracking-widest text-xs">
+                          <div className="absolute right-8 top-1/2 -translate-y-1/2 font-bold text-slate-300 uppercase tracking-widest text-xs">
                              {selectedStock?.product.unitType || 'Units'}
                           </div>
                        </div>
@@ -497,7 +497,7 @@ export default function WarehouseClient() {
 
                     <button 
                       type="submit"
-                      className="w-full py-6 bg-[#0F172A] text-white rounded-[24px] font-black text-xs uppercase tracking-[0.2em] hover:bg-blue-600 transition-all shadow-2xl shadow-slate-900/10 active:scale-95"
+                      className="w-full py-6 bg-[#0F172A] text-white rounded-[24px] font-bold text-xs uppercase tracking-[0.2em] hover:bg-blue-600 transition-all shadow-2xl shadow-slate-900/10 active:scale-95"
                     >
                        Apply Adjustment
                     </button>
@@ -517,7 +517,7 @@ export default function WarehouseClient() {
                     <button onClick={() => setSelectedStock(null)} className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 hover:bg-slate-100 transition-all">
                        <X className="w-6 h-6" />
                     </button>
-                    <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Inventory Intelligence</div>
+                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em]">Inventory Intelligence</div>
                  </div>
 
                  <div className="space-y-8">
@@ -529,41 +529,41 @@ export default function WarehouseClient() {
                        )}
                     </div>
                     <div>
-                       <h2 className="text-4xl font-black text-slate-900 tracking-tight leading-tight">{selectedStock.product.name}</h2>
-                       <p className="text-blue-500 font-black text-xs uppercase tracking-widest mt-2">{selectedStock.product.sku}</p>
+                       <h2 className="text-2xl font-bold text-slate-900 tracking-tight leading-tight">{selectedStock.product.name}</h2>
+                       <p className="text-blue-500 font-bold text-xs uppercase tracking-widest mt-2">{selectedStock.product.sku}</p>
                     </div>
                  </div>
 
                  <div className="grid grid-cols-2 gap-6">
                     <div className="p-8 bg-slate-50 rounded-[32px] space-y-2">
-                       <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Available Stock</div>
-                       <div className="text-3xl font-black text-slate-900">{selectedStock.quantity}</div>
+                       <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Available Stock</div>
+                       <div className="text-2xl font-bold text-slate-900">{selectedStock.quantity}</div>
                     </div>
                     <div className="p-8 bg-slate-50 rounded-[32px] space-y-2">
-                       <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Base Price</div>
-                       <div className="text-3xl font-black text-slate-900">৳{selectedStock.product.price}</div>
+                       <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Base Price</div>
+                       <div className="text-2xl font-bold text-slate-900">৳{selectedStock.product.price}</div>
                     </div>
                  </div>
 
                  <div className="space-y-6">
                     <div className="flex items-center gap-3">
                        <div className="w-1 h-6 bg-blue-600 rounded-full"></div>
-                       <h3 className="text-lg font-black text-slate-900 tracking-tight">Logistics Details</h3>
+                       <h3 className="text-lg font-bold text-slate-900 tracking-tight">Logistics Details</h3>
                     </div>
                     <div className="space-y-4">
                        <div className="flex justify-between items-center p-6 bg-white border border-slate-100 rounded-2xl shadow-sm">
                           <div className="text-xs font-bold text-slate-500 uppercase tracking-widest">Current Node</div>
-                          <div className="font-black text-slate-900 text-sm flex items-center gap-2">
+                          <div className="font-bold text-slate-900 text-sm flex items-center gap-2">
                              <Warehouse className="w-4 h-4 text-blue-500" /> {selectedStock.warehouseName}
                           </div>
                        </div>
                        <div className="flex justify-between items-center p-6 bg-white border border-slate-100 rounded-2xl shadow-sm">
                           <div className="text-xs font-bold text-slate-500 uppercase tracking-widest">Bin Allocation</div>
-                          <div className="font-black text-slate-900 text-sm">{selectedStock.binLocation || "UNALLOCATED"}</div>
+                          <div className="font-bold text-slate-900 text-sm">{selectedStock.binLocation || "UNALLOCATED"}</div>
                        </div>
                        <div className="flex justify-between items-center p-6 bg-white border border-slate-100 rounded-2xl shadow-sm">
                           <div className="text-xs font-bold text-slate-500 uppercase tracking-widest">Unit Specification</div>
-                          <div className="font-black text-slate-900 text-sm">{selectedStock.product.unitType || "General Units"}</div>
+                          <div className="font-bold text-slate-900 text-sm">{selectedStock.product.unitType || "General Units"}</div>
                        </div>
                     </div>
                  </div>
@@ -571,7 +571,7 @@ export default function WarehouseClient() {
                  <div className="pt-8 flex gap-4">
                     <button 
                       onClick={() => openAdjustModal({ id: selectedStock.warehouseId, name: selectedStock.warehouseName }, selectedStock)}
-                      className="flex-1 py-6 bg-[#0F172A] text-white rounded-[24px] font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-slate-900/10 hover:bg-blue-600 transition-all flex items-center justify-center gap-3"
+                      className="flex-1 py-6 bg-[#0F172A] text-white rounded-[24px] font-bold text-xs uppercase tracking-[0.2em] shadow-xl shadow-slate-900/10 hover:bg-blue-600 transition-all flex items-center justify-center gap-3"
                     >
                        Execute Adjustment
                     </button>
@@ -592,8 +592,8 @@ export default function WarehouseClient() {
             <div className="p-12 relative z-10">
               <div className="flex items-center justify-between mb-12">
                 <div className="space-y-1">
-                   <h2 className="text-3xl font-black text-slate-900 tracking-tight">{editingWarehouse ? 'Modify Warehouse' : 'Add Warehouse'}</h2>
-                   <p className="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">Warehouse Configuration</p>
+                   <h2 className="text-2xl font-bold text-slate-900 tracking-tight">{editingWarehouse ? 'Modify Warehouse' : 'Add Warehouse'}</h2>
+                   <p className="text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em]">Warehouse Configuration</p>
                 </div>
                 <button onClick={() => setIsModalOpen(false)} className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all">
                    <Plus className="w-6 h-6 rotate-45" />
@@ -603,7 +603,7 @@ export default function WarehouseClient() {
               <form onSubmit={handleSubmit} className="space-y-10">
                 <div className="space-y-6">
                   <div className="group space-y-3">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2 group-focus-within:text-blue-600 transition-colors">Warehouse Name</label>
+                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em] ml-2 group-focus-within:text-blue-600 transition-colors">Warehouse Name</label>
                     <input 
                       type="text" 
                       required
@@ -614,7 +614,7 @@ export default function WarehouseClient() {
                     />
                   </div>
                   <div className="group space-y-3">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-2 group-focus-within:text-blue-600 transition-colors">Address / Location</label>
+                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em] ml-2 group-focus-within:text-blue-600 transition-colors">Address / Location</label>
                     <div className="relative">
                        <MapPin className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300" />
                        <input 
@@ -638,7 +638,7 @@ export default function WarehouseClient() {
                       <CheckCircle2 className="absolute w-4 h-4 text-white opacity-0 peer-checked:opacity-100 transition-opacity" />
                     </div>
                     <div className="flex-1">
-                      <div className="font-black text-slate-900 tracking-tight">Primary Supply Chain Hub</div>
+                      <div className="font-bold text-slate-900 tracking-tight">Primary Supply Chain Hub</div>
                       <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Automatic allocation for fulfillment orders</div>
                     </div>
                   </label>
@@ -647,7 +647,7 @@ export default function WarehouseClient() {
                 <div className="flex gap-4 pt-4">
                   <button 
                     type="submit"
-                    className="flex-1 py-6 bg-[#0F172A] text-white rounded-[24px] font-black text-xs uppercase tracking-[0.2em] hover:bg-blue-600 transition-all shadow-2xl shadow-slate-900/10 active:scale-95"
+                    className="flex-1 py-6 bg-[#0F172A] text-white rounded-[24px] font-bold text-xs uppercase tracking-[0.2em] hover:bg-blue-600 transition-all shadow-2xl shadow-slate-900/10 active:scale-95"
                   >
                     {editingWarehouse ? 'Execute Updates' : 'Confirm Establishment'}
                   </button>

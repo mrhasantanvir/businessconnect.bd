@@ -41,7 +41,7 @@ export default async function MerchantAccountingPage() {
           <div className="w-20 h-20 bg-rose-50 rounded-[32px] flex items-center justify-center text-rose-500">
              <Zap className="w-10 h-10" />
           </div>
-          <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">Access Denied</h2>
+          <h2 className="text-2xl font-bold text-slate-900 uppercase tracking-tight">Access Denied</h2>
           <p className="text-slate-500 font-bold uppercase text-[10px] tracking-widest text-center max-w-xs">
              You do not have permission to access the Accounting module.
           </p>
@@ -103,13 +103,13 @@ export default async function MerchantAccountingPage() {
          <div className="relative z-10 flex flex-col lg:flex-row lg:items-end justify-between gap-8">
             <div className="space-y-4">
                <div className="flex items-center gap-3">
-                  <div className="px-4 py-1.5 bg-slate-900 text-[#BEF264] text-[10px] font-black uppercase tracking-[0.3em] rounded-full flex items-center gap-2">
+                  <div className="px-4 py-1.5 bg-slate-900 text-[#BEF264] text-[10px] font-bold uppercase tracking-[0.3em] rounded-full flex items-center gap-2">
                      <Zap className="w-3 h-3 fill-current" /> Merchant Accounting Hub
                   </div>
                   <span className="text-slate-300 font-medium">/</span>
-                  <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Accounts Management</div>
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Accounts Management</div>
                </div>
-               <h1 className="text-7xl font-black text-slate-900 tracking-tighter leading-none">
+               <h1 className="text-2xl font-bold text-slate-900 tracking-tight leading-none">
                   ACCOUNTS<span className="text-indigo-600">.</span>
                </h1>
                <p className="max-w-md text-slate-500 font-medium text-lg leading-relaxed uppercase tracking-tight">
@@ -119,17 +119,17 @@ export default async function MerchantAccountingPage() {
 
             <div className="flex flex-col sm:flex-row items-stretch gap-4">
                <div className="px-10 py-8 bg-slate-50 border border-slate-100 rounded-[40px] flex flex-col justify-center min-w-[220px] group/card hover:bg-white hover:shadow-xl transition-all duration-500">
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-2">
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-2">
                      <TrendingUp className="w-3 h-3 text-emerald-500" /> Total Revenue
                   </p>
-                  <p className="text-4xl font-black text-slate-900 tracking-tighter">৳{totalIncome.toLocaleString()}</p>
+                  <p className="text-2xl font-bold text-slate-900 tracking-tight">৳{totalIncome.toLocaleString()}</p>
                </div>
                <div className="px-10 py-8 bg-slate-900 text-white rounded-[40px] shadow-2xl shadow-indigo-100 flex flex-col justify-center min-w-[220px] relative overflow-hidden">
                   <div className="absolute inset-0 bg-indigo-600/10 group-hover:bg-indigo-600/20 transition-all" />
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 relative z-10 flex items-center gap-2">
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 relative z-10 flex items-center gap-2">
                      <Landmark className="w-3 h-3 text-[#BEF264]" /> Cash Liquidity
                   </p>
-                  <p className="text-4xl font-black text-[#BEF264] tracking-tighter relative z-10">৳{totalLiquidity.toLocaleString()}</p>
+                  <p className="text-2xl font-bold text-[#BEF264] tracking-tight relative z-10">৳{totalLiquidity.toLocaleString()}</p>
                </div>
             </div>
          </div>
@@ -165,7 +165,7 @@ export default async function MerchantAccountingPage() {
                         <BarChart3 className="w-7 h-7" />
                      </div>
                      <div>
-                        <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tight">Profitability Report</h2>
+                        <h2 className="text-2xl font-bold text-slate-900 uppercase tracking-tight">Profitability Report</h2>
                         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Real-time branch profitability analysis</p>
                      </div>
                   </div>
@@ -175,7 +175,7 @@ export default async function MerchantAccountingPage() {
                  {branchStats.map(bs => (
                     <div key={bs.name} className="p-8 bg-slate-50/50 rounded-[40px] border border-slate-100 group hover:bg-slate-900 transition-all duration-500 transform hover:-translate-y-1">
                        <div className="flex items-center justify-between mb-6">
-                          <p className="text-[11px] font-black text-indigo-500 uppercase tracking-[0.3em] group-hover:text-indigo-300">{bs.name}</p>
+                          <p className="text-[11px] font-bold text-indigo-500 uppercase tracking-[0.3em] group-hover:text-indigo-300">{bs.name}</p>
                           <div className={`w-10 h-10 rounded-2xl flex items-center justify-center ${bs.profit >= 0 ? 'bg-emerald-50 text-emerald-600 group-hover:bg-emerald-500/20' : 'bg-rose-50 text-rose-600 group-hover:bg-rose-500/20'}`}>
                              {bs.profit >= 0 ? <ArrowUpRight className="w-5 h-5" /> : <ArrowDownLeft className="w-5 h-5" />}
                           </div>
@@ -184,20 +184,20 @@ export default async function MerchantAccountingPage() {
                           <div className="flex items-center justify-between">
                              <div className="flex items-center gap-2">
                                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                                <span className="text-[10px] font-bold text-slate-500 uppercase group-hover:text-slate-400 tracking-tighter">Gross Inflow</span>
+                                <span className="text-[10px] font-bold text-slate-500 uppercase group-hover:text-slate-400 tracking-tight">Gross Inflow</span>
                              </div>
-                             <span className="text-sm font-black text-slate-900 group-hover:text-white">৳{bs.income.toLocaleString()}</span>
+                             <span className="text-sm font-bold text-slate-900 group-hover:text-white">৳{bs.income.toLocaleString()}</span>
                           </div>
                           <div className="flex items-center justify-between">
                              <div className="flex items-center gap-2">
                                 <div className="w-1.5 h-1.5 rounded-full bg-rose-500" />
-                                <span className="text-[10px] font-bold text-slate-500 uppercase group-hover:text-slate-400 tracking-tighter">Operating Cost</span>
+                                <span className="text-[10px] font-bold text-slate-500 uppercase group-hover:text-slate-400 tracking-tight">Operating Cost</span>
                              </div>
-                             <span className="text-sm font-black text-slate-900 group-hover:text-white">৳{bs.expense.toLocaleString()}</span>
+                             <span className="text-sm font-bold text-slate-900 group-hover:text-white">৳{bs.expense.toLocaleString()}</span>
                           </div>
                           <div className="pt-5 border-t border-slate-200 group-hover:border-slate-800 flex items-center justify-between">
-                             <span className="text-xs font-black text-slate-900 uppercase group-hover:text-slate-400 tracking-tighter">Branch Yield</span>
-                             <span className={`text-xl font-black ${bs.profit >= 0 ? 'text-emerald-600 group-hover:text-[#BEF264]' : 'text-rose-600'}`}>৳{bs.profit.toLocaleString()}</span>
+                             <span className="text-xs font-bold text-slate-900 uppercase group-hover:text-slate-400 tracking-tight">Branch Yield</span>
+                             <span className={`text-xl font-bold ${bs.profit >= 0 ? 'text-emerald-600 group-hover:text-[#BEF264]' : 'text-rose-600'}`}>৳{bs.profit.toLocaleString()}</span>
                           </div>
                        </div>
                     </div>
@@ -219,14 +219,14 @@ export default async function MerchantAccountingPage() {
                   <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-3xl flex items-center justify-center text-[#BEF264] border border-white/20 shadow-xl">
                      <Layers className="w-8 h-8" />
                   </div>
-                  <h4 className="text-4xl font-black tracking-tighter leading-[0.9] uppercase">Accounting<br/>Insights</h4>
+                  <h4 className="text-2xl font-bold tracking-tight leading-[0.9] uppercase">Accounting<br/>Insights</h4>
                   <p className="text-sm font-medium text-indigo-100 leading-relaxed uppercase tracking-tight opacity-90">
                      Track Buy, Sell, Salaries and Courier settlements in one unified dashboard.
                   </p>
                   <div className="pt-8 border-t border-white/10 flex items-center justify-between">
                      <div className="flex flex-col">
-                        <span className="text-[9px] font-black uppercase tracking-widest text-indigo-300">Net Profit</span>
-                        <span className="text-2xl font-black">৳{netProfit.toLocaleString()}</span>
+                        <span className="text-[9px] font-bold uppercase tracking-widest text-indigo-300">Net Profit</span>
+                        <span className="text-2xl font-bold">৳{netProfit.toLocaleString()}</span>
                      </div>
                      <div className="w-12 h-12 rounded-full border-2 border-white/20 flex items-center justify-center group-hover:scale-110 transition-transform">
                         <TrendingUp className="w-5 h-5 text-[#BEF264]" />
@@ -239,7 +239,7 @@ export default async function MerchantAccountingPage() {
             <div className="bg-white border border-[#E5E7EB] rounded-[56px] p-10 shadow-sm">
                <div className="flex items-center gap-3 mb-8">
                   <History className="w-5 h-5 text-slate-400" />
-                  <h5 className="text-[10px] font-black text-slate-900 uppercase tracking-[0.2em]">Latest Movements</h5>
+                  <h5 className="text-[10px] font-bold text-slate-900 uppercase tracking-[0.2em]">Latest Movements</h5>
                </div>
                <div className="space-y-6">
                   {transactions.slice(0, 10).map(t => (
@@ -247,13 +247,13 @@ export default async function MerchantAccountingPage() {
                         <div className="flex items-center gap-3">
                            <div className={`w-2 h-2 rounded-full ${t.type === 'INCOME' ? 'bg-emerald-500' : 'bg-rose-500'}`} />
                            <div>
-                              <p className="text-[11px] font-black text-slate-800 leading-none group-hover:text-indigo-600 transition-colors uppercase tracking-tight">{t.category.name}</p>
-                              <p className="text-[9px] font-bold text-slate-400 mt-1 uppercase tracking-tighter">
+                              <p className="text-[11px] font-bold text-slate-800 leading-none group-hover:text-indigo-600 transition-colors uppercase tracking-tight">{t.category.name}</p>
+                              <p className="text-[9px] font-bold text-slate-400 mt-1 uppercase tracking-tight">
                                  {t.account?.name || "Internal Log"} {t.branch ? `• ${t.branch.name}` : ""}
                               </p>
                            </div>
                         </div>
-                        <span className={`text-xs font-black ${t.type === 'INCOME' ? 'text-emerald-600' : 'text-slate-900'}`}>৳{t.amount.toLocaleString()}</span>
+                        <span className={`text-xs font-bold ${t.type === 'INCOME' ? 'text-emerald-600' : 'text-slate-900'}`}>৳{t.amount.toLocaleString()}</span>
                      </div>
                   ))}
                </div>

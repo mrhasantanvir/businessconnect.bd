@@ -397,7 +397,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
             <div className="bg-indigo-50/50 border border-indigo-100 rounded-[4px] p-4">
               <div className="flex items-center gap-2 mb-4">
                 <AlertCircle className="w-4 h-4 text-indigo-600" />
-                <h3 className="text-[11px] font-black text-indigo-600 uppercase tracking-widest">Action Required: Review Onboarding Documents</h3>
+                <h3 className="text-[11px] font-semibold text-indigo-600 uppercase tracking-widest">Action Required: Review Onboarding Documents</h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {staff.filter(s => s.staffProfile?.status === "ONBOARDING" && s.staffProfile?.nidFrontUrl && !s.staffProfile?.missingDocuments).map(member => (

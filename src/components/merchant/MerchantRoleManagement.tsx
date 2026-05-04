@@ -182,7 +182,7 @@ export function MerchantRoleManagement({ roles, onUpdate }: { roles: any[], onUp
                   <ShieldCheck className="w-6 h-6" />
                 </div>
                 <div>
-                  <h2 className="text-lg font-black text-[#0F172A] tracking-tight">{editingRole ? "Modify Privilege Group" : "Create Security Role"}</h2>
+                  <h2 className="text-lg font-semibold text-[#0F172A] tracking-tight">{editingRole ? "Modify Privilege Group" : "Create Security Role"}</h2>
                   <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">Define what this role can access</p>
                 </div>
               </div>

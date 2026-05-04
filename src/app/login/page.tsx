@@ -52,7 +52,7 @@ export default function LoginPage() {
           <div className="flex flex-col items-center mb-8">
             <div className="flex items-center gap-2 mb-4 group">
               <Box className="w-10 h-10 text-[#1E40AF] group-hover:scale-110 transition-transform" />
-              <span className="font-extrabold tracking-tight text-2xl text-[#0F172A]">Businessconnect.bd</span>
+              <span className="font-bold tracking-tight text-2xl text-[#0F172A]">Businessconnect.bd</span>
             </div>
           </div>
 
@@ -63,7 +63,7 @@ export default function LoginPage() {
               <div className="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center mb-6">
                 <ShieldCheck className="w-8 h-8 text-[#1E40AF]" />
               </div>
-              <h1 className="text-2xl font-extrabold text-[#0F172A] mb-2 tracking-tight">Two-Step Verification</h1>
+              <h1 className="text-2xl font-bold text-[#0F172A] mb-2 tracking-tight">Two-Step Verification</h1>
               <p className="text-[#64748B] text-sm font-medium">Enter the 6-digit code from your authenticator app.</p>
             </div>
 
@@ -83,7 +83,7 @@ export default function LoginPage() {
                   maxLength={6}
                   value={twoFactorCode}
                   onChange={(e) => setTwoFactorCode(e.target.value.replace(/\D/g, ''))}
-                  className="w-full bg-[#F8F9FA] border border-[#E5E7EB] rounded-2xl py-4 text-center text-3xl font-black tracking-[0.5em] outline-none focus:border-[#1E40AF] focus:ring-4 focus:ring-[#1E40AF]/5 transition-all text-[#0F172A]"
+                  className="w-full bg-[#F8F9FA] border border-[#E5E7EB] rounded-2xl py-4 text-center text-2xl font-bold tracking-[0.5em] outline-none focus:border-[#1E40AF] focus:ring-4 focus:ring-[#1E40AF]/5 transition-all text-[#0F172A]"
                   placeholder="000000"
                 />
               </div>
@@ -118,7 +118,7 @@ export default function LoginPage() {
         <div className="flex flex-col items-center mb-8">
           <div className="flex items-center gap-2 mb-4 group">
             <Box className="w-10 h-10 text-[#1E40AF] group-hover:scale-110 transition-transform" />
-            <span className="font-extrabold tracking-tight text-2xl text-[#0F172A]">Businessconnect.bd</span>
+            <span className="font-bold tracking-tight text-2xl text-[#0F172A]">Businessconnect.bd</span>
           </div>
           <div className="flex items-center gap-1.5 px-3 py-1 bg-[#F0FDF4] border border-[#BBF7D0] rounded-full">
             <Sparkles className="w-3.5 h-3.5 text-[#16A34A]" />
@@ -131,7 +131,7 @@ export default function LoginPage() {
           <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#1E40AF] to-[#BEF264]"></div>
           
           <div className="mb-8">
-            <h1 className="text-3xl font-extrabold text-[#0F172A] mb-2 tracking-tight">Log in</h1>
+            <h1 className="text-2xl font-bold text-[#0F172A] mb-2 tracking-tight">Log in</h1>
             <p className="text-[#64748B] text-sm font-medium">Enter your credentials to access your OS.</p>
           </div>
 

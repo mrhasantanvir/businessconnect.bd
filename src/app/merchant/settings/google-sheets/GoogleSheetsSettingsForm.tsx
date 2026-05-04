@@ -82,7 +82,7 @@ export function GoogleSheetsSettingsForm({ config }: { config: any }) {
                <FileSpreadsheet className="w-8 h-8" />
             </div>
             <div>
-               <h3 className="text-xl font-black uppercase tracking-tight">
+               <h3 className="text-xl font-semibold uppercase tracking-tight">
                   {isConnected ? "Google Pipeline Active" : "Disconnected"}
                </h3>
                <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest leading-none mt-1">
@@ -118,7 +118,7 @@ export function GoogleSheetsSettingsForm({ config }: { config: any }) {
                      <Database className="w-6 h-6" />
                   </div>
                   <div>
-                     <h3 className="text-lg font-black uppercase tracking-tight tracking-tight">Configuration</h3>
+                     <h3 className="text-lg font-semibold uppercase tracking-tight tracking-tight">Configuration</h3>
                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none mt-1">Mapping & Targets</p>
                   </div>
                </div>
@@ -163,7 +163,7 @@ export function GoogleSheetsSettingsForm({ config }: { config: any }) {
                      <ShieldCheck className="w-6 h-6" />
                   </div>
                   <div>
-                     <h3 className="text-lg font-black uppercase tracking-tight">Synchronization Portal</h3>
+                     <h3 className="text-lg font-semibold uppercase tracking-tight">Synchronization Portal</h3>
                      <p className="text-[10px] font-bold text-indigo-200 uppercase tracking-widest leading-none mt-1">Real-time Data Exchange</p>
                   </div>
                </div>

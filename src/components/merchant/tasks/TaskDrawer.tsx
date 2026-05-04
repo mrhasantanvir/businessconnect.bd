@@ -253,13 +253,13 @@ export default function TaskDrawer({
                isWorking ? 'bg-indigo-500' : 'bg-gray-300'
             )} />
             <div className="flex flex-col">
-               <h2 className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1">
+               <h2 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none mb-1">
                   {task.status === 'COMPLETED' ? 'Task Completed' : 
                    task.status === 'CANCELLED' ? 'Task Stopped' :
                    isWorking ? 'Task Active' : 'Task Details'}
                </h2>
                {task.readableId && (
-                  <p className="text-[10px] font-black text-indigo-600 tracking-tighter uppercase">
+                  <p className="text-[10px] font-bold text-indigo-600 tracking-tight uppercase">
                      {task.readableId}
                   </p>
                )}
@@ -281,7 +281,7 @@ export default function TaskDrawer({
             <div className="space-y-4">
                <div className="flex items-center justify-between">
                   <span className={cn(
-                    "px-2 py-0.5 text-[9px] font-black uppercase tracking-widest rounded-none border",
+                    "px-2 py-0.5 text-[9px] font-bold uppercase tracking-widest rounded-none border",
                     task.priority === 'URGENT' ? 'bg-red-50 text-red-600 border-red-100' : 
                     task.priority === 'HIGH' ? 'bg-orange-50 text-orange-600 border-orange-100' : 'bg-indigo-50 text-indigo-600 border-indigo-100'
                   )}>{task.priority} Priority</span>
@@ -290,27 +290,27 @@ export default function TaskDrawer({
                      {task.status === 'COMPLETED' ? 'Completed At ' + new Date(task.completedAt).toLocaleDateString() : 'Due ' + (task.deadline ? new Date(task.deadline).toLocaleDateString() : 'ASAP')}
                   </div>
                </div>
-               <h1 className="text-2xl font-black text-[#0F172A] leading-tight tracking-tighter">{task.title}</h1>
+               <h1 className="text-2xl font-bold text-[#0F172A] leading-tight tracking-tight">{task.title}</h1>
                <p className="text-sm font-medium text-gray-500 leading-relaxed">{task.description}</p>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
                <div className="bg-gray-50 p-5 rounded-none border border-gray-100">
-                  <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest block mb-3">Currently Assigned</label>
+                  <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest block mb-3">Currently Assigned</label>
                   <div className="flex items-center gap-3">
-                     <div className="w-10 h-10 bg-white border border-gray-200 rounded-none flex items-center justify-center text-[12px] font-black text-indigo-600 uppercase">
+                     <div className="w-10 h-10 bg-white border border-gray-200 rounded-none flex items-center justify-center text-[12px] font-bold text-indigo-600 uppercase">
                         {task.assignee?.name?.[0] || "?"}
                      </div>
                      <div>
-                        <p className="text-[11px] font-black text-[#0F172A] leading-none mb-1">{task.assignee?.name || "Unassigned"}</p>
+                        <p className="text-[11px] font-bold text-[#0F172A] leading-none mb-1">{task.assignee?.name || "Unassigned"}</p>
                         <p className="text-[9px] font-bold text-gray-400 uppercase">{task.assignee?.staffProfile?.jobRole || 'Staff'}</p>
                      </div>
                   </div>
                </div>
                <div className="bg-gray-50 p-5 rounded-none border border-gray-100">
-                  <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest block mb-3">Task Status</label>
+                  <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest block mb-3">Task Status</label>
                   <select 
-                    className="bg-transparent border-none p-0 text-[11px] font-black uppercase text-indigo-600 focus:ring-0 w-full cursor-pointer disabled:opacity-50"
+                    className="bg-transparent border-none p-0 text-[11px] font-bold uppercase text-indigo-600 focus:ring-0 w-full cursor-pointer disabled:opacity-50"
                     value={task.status}
                     onChange={(e) => handleStatusChange(e.target.value)}
                   >
@@ -327,17 +327,17 @@ export default function TaskDrawer({
             <div className="bg-indigo-50 border border-indigo-200 p-6 rounded-none space-y-3 relative overflow-hidden">
                <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-600/5 rounded-full blur-2xl -mr-8 -mt-8" />
                <div className="flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-indigo-600">
+                  <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-widest text-indigo-600">
                      <Sparkles className="w-3.5 h-3.5" />
                      Task Intelligence
                   </div>
                   <div className="text-right">
-                    <div className="text-[9px] font-black text-indigo-600 uppercase tracking-tighter">Performance Index</div>
-                    <div className="text-[10px] font-black text-indigo-900 bg-white px-2 py-0.5 border border-indigo-100 inline-block mt-0.5">{task.status === 'COMPLETED' ? '9.4/10' : 'ANALYZING...'}</div>
+                    <div className="text-[9px] font-bold text-indigo-600 uppercase tracking-tight">Performance Index</div>
+                    <div className="text-[10px] font-bold text-indigo-900 bg-white px-2 py-0.5 border border-indigo-100 inline-block mt-0.5">{task.status === 'COMPLETED' ? '9.4/10' : 'ANALYZING...'}</div>
                     <div className="flex flex-col items-end mt-1 space-y-0.5">
-                       <span className="text-[7px] font-black text-indigo-400 uppercase tracking-widest leading-none">⚡ Speed: Optimal</span>
-                       <span className="text-[7px] font-black text-indigo-400 uppercase tracking-widest leading-none">📝 Logs: Consistent</span>
-                        <span className="text-[7px] font-black text-indigo-400 uppercase tracking-widest leading-none">📧 Email: Sent</span>
+                       <span className="text-[7px] font-bold text-indigo-400 uppercase tracking-widest leading-none">⚡ Speed: Optimal</span>
+                       <span className="text-[7px] font-bold text-indigo-400 uppercase tracking-widest leading-none">📝 Logs: Consistent</span>
+                        <span className="text-[7px] font-bold text-indigo-400 uppercase tracking-widest leading-none">📧 Email: Sent</span>
                     </div>
                   </div>
                </div>
@@ -351,18 +351,18 @@ export default function TaskDrawer({
                   <div className="flex items-center gap-3">
                      <ExternalLink className="w-4 h-4 text-indigo-600" />
                      <div>
-                        <p className="text-[10px] font-black text-indigo-700 uppercase tracking-widest">Linked Order</p>
-                        <p className="text-xs font-black text-indigo-900">#{task.order.orderNumber || task.order.id.toString().slice(-8)}</p>
+                        <p className="text-[10px] font-bold text-indigo-700 uppercase tracking-widest">Linked Order</p>
+                        <p className="text-xs font-bold text-indigo-900">#{task.order.orderNumber || task.order.id.toString().slice(-8)}</p>
                      </div>
                   </div>
-                  <button className="text-[10px] font-black text-indigo-600 uppercase hover:underline">View Details</button>
+                  <button className="text-[10px] font-bold text-indigo-600 uppercase hover:underline">View Details</button>
                </div>
              )}
 
             {/* Task Attachments Section */}
             {task.attachments && (
               <div className="space-y-3">
-                 <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Shared Documents & Assets</h3>
+                 <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Shared Documents & Assets</h3>
                  <div className="grid grid-cols-2 gap-3">
                     {JSON.parse(task.attachments).map((file: any, idx: number) => (
                        <a 
@@ -376,7 +376,7 @@ export default function TaskDrawer({
                              <FileIcon className="w-4 h-4" />
                           </div>
                           <div className="overflow-hidden">
-                             <p className="text-[10px] font-black text-[#0F172A] truncate">{file.name}</p>
+                             <p className="text-[10px] font-bold text-[#0F172A] truncate">{file.name}</p>
                              <p className="text-[8px] font-bold text-gray-400 uppercase">{(file.size / 1024).toFixed(1)} KB</p>
                           </div>
                        </a>
@@ -391,7 +391,7 @@ export default function TaskDrawer({
             <button 
               onClick={() => setActiveTab("chat")}
               className={cn(
-                "flex-1 py-4 text-[10px] font-black uppercase tracking-widest transition-all",
+                "flex-1 py-4 text-[10px] font-bold uppercase tracking-widest transition-all",
                 activeTab === 'chat' ? "text-indigo-600 border-b-2 border-indigo-600" : "text-gray-400 hover:text-gray-600"
               )}
             >
@@ -400,7 +400,7 @@ export default function TaskDrawer({
             <button 
               onClick={() => setActiveTab("activity")}
               className={cn(
-                "flex-1 py-4 text-[10px] font-black uppercase tracking-widest transition-all",
+                "flex-1 py-4 text-[10px] font-bold uppercase tracking-widest transition-all",
                 activeTab === 'activity' ? "text-indigo-600 border-b-2 border-indigo-600" : "text-gray-400 hover:text-gray-600"
               )}
             >
@@ -419,7 +419,7 @@ export default function TaskDrawer({
                        )}>
                           <p className="text-[11px] font-medium leading-relaxed">{msg.content}</p>
                           <div className="flex items-center justify-between mt-2 opacity-50">
-                             <span className="text-[8px] font-black uppercase">{msg.user?.name || 'AI'}</span>
+                             <span className="text-[8px] font-bold uppercase">{msg.user?.name || 'AI'}</span>
                              <span className="text-[8px] font-bold uppercase">{new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                           </div>
                        </div>
@@ -427,7 +427,7 @@ export default function TaskDrawer({
                     {(!task.messages || task.messages.length === 0) && (
                        <div className="h-full flex flex-col items-center justify-center text-center opacity-30 grayscale scale-75">
                           <MessageSquare className="w-12 h-12 mb-2" />
-                          <p className="text-[10px] font-black uppercase">No Intelligence Logs Found</p>
+                          <p className="text-[10px] font-bold uppercase">No Intelligence Logs Found</p>
                        </div>
                     )}
                  </div>
@@ -461,7 +461,7 @@ export default function TaskDrawer({
                           <Activity className="w-3.5 h-3.5 text-indigo-400" />
                        </div>
                        <div className="pb-6">
-                          <p className="text-[11px] font-black text-[#0F172A] uppercase tracking-tight">{activity.type.replace(/_/g, ' ')}</p>
+                          <p className="text-[11px] font-bold text-[#0F172A] uppercase tracking-tight">{activity.type.replace(/_/g, ' ')}</p>
                           <p className="text-[11px] font-medium text-gray-500 mt-0.5 leading-relaxed">{activity.message}</p>
                           <p className="text-[8px] font-bold text-gray-300 uppercase mt-1">{new Date(activity.createdAt).toLocaleString()}</p>
                        </div>
@@ -470,7 +470,7 @@ export default function TaskDrawer({
                  {(!task.activities || task.activities.length === 0) && (
                     <div className="h-full flex flex-col items-center justify-center text-center opacity-30 grayscale scale-75">
                        <History className="w-12 h-12 mb-2" />
-                       <p className="text-[10px] font-black uppercase">No Activity Trail Detected</p>
+                       <p className="text-[10px] font-bold uppercase">No Activity Trail Detected</p>
                     </div>
                  )}
               </div>
@@ -486,7 +486,7 @@ export default function TaskDrawer({
             <div className="absolute bottom-full left-6 right-6 mb-2 bg-white text-[#0F172A] p-5 animate-in slide-in-from-bottom-4 duration-300 border border-gray-200 shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-50 rounded-none">
                <div className="flex flex-col gap-4">
                   <div className="flex items-center justify-between">
-                     <span className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-600">Select Delegate Staff</span>
+                     <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-indigo-600">Select Delegate Staff</span>
                      <button onClick={() => setShowForward(false)} className="text-gray-300 hover:text-red-500 transition-colors"><X className="w-4 h-4" /></button>
                   </div>
                   <div className="relative">
@@ -515,14 +515,14 @@ export default function TaskDrawer({
                         >
                            <div className="flex items-center gap-3">
                               <div className={cn(
-                                "w-7 h-7 flex items-center justify-center text-[9px] font-black uppercase transition-all",
+                                "w-7 h-7 flex items-center justify-center text-[9px] font-bold uppercase transition-all",
                                 forwardUserId === s.id ? "bg-white/20 text-white" : "bg-gray-100 text-indigo-600 group-hover:bg-white"
                               )}>
                                  {s.name?.[0]}
                               </div>
                               <div>
-                                 <p className={cn("text-[11px] font-black", forwardUserId === s.id ? "text-white" : "text-[#0F172A]")}>{s.name}</p>
-                                 <p className={cn("text-[9px] font-bold uppercase tracking-tighter", forwardUserId === s.id ? "text-indigo-100" : "text-gray-400")}>{s.staffProfile?.jobRole || 'Staff Member'}</p>
+                                 <p className={cn("text-[11px] font-bold", forwardUserId === s.id ? "text-white" : "text-[#0F172A]")}>{s.name}</p>
+                                 <p className={cn("text-[9px] font-bold uppercase tracking-tight", forwardUserId === s.id ? "text-indigo-100" : "text-gray-400")}>{s.staffProfile?.jobRole || 'Staff Member'}</p>
                               </div>
                            </div>
                            <ArrowUpRight className={cn("w-3.5 h-3.5", forwardUserId === s.id ? "text-white" : "text-indigo-400 opacity-0 group-hover:opacity-100")} />
@@ -530,7 +530,7 @@ export default function TaskDrawer({
                      ))}
                      {filteredStaff.length === 0 && (
                         <div className="text-center py-6">
-                           <p className="text-[10px] font-black text-gray-300 uppercase tracking-widest">No matching personnel</p>
+                           <p className="text-[10px] font-bold text-gray-300 uppercase tracking-widest">No matching personnel</p>
                         </div>
                      )}
                   </div>
@@ -538,7 +538,7 @@ export default function TaskDrawer({
                   <button
                     disabled={!forwardUserId || isLoading}
                     onClick={handleForward}
-                    className="w-full bg-indigo-600 text-white py-3 text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all disabled:opacity-30 disabled:grayscale"
+                    className="w-full bg-indigo-600 text-white py-3 text-[10px] font-bold uppercase tracking-widest hover:bg-black transition-all disabled:opacity-30 disabled:grayscale"
                   >
                     {isLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin mx-auto" /> : "Confirm Forwarding"}
                   </button>
@@ -554,8 +554,8 @@ export default function TaskDrawer({
                <Timer className="w-5 h-5" />
             </div>
             <div>
-               <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1.5">{timeInfo.label}</p>
-               <p className="text-sm font-black text-[#0F172A] tracking-tight">{timeInfo.value}</p>
+               <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest leading-none mb-1.5">{timeInfo.label}</p>
+               <p className="text-sm font-bold text-[#0F172A] tracking-tight">{timeInfo.value}</p>
             </div>
          </div>
 
@@ -569,7 +569,7 @@ export default function TaskDrawer({
                     setShowForward(!showForward);
                     setStaffSearch("");
                  }}
-                 className="px-6 py-3.5 text-[10px] font-black uppercase tracking-widest border border-gray-200 text-[#0F172A] hover:bg-gray-50 transition-all rounded-none flex items-center gap-2"
+                 className="px-6 py-3.5 text-[10px] font-bold uppercase tracking-widest border border-gray-200 text-[#0F172A] hover:bg-gray-50 transition-all rounded-none flex items-center gap-2"
                >
                   <UserPlus className="w-3.5 h-3.5" />
                   Forward Task
@@ -580,7 +580,7 @@ export default function TaskDrawer({
               type="button"
               disabled={isTerminalStatus}
               className={cn(
-                "px-8 py-3.5 text-[10px] font-black uppercase tracking-widest transition-all rounded-none shadow-sm flex items-center gap-2 border",
+                "px-8 py-3.5 text-[10px] font-bold uppercase tracking-widest transition-all rounded-none shadow-sm flex items-center gap-2 border",
                 isTerminalStatus 
                   ? "bg-gray-50 border-gray-100 text-gray-300 cursor-not-allowed"
                   : isWorking 

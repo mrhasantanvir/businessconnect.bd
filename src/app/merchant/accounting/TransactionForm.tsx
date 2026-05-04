@@ -45,7 +45,7 @@ export function TransactionForm({ branches, categories, accounts }: { branches: 
           <DollarSign className="w-7 h-7" />
         </div>
         <div>
-           <h3 className="text-2xl font-black text-[#0F172A] tracking-tighter uppercase">New Journal Entry</h3>
+           <h3 className="text-lg font-semibold text-[#0F172A] tracking-tighter uppercase">New Journal Entry</h3>
            <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mt-1">Record branch-level income or expenditure</p>
         </div>
       </div>

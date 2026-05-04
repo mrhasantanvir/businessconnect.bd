@@ -85,7 +85,7 @@ export default async function AdminIncidentDetailPage({
                 {incident.number}
               </span>
               <span
-                className={`px-2.5 py-1 rounded-full text-[10px] font-black flex items-center gap-1.5 border ${statusStyles[incident.status]}`}
+                className={`px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1.5 border ${statusStyles[incident.status]}`}
               >
                 {incident.status === "NEW" && <AlertCircle className="w-3 h-3" />}
                 {incident.status === "IN_PROGRESS" && <Clock className="w-3 h-3" />}
@@ -110,27 +110,27 @@ export default async function AdminIncidentDetailPage({
                 <span className="text-[10px] font-bold text-[#64748B]">{incident.priority}</span>
               </div>
             </div>
-            <h1 className="text-2xl font-extrabold text-[#0F172A]">{incident.subject}</h1>
+            <h1 className="text-2xl font-bold text-[#0F172A]">{incident.subject}</h1>
             
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-6 py-4 border-y border-gray-50 border-dashed">
                <div className="space-y-1">
-                  <div className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Impact</div>
+                  <div className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Impact</div>
                   <div className="text-xs font-bold text-[#0F172A]">
                      {incident.impact === '1' ? '1 - High' : incident.impact === '2' ? '2 - Medium' : '3 - Low'}
                   </div>
                </div>
                <div className="space-y-1">
-                  <div className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Urgency</div>
+                  <div className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Urgency</div>
                   <div className="text-xs font-bold text-[#0F172A]">
                      {incident.urgency === '1' ? '1 - High' : incident.urgency === '2' ? '2 - Medium' : '3 - Low'}
                   </div>
                </div>
                <div className="space-y-1">
-                  <div className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Reported By</div>
+                  <div className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Reported By</div>
                   <div className="text-xs font-bold text-[#0F172A]">{incident.user.name}</div>
                </div>
                <div className="space-y-1">
-                  <div className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Resolved Date</div>
+                  <div className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Resolved Date</div>
                   <div className="text-xs font-bold text-[#64748B]">
                     {incident.resolvedAt ? new Date(incident.resolvedAt).toLocaleDateString() : 'Pending'}
                   </div>
@@ -143,8 +143,8 @@ export default async function AdminIncidentDetailPage({
                      <ShieldCheck className="w-5 h-5" />
                   </div>
                   <div>
-                     <div className="text-[10px] font-black text-green-700 uppercase tracking-widest mb-1">Resolution Summary</div>
-                     <div className="text-xs font-black text-[#0F172A] mb-1">Code: {incident.resolutionCode}</div>
+                     <div className="text-[10px] font-bold text-green-700 uppercase tracking-widest mb-1">Resolution Summary</div>
+                     <div className="text-xs font-bold text-[#0F172A] mb-1">Code: {incident.resolutionCode}</div>
                      <p className="text-sm text-green-800 font-medium leading-relaxed">{incident.resolutionNotes}</p>
                   </div>
                </div>
@@ -182,7 +182,7 @@ export default async function AdminIncidentDetailPage({
                       }`}
                     >
                       {msg.isInternal && (
-                        <div className="flex items-center gap-1.5 text-[10px] font-black uppercase text-amber-700 mb-2">
+                        <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase text-amber-700 mb-2">
                           <Lock className="w-3 h-3" /> Internal Note
                         </div>
                       )}
@@ -217,7 +217,7 @@ export default async function AdminIncidentDetailPage({
         <div className="space-y-5">
           {/* Merchant Info */}
           <div className="bg-white border border-[#E5E7EB] rounded-[32px] p-6 shadow-sm space-y-4">
-            <div className="text-[10px] font-black uppercase tracking-widest text-[#64748B]">
+            <div className="text-[10px] font-bold uppercase tracking-widest text-[#64748B]">
               Merchant
             </div>
             <div className="flex items-center gap-3">
@@ -249,7 +249,7 @@ export default async function AdminIncidentDetailPage({
                   📞
                 </div>
                 <div>
-                  <div className="text-[10px] font-black uppercase tracking-widest text-[#16A34A]">Call Merchant</div>
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-[#16A34A]">Call Merchant</div>
                   <div className="text-sm font-bold text-[#0F172A]">{incident.contactPhone}</div>
                 </div>
                 <div className="ml-auto text-[10px] font-bold text-[#16A34A] opacity-0 group-hover:opacity-100 transition-opacity">

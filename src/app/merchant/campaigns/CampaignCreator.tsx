@@ -269,7 +269,7 @@ export function CampaignCreator({ categories, products }: { categories: any[], p
 
                   {/* Templates Panel */}
                   <div className="space-y-6">
-                     <h3 className="text-xs font-black uppercase tracking-widest text-slate-900  flex items-center gap-2">
+                     <h3 className="text-xs font-semibold uppercase tracking-widest text-slate-900  flex items-center gap-2">
                         <Sparkles className="w-4 h-4 text-amber-500" /> Quick Templates
                      </h3>
                      <div className="space-y-4">
@@ -296,7 +296,7 @@ export function CampaignCreator({ categories, products }: { categories: any[], p
                <div className="bg-indigo-600 rounded-[40px] p-10 text-white relative overflow-hidden shadow-2xl">
                   <Calendar className="absolute right-[-20px] bottom-[-20px] w-48 h-48 opacity-10" />
                   <div className="relative z-10 max-w-lg space-y-6">
-                     <h3 className="text-3xl font-black tracking-tighter uppercase">Ready for Blast Off?</h3>
+                     <h3 className="text-lg font-semibold tracking-tighter uppercase">Ready for Blast Off?</h3>
                      <p className="text-sm font-bold text-indigo-100 opacity-80 uppercase leading-relaxed">
                         Schedule your campaign for the perfect moment or send it immediately to all selected targets.
                      </p>

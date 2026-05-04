@@ -75,7 +75,7 @@ export default async function OrderListPage({
               <ArrowLeft className="w-5 h-5 text-gray-600" />
             </Link>
             <div>
-              <h1 className="text-3xl font-extrabold text-[#0F172A] tracking-tight flex items-center gap-2">
+              <h1 className="text-2xl font-bold text-[#0F172A] tracking-tight flex items-center gap-2">
                 {title}
               </h1>
               <p className="text-[#64748B] text-sm font-medium mt-1">Viewing list of {orders.length} order(s).</p>

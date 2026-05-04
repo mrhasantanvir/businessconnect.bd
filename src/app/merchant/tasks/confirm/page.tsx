@@ -21,7 +21,7 @@ export default async function TaskConfirmPage({ searchParams }: { searchParams: 
       <div className="min-h-screen flex items-center justify-center bg-[#F8F9FA] p-6">
         <div className="max-w-md w-full bg-white border border-gray-100 p-10 rounded-[2px] shadow-sm text-center space-y-4">
            <AlertTriangle className="w-12 h-12 text-amber-500 mx-auto" />
-           <h1 className="text-xl font-black text-[#0F172A] uppercase tracking-tighter">Task Not Found</h1>
+           <h1 className="text-xl font-bold text-[#0F172A] uppercase tracking-tight">Task Not Found</h1>
            <p className="text-xs font-medium text-gray-500">This task may have been deleted or the link is invalid.</p>
         </div>
       </div>
@@ -33,7 +33,7 @@ export default async function TaskConfirmPage({ searchParams }: { searchParams: 
       <div className="min-h-screen flex items-center justify-center bg-[#F8F9FA] p-6">
         <div className="max-w-md w-full bg-white border border-gray-100 p-10 rounded-[2px] shadow-sm text-center space-y-4">
            <AlertTriangle className="w-12 h-12 text-red-500 mx-auto" />
-           <h1 className="text-xl font-black text-[#0F172A] uppercase tracking-tighter">Unauthorized</h1>
+           <h1 className="text-xl font-bold text-[#0F172A] uppercase tracking-tight">Unauthorized</h1>
            <p className="text-xs font-medium text-gray-500">This task is not assigned to you.</p>
         </div>
       </div>
@@ -51,31 +51,31 @@ export default async function TaskConfirmPage({ searchParams }: { searchParams: 
             <div className="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6">
                <ShieldCheck className="w-8 h-8" />
             </div>
-            <h1 className="text-2xl font-black text-[#0F172A] uppercase tracking-tighter">Task <span className="text-indigo-600">Confirmation</span></h1>
-            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Acknowledgment for New Assignment</p>
+            <h1 className="text-2xl font-bold text-[#0F172A] uppercase tracking-tight">Task <span className="text-indigo-600">Confirmation</span></h1>
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Acknowledgment for New Assignment</p>
          </div>
 
          <div className="bg-gray-50 p-6 rounded-[2px] space-y-4 border border-gray-100">
             <div>
-               <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Task Title</label>
-               <p className="text-sm font-black text-[#0F172A]">{task.title}</p>
+               <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Task Title</label>
+               <p className="text-sm font-bold text-[#0F172A]">{task.title}</p>
             </div>
             <div>
-               <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Description</label>
+               <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Description</label>
                <p className="text-xs font-medium text-gray-600 leading-relaxed">{task.description || 'No detailed description.'}</p>
             </div>
             <div className="flex gap-8">
                <div>
-                  <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Priority</label>
+                  <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Priority</label>
                   <p className={cn(
-                    "text-xs font-black",
+                    "text-xs font-bold",
                     task.priority === 'URGENT' ? 'text-red-600' : 
                     task.priority === 'HIGH' ? 'text-orange-600' : 'text-indigo-600'
                   )}>{task.priority}</p>
                </div>
                <div>
-                  <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Deadline</label>
-                  <div className="flex items-center gap-1.5 text-xs font-black text-[#0F172A]">
+                  <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Deadline</label>
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-[#0F172A]">
                      <Clock className="w-3.5 h-3.5 text-indigo-600" />
                      {task.deadline ? new Date(task.deadline).toLocaleDateString() : 'ASAP'}
                   </div>
@@ -90,7 +90,7 @@ export default async function TaskConfirmPage({ searchParams }: { searchParams: 
          }}>
            <button 
              type="submit"
-             className="w-full bg-[#BEF264] text-[#166534] py-4 rounded-[2px] text-sm font-black uppercase tracking-widest hover:bg-[#a3d94b] transition-all shadow-md flex items-center justify-center gap-3"
+             className="w-full bg-[#BEF264] text-[#166534] py-4 rounded-[2px] text-sm font-bold uppercase tracking-widest hover:bg-[#a3d94b] transition-all shadow-md flex items-center justify-center gap-3"
            >
               <CheckCircle2 className="w-5 h-5" />
               Confirm & Start Now

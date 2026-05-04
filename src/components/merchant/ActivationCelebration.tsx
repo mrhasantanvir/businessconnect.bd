@@ -92,7 +92,7 @@ export function ActivationCelebration({
           </div>
 
           {/* Typography */}
-          <h2 className="text-2xl font-black text-slate-900 mb-3 tracking-tight">
+          <h2 className="text-2xl font-semibold text-slate-900 mb-3 tracking-tight">
             {isMerchant ? "Store Activated!" : "Welcome Aboard!"}
           </h2>
           

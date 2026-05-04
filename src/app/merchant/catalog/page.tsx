@@ -62,7 +62,7 @@ export default function MerchantCatalogPage() {
       <div className="min-h-screen w-full flex items-center justify-center bg-[#F8F9FA]">
         <div className="flex flex-col items-center gap-4">
           <div className="w-12 h-12 border-4 border-primary-blue/20 border-t-primary-blue rounded-full animate-spin" />
-          <p className="text-sm font-black text-muted-foreground uppercase tracking-widest animate-pulse">Synchronizing Unified Catalog...</p>
+          <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest animate-pulse">Synchronizing Unified Catalog...</p>
         </div>
       </div>
     );
@@ -78,10 +78,10 @@ export default function MerchantCatalogPage() {
           {/* Header Area */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
             <div>
-              <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-2">
+              <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2">
                 <ShoppingBag className="w-3 h-3" /> Catalog Management
               </div>
-              <h1 className="text-4xl font-black text-foreground tracking-tighter">
+              <h1 className="text-2xl font-bold text-foreground tracking-tight">
                 Unified <span className="text-primary-blue">Catalog</span>
               </h1>
               <p className="text-muted-foreground text-sm font-medium mt-1">
@@ -91,7 +91,7 @@ export default function MerchantCatalogPage() {
 
             <Link 
               href="/products/add" 
-              className="flex items-center gap-2 px-6 py-3 bg-primary-blue text-white rounded-2xl text-sm font-black transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary-blue/20"
+              className="flex items-center gap-2 px-6 py-3 bg-primary-blue text-white rounded-2xl text-sm font-bold transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary-blue/20"
             >
               <Plus className="w-4 h-4" /> Add Product
             </Link>
@@ -118,8 +118,8 @@ export default function MerchantCatalogPage() {
                 <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center mb-3", tab.bg)}>
                   <tab.icon className={cn("w-5 h-5", tab.color)} />
                 </div>
-                <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">{tab.label}</p>
-                <h4 className="text-2xl font-black text-foreground">{tab.count}</h4>
+                <p className="text-[10px] font-bold uppercase text-muted-foreground tracking-widest">{tab.label}</p>
+                <h4 className="text-2xl font-bold text-foreground">{tab.count}</h4>
                 {activeTab === tab.id && (
                   <div className="absolute right-4 bottom-4 w-2 h-2 rounded-full bg-primary-blue animate-pulse" />
                 )}
@@ -135,21 +135,21 @@ export default function MerchantCatalogPage() {
                       <Globe className="w-7 h-7 text-primary-blue" />
                    </div>
                    <div>
-                      <h3 className="text-lg font-black text-foreground leading-tight">Unified Sync Hub</h3>
+                      <h3 className="text-lg font-bold text-foreground leading-tight">Unified Sync Hub</h3>
                       <p className="text-xs text-muted-foreground font-medium">Connect external platforms to sync products, orders, and inventory automatically.</p>
                    </div>
                 </div>
                 <div className="flex items-center gap-3">
-                   <button className="flex items-center gap-2 px-5 py-2.5 bg-gray-50 border border-surface-border rounded-xl text-[10px] font-black uppercase tracking-widest hover:border-primary-blue/50 transition-all">
+                   <button className="flex items-center gap-2 px-5 py-2.5 bg-gray-50 border border-surface-border rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-primary-blue/50 transition-all">
                       <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/WooCommerce_logo.svg" alt="Woo" className="w-4 h-4 grayscale group-hover:grayscale-0" />
                       WooCommerce
                    </button>
-                   <button className="flex items-center gap-2 px-5 py-2.5 bg-gray-50 border border-surface-border rounded-xl text-[10px] font-black uppercase tracking-widest hover:border-indigo-500/50 transition-all">
+                   <button className="flex items-center gap-2 px-5 py-2.5 bg-gray-50 border border-surface-border rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-indigo-500/50 transition-all">
                       <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Shopify_Logo.png" alt="Shopify" className="w-4 h-4 grayscale" />
                       Shopify
                    </button>
                    <div className="w-px h-8 bg-surface-border mx-2" />
-                   <button className="px-6 py-2.5 bg-foreground text-background rounded-xl text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all">
+                   <button className="px-6 py-2.5 bg-foreground text-background rounded-xl text-[10px] font-bold uppercase tracking-widest hover:scale-105 transition-all">
                       Configure Sync
                    </button>
                 </div>
@@ -173,7 +173,7 @@ export default function MerchantCatalogPage() {
                     <Filter className="w-4 h-4" />
                   </button>
                   <div className="w-px h-8 bg-surface-border mx-2" />
-                  <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Showing {filteredProducts.length} items</p>
+                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Showing {filteredProducts.length} items</p>
               </div>
             </div>
 
@@ -181,10 +181,10 @@ export default function MerchantCatalogPage() {
               <table className="w-full border-collapse">
                 <thead>
                   <tr className="bg-gray-50/50 border-b border-surface-border">
-                    <th className="px-6 py-4 text-left text-[11px] font-black uppercase text-muted-foreground tracking-widest">Product Details</th>
-                    <th className="px-6 py-4 text-left text-[11px] font-black uppercase text-muted-foreground tracking-widest">Inventory</th>
-                    <th className="px-6 py-4 text-left text-[11px] font-black uppercase text-muted-foreground tracking-widest">Channel Sync</th>
-                    <th className="px-6 py-4 text-right text-[11px] font-black uppercase text-muted-foreground tracking-widest">Quick Actions</th>
+                    <th className="px-6 py-4 text-left text-[11px] font-bold uppercase text-muted-foreground tracking-widest">Product Details</th>
+                    <th className="px-6 py-4 text-left text-[11px] font-bold uppercase text-muted-foreground tracking-widest">Inventory</th>
+                    <th className="px-6 py-4 text-left text-[11px] font-bold uppercase text-muted-foreground tracking-widest">Channel Sync</th>
+                    <th className="px-6 py-4 text-right text-[11px] font-bold uppercase text-muted-foreground tracking-widest">Quick Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-surface-border">
@@ -209,20 +209,20 @@ export default function MerchantCatalogPage() {
                             )}
                           </div>
                           <div>
-                            <p className="font-black text-foreground text-base tracking-tight leading-tight mb-1">{product.name}</p>
+                            <p className="font-bold text-foreground text-base tracking-tight leading-tight mb-1">{product.name}</p>
                             <div className="flex items-center gap-3">
-                               <span className="text-[10px] font-black text-muted-foreground/60 uppercase tracking-widest">SKU: {product.sku || "N/A"}</span>
-                               <span className="text-[10px] font-black text-primary-blue uppercase tracking-widest">{product.category?.name || "Global"}</span>
+                               <span className="text-[10px] font-bold text-muted-foreground/60 uppercase tracking-widest">SKU: {product.sku || "N/A"}</span>
+                               <span className="text-[10px] font-bold text-primary-blue uppercase tracking-widest">{product.category?.name || "Global"}</span>
                             </div>
                           </div>
                         </div>
                       </td>
                       <td className="px-6 py-5">
                          <div className="space-y-1">
-                            <p className="font-black text-foreground">৳{product.price.toLocaleString()}</p>
+                            <p className="font-bold text-foreground">৳{product.price.toLocaleString()}</p>
                             <div className="flex items-center gap-2">
                                <span className={cn(
-                                 "text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full border",
+                                 "text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full border",
                                  product.stock <= 0 ? "bg-red-500/10 border-red-500/20 text-red-600" : 
                                  product.stock < 10 ? "bg-amber-500/10 border-amber-500/20 text-amber-600" : "bg-green-500/10 border-green-500/20 text-green-600"
                                )}>
@@ -258,10 +258,10 @@ export default function MerchantCatalogPage() {
             </div>
 
             <div className="p-6 border-t border-surface-border flex items-center justify-between bg-gray-50/30">
-               <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Viewing {filteredProducts.length} of {products.length} products</p>
+               <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Viewing {filteredProducts.length} of {products.length} products</p>
                <div className="flex items-center gap-3">
-                  <button disabled className="px-5 py-2.5 rounded-xl border border-surface-border text-[10px] font-black uppercase tracking-widest disabled:opacity-30 hover:bg-white transition-all">Previous</button>
-                  <button disabled className="px-5 py-2.5 rounded-xl border border-surface-border text-[10px] font-black uppercase tracking-widest disabled:opacity-30 hover:bg-white transition-all">Next</button>
+                  <button disabled className="px-5 py-2.5 rounded-xl border border-surface-border text-[10px] font-bold uppercase tracking-widest disabled:opacity-30 hover:bg-white transition-all">Previous</button>
+                  <button disabled className="px-5 py-2.5 rounded-xl border border-surface-border text-[10px] font-bold uppercase tracking-widest disabled:opacity-30 hover:bg-white transition-all">Next</button>
                </div>
             </div>
           </div>
@@ -277,11 +277,11 @@ export default function MerchantCatalogPage() {
              {/* Drawer Header */}
              <div className="p-8 border-b border-surface-border flex items-center justify-between">
                 <div>
-                   <h3 className="text-2xl font-black text-foreground tracking-tight">Product <span className="text-primary-blue">Deep-Dive</span></h3>
+                   <h3 className="text-lg font-bold text-foreground tracking-tight">Product <span className="text-primary-blue">Deep-Dive</span></h3>
                    <div className="flex items-center gap-2 mt-1">
-                      <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Ref ID: {selectedProduct.id}</p>
+                      <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Ref ID: {selectedProduct.id}</p>
                       {selectedProduct.externalSource && (
-                        <span className="flex items-center gap-1 px-2 py-0.5 bg-amber-500/10 text-amber-600 rounded text-[9px] font-black uppercase">
+                        <span className="flex items-center gap-1 px-2 py-0.5 bg-amber-500/10 text-amber-600 rounded text-[9px] font-bold uppercase">
                            <Globe className="w-2.5 h-2.5" /> Synced from {selectedProduct.externalSource}
                         </span>
                       )}
@@ -311,17 +311,17 @@ export default function MerchantCatalogPage() {
                    </div>
                    <div className="flex-1 space-y-4">
                       <div className="space-y-1">
-                         <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Unified Identity</label>
-                         <h4 className="text-xl font-black text-foreground leading-tight">{selectedProduct.name}</h4>
+                         <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Unified Identity</label>
+                         <h4 className="text-xl font-bold text-foreground leading-tight">{selectedProduct.name}</h4>
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                          <div className="p-4 rounded-2xl bg-gray-50 border border-surface-border">
-                            <p className="text-[9px] font-black text-muted-foreground uppercase tracking-tighter">Current Price</p>
-                            <p className="text-lg font-black text-foreground">৳{selectedProduct.price.toLocaleString()}</p>
+                            <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-tight">Current Price</p>
+                            <p className="text-lg font-bold text-foreground">৳{selectedProduct.price.toLocaleString()}</p>
                          </div>
                          <div className="p-4 rounded-2xl bg-gray-50 border border-surface-border">
-                            <p className="text-[9px] font-black text-muted-foreground uppercase tracking-tighter">In Stock</p>
-                            <p className="text-lg font-black text-foreground">{selectedProduct.stock} Units</p>
+                            <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-tight">In Stock</p>
+                            <p className="text-lg font-bold text-foreground">{selectedProduct.stock} Units</p>
                          </div>
                       </div>
                    </div>
@@ -329,16 +329,16 @@ export default function MerchantCatalogPage() {
 
                 {/* POS & Warehouse Data */}
                 <div className="space-y-4">
-                   <h5 className="text-sm font-black text-foreground flex items-center gap-2 uppercase tracking-tight">
+                   <h5 className="text-sm font-bold text-foreground flex items-center gap-2 uppercase tracking-tight">
                       <Barcode className="w-4 h-4 text-primary-blue" /> POS & Inventory Data
                    </h5>
                    <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-1">
-                         <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Global SKU</label>
+                         <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Global SKU</label>
                          <div className="p-3 bg-gray-50 rounded-xl border border-surface-border text-xs font-bold font-mono">{selectedProduct.sku || "NOT SET"}</div>
                       </div>
                       <div className="space-y-1">
-                         <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">POS Barcode</label>
+                         <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">POS Barcode</label>
                          <div className="p-3 bg-gray-50 rounded-xl border border-surface-border text-xs font-bold font-mono">{selectedProduct.barcode || "NOT SET"}</div>
                       </div>
                    </div>
@@ -346,16 +346,16 @@ export default function MerchantCatalogPage() {
 
                 {/* Logistics Hub */}
                 <div className="space-y-4">
-                   <h5 className="text-sm font-black text-foreground flex items-center gap-2 uppercase tracking-tight">
+                   <h5 className="text-sm font-bold text-foreground flex items-center gap-2 uppercase tracking-tight">
                       <Truck className="w-4 h-4 text-indigo-500" /> Logistics Hub
                    </h5>
                    <div className="p-5 bg-indigo-50/50 rounded-[24px] border border-indigo-100 space-y-4">
                       <div className="flex items-center justify-between">
-                         <span className="text-xs font-bold text-indigo-900 uppercase tracking-tighter">Preferred Courier</span>
-                         <span className="px-3 py-1 bg-indigo-100 rounded-full text-[10px] font-black text-indigo-700 uppercase">{selectedProduct.preferredCourier || "STANDARD"}</span>
+                         <span className="text-xs font-bold text-indigo-900 uppercase tracking-tight">Preferred Courier</span>
+                         <span className="px-3 py-1 bg-indigo-100 rounded-full text-[10px] font-bold text-indigo-700 uppercase">{selectedProduct.preferredCourier || "STANDARD"}</span>
                       </div>
                       <div className="space-y-2">
-                         <label className="text-[10px] font-black text-indigo-800/60 uppercase tracking-widest flex items-center gap-2">
+                         <label className="text-[10px] font-bold text-indigo-800/60 uppercase tracking-widest flex items-center gap-2">
                            <MapPin className="w-3 h-3" /> Geo-Fencing Zones
                          </label>
                          <p className="text-xs text-indigo-900/70 leading-relaxed font-medium">
@@ -367,19 +367,19 @@ export default function MerchantCatalogPage() {
 
                 {/* Storefront SEO */}
                 <div className="space-y-4">
-                   <h5 className="text-sm font-black text-foreground flex items-center gap-2 uppercase tracking-tight">
+                   <h5 className="text-sm font-bold text-foreground flex items-center gap-2 uppercase tracking-tight">
                       <Globe className="w-4 h-4 text-green-500" /> Storefront Performance
                    </h5>
                    <div className="space-y-3">
                       <div className="p-5 rounded-[24px] bg-white border border-surface-border shadow-sm group hover:border-green-500/30 transition-all">
                          <div className="flex items-center justify-between mb-2">
-                            <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Meta Title</span>
+                            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Meta Title</span>
                             <span className="text-[9px] font-bold text-green-500">OPTIMIZED</span>
                          </div>
                          <p className="text-sm font-bold text-foreground">{selectedProduct.seoTitle || selectedProduct.name}</p>
                       </div>
                       <div className="p-5 rounded-[24px] bg-white border border-surface-border shadow-sm">
-                         <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2 block">Meta Description</span>
+                         <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-2 block">Meta Description</span>
                          <p className="text-xs text-muted-foreground leading-relaxed">
                             "{selectedProduct.seoDescription || "No custom SEO snippet provided. System is using auto-generated content."}"
                          </p>
@@ -392,7 +392,7 @@ export default function MerchantCatalogPage() {
              <div className="p-8 border-t border-surface-border flex items-center gap-4 bg-gray-50/50">
                 <button 
                    onClick={() => { setIsDrawerOpen(false); /* Navigate to edit page or handle inline edit */ }}
-                   className="flex-1 h-14 bg-foreground text-background rounded-2xl text-sm font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all"
+                   className="flex-1 h-14 bg-foreground text-background rounded-2xl text-sm font-bold uppercase tracking-widest flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all"
                 >
                    <Edit2 className="w-4 h-4" /> Edit Master Entry
                 </button>

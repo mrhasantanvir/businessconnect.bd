@@ -56,11 +56,11 @@ export default function AddProductPage() {
           <div>
             <Link 
               href="/merchant/catalog" 
-              className="group flex items-center gap-2 text-xs font-black uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors mb-4"
+              className="group flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors mb-4"
             >
               <ArrowLeft className="w-3 h-3 transition-transform group-hover:-translate-x-1" /> Back to Catalog
             </Link>
-            <h1 className="text-4xl md:text-5xl font-black text-foreground tracking-tighter mb-2">
+            <h1 className="text-2xl md:text-2xl font-bold text-foreground tracking-tight mb-2">
               Add New <span className="text-primary-blue">Product</span>
             </h1>
             <p className="text-muted-foreground font-medium text-sm md:text-base">
@@ -73,7 +73,7 @@ export default function AddProductPage() {
                 <Sparkles className="w-5 h-5 text-indigo-500" />
              </div>
              <div>
-                <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Active Store</p>
+                <p className="text-[10px] font-bold uppercase text-muted-foreground tracking-widest">Active Store</p>
                 <p className="text-sm font-bold text-foreground">GadgetGear BD</p>
              </div>
           </div>
@@ -88,10 +88,10 @@ export default function AddProductPage() {
              © 2026 BusinessConnect.bd — Advanced Commerce OS
            </p>
            <div className="flex items-center gap-6">
-              <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest flex items-center gap-2">
+              <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" /> Systems Nominal
               </span>
-              <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest flex items-center gap-2">
+              <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-blue-500" /> AI Engine Ready
               </span>
            </div>

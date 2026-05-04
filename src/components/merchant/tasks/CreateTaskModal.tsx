@@ -82,7 +82,7 @@ export default function CreateTaskModal({
         {/* Header */}
         <div className="p-6 border-b border-gray-50 flex items-center justify-between bg-white">
           <div className="flex flex-col">
-            <h2 className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1">Task Management</h2>
+            <h2 className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest leading-none mb-1">Task Management</h2>
             <p className="text-sm font-black text-[#0F172A] tracking-tighter uppercase">Create New Task</p>
           </div>
           <button onClick={onClose} className="p-2 hover:bg-gray-50 rounded-none transition-all">

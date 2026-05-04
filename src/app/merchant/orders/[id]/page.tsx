@@ -60,8 +60,8 @@ export default async function OrderDetailPage({ params }: { params: { id: string
             </Link>
             <div>
                <div className="flex items-center gap-3">
-                  <h1 className="text-3xl font-black text-[#0F172A]  tracking-tight">Order #{order.id.slice(-6).toUpperCase()}</h1>
-                  <div className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border ${
+                  <h1 className="text-2xl font-bold text-[#0F172A]  tracking-tight">Order #{order.id.slice(-6).toUpperCase()}</h1>
+                  <div className={`px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest border ${
                     order.status === 'CANCELLED' ? 'bg-red-50 text-red-600 border-red-100' : 'bg-[#BEF264]/10 text-green-700  border-[#BEF264]/30'
                   }`}>
                      {order.status.replace("_", " ")}
@@ -92,7 +92,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                   }`}>
                      {i < currentStatusIndex ? <CheckCircle2 className="w-5 h-5 text-white" /> : <div className={`w-3 h-3 rounded-full ${i === currentStatusIndex ? 'bg-white animate-pulse' : 'bg-gray-200 '}`} />}
                   </div>
-                  <span className={`text-[9px] font-black uppercase tracking-widest ${i <= currentStatusIndex ? 'text-indigo-500' : 'text-gray-400'}`}>{s.replace("_", " ")}</span>
+                  <span className={`text-[9px] font-bold uppercase tracking-widest ${i <= currentStatusIndex ? 'text-indigo-500' : 'text-gray-400'}`}>{s.replace("_", " ")}</span>
                </div>
             ))}
          </div>
@@ -106,7 +106,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
             {/* Items Card */}
             <div className="bg-white  border border-[#E5E7EB]  rounded-[48px] overflow-hidden shadow-sm">
                <div className="p-8 border-b border-[#F1F5F9]  bg-[#F8F9FA] ">
-                  <h3 className="text-sm font-black flex items-center gap-2">
+                  <h3 className="text-sm font-bold flex items-center gap-2">
                     <Package className="w-5 h-5 text-indigo-500" /> Ordered Items ({order.items.length})
                   </h3>
                </div>
@@ -122,12 +122,12 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                              )}
                           </div>
                           <div>
-                             <h4 className="text-sm font-black text-[#0F172A] ">{item.product?.name || "Deleted Product"}</h4>
+                             <h4 className="text-sm font-bold text-[#0F172A] ">{item.product?.name || "Deleted Product"}</h4>
                              <p className="text-[10px] font-bold text-gray-400 mt-1 uppercase tracking-widest">SKU: {item.product?.id.slice(0, 8) || "N/A"} • Qty: {item.quantity}</p>
                           </div>
                        </div>
                        <div className="text-right">
-                          <div className="text-sm font-black text-[#0F172A] ">৳{item.price.toLocaleString()}</div>
+                          <div className="text-sm font-bold text-[#0F172A] ">৳{item.price.toLocaleString()}</div>
                           <div className="text-[10px] font-bold text-gray-400">Unit Price</div>
                        </div>
                     </div>
@@ -135,17 +135,17 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                </div>
                <div className="p-8 bg-[#F8F9FA]  border-t border-[#F1F5F9]  flex justify-end">
                   <div className="w-full max-w-xs space-y-4">
-                     <div className="flex justify-between text-[10px] font-black text-gray-500 uppercase">
+                     <div className="flex justify-between text-[10px] font-bold text-gray-500 uppercase">
                         <span>Items Subtotal</span>
                         <span>৳{order.total.toLocaleString()}</span>
                      </div>
-                     <div className="flex justify-between text-[10px] font-black text-gray-500 uppercase">
+                     <div className="flex justify-between text-[10px] font-bold text-gray-500 uppercase">
                         <span>Shipping Fee</span>
                         <span>৳0</span>
                      </div>
                      <div className="pt-4 border-t border-[#F1F5F9]  flex justify-between">
-                        <span className="text-sm font-black text-[#0F172A]  uppercase">Grand Total</span>
-                        <span className="text-xl font-black text-indigo-600">৳{order.total.toLocaleString()}</span>
+                        <span className="text-sm font-bold text-[#0F172A]  uppercase">Grand Total</span>
+                        <span className="text-xl font-bold text-indigo-600">৳{order.total.toLocaleString()}</span>
                      </div>
                   </div>
                </div>
@@ -153,7 +153,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
             {/* Timeline Experience */}
             <div className="bg-white  border border-[#E5E7EB]  rounded-[48px] p-8 shadow-sm">
-               <h3 className="text-sm font-black mb-10 flex items-center gap-2">
+               <h3 className="text-sm font-bold mb-10 flex items-center gap-2">
                  <ShieldCheck className="w-5 h-5 text-green-500" /> Professional Audit Trail
                </h3>
                <div className="space-y-12 relative">
@@ -167,7 +167,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                        </div>
                        <div className="flex-1 pt-1">
                           <div className="flex items-center justify-between mb-1">
-                             <h4 className="text-xs font-black uppercase tracking-widest">{activity.type.replace("_", " ")}</h4>
+                             <h4 className="text-xs font-bold uppercase tracking-widest">{activity.type.replace("_", " ")}</h4>
                              <span className="text-[9px] font-bold text-gray-400">{new Date(activity.createdAt).toLocaleString()}</span>
                           </div>
                           <p className="text-xs font-medium text-gray-500 leading-relaxed">{activity.message}</p>
@@ -184,11 +184,11 @@ export default async function OrderDetailPage({ params }: { params: { id: string
             
             {/* Action Center */}
             <div className="bg-white  border border-[#E5E7EB]  rounded-[48px] p-8 shadow-sm space-y-6">
-               <h3 className="text-xs font-black uppercase text-gray-400 tracking-[0.2em] mb-6">Fulfillment Actions</h3>
+               <h3 className="text-xs font-bold uppercase text-gray-400 tracking-[0.2em] mb-6">Fulfillment Actions</h3>
                
                {order.status === "PENDING" && (
                  <form action={async () => { "use server"; await confirmOrderAction(orderId); }} className="w-full">
-                   <button type="submit" className="w-full py-4 bg-indigo-600 text-white rounded-3xl font-black text-[11px] uppercase tracking-widest hover:scale-[1.02] shadow-xl shadow-indigo-200 transition-all flex items-center justify-center gap-2">
+                   <button type="submit" className="w-full py-4 bg-indigo-600 text-white rounded-3xl font-bold text-[11px] uppercase tracking-widest hover:scale-[1.02] shadow-xl shadow-indigo-200 transition-all flex items-center justify-center gap-2">
                       <CheckCircle2 className="w-4 h-4" /> Confirm & Reserve Stock
                    </button>
                  </form>
@@ -196,7 +196,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
                {order.status === "CONFIRMED" && (
                  <form action={async () => { "use server"; await markReadyToShipAction(orderId); }} className="w-full">
-                    <button type="submit" className="w-full py-4 bg-white text-slate-900 text-slate-900 text-slate-900 border border-slate-100 text-white rounded-3xl font-black text-[11px] uppercase tracking-widest hover:scale-[1.02] shadow-xl shadow-gray-200 transition-all flex items-center justify-center gap-2">
+                    <button type="submit" className="w-full py-4 bg-white text-slate-900 text-slate-900 text-slate-900 border border-slate-100 text-white rounded-3xl font-bold text-[11px] uppercase tracking-widest hover:scale-[1.02] shadow-xl shadow-gray-200 transition-all flex items-center justify-center gap-2">
                        <Package className="w-4 h-4" /> Mark as Ready to Ship
                     </button>
                  </form>
@@ -205,17 +205,17 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                {order.status === "READY_TO_SHIP" && (
                  <div className="space-y-4">
                     <div className="p-5 bg-indigo-50  rounded-3xl border border-indigo-100 ">
-                       <h4 className="text-[10px] font-black text-indigo-700 uppercase mb-2">Automated Dispatch</h4>
+                       <h4 className="text-[10px] font-bold text-indigo-700 uppercase mb-2">Automated Dispatch</h4>
                        <p className="text-[9px] font-medium text-indigo-600/80">Package is packed. Ready for courier pickup.</p>
                     </div>
-                    <button className="w-full py-4 bg-green-600 text-white rounded-3xl font-black text-[11px] uppercase tracking-widest hover:scale-[1.02] shadow-xl shadow-green-200 transition-all flex items-center justify-center gap-2">
+                    <button className="w-full py-4 bg-green-600 text-white rounded-3xl font-bold text-[11px] uppercase tracking-widest hover:scale-[1.02] shadow-xl shadow-green-200 transition-all flex items-center justify-center gap-2">
                        <Truck className="w-4 h-4" /> Quick Book Steadfast
                     </button>
                  </div>
                )}
 
                {order.status !== "CANCELLED" && order.status !== "DELIVERED" && (
-                 <button className="w-full py-4 bg-white  border border-red-100  text-red-600 rounded-3xl font-black text-[11px] uppercase tracking-widest hover:bg-red-50 transition-all">
+                 <button className="w-full py-4 bg-white  border border-red-100  text-red-600 rounded-3xl font-bold text-[11px] uppercase tracking-widest hover:bg-red-50 transition-all">
                     Cancel Order
                  </button>
                )}
@@ -223,14 +223,14 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
             {/* Customer Insight Card */}
             <div className="bg-[#F8F9FA]  border border-[#E5E7EB]  rounded-[48px] p-8 space-y-8">
-               <h3 className="text-xs font-black uppercase text-indigo-500 tracking-[0.2em]">Customer Profile</h3>
+               <h3 className="text-xs font-bold uppercase text-indigo-500 tracking-[0.2em]">Customer Profile</h3>
                
                <div className="flex items-center gap-4">
                   <div className="w-14 h-14 bg-white  rounded-2xl flex items-center justify-center border border-indigo-100  shadow-sm">
                      <User className="w-7 h-7 text-indigo-400" />
                   </div>
                   <div>
-                     <h4 className="text-sm font-black">{order.customerName || "Guest Customer"}</h4>
+                     <h4 className="text-sm font-bold">{order.customerName || "Guest Customer"}</h4>
                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-tight leading-none mt-1">{order.customerPhone}</p>
                   </div>
                </div>
@@ -240,17 +240,17 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                      <div className="flex items-start gap-4">
                         <MapPin className="w-4 h-4 text-gray-400 mt-1 shrink-0" />
                         <div>
-                           <h5 className="text-[9px] font-black uppercase text-gray-400 mb-1">Shipping Address</h5>
+                           <h5 className="text-[9px] font-bold uppercase text-gray-400 mb-1">Shipping Address</h5>
                            <p className="text-[11px] font-bold text-gray-600  leading-relaxed">{order.deliveryAddress || "Not Provided"}</p>
                         </div>
                      </div>
                      <div className="flex items-start gap-4">
                         <CreditCard className="w-4 h-4 text-gray-400 mt-1 shrink-0" />
                         <div>
-                           <h5 className="text-[9px] font-black uppercase text-gray-400 mb-1">Payment Method</h5>
+                           <h5 className="text-[9px] font-bold uppercase text-gray-400 mb-1">Payment Method</h5>
                            <div className="flex items-center gap-2">
                               <span className="text-[11px] font-bold text-gray-600 ">Cash on Delivery</span>
-                              <div className={`px-2 py-0.5 rounded text-[8px] font-black uppercase ${
+                              <div className={`px-2 py-0.5 rounded text-[8px] font-bold uppercase ${
                                  order.paymentStatus === 'PAID' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'
                               }`}>
                                  {order.paymentStatus}
@@ -264,7 +264,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                <div className="p-6 bg-white  rounded-[32px] border border-indigo-50 ">
                   <div className="flex items-center gap-2 mb-2">
                      <ShieldCheck className="w-3.5 h-3.5 text-blue-500" />
-                     <span className="text-[10px] font-black">Fraud Protection</span>
+                     <span className="text-[10px] font-bold">Fraud Protection</span>
                   </div>
                   <p className="text-[9px] font-medium text-gray-400">Customer has successfuly completed 0 orders before. Verified Phone.</p>
                </div>

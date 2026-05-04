@@ -27,7 +27,7 @@ export default function RechargeAiPage() {
          <div className="flex items-center gap-2 text-pink-600 font-bold text-xs uppercase tracking-widest">
             <Coins className="w-3.5 h-3.5" /> Direct Monetization
          </div>
-         <h1 className="text-4xl font-extrabold text-[#0F172A]  tracking-tight">Top-up AI Credits</h1>
+         <h1 className="text-2xl font-bold text-[#0F172A]  tracking-tight">Top-up AI Credits</h1>
          <p className="text-[#64748B]  text-sm max-w-xl leading-relaxed">
             Purchase AI units to fuel your Facebook auto-replies and vision intelligence.
          </p>
@@ -45,18 +45,18 @@ export default function RechargeAiPage() {
              }`}
            >
               {pack.featured && (
-                <div className="absolute top-4 right-[-35px] bg-pink-500 text-white px-10 py-1 text-[8px] font-black uppercase rotate-45">
+                <div className="absolute top-4 right-[-35px] bg-pink-500 text-white px-10 py-1 text-[8px] font-bold uppercase rotate-45">
                    Best Value
                 </div>
               )}
               <div className="space-y-4">
-                 <div className="text-xs font-black uppercase tracking-widest opacity-50">{pack.label}</div>
-                 <div className="text-4xl font-black text-[#0F172A] ">
+                 <div className="text-xs font-bold uppercase tracking-widest opacity-50">{pack.label}</div>
+                 <div className="text-2xl font-bold text-[#0F172A] ">
                     {pack.units.toLocaleString()} <span className="text-sm opacity-50">Units</span>
                  </div>
               </div>
               <div className="pt-6 border-t border-gray-100 ">
-                 <div className="text-2xl font-black text-pink-500">৳ {pack.price}</div>
+                 <div className="text-2xl font-bold text-pink-500">৳ {pack.price}</div>
                  <div className="text-[10px] text-gray-400 font-medium">Billed via bKash/Nagad</div>
               </div>
            </div>
@@ -65,35 +65,35 @@ export default function RechargeAiPage() {
 
       <div className="bg-white border border-slate-100 p-12 rounded-[64px] shadow-2xl space-y-8 flex flex-col md:flex-row items-center justify-between gap-8 border border-white/5">
          <div className="space-y-4">
-            <h3 className="text-3xl font-black text-white tracking-tight">Confirm Your Top-up</h3>
+            <h3 className="text-lg font-bold text-white tracking-tight">Confirm Your Top-up</h3>
             <p className="text-gray-400 text-sm max-w-md">
                Secure checkout via bKash. Credits will be instantly credited to your **AI Workspace** vault.
             </p>
             <div className="flex items-center gap-6 pt-4">
                <div className="flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-green-500" />
-                  <span className="text-[10px] font-black uppercase text-white/50">SSL Secured</span>
+                  <span className="text-[10px] font-bold uppercase text-white/50">SSL Secured</span>
                </div>
                <div className="flex items-center gap-2">
                   <RefreshCcw className="w-4 h-4 text-blue-500" />
-                  <span className="text-[10px] font-black uppercase text-white/50">Instant Sync</span>
+                  <span className="text-[10px] font-bold uppercase text-white/50">Instant Sync</span>
                </div>
             </div>
          </div>
-         <button className="w-full md:w-auto px-12 py-5 bg-pink-600 text-white font-black rounded-3xl hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-pink-500/20 flex items-center justify-center gap-4">
+         <button className="w-full md:w-auto px-12 py-5 bg-pink-600 text-white font-bold rounded-3xl hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-pink-500/20 flex items-center justify-center gap-4">
             Pay with bKash <ArrowRight className="w-5 h-5" />
          </button>
       </div>
 
       {/* Transaction History Mock */}
       <div className="space-y-6">
-         <h3 className="text-xl font-black flex items-center gap-3">
+         <h3 className="text-xl font-bold flex items-center gap-3">
             <Activity className="w-5 h-5 text-gray-400" /> Transaction Ledger
          </h3>
          <div className="overflow-hidden border border-[#E5E7EB]  rounded-[32px] bg-white ">
             <table className="w-full text-left border-collapse">
                <thead>
-                  <tr className="bg-[#F8F9FA]  text-[10px] font-black uppercase tracking-widest text-[#64748B]">
+                  <tr className="bg-[#F8F9FA]  text-[10px] font-bold uppercase tracking-widest text-[#64748B]">
                      <th className="px-8 py-5">TxID</th>
                      <th className="px-8 py-5">Date</th>
                      <th className="px-8 py-5">Units</th>

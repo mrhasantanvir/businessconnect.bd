@@ -30,7 +30,7 @@ export function WarehouseForm() {
     <form onSubmit={handleSubmit} className="bg-white  border border-[#E5E7EB]  p-8 rounded-[32px] shadow-sm space-y-6 sticky top-28 animate-in slide-in-from-left-8 duration-700">
       <div className="flex items-center gap-2 mb-2">
          <Sparkles className="w-5 h-5 text-indigo-500 animate-pulse" />
-         <h2 className="text-xl font-black text-[#0F172A]  tracking-tight">Hub Registration</h2>
+         <h2 className="text-xl font-semibold text-[#0F172A]  tracking-tight">Hub Registration</h2>
       </div>
       
       <div className="space-y-4">

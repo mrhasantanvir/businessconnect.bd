@@ -18,7 +18,7 @@ export default async function PosPage() {
           <div className="w-20 h-20 bg-rose-50 rounded-[32px] flex items-center justify-center text-rose-500">
              <ShoppingBag className="w-10 h-10" />
           </div>
-          <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">Access Denied</h2>
+          <h2 className="text-2xl font-bold text-slate-900 uppercase tracking-tight">Access Denied</h2>
           <p className="text-slate-500 font-bold uppercase text-[10px] tracking-widest text-center max-w-xs">
              POS terminal access is restricted. Authorized credentials required for Sales execution.
           </p>
@@ -41,9 +41,9 @@ export default async function PosPage() {
          <div className="space-y-4">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-indigo-50  rounded-full">
                <ShieldCheck className="w-3.5 h-3.5 text-indigo-500" />
-               <span className="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Enterprise Cloud POS</span>
+               <span className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest">Enterprise Cloud POS</span>
             </div>
-            <h1 className="text-6xl font-black tracking-tighter text-slate-900  uppercase leading-none">
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900  uppercase leading-none">
                Sales <span className="text-indigo-600">Terminal</span>
             </h1>
          </div>
@@ -54,14 +54,14 @@ export default async function PosPage() {
                   <ShoppingBag className="w-6 h-6" />
                </div>
                <div>
-                  <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">POS Session</div>
-                  <div className="text-sm font-black text-slate-900  mt-1 uppercase">{session.name || "Staff Member"}</div>
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">POS Session</div>
+                  <div className="text-sm font-bold text-slate-900  mt-1 uppercase">{session.name || "Staff Member"}</div>
                </div>
             </div>
             <div className="w-px h-10 bg-slate-100 " />
             <div>
-               <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Terminal ID</div>
-               <div className="text-sm font-black text-slate-900  mt-1 uppercase">DHA-001-ALPHA</div>
+               <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">Terminal ID</div>
+               <div className="text-sm font-bold text-slate-900  mt-1 uppercase">DHA-001-ALPHA</div>
             </div>
          </div>
       </div>

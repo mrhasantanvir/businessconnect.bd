@@ -63,7 +63,7 @@ export default function StaffProfileView({ staff }: { staff: any }) {
 
       <div className="bg-blue-600 rounded-[32px] p-8 text-white flex items-center justify-between shadow-xl shadow-blue-600/20">
          <div className="space-y-1">
-            <h3 className="text-xl font-black uppercase">Management Console</h3>
+            <h3 className="text-xl font-semibold uppercase">Management Console</h3>
             <p className="text-blue-100 text-xs font-bold uppercase tracking-widest">Adjust permissions and access for this staff member</p>
          </div>
          <Link 

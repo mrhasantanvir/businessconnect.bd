@@ -25,7 +25,7 @@ export default async function ThemeSettingsPage() {
                <PaletteIcon className="w-3.5 h-3.5 text-brand-500" />
                <span className="text-[10px] font-bold text-brand-600 uppercase tracking-widest">Brand Aesthetics & UI</span>
             </div>
-            <h1 className="text-5xl font-bold tracking-tighter text-gray-900 uppercase leading-none">
+            <h1 className="text-2xl font-bold tracking-tight text-gray-900 uppercase leading-none">
                Storefront <span className="text-brand-500">Themer</span>
             </h1>
             <p className="text-gray-500 text-sm font-medium max-w-xl tracking-tight leading-relaxed">

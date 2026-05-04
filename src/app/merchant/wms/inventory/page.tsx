@@ -18,7 +18,7 @@ export default async function InventoryOverviewPage() {
           <div className="w-20 h-20 bg-rose-50 rounded-[32px] flex items-center justify-center text-rose-500">
              <Package className="w-10 h-10" />
           </div>
-          <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">Access Denied</h2>
+          <h2 className="text-2xl font-semibold text-slate-900 uppercase tracking-tighter">Access Denied</h2>
           <p className="text-slate-500 font-bold uppercase text-[10px] tracking-widest text-center max-w-xs">
              Your account is not authorized for inventory management. Please contact your system administrator.
           </p>
@@ -87,7 +87,7 @@ export default async function InventoryOverviewPage() {
                   <div className="p-6 border-b border-[#F1F5F9] flex items-center justify-between bg-gray-50/50">
                     <div className="flex items-center gap-3">
                        <Package className="w-5 h-5 text-indigo-500" />
-                       <h3 className="font-extrabold text-[#0F172A]">{wh.name} Stock Levels</h3>
+                       <h3 className="font-semibold text-[#0F172A]">{wh.name} Stock Levels</h3>
                     </div>
                  </div>
                  <div className="overflow-x-auto">
@@ -132,7 +132,7 @@ export default async function InventoryOverviewPage() {
 
             {/* Recent Audit Rail */}
             <div className="bg-white border border-slate-100 p-8 rounded-[32px] shadow-sm space-y-6">
-               <h3 className="text-xl font-black tracking-tight flex items-center gap-2 text-slate-900">
+               <h3 className="text-xl font-semibold tracking-tight flex items-center gap-2 text-slate-900">
                  <History className="w-5 h-5 text-indigo-600" />
                  Recent Activity
                </h3>

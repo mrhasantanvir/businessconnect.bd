@@ -73,16 +73,16 @@ export default function DocumentReuploadClient({ store }: { store: any }) {
       <div className="max-w-2xl mx-auto space-y-8">
         <Link href="/dashboard" className="inline-flex items-center gap-2 text-slate-400 hover:text-slate-900 transition-colors group">
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-          <span className="text-[10px] font-black uppercase tracking-widest">Back to Dashboard</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest">Back to Dashboard</span>
         </Link>
 
         <div className="bg-white rounded-[40px] p-8 md:p-12 shadow-xl shadow-slate-200/50 border border-slate-100">
            <div className="space-y-4 mb-10">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-rose-50 rounded-full">
                  <RefreshCw className="w-3.5 h-3.5 text-rose-600 animate-spin-slow" />
-                 <span className="text-[10px] font-black text-rose-700 uppercase tracking-widest">Update Required</span>
+                 <span className="text-[10px] font-bold text-rose-700 uppercase tracking-widest">Update Required</span>
               </div>
-              <h1 className="text-4xl font-black text-slate-900 uppercase tracking-tighter">Document <span className="text-rose-600">Re-upload</span></h1>
+              <h1 className="text-2xl font-bold text-slate-900 uppercase tracking-tight">Document <span className="text-rose-600">Re-upload</span></h1>
               <p className="text-sm text-slate-500 font-medium leading-relaxed">
                 Admin requested a re-upload for your store <strong>{store.name}</strong>.<br />
                 {store.reuploadMessage && (
@@ -98,7 +98,7 @@ export default function DocumentReuploadClient({ store }: { store: any }) {
               <div className="space-y-3 p-6 bg-slate-50 rounded-[32px] border-2 border-dashed border-slate-200 hover:border-indigo-600/20 transition-all">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest">Trade License</h4>
+                    <h4 className="text-xs font-bold text-slate-900 uppercase tracking-widest">Trade License</h4>
                     <p className="text-[10px] text-slate-400 font-medium uppercase mt-1">PDF or Image (Max 2MB)</p>
                   </div>
                   <label className="cursor-pointer bg-white p-3 rounded-2xl shadow-sm hover:shadow-md transition-all">
@@ -118,8 +118,8 @@ export default function DocumentReuploadClient({ store }: { store: any }) {
                 <div className="space-y-3 p-6 bg-slate-50 rounded-[32px] border-2 border-dashed border-slate-200 hover:border-indigo-600/20 transition-all">
                   <div className="flex flex-col items-center text-center">
                     <UserSquare2 className="w-8 h-8 text-slate-300 mb-3" />
-                    <h4 className="text-[10px] font-black text-slate-900 uppercase tracking-widest">NID Front</h4>
-                    <label className="mt-4 cursor-pointer bg-white px-4 py-2 rounded-xl shadow-sm text-[10px] font-black uppercase tracking-widest text-indigo-600 border border-indigo-50">
+                    <h4 className="text-[10px] font-bold text-slate-900 uppercase tracking-widest">NID Front</h4>
+                    <label className="mt-4 cursor-pointer bg-white px-4 py-2 rounded-xl shadow-sm text-[10px] font-bold uppercase tracking-widest text-indigo-600 border border-indigo-50">
                       {fileNames.nidFront ? "Change" : "Upload"}
                       <input type="file" className="hidden" accept="image/*" onChange={e => e.target.files?.[0] && handleFileChange('nidFront', e.target.files[0])} />
                     </label>
@@ -133,8 +133,8 @@ export default function DocumentReuploadClient({ store }: { store: any }) {
                 <div className="space-y-3 p-6 bg-slate-50 rounded-[32px] border-2 border-dashed border-slate-200 hover:border-indigo-600/20 transition-all">
                   <div className="flex flex-col items-center text-center">
                     <UserSquare2 className="w-8 h-8 text-slate-300 mb-3" />
-                    <h4 className="text-[10px] font-black text-slate-900 uppercase tracking-widest">NID Back</h4>
-                    <label className="mt-4 cursor-pointer bg-white px-4 py-2 rounded-xl shadow-sm text-[10px] font-black uppercase tracking-widest text-indigo-600 border border-indigo-50">
+                    <h4 className="text-[10px] font-bold text-slate-900 uppercase tracking-widest">NID Back</h4>
+                    <label className="mt-4 cursor-pointer bg-white px-4 py-2 rounded-xl shadow-sm text-[10px] font-bold uppercase tracking-widest text-indigo-600 border border-indigo-50">
                       {fileNames.nidBack ? "Change" : "Upload"}
                       <input type="file" className="hidden" accept="image/*" onChange={e => e.target.files?.[0] && handleFileChange('nidBack', e.target.files[0])} />
                     </label>
@@ -148,7 +148,7 @@ export default function DocumentReuploadClient({ store }: { store: any }) {
               <button 
                 disabled={loading}
                 onClick={handleSubmit}
-                className="w-full bg-slate-900 text-white rounded-[24px] py-6 text-xs font-black uppercase tracking-[0.2em] hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/10 disabled:opacity-50 flex items-center justify-center gap-3"
+                className="w-full bg-slate-900 text-white rounded-[24px] py-6 text-xs font-bold uppercase tracking-[0.2em] hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/10 disabled:opacity-50 flex items-center justify-center gap-3"
               >
                 {loading ? <RefreshCw className="w-5 h-5 animate-spin" /> : "Submit Documents"}
               </button>

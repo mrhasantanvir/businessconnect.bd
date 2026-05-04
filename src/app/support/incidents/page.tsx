@@ -58,7 +58,7 @@ export default async function MerchantIncidentsPage() {
 
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left whitespace-nowrap">
-            <thead className="text-[10px] text-[#A1A1AA] uppercase bg-[#F8F9FA] sticky top-0 z-10 border-b border-[#E5E7EB] font-black tracking-widest">
+            <thead className="text-[10px] text-[#A1A1AA] uppercase bg-[#F8F9FA] sticky top-0 z-10 border-b border-[#E5E7EB] font-bold tracking-widest">
               <tr>
                 <th className="px-6 py-4">Number</th>
                 <th className="px-6 py-4">Subject</th>
@@ -88,7 +88,7 @@ export default async function MerchantIncidentsPage() {
                     </div>
                   </td>
                   <td className="px-6 py-5">
-                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-black flex items-center w-max gap-1.5 border ${
+                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center w-max gap-1.5 border ${
                       inc.status === 'NEW' ? 'bg-blue-50 text-blue-600 border-blue-100' :
                       inc.status === 'IN_PROGRESS' ? 'bg-[#FFF7ED] text-[#EA580C] border-[#FFEDD5]' :
                       inc.status === 'RESOLVED' ? 'bg-[#F0FDF4] text-[#16A34A] border-[#BBF7D0]' :

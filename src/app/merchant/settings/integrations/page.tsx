@@ -28,7 +28,7 @@ export default function IntegrationHubPage() {
       <div className="min-h-[80vh] w-full flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="w-12 h-12 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin" />
-          <p className="text-xs font-black text-muted-foreground uppercase tracking-[0.2em] animate-pulse">Scanning Integrations...</p>
+          <p className="text-xs font-bold text-muted-foreground uppercase tracking-[0.2em] animate-pulse">Scanning Integrations...</p>
         </div>
       </div>
     );
@@ -116,10 +116,10 @@ export default function IntegrationHubPage() {
             <Zap className="w-64 h-64 text-white" />
          </div>
          <div className="relative z-10 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full text-[10px] font-black uppercase tracking-widest text-indigo-100 mb-6 backdrop-blur-md">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full text-[10px] font-bold uppercase tracking-widest text-indigo-100 mb-6 backdrop-blur-md">
                <ShieldCheck className="w-3 h-3" /> Secure Integration Node
             </div>
-            <h1 className="text-4xl md:text-5xl font-black text-white tracking-tighter mb-4">
+            <h1 className="text-2xl md:text-2xl font-bold text-white tracking-tight mb-4">
                Integration <span className="text-indigo-200/50">Control Hub</span>
             </h1>
             <p className="text-indigo-100/70 text-base font-medium leading-relaxed">
@@ -134,7 +134,7 @@ export default function IntegrationHubPage() {
           <div key={idx} className="space-y-6">
              <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-l-4 border-indigo-500 pl-6">
                 <div>
-                   <h2 className="text-2xl font-black text-foreground tracking-tight uppercase">{group.title}</h2>
+                   <h2 className="text-2xl font-bold text-foreground tracking-tight uppercase">{group.title}</h2>
                    <p className="text-sm text-muted-foreground font-medium">{group.description}</p>
                 </div>
              </div>
@@ -155,7 +155,7 @@ export default function IntegrationHubPage() {
                        {item.isLocked ? (
                          <div className="px-3 py-1 bg-gray-200  rounded-full flex items-center gap-1.5">
                             <Lock className="w-3 h-3 text-muted-foreground" />
-                            <span className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">Locked</span>
+                            <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Locked</span>
                          </div>
                        ) : item.connected ? (
                          <div className={cn(
@@ -163,12 +163,12 @@ export default function IntegrationHubPage() {
                            item.active ? "bg-green-500/10 text-green-600" : "bg-amber-500/10 text-amber-600"
                          )}>
                             {item.active ? <CheckCircle2 className="w-3 h-3" /> : <RefreshCw className="w-3 h-3 animate-spin-slow" />}
-                            <span className="text-[9px] font-black uppercase tracking-widest">{item.active ? "Active" : "Paused"}</span>
+                            <span className="text-[9px] font-bold uppercase tracking-widest">{item.active ? "Active" : "Paused"}</span>
                          </div>
                        ) : (
                          <div className="px-3 py-1 bg-indigo-500/10 text-indigo-500 rounded-full flex items-center gap-1.5">
                             <AlertCircle className="w-3 h-3" />
-                            <span className="text-[9px] font-black uppercase tracking-widest">Disconnected</span>
+                            <span className="text-[9px] font-bold uppercase tracking-widest">Disconnected</span>
                          </div>
                        )}
                     </div>
@@ -178,12 +178,12 @@ export default function IntegrationHubPage() {
                           <img src={item.icon} alt={item.name} className={cn("w-full h-full object-contain", item.isLocked && "grayscale")} />
                        </div>
                        <div className="flex-1 space-y-1">
-                          <h4 className="text-xl font-black text-foreground">{item.name}</h4>
+                          <h4 className="text-xl font-bold text-foreground">{item.name}</h4>
                           <p className="text-xs text-muted-foreground font-medium leading-relaxed">{item.description}</p>
                           
                           <div className="pt-4 flex items-center justify-between">
                              <div className="flex flex-col">
-                                <span className="text-[9px] font-black text-muted-foreground uppercase tracking-tighter">Current Source</span>
+                                <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-tight">Current Source</span>
                                 <span className="text-[10px] font-bold text-foreground truncate max-w-[150px]">{item.details}</span>
                              </div>
                              {!item.isLocked && (
@@ -214,11 +214,11 @@ export default function IntegrationHubPage() {
                <ShieldCheck className="w-6 h-6 text-indigo-500" />
             </div>
             <div>
-               <h5 className="text-sm font-black text-foreground uppercase tracking-tight">Enterprise Security</h5>
+               <h5 className="text-sm font-bold text-foreground uppercase tracking-tight">Enterprise Security</h5>
                <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">All API Keys are encrypted with AES-256-GCM</p>
             </div>
          </div>
-         <button className="text-xs font-black text-indigo-500 uppercase tracking-[0.2em] hover:underline flex items-center gap-2">
+         <button className="text-xs font-bold text-indigo-500 uppercase tracking-[0.2em] hover:underline flex items-center gap-2">
             View API Logs <ExternalLink className="w-3 h-3" />
          </button>
       </div>

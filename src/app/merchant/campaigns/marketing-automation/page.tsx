@@ -24,9 +24,9 @@ export default async function MarketingAutomationPage() {
          <div className="space-y-4">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-indigo-50  rounded-full">
                <ShieldCheck className="w-3.5 h-3.5 text-indigo-500" />
-               <span className="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Growth Hyper-Automation</span>
+               <span className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest">Growth Hyper-Automation</span>
             </div>
-            <h1 className="text-5xl font-black tracking-tighter text-slate-900  uppercase leading-none">
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900  uppercase leading-none">
                Marketing <span className="text-indigo-600">Automation</span>
             </h1>
             <p className="text-slate-500  text-sm font-bold max-w-xl">
@@ -39,13 +39,13 @@ export default async function MarketingAutomationPage() {
                <TrendingUp className="w-32 h-32" />
             </div>
             <div className="relative z-10">
-               <div className="text-[10px] font-black uppercase tracking-widest text-indigo-400">Recovered Revenue</div>
-               <div className="text-3xl font-black mt-2 tracking-tighter">৳42,500</div>
+               <div className="text-[10px] font-bold uppercase tracking-widest text-indigo-400">Recovered Revenue</div>
+               <div className="text-2xl font-bold mt-2 tracking-tight">৳42,500</div>
             </div>
             <div className="w-px h-12 bg-white/10 mx-2" />
             <div className="relative z-10">
-               <div className="text-[10px] font-black uppercase tracking-widest text-indigo-400">Efficiency</div>
-               <div className="text-3xl font-black mt-2 tracking-tighter">+18.5%</div>
+               <div className="text-[10px] font-bold uppercase tracking-widest text-indigo-400">Efficiency</div>
+               <div className="text-2xl font-bold mt-2 tracking-tight">+18.5%</div>
             </div>
          </div>
       </div>

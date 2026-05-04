@@ -166,7 +166,7 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
               <Zap className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h2 className="font-black text-base uppercase tracking-tighter text-foreground">AI Product Launch</h2>
+              <h2 className="font-semibold text-base uppercase tracking-tighter text-foreground">AI Product Launch</h2>
               <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Vision-First Workflow</p>
             </div>
           </div>
@@ -239,7 +239,7 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
         {step === 1 && (
           <div className="animate-in fade-in slide-in-from-right-8 duration-500 h-full flex flex-col">
             <div className="flex items-center justify-between mb-8">
-               <h3 className="text-3xl font-black text-foreground tracking-tighter">Vision <span className="text-primary-blue">Intelligence</span></h3>
+               <h3 className="text-lg font-semibold text-foreground tracking-tighter">Vision <span className="text-primary-blue">Intelligence</span></h3>
                {formData.image && (
                   <div className="flex gap-2">
                      <button className="flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-indigo-50 hover:text-indigo-600 transition-all border border-gray-100">
@@ -347,7 +347,7 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
         {step === 2 && (
           <div className="animate-in fade-in slide-in-from-right-8 duration-500 h-full flex flex-col">
             <div className="flex items-center justify-between mb-8">
-               <h3 className="text-3xl font-black text-foreground tracking-tighter">AI <span className="text-indigo-600">Copywriter</span></h3>
+               <h3 className="text-lg font-semibold text-foreground tracking-tighter">AI <span className="text-indigo-600">Copywriter</span></h3>
                <button 
                  onClick={async () => {
                     setIsAiLoading(true);
@@ -410,7 +410,7 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
         {/* Step 3: Commerce Ops */}
         {step === 3 && (
           <div className="animate-in fade-in slide-in-from-right-8 duration-500 h-full flex flex-col">
-            <h3 className="text-3xl font-black text-foreground mb-8 tracking-tighter">Commerce <span className="text-amber-500">Infrastructure</span></h3>
+            <h3 className="text-lg font-semibold text-foreground mb-8 tracking-tighter">Commerce <span className="text-amber-500">Infrastructure</span></h3>
             <div className="space-y-10 flex-1 overflow-y-auto pr-2 custom-scrollbar">
                 
                 {/* Price & Margin Matrix */}
@@ -510,7 +510,7 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
           <div className="animate-in fade-in slide-in-from-right-8 duration-500 h-full flex flex-col">
             <div className="flex items-center justify-between mb-8">
                <div className="flex items-center gap-4">
-                  <h3 className="text-3xl font-black text-foreground tracking-tighter">Logistics <span className="text-indigo-600">& SEO</span></h3>
+                  <h3 className="text-lg font-semibold text-foreground tracking-tighter">Logistics <span className="text-indigo-600">& SEO</span></h3>
                   {formData.isFreeDelivery && (
                      <div className="px-4 py-1.5 bg-green-500 text-white rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-2 animate-pulse">
                         <Zap className="w-3 h-3" /> Free Shipping Enabled

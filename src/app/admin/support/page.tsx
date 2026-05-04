@@ -56,7 +56,7 @@ export default async function AdminSupportQueuePage() {
       {/* Platform Owner Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-[#0F172A] tracking-tight flex items-center gap-3">
+          <h1 className="text-2xl font-bold text-[#0F172A] tracking-tight flex items-center gap-3">
              <ShieldCheck className="w-8 h-8 text-[#1E40AF]" />
              Global Incident Queue
           </h1>
@@ -75,7 +75,7 @@ export default async function AdminSupportQueuePage() {
 
       {/* Agent Workload Scoreboard */}
       <div className="bg-white border border-[#E5E7EB] rounded-[32px] p-6 shadow-sm">
-        <div className="text-[10px] font-black uppercase tracking-widest text-[#64748B] mb-4 flex items-center gap-2">
+        <div className="text-[10px] font-bold uppercase tracking-widest text-[#64748B] mb-4 flex items-center gap-2">
           <User className="w-3.5 h-3.5" /> Agent Workload — Live
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -84,13 +84,13 @@ export default async function AdminSupportQueuePage() {
             const pct = Math.min((open / 10) * 100, 100);
             return (
               <div key={agent.id} className="flex items-center gap-4 p-4 bg-[#F8F9FA] rounded-2xl border border-[#F1F5F9]">
-                <div className="w-10 h-10 rounded-full bg-white text-slate-900 text-slate-900 border border-slate-100 text-white flex items-center justify-center font-black text-sm shrink-0">
+                <div className="w-10 h-10 rounded-full bg-white text-slate-900 text-slate-900 border border-slate-100 text-white flex items-center justify-center font-bold text-sm shrink-0">
                   {agent.name?.charAt(0) ?? "?"}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-sm font-bold text-[#0F172A] truncate">{agent.name}</span>
-                    <span className={`text-[10px] font-black px-2 py-0.5 rounded-full ${
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
                       open === 0 ? "bg-[#F0FDF4] text-[#16A34A]" :
                       open <= 3 ? "bg-[#FFF7ED] text-[#EA580C]" :
                       "bg-red-50 text-red-600"
@@ -128,14 +128,14 @@ export default async function AdminSupportQueuePage() {
                  <Filter className="w-3.5 h-3.5" /> Filter Queue
               </button>
            </div>
-           <div className="text-[10px] font-black uppercase tracking-[0.2em] opacity-60">
+           <div className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-60">
               Live Monitor Status: Active
            </div>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left whitespace-nowrap">
-            <thead className="text-[10px] text-[#A1A1AA] uppercase bg-[#F8F9FA] border-b border-[#E5E7EB] font-black tracking-widest">
+            <thead className="text-[10px] text-[#A1A1AA] uppercase bg-[#F8F9FA] border-b border-[#E5E7EB] font-bold tracking-widest">
               <tr>
                 <th className="px-6 py-4">ID</th>
                 <th className="px-6 py-4">Merchant</th>
@@ -189,7 +189,7 @@ export default async function AdminSupportQueuePage() {
                   <td className="px-6 py-4">
                      {inc.assignedTo ? (
                        <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded-full bg-[#BEF264]/20 text-[#65A30D] flex items-center justify-center text-[10px] font-black">
+                          <div className="w-6 h-6 rounded-full bg-[#BEF264]/20 text-[#65A30D] flex items-center justify-center text-[10px] font-bold">
                              {inc.assignedTo.name?.charAt(0)}
                           </div>
                           <span className="text-xs font-bold text-[#0F172A]">{inc.assignedTo.name}</span>
@@ -221,7 +221,7 @@ function StatItem({ title, value, icon: Icon, color = "text-[#64748B] bg-[#F1F5F
     <div className="bg-white border border-[#E5E7EB] rounded-[32px] p-6 shadow-sm">
       <div className="flex items-start justify-between">
         <div>
-          <div className="text-3xl font-black text-[#0F172A] tracking-tighter">{value}</div>
+          <div className="text-2xl font-bold text-[#0F172A] tracking-tight">{value}</div>
           <div className="text-[10px] font-bold uppercase tracking-widest text-[#A1A1AA] mt-1">{title}</div>
         </div>
         <div className={`w-10 h-10 rounded-2xl flex items-center justify-center ${color}`}>
@@ -241,7 +241,7 @@ function StatusBadge({ status }: { status: string }) {
   };
   
   return (
-    <span className={`px-2.5 py-1 rounded-full text-[10px] font-black flex items-center w-max gap-1.5 border ${styles[status]}`}>
+    <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center w-max gap-1.5 border ${styles[status]}`}>
       {status === 'NEW' && <AlertCircle className="w-3 h-3" />}
       {status === 'IN_PROGRESS' && <Clock className="w-3 h-3" />}
       {status === 'RESOLVED' && <CheckCircle2 className="w-3 h-3" />}

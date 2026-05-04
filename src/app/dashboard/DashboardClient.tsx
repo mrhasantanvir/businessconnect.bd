@@ -82,7 +82,7 @@ export default function MerchantDashboard({
         <div className="fixed inset-0 z-50 bg-[#0F172A]/40 backdrop-blur-md flex items-center justify-center overflow-y-auto p-4 md:p-8">
           <div className="w-full max-w-4xl relative">
             <div className="absolute -top-12 left-0 w-full text-center">
-               <h2 className="text-white font-black text-xl tracking-widest uppercase">Complete Store Setup to Continue</h2>
+               <h2 className="text-white font-bold text-xl tracking-widest uppercase">Complete Store Setup to Continue</h2>
             </div>
             <OnboardingClient />
           </div>

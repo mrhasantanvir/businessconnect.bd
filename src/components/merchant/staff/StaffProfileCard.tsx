@@ -152,7 +152,7 @@ export function StaffProfileCard({ user, isEditable = false, onUpdate, activityS
              <div className="absolute inset-0 bg-black/20 flex items-center justify-center pointer-events-none">
                 <div className="bg-white/90 backdrop-blur-md px-4 py-2 rounded-none shadow-lg flex items-center gap-2">
                    <Clock className="w-4 h-4 text-slate-900" />
-                   <span className="text-[10px] font-black uppercase text-slate-900">Drag to reposition</span>
+                   <span className="text-[10px] font-bold uppercase text-slate-900">Drag to reposition</span>
                 </div>
              </div>
           )}
@@ -166,11 +166,11 @@ export function StaffProfileCard({ user, isEditable = false, onUpdate, activityS
                     className="px-4 py-2 bg-black/50 backdrop-blur-md rounded-none text-white hover:bg-black/70 transition-all shadow-lg flex items-center gap-2 border border-white/20"
                   >
                     <MapPin className="w-4 h-4" />
-                    <span className="text-[10px] font-black uppercase tracking-widest">Reposition</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest">Reposition</span>
                   </button>
                   <label className="px-4 py-2 bg-black/50 backdrop-blur-md rounded-none text-white cursor-pointer hover:bg-black/70 transition-all shadow-lg flex items-center gap-2 border border-white/20">
                     {uploadingCover ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Camera className="w-4 h-4" />}
-                    <span className="text-[10px] font-black uppercase tracking-widest">Change Cover</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest">Change Cover</span>
                     <input type="file" className="hidden" accept="image/*" onChange={e => e.target.files?.[0] && handleFileUpload(e.target.files[0], 'cover')} />
                   </label>
                 </>
@@ -178,13 +178,13 @@ export function StaffProfileCard({ user, isEditable = false, onUpdate, activityS
                 <>
                   <button 
                     onClick={() => setIsRepositioning(false)}
-                    className="px-4 py-2 bg-white rounded-none text-slate-900 hover:bg-slate-100 transition-all shadow-lg flex items-center gap-2 font-black text-[10px] uppercase"
+                    className="px-4 py-2 bg-white rounded-none text-slate-900 hover:bg-slate-100 transition-all shadow-lg flex items-center gap-2 font-bold text-[10px] uppercase"
                   >
                     Cancel
                   </button>
                   <button 
                     onClick={handleSavePosition}
-                    className="px-4 py-2 bg-slate-900 rounded-none text-white hover:bg-black transition-all shadow-lg flex items-center gap-2 font-black text-[10px] uppercase"
+                    className="px-4 py-2 bg-slate-900 rounded-none text-white hover:bg-black transition-all shadow-lg flex items-center gap-2 font-bold text-[10px] uppercase"
                   >
                     Save Position
                   </button>
@@ -209,7 +209,7 @@ export function StaffProfileCard({ user, isEditable = false, onUpdate, activityS
                 {isEditable && (
                   <label className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-white cursor-pointer opacity-0 group-hover:opacity-100 transition-all backdrop-blur-[2px] rounded-full">
                      {uploadingAvatar ? <RefreshCw className="w-6 h-6 animate-spin" /> : <Camera className="w-6 h-6" />}
-                     <span className="text-[9px] font-black uppercase tracking-widest mt-2 text-center px-2">Change Photo</span>
+                     <span className="text-[9px] font-bold uppercase tracking-widest mt-2 text-center px-2">Change Photo</span>
                      <input type="file" className="hidden" accept="image/*" onChange={e => e.target.files?.[0] && handleFileUpload(e.target.files[0], 'avatar')} />
                   </label>
                 )}
@@ -218,7 +218,7 @@ export function StaffProfileCard({ user, isEditable = false, onUpdate, activityS
 
           <div className="pt-20 md:pt-4 md:pl-48 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-2">
-               <h1 className="text-3xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+               <h1 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
                  {user.name}
                  <CheckCircle2 className="w-5 h-5 text-blue-500" />
                </h1>
@@ -250,7 +250,7 @@ export function StaffProfileCard({ user, isEditable = false, onUpdate, activityS
           {/* Personal Details */}
           <div className="bg-white rounded-none p-8 md:p-12 shadow-2xl shadow-slate-200/40 border border-slate-100 space-y-10">
              <div className="flex items-center justify-between border-b border-slate-50 pb-6">
-                <h3 className="text-xl font-black text-slate-900 uppercase tracking-tighter">Personal Details</h3>
+                <h3 className="text-xl font-bold text-slate-900 uppercase tracking-tight">Personal Details</h3>
                 <div className="w-10 h-10 bg-slate-900 rounded-none flex items-center justify-center text-white">
                    <User className="w-5 h-5" />
                 </div>
@@ -313,7 +313,7 @@ export function StaffProfileCard({ user, isEditable = false, onUpdate, activityS
         <div className="lg:col-span-3 space-y-8">
           <div className="bg-white rounded-none p-8 md:p-12 shadow-2xl shadow-slate-200/40 border border-slate-100 space-y-10">
              <div className="flex items-center justify-between border-b border-slate-50 pb-6">
-                <h3 className="text-xl font-black text-slate-900 uppercase tracking-tighter">Verified Documents</h3>
+                <h3 className="text-xl font-bold text-slate-900 uppercase tracking-tight">Verified Documents</h3>
                 <div className="w-10 h-10 bg-slate-900 rounded-none flex items-center justify-center text-white">
                    <FileText className="w-5 h-5" />
                 </div>
@@ -403,7 +403,7 @@ export function StaffProfileCard({ user, isEditable = false, onUpdate, activityS
                        ))}
                       {!staff?.nidFrontUrl && !staff?.nidBackUrl && (!staff?.documents || staff.documents.length === 0) && (
                          <tr>
-                            <td colSpan={3} className="py-12 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                            <td colSpan={3} className="py-12 text-center text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                                No verified documents in registry
                             </td>
                          </tr>

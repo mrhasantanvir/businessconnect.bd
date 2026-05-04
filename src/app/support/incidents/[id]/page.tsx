@@ -49,7 +49,7 @@ export default async function MerchantIncidentDetailPage({ params }: { params: P
               <span className="font-mono text-xs font-bold text-[#1E40AF] flex items-center gap-1">
                 <Hash className="w-3 h-3" />{incident.number}
               </span>
-              <span className={`px-2.5 py-1 rounded-full text-[10px] font-black flex items-center gap-1.5 border ${statusStyles[incident.status]}`}>
+              <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1.5 border ${statusStyles[incident.status]}`}>
                 {incident.status === 'NEW' && <AlertCircle className="w-3 h-3" />}
                 {incident.status === 'IN_PROGRESS' && <Clock className="w-3 h-3" />}
                 {incident.status === 'RESOLVED' && <CheckCircle2 className="w-3 h-3" />}
@@ -57,7 +57,7 @@ export default async function MerchantIncidentDetailPage({ params }: { params: P
               </span>
               <span className="text-[10px] font-bold bg-[#F1F5F9] text-[#64748B] px-2 py-1 rounded">{incident.category}</span>
             </div>
-            <h1 className="text-2xl font-extrabold text-[#0F172A]">{incident.subject}</h1>
+            <h1 className="text-2xl font-bold text-[#0F172A]">{incident.subject}</h1>
             <p className="text-sm text-[#64748B] mt-1">Opened {new Date(incident.createdAt).toLocaleString()}</p>
           </div>
           <div className="flex flex-col items-end gap-2 shrink-0">

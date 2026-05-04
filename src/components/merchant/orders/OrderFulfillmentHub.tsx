@@ -32,7 +32,7 @@ export function OrderFulfillmentHub({ order, configs }: { order: any, configs: a
 
   return (
     <div className="bg-white  border border-[#E5E7EB]  rounded-3xl md:rounded-[48px] p-5 md:p-8 shadow-sm space-y-4 md:space-y-6">
-      <h3 className="text-xs font-black uppercase text-gray-400 tracking-[0.2em] mb-4">Fulfillment Hub</h3>
+      <h3 className="text-xs font-semibold uppercase text-gray-400 tracking-[0.2em] mb-4">Fulfillment Hub</h3>
       
       {order.status === "PENDING" && (
         <div className="space-y-3">

@@ -53,7 +53,7 @@ export default async function MerchantBillingPage() {
                      <Activity className="w-5 h-5" />
                   </div>
                   <div>
-                     <h2 className="text-xl font-black text-slate-900 uppercase tracking-tight">Staff Subscription <span className="text-indigo-600">Invoices</span></h2>
+                     <h2 className="text-xl font-bold text-slate-900 uppercase tracking-tight">Staff Subscription <span className="text-indigo-600">Invoices</span></h2>
                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Pay-per-User Model: ৳300/Staff/30 Days</p>
                   </div>
                </div>
@@ -69,10 +69,10 @@ export default async function MerchantBillingPage() {
                     <table className="w-full text-left">
                        <thead>
                           <tr className="border-b border-slate-100">
-                             <th className="py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Billing Cycle</th>
-                             <th className="py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Amount</th>
-                             <th className="py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Due Date</th>
-                             <th className="py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
+                             <th className="py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Billing Cycle</th>
+                             <th className="py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Amount</th>
+                             <th className="py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Due Date</th>
+                             <th className="py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Status</th>
                              <th className="py-4 text-right"></th>
                           </tr>
                        </thead>
@@ -80,16 +80,16 @@ export default async function MerchantBillingPage() {
                           {store.invoices.map((inv: any) => (
                              <tr key={inv.id} className="group hover:bg-slate-50/50 transition-colors">
                                 <td className="py-5">
-                                   <p className="text-sm font-black text-slate-900 uppercase tracking-tight">{inv.billingCycle}</p>
+                                   <p className="text-sm font-bold text-slate-900 uppercase tracking-tight">{inv.billingCycle}</p>
                                 </td>
                                 <td className="py-5">
-                                   <p className="text-sm font-black text-indigo-600">৳{inv.amount.toLocaleString()}</p>
+                                   <p className="text-sm font-bold text-indigo-600">৳{inv.amount.toLocaleString()}</p>
                                 </td>
                                 <td className="py-5">
                                    <p className="text-xs font-bold text-slate-500 uppercase">{new Date(inv.dueDate).toLocaleDateString()}</p>
                                 </td>
                                 <td className="py-5">
-                                   <span className={`text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest ${inv.status === 'PAID' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
+                                   <span className={`text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-widest ${inv.status === 'PAID' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
                                       {inv.status}
                                    </span>
                                 </td>
@@ -99,7 +99,7 @@ export default async function MerchantBillingPage() {
                                         type="INVOICE_PAY" 
                                         amount={inv.amount} 
                                         invoiceId={inv.id} 
-                                        className="bg-slate-900 text-white hover:bg-black rounded-xl text-[9px] font-black uppercase tracking-widest px-4 py-2" 
+                                        className="bg-slate-900 text-white hover:bg-black rounded-xl text-[9px] font-bold uppercase tracking-widest px-4 py-2" 
                                         label="Pay Now" 
                                       />
                                    )}
@@ -148,7 +148,7 @@ export default async function MerchantBillingPage() {
                   <div key={plan.id} className={`border ${isCurrentPlan ? 'border-indigo-500 ring-2 ring-indigo-100' : 'border-gray-200'} rounded-xl p-5 flex flex-col`}>
                     <h3 className="text-lg font-bold text-gray-800 uppercase">{plan.name}</h3>
                     <div className="mt-2 mb-4">
-                      <span className="text-2xl font-black text-gray-900">৳{plan.monthlyPrice}</span>
+                      <span className="text-2xl font-bold text-gray-900">৳{plan.monthlyPrice}</span>
                       <span className="text-xs text-gray-500">/mo</span>
                     </div>
                     
@@ -185,7 +185,7 @@ export default async function MerchantBillingPage() {
                 <p className="text-sm text-gray-500 mt-1">500 SMS Credits</p>
                 <div className="mt-4 flex items-end justify-between">
                   <div>
-                    <span className="text-2xl font-black text-teal-600">৳250</span>
+                    <span className="text-2xl font-bold text-teal-600">৳250</span>
                   </div>
                   <RechargeButton type="SMS" amount={250} credits={500} className="bg-teal-600 text-white hover:bg-teal-700" label="Buy Now" />
                 </div>
@@ -197,7 +197,7 @@ export default async function MerchantBillingPage() {
                 <p className="text-sm text-gray-500 mt-1">100 Minutes Talk-Time</p>
                 <div className="mt-4 flex items-end justify-between">
                   <div>
-                    <span className="text-2xl font-black text-emerald-600">৳100</span>
+                    <span className="text-2xl font-bold text-emerald-600">৳100</span>
                   </div>
                   <RechargeButton type="SIP" amount={100} credits={100} className="bg-emerald-600 text-white hover:bg-emerald-700" label="Buy Now" />
                 </div>
@@ -247,13 +247,13 @@ export default async function MerchantBillingPage() {
                        </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-black text-green-600">৳{tx.amount.toLocaleString()}</p>
+                      <p className="text-sm font-bold text-green-600">৳{tx.amount.toLocaleString()}</p>
                       {tx.invoiceUrl ? (
                          <a 
                            href={tx.invoiceUrl} 
                            target="_blank" 
                            rel="noopener noreferrer"
-                           className="flex items-center justify-end gap-1 text-[9px] font-black text-indigo-600 uppercase hover:underline"
+                           className="flex items-center justify-end gap-1 text-[9px] font-bold text-indigo-600 uppercase hover:underline"
                          >
                            <Download className="w-2.5 h-2.5" /> Invoice
                          </a>

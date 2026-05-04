@@ -26,7 +26,7 @@ export default async function VatReportPage() {
           <div className="w-20 h-20 bg-rose-50 rounded-[32px] flex items-center justify-center text-rose-500">
              <FileText className="w-10 h-10" />
           </div>
-          <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">Access Denied</h2>
+          <h2 className="text-2xl font-bold text-slate-900 uppercase tracking-tight">Access Denied</h2>
           <p className="text-slate-500 font-bold uppercase text-[10px] tracking-widest text-center max-w-xs">
              Tax Intelligence data is restricted. Your node lacks the required analytics clearance.
           </p>
@@ -77,14 +77,14 @@ export default async function VatReportPage() {
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
          <div>
-            <h1 className="text-4xl font-black text-slate-900 tracking-tighter uppercase">VAT <span className="text-indigo-600">Reporting</span> Center</h1>
+            <h1 className="text-2xl font-bold text-slate-900 tracking-tight uppercase">VAT <span className="text-indigo-600">Reporting</span> Center</h1>
             <p className="text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mt-1">Official Tax Logs & Compliance Documentation</p>
          </div>
          <div className="flex items-center gap-4">
-            <button className="flex items-center gap-2 px-6 py-4 bg-white border border-slate-100 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all shadow-sm">
+            <button className="flex items-center gap-2 px-6 py-4 bg-white border border-slate-100 rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-slate-50 transition-all shadow-sm">
                <Calendar className="w-4 h-4 text-slate-400" /> Last 30 Days
             </button>
-            <button className="flex items-center gap-2 px-8 py-4 bg-white text-slate-900 text-slate-900 text-slate-900 border border-slate-100 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all shadow-xl">
+            <button className="flex items-center gap-2 px-8 py-4 bg-white text-slate-900 text-slate-900 text-slate-900 border border-slate-100 text-white rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-black transition-all shadow-xl">
                <Download className="w-4 h-4" /> Export NBR CSV
             </button>
          </div>
@@ -97,8 +97,8 @@ export default async function VatReportPage() {
               <div className={cn("w-12 h-12 rounded-2xl bg-slate-50 text-slate-900 text-slate-900 text-slate-900 flex items-center justify-center mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-all", stat.color)}>
                  <stat.icon className="w-6 h-6" />
               </div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-2">{stat.label}</p>
-              <h3 className="text-2xl font-black text-slate-900 leading-none tracking-tight">{stat.value}</h3>
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-2">{stat.label}</p>
+              <h3 className="text-lg font-bold text-slate-900 leading-none tracking-tight">{stat.value}</h3>
            </div>
          ))}
       </div>
@@ -106,13 +106,13 @@ export default async function VatReportPage() {
       {/* VAT Log Table */}
       <div className="bg-white border border-slate-100 rounded-[48px] overflow-hidden shadow-sm">
          <div className="p-8 border-b border-slate-50 flex items-center justify-between">
-            <h2 className="text-sm font-black uppercase tracking-widest flex items-center gap-2">
+            <h2 className="text-sm font-bold uppercase tracking-widest flex items-center gap-2">
                <Filter className="w-5 h-5 text-indigo-600" /> Transaction VAT Breakdown
             </h2>
          </div>
          <div className="overflow-x-auto">
             <table className="w-full text-left">
-               <thead className="bg-slate-50 text-[9px] font-black text-slate-400 uppercase tracking-widest">
+               <thead className="bg-slate-50 text-[9px] font-bold text-slate-400 uppercase tracking-widest">
                   <tr>
                      <th className="px-10 py-6">Order ID</th>
                      <th className="px-6 py-6 text-right">Net Amount</th>
@@ -127,17 +127,17 @@ export default async function VatReportPage() {
                     const vat = o.total - net;
                     return (
                       <tr key={o.id} className="hover:bg-slate-50/50 transition-all">
-                         <td className="px-10 py-6 font-black uppercase text-indigo-600 tracking-tight">#{o.id.slice(-6)}</td>
+                         <td className="px-10 py-6 font-bold uppercase text-indigo-600 tracking-tight">#{o.id.slice(-6)}</td>
                          <td className="px-6 py-6 text-right">৳{net.toFixed(2)}</td>
                          <td className="px-6 py-6 text-right text-emerald-600">+ ৳{vat.toFixed(2)}</td>
-                         <td className="px-6 py-6 text-right font-black">৳{o.total.toFixed(2)}</td>
+                         <td className="px-6 py-6 text-right font-bold">৳{o.total.toFixed(2)}</td>
                          <td className="px-10 py-6 text-right text-slate-400">{new Date(o.createdAt).toLocaleDateString('en-US')}</td>
                       </tr>
                     );
                   })}
                   {orders.length === 0 && (
                     <tr>
-                       <td colSpan={5} className="px-10 py-20 text-center text-slate-400 uppercase text-[10px] font-black">No VAT transactions found in this period</td>
+                       <td colSpan={5} className="px-10 py-20 text-center text-slate-400 uppercase text-[10px] font-bold">No VAT transactions found in this period</td>
                     </tr>
                   )}
                </tbody>

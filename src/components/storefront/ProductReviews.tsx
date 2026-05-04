@@ -42,7 +42,7 @@ export function ProductReviews({
          {/* 1. Summary Column */}
          <div className="space-y-10">
             <div>
-               <h3 className="text-4xl font-black tracking-tighter uppercase">Customer <span className="text-indigo-600">Reviews</span></h3>
+               <h3 className="text-lg font-semibold tracking-tighter uppercase">Customer <span className="text-indigo-600">Reviews</span></h3>
                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-2">Honest feedback from our community</p>
             </div>
 

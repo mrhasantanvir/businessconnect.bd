@@ -62,19 +62,19 @@ export default async function AnalyticsDashboardPage() {
       {/* Header - More Compact */}
       <div className="flex items-center justify-between shrink-0">
          <div className="flex items-center gap-4">
-            <h1 className="text-2xl font-black text-slate-900 tracking-tight uppercase leading-none">
+            <h1 className="text-2xl font-bold text-slate-900 tracking-tight uppercase leading-none">
                Advanced <span className="text-indigo-600">Analytics</span>
             </h1>
             <div className="hidden sm:flex items-center gap-2 px-2 py-0.5 bg-indigo-50 text-indigo-600 rounded-lg">
                <Activity className="w-3 h-3" />
-               <span className="text-[9px] font-black uppercase tracking-widest">Live</span>
+               <span className="text-[9px] font-bold uppercase tracking-widest">Live</span>
             </div>
          </div>
          <div className="flex items-center gap-2">
-            <button className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-100 rounded-xl text-[9px] font-black uppercase hover:bg-slate-50 transition-all shadow-sm">
+            <button className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-100 rounded-xl text-[9px] font-bold uppercase hover:bg-slate-50 transition-all shadow-sm">
                <Calendar className="w-3 h-3 text-slate-400" /> Period
             </button>
-            <button className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 text-white rounded-xl text-[9px] font-black uppercase hover:bg-indigo-700 transition-all shadow-md">
+            <button className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 text-white rounded-xl text-[9px] font-bold uppercase hover:bg-indigo-700 transition-all shadow-md">
                <Filter className="w-3 h-3" /> Filter
             </button>
          </div>
@@ -90,7 +90,7 @@ export default async function AnalyticsDashboardPage() {
               <div className="min-w-0">
                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-1">{stat.label}</p>
                  <div className="flex items-center gap-2">
-                    <h3 className="text-lg font-black text-slate-900 tracking-tight leading-none">{stat.value}</h3>
+                    <h3 className="text-lg font-bold text-slate-900 tracking-tight leading-none">{stat.value}</h3>
                     <span className={cn(
                       "text-[8px] font-bold px-1 py-0.5 rounded",
                       stat.positive ? "bg-emerald-50 text-emerald-600" : "bg-red-50 text-red-600"
@@ -108,18 +108,18 @@ export default async function AnalyticsDashboardPage() {
          {/* Main Chart Section */}
          <div className="lg:col-span-2 bg-white border border-slate-100 rounded-3xl p-6 shadow-sm flex flex-col min-h-0">
             <div className="flex items-center justify-between mb-4 shrink-0">
-               <h3 className="text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
+               <h3 className="text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
                   <BarChart3 className="w-4 h-4 text-indigo-600" /> Revenue Performance
                </h3>
                <div className="flex gap-2">
-                  {["1W", "1M", "1Y"].map(t => <button key={t} className="text-[9px] font-black px-2 py-1 hover:bg-slate-50 rounded-lg transition-all">{t}</button>)}
+                  {["1W", "1M", "1Y"].map(t => <button key={t} className="text-[9px] font-bold px-2 py-1 hover:bg-slate-50 rounded-lg transition-all">{t}</button>)}
                </div>
             </div>
             
             <div className="flex-1 bg-slate-50/50 rounded-2xl border border-dashed border-slate-200 flex items-center justify-center">
                <div className="text-center">
                   <Activity className="w-8 h-8 text-slate-200 mx-auto mb-2" />
-                  <p className="text-[9px] font-black uppercase text-slate-400 tracking-widest">Chart Visualizer</p>
+                  <p className="text-[9px] font-bold uppercase text-slate-400 tracking-widest">Chart Visualizer</p>
                </div>
             </div>
          </div>
@@ -128,7 +128,7 @@ export default async function AnalyticsDashboardPage() {
          <div className="flex flex-col gap-4 min-h-0 overflow-hidden">
             {/* Top Products - More Compact */}
             <div className="bg-white border border-slate-100 rounded-3xl p-5 shadow-sm flex-1 flex flex-col min-h-0 overflow-hidden">
-               <h3 className="text-[10px] font-black uppercase tracking-widest flex items-center gap-2 text-slate-900 mb-4 shrink-0">
+               <h3 className="text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 text-slate-900 mb-4 shrink-0">
                   <Package className="w-4 h-4 text-indigo-600" /> Top Sellers
                </h3>
                
@@ -140,7 +140,7 @@ export default async function AnalyticsDashboardPage() {
                           <p className="text-[8px] font-bold text-slate-400 uppercase">{p.quantity} Sold</p>
                        </div>
                        <div className="text-right shrink-0">
-                          <p className="text-[11px] font-black text-indigo-600">৳{p.sales.toLocaleString()}</p>
+                          <p className="text-[11px] font-bold text-indigo-600">৳{p.sales.toLocaleString()}</p>
                        </div>
                     </div>
                   ))}
@@ -151,11 +151,11 @@ export default async function AnalyticsDashboardPage() {
             <div className="grid grid-cols-2 gap-4 shrink-0">
                <div className="bg-white border border-slate-100 p-4 rounded-2xl shadow-sm">
                   <p className="text-[8px] font-bold text-slate-400 uppercase mb-1">Conversion</p>
-                  <div className="text-lg font-black text-slate-900 leading-none">3.4%</div>
+                  <div className="text-lg font-bold text-slate-900 leading-none">3.4%</div>
                </div>
                <div className="bg-indigo-600 p-4 rounded-2xl shadow-sm text-white">
                   <p className="text-[8px] font-bold opacity-70 uppercase mb-1">Returning</p>
-                  <div className="text-lg font-black leading-none">42%</div>
+                  <div className="text-lg font-bold leading-none">42%</div>
                </div>
             </div>
          </div>

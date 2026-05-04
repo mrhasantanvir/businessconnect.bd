@@ -39,7 +39,7 @@ export function WoocommerceSettingsForm({ initialConfig }: { initialConfig: any 
                <Globe className="w-6 h-6" />
             </div>
             <div>
-               <h3 className="text-lg font-black uppercase tracking-tight">WooCommerce Pipeline</h3>
+               <h3 className="text-lg font-semibold uppercase tracking-tight">WooCommerce Pipeline</h3>
                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none mt-1">Connect your external store</p>
             </div>
          </div>
@@ -93,7 +93,7 @@ export function WoocommerceSettingsForm({ initialConfig }: { initialConfig: any 
                    <ShieldCheck className="w-6 h-6" />
                 </div>
                 <div>
-                   <h3 className="text-lg font-black uppercase tracking-tight">Synchronization Key</h3>
+                   <h3 className="text-lg font-semibold uppercase tracking-tight">Synchronization Key</h3>
                    <p className="text-[10px] font-bold text-indigo-200 uppercase tracking-widest leading-none mt-1">Authentication for your WordPress site</p>
                 </div>
              </div>

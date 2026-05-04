@@ -48,7 +48,7 @@ export function CourierTimeline({ orderId }: { orderId: string }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h3 className="text-xs font-black uppercase text-gray-400 tracking-widest flex items-center gap-2">
+        <h3 className="text-xs font-semibold uppercase text-gray-400 tracking-widest flex items-center gap-2">
           <Truck className="w-4 h-4 text-indigo-500" /> Courier Live Pipeline
         </h3>
         <span className="px-3 py-1 bg-indigo-50  text-indigo-600  text-[10px] font-black uppercase rounded-full border border-indigo-100 ">

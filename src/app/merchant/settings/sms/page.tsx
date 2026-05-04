@@ -27,9 +27,9 @@ export default async function SmsSettingsPage() {
          <div className="space-y-4">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-emerald-50  rounded-full">
                <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-               <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Global Communication Suite</span>
+               <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">Global Communication Suite</span>
             </div>
-            <h1 className="text-5xl font-black tracking-tighter text-slate-900  uppercase leading-none">
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900  uppercase leading-none">
                SMS <span className="text-indigo-600">Gateways</span>
             </h1>
             <p className="text-slate-500  text-sm font-bold max-w-xl">
@@ -39,8 +39,8 @@ export default async function SmsSettingsPage() {
 
          <div className="flex items-center gap-6">
             <div className="text-right hidden md:block">
-               <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Platform Stability</div>
-               <div className="text-xs font-black text-slate-900  mt-1">99.9% UPTIME CLOUD</div>
+               <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">Platform Stability</div>
+               <div className="text-xs font-bold text-slate-900  mt-1">99.9% UPTIME CLOUD</div>
             </div>
             <div className="w-12 h-12 rounded-2xl bg-slate-900  flex items-center justify-center text-white  shadow-xl">
                <Zap className="w-6 h-6" />

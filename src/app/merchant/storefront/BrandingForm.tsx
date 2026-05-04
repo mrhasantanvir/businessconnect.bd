@@ -56,7 +56,7 @@ export function BrandingForm({ store }: { store: any }) {
                <Hash className="w-6 h-6" />
             </div>
             <div>
-               <h3 className="text-lg font-black uppercase tracking-tight">Core Business Identity</h3>
+               <h3 className="text-lg font-semibold uppercase tracking-tight">Core Business Identity</h3>
                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest leading-none mt-1">Official shop name and contact details</p>
             </div>
          </div>
@@ -110,7 +110,7 @@ export function BrandingForm({ store }: { store: any }) {
                <Globe className="w-6 h-6" />
             </div>
             <div>
-               <h3 className="text-lg font-black uppercase tracking-tight">Identity & Connectivity</h3>
+               <h3 className="text-lg font-semibold uppercase tracking-tight">Identity & Connectivity</h3>
                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest leading-none mt-1">Map your store to the digital world</p>
             </div>
          </div>
@@ -144,7 +144,7 @@ export function BrandingForm({ store }: { store: any }) {
                <Palette className="w-6 h-6" />
             </div>
             <div>
-               <h3 className="text-lg font-black uppercase tracking-tight">Brand Atmosphere</h3>
+               <h3 className="text-lg font-semibold uppercase tracking-tight">Brand Atmosphere</h3>
                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest leading-none mt-1">Colors and theme configurations</p>
             </div>
          </div>

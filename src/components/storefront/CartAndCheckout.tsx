@@ -103,7 +103,7 @@ export function CartAndCheckout({ storeId }: { storeId: string }) {
           <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckCircle2 className="w-10 h-10 text-green-500" />
           </div>
-          <h2 className="text-2xl font-black text-gray-900 mb-2">Order Confirmed!</h2>
+          <h2 className="text-2xl font-semibold text-gray-900 mb-2">Order Confirmed!</h2>
           <p className="text-gray-500 mb-6 font-medium">Your Order ID is <span className="text-indigo-600">#{orderSuccess.slice(-6).toUpperCase()}</span>. The merchant will call you shortly.</p>
           <button 
             onClick={() => { setOrderSuccess(null); setIsOpen(false); setIsCheckingOut(false); }}
@@ -136,7 +136,7 @@ export function CartAndCheckout({ storeId }: { storeId: string }) {
           
           <div className="relative w-full max-w-md h-full bg-white shadow-2xl flex flex-col animate-in slide-in-from-right duration-500">
             <div className="p-6 border-b flex items-center justify-between">
-               <h3 className="text-xl font-black text-gray-900">Your Shopping Bag</h3>
+               <h3 className="text-xl font-semibold text-gray-900">Your Shopping Bag</h3>
                <button onClick={() => setIsOpen(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
                   <X className="w-5 h-5 text-gray-400" />
                </button>

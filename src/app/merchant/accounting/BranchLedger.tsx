@@ -9,7 +9,7 @@ export function BranchLedger({ transactions }: { transactions: any[] }) {
     <div className="bg-white border border-[#E5E7EB] rounded-[40px] overflow-hidden shadow-sm">
       <div className="p-8 border-b border-gray-50 flex items-center justify-between bg-gray-50/30">
          <div>
-            <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight">Audit Trail</h3>
+            <h3 className="text-xl font-semibold text-slate-900 uppercase tracking-tight">Audit Trail</h3>
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Detailed history of all branch-level movements</p>
          </div>
          <div className="flex items-center gap-2">

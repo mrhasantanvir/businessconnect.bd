@@ -75,7 +75,7 @@ export function PlanManager({ plans }: { plans: any[] }) {
                 <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded bg-${plan.badgeColor}-100 text-${plan.badgeColor}-700`}>
                   {plan.name}
                 </span>
-                <h2 className="text-3xl font-black text-[#0F172A] mt-2">৳{plan.monthlyPrice}<span className="text-sm text-gray-400 font-medium">/mo</span></h2>
+                <h2 className="text-xl font-semibold text-[#0F172A] mt-2">৳{plan.monthlyPrice}<span className="text-sm text-gray-400 font-medium">/mo</span></h2>
               </div>
               <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                 <button onClick={() => handleEdit(plan)} className="p-2 hover:bg-gray-100 rounded-lg text-gray-500"><Edit2 className="w-4 h-4" /></button>
@@ -108,7 +108,7 @@ export function PlanManager({ plans }: { plans: any[] }) {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
            <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={reset}></div>
            <div className="bg-white rounded-[40px] w-full max-w-xl p-10 shadow-2xl relative animate-in zoom-in-95 duration-300">
-              <h3 className="text-2xl font-black text-[#0F172A] mb-8">
+              <h3 className="text-lg font-semibold text-[#0F172A] mb-8">
                 {editingPlan ? "Amend Plan" : "Forge New SaaS Tier"}
               </h3>
               

@@ -257,7 +257,7 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
         <div className="mb-8 bg-red-50 border border-red-100 rounded-[4px] p-5 shadow-sm animate-in shake duration-500">
           <div className="flex items-center gap-2 mb-3">
             <AlertCircle className="w-4 h-4 text-red-600" />
-            <h3 className="text-[11px] font-black text-red-600 uppercase tracking-widest leading-none">Correction Required</h3>
+            <h3 className="text-[11px] font-bold text-red-600 uppercase tracking-widest leading-none">Correction Required</h3>
           </div>
           <p className="text-[12px] font-medium text-red-800 mb-4 leading-relaxed">{profile.rejectionReason}</p>
           <div className="flex flex-wrap gap-2">
@@ -414,7 +414,7 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
               <button 
                 onClick={handleSubmit}
                 disabled={loading}
-                className="w-full bg-red-600 text-white py-4 rounded-[4px] font-black text-xs uppercase tracking-widest shadow-sm hover:bg-red-700 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                className="w-full bg-red-600 text-white py-4 rounded-[4px] font-bold text-xs uppercase tracking-widest shadow-sm hover:bg-red-700 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
               >
                 {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <>Submit Corrections <CheckCircle2 className="w-4 h-4" /></>}
               </button>
@@ -525,7 +525,7 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
 
              {/* Verification Guideline Box */}
              <div className="bg-amber-50 border border-amber-200 p-4 rounded-[4px] mb-2">
-               <p className="text-[11px] font-black text-amber-800 uppercase tracking-widest flex items-center gap-2">
+               <p className="text-[11px] font-bold text-amber-800 uppercase tracking-widest flex items-center gap-2">
                  <AlertCircle className="w-3.5 h-3.5" /> Verification Required
                </p>
                <p className="text-[10px] text-amber-700 mt-1.5 font-medium leading-relaxed">
@@ -828,7 +828,7 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
             {requiredDocsList.length === 0 ? (
                <div className="bg-indigo-50/50 border border-indigo-100 rounded-[4px] p-8 text-center">
                   <p className="text-sm font-bold text-indigo-900">No additional documents required.</p>
-                  <p className="text-[10px] text-indigo-400 mt-1 uppercase tracking-widest font-black">You can proceed to final submission</p>
+                  <p className="text-[10px] text-indigo-400 mt-1 uppercase tracking-widest font-bold">You can proceed to final submission</p>
                </div>
             ) : (
                <div className="space-y-4">
@@ -899,7 +899,7 @@ export function StaffOnboardingClient({ profile, storeName }: { profile: any, st
         )}
       </div>
 
-      <p className="mt-12 text-center text-[10px] font-black text-slate-300 uppercase tracking-[0.4em]">
+      <p className="mt-12 text-center text-[10px] font-bold text-slate-300 uppercase tracking-[0.4em]">
         Verified by BusinessConnect Security Systems
       </p>
     </div>

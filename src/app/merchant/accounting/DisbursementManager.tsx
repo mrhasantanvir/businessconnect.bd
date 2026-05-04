@@ -51,7 +51,7 @@ export function DisbursementManager({ accounts, branches }: { accounts: any[], b
                <Banknote className="w-7 h-7" />
             </div>
             <div>
-               <h3 className="text-2xl font-black uppercase tracking-tighter text-slate-900">Capital Outflow</h3>
+               <h3 className="text-lg font-semibold uppercase tracking-tighter text-slate-900">Capital Outflow</h3>
                <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mt-1">Process payroll, vendors & logistics</p>
             </div>
          </div>

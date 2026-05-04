@@ -18,7 +18,7 @@ export default async function OrdersManagementPage() {
           <div className="w-20 h-20 bg-rose-50 rounded-[32px] flex items-center justify-center text-rose-500">
              <Truck className="w-10 h-10" />
           </div>
-          <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">Access Denied</h2>
+          <h2 className="text-2xl font-bold text-slate-900 uppercase tracking-tight">Access Denied</h2>
           <p className="text-slate-500 font-bold uppercase text-[10px] tracking-widest text-center max-w-xs">
              Authorization failed. Your node does not have the required clearance to access Logistics.
           </p>
@@ -60,12 +60,12 @@ export default async function OrdersManagementPage() {
         <div>
           <div className="flex items-center gap-2 mb-1">
              <div className="w-2 h-6 bg-indigo-600 rounded-full"></div>
-             <h1 className="text-xl md:text-2xl font-black text-[#0F172A] uppercase tracking-tighter">Orders <span className="text-indigo-600">& Dispatch</span></h1>
+             <h1 className="text-xl md:text-2xl font-bold text-[#0F172A] uppercase tracking-tight">Orders <span className="text-indigo-600">& Dispatch</span></h1>
           </div>
-          <p className="text-gray-400 text-[10px] md:text-xs font-black uppercase tracking-widest">Automation & Fulfillment Hub</p>
+          <p className="text-gray-400 text-[10px] md:text-xs font-bold uppercase tracking-widest">Automation & Fulfillment Hub</p>
         </div>
         <div className="flex items-center gap-3">
-           <div className="bg-gray-50 text-gray-500 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border border-gray-100 flex items-center gap-2">
+           <div className="bg-gray-50 text-gray-500 px-3 py-1.5 rounded-full text-[9px] font-bold uppercase tracking-widest border border-gray-100 flex items-center gap-2">
               <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
               Network Sync: Active
            </div>

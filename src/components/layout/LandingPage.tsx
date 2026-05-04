@@ -86,7 +86,7 @@ export function LandingPageContent() {
             <span className="text-[10px] font-bold uppercase tracking-widest text-[#1E40AF]">Bangladesh's Most Powerful Business OS</span>
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-extrabold text-[#0F172A] leading-tight tracking-tight">
+          <h1 className="text-2xl md:text-2xl font-bold text-[#0F172A] leading-tight tracking-tight">
             Scale with total <br /> <span className="text-[#1E40AF] relative">Intelligence. <div className="absolute -bottom-2 left-0 w-full h-1 bg-green-400/30 rounded-full"></div></span>
           </h1>
           
@@ -112,7 +112,7 @@ export function LandingPageContent() {
       <section id="features" className="py-32 px-6 bg-emerald-50/10 relative border-y border-gray-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-24 space-y-4">
-            <h2 className="text-4xl font-bold text-[#0F172A]">Elite Features for Elite Brands</h2>
+            <h2 className="text-2xl font-bold text-[#0F172A]">Elite Features for Elite Brands</h2>
             <p className="text-lg text-gray-500 font-medium">Built to solve the unique chaos of high-scale commerce.</p>
           </div>
           
@@ -129,7 +129,7 @@ export function LandingPageContent() {
                 <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-8 shadow-sm group-hover:scale-110 transition-transform">
                   <feature.icon size={28} className="text-[#1E40AF]" />
                 </div>
-                <h3 className="text-xl font-extrabold mb-4 text-[#0F172A]">{feature.title}</h3>
+                <h3 className="text-xl font-bold mb-4 text-[#0F172A]">{feature.title}</h3>
                 <p className="text-gray-500 font-medium leading-relaxed">{feature.desc}</p>
               </div>
             ))}
@@ -141,7 +141,7 @@ export function LandingPageContent() {
       <section id="solutions" className="py-32 px-6 bg-slate-50/50 overflow-hidden">
          <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-24">
             <div className="flex-1 space-y-10">
-               <h2 className="text-4xl font-bold text-[#0F172A] leading-tight">A Unified Ecosystem for <br /> Digital Bangladesh.</h2>
+               <h2 className="text-2xl font-bold text-[#0F172A] leading-tight">A Unified Ecosystem for <br /> Digital Bangladesh.</h2>
                <p className="text-xl text-gray-500 leading-relaxed font-medium">
                   We've built every module from the ground up to ensure they work together seamlessly. No more messy integrations.
                </p>
@@ -201,11 +201,11 @@ export function LandingPageContent() {
          <div className="max-w-7xl mx-auto px-6">
             <p className="text-center text-sm font-bold text-gray-400 uppercase tracking-[0.3em] mb-16">Trusted by High-Scale Brands</p>
             <div className="flex flex-wrap justify-center items-center gap-16 lg:gap-24 opacity-40 grayscale hover:grayscale-0 transition-all duration-700">
-               <div className="text-3xl font-black">DARAZ</div>
-               <div className="text-3xl font-black">CHALDAL</div>
-               <div className="text-3xl font-black">PATHAO</div>
-               <div className="text-3xl font-black">SHOPUP</div>
-               <div className="text-3xl font-black">G&G</div>
+               <div className="text-2xl font-bold">DARAZ</div>
+               <div className="text-2xl font-bold">CHALDAL</div>
+               <div className="text-2xl font-bold">PATHAO</div>
+               <div className="text-2xl font-bold">SHOPUP</div>
+               <div className="text-2xl font-bold">G&G</div>
             </div>
          </div>
       </section>
@@ -214,7 +214,7 @@ export function LandingPageContent() {
       <section id="pricing" className="py-32 bg-blue-50/10">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-24">
-             <h2 className="text-4xl font-bold text-[#0F172A]">Plans Built for Success</h2>
+             <h2 className="text-2xl font-bold text-[#0F172A]">Plans Built for Success</h2>
           </div>
           
           <div className="grid md:grid-cols-3 gap-10 max-w-5xl mx-auto">
@@ -224,10 +224,10 @@ export function LandingPageContent() {
               { name: "Enterprise", price: "Custom", desc: "For large organizations" }
             ].map((plan, i) => (
               <div key={i} className={`p-12 bg-white border rounded-[50px] flex flex-col transition-all ${plan.popular ? 'border-[#1E40AF] shadow-2xl ring-8 ring-blue-500/5' : 'border-gray-100 hover:shadow-xl'}`}>
-                {plan.popular && <div className="bg-[#1E40AF] text-white text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full self-start mb-6">Most Popular</div>}
-                <h3 className="text-xl font-extrabold mb-2 text-[#0F172A]">{plan.name}</h3>
+                {plan.popular && <div className="bg-[#1E40AF] text-white text-[10px] font-bold uppercase tracking-widest px-4 py-1.5 rounded-full self-start mb-6">Most Popular</div>}
+                <h3 className="text-xl font-bold mb-2 text-[#0F172A]">{plan.name}</h3>
                 <p className="text-sm text-gray-400 font-medium mb-8">{plan.desc}</p>
-                <div className="text-5xl font-extrabold mb-10 text-[#0F172A]">
+                <div className="text-2xl font-bold mb-10 text-[#0F172A]">
                   {plan.price !== "Custom" && "৳"}{plan.price}
                   {plan.price !== "Custom" && <span className="text-sm text-gray-400 font-normal">/mo</span>}
                 </div>
@@ -259,16 +259,16 @@ export function LandingPageContent() {
          <div className="max-w-7xl mx-auto relative z-10">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-20">
                <div className="space-y-4 max-w-2xl">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-[#1E40AF] rounded-full text-[10px] font-black uppercase tracking-widest">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-[#1E40AF] rounded-full text-[10px] font-bold uppercase tracking-widest">
                      <Star size={12} className="fill-current" /> Wall of Love
                   </div>
-                  <h2 className="text-4xl md:text-5xl font-extrabold text-[#0F172A] leading-tight tracking-tight">
+                  <h2 className="text-2xl md:text-2xl font-bold text-[#0F172A] leading-tight tracking-tight">
                     Trusted by 2,000+ <br /> Scaling Merchants in <span className="text-[#1E40AF]">Bangladesh.</span>
                   </h2>
                </div>
                <div className="flex gap-4">
                   <div className="bg-slate-50 p-6 rounded-3xl border border-slate-100">
-                     <div className="text-3xl font-black text-[#1E40AF]">4.9/5</div>
+                     <div className="text-2xl font-bold text-[#1E40AF]">4.9/5</div>
                      <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Average Merchant Rating</div>
                   </div>
                </div>
@@ -326,9 +326,9 @@ export function LandingPageContent() {
       <section className="py-24 px-6">
          <div className="max-w-5xl mx-auto bg-white text-slate-900 text-slate-900 text-slate-900 border border-slate-100 rounded-[60px] p-16 text-center text-white relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 blur-[100px] rounded-full"></div>
-            <h2 className="text-4xl md:text-6xl font-bold mb-8">Ready to Scale Your <br /> Business in Bangladesh?</h2>
+            <h2 className="text-2xl md:text-2xl font-bold mb-8">Ready to Scale Your <br /> Business in Bangladesh?</h2>
             <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">Join thousands of successful merchants who have moved to BusinessConnect.</p>
-            <Link href="/register" className="relative z-20 bg-[#BEF264] text-[#0F172A] px-12 py-6 rounded-3xl font-extrabold text-xl hover:scale-105 transition-all inline-block shadow-2xl shadow-lime-400/10">
+            <Link href="/register" className="relative z-20 bg-[#BEF264] text-[#0F172A] px-12 py-6 rounded-3xl font-bold text-xl hover:scale-105 transition-all inline-block shadow-2xl shadow-lime-400/10">
                Initialize Your Free Trial
             </Link>
          </div>
@@ -347,7 +347,7 @@ export function LandingPageContent() {
             </p>
           </div>
           <div>
-            <h4 className="text-xs font-black uppercase tracking-[0.3em] text-[#0F172A] mb-8">Product</h4>
+            <h4 className="text-xs font-bold uppercase tracking-[0.3em] text-[#0F172A] mb-8">Product</h4>
             <ul className="space-y-5 text-sm font-bold text-gray-400">
               <li>CRM & Sales</li>
               <li>Inventory Hub</li>
@@ -356,7 +356,7 @@ export function LandingPageContent() {
             </ul>
           </div>
           <div>
-            <h4 className="text-xs font-black uppercase tracking-[0.3em] text-[#0F172A] mb-8">Support</h4>
+            <h4 className="text-xs font-bold uppercase tracking-[0.3em] text-[#0F172A] mb-8">Support</h4>
             <ul className="space-y-5 text-sm font-bold text-gray-400">
               <li>Documentation</li>
               <li>API Status</li>
@@ -365,7 +365,7 @@ export function LandingPageContent() {
             </ul>
           </div>
           <div>
-            <h4 className="text-xs font-black uppercase tracking-[0.3em] text-[#0F172A] mb-8">Company</h4>
+            <h4 className="text-xs font-bold uppercase tracking-[0.3em] text-[#0F172A] mb-8">Company</h4>
             <ul className="space-y-5 text-sm font-bold text-gray-400">
               <li>About Vision</li>
               <li>Our Story</li>

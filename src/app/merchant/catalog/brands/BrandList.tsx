@@ -21,7 +21,7 @@ export function BrandList({ brands }: { brands: any[] }) {
                 </div>
                 <div>
                    <div className="flex items-center gap-2">
-                      <h3 className="text-lg font-black text-[#0F172A]">{brand.name}</h3>
+                      <h3 className="text-lg font-semibold text-[#0F172A]">{brand.name}</h3>
                       {brand.isFeatured && (
                         <BadgeCheck className="w-4 h-4 text-blue-500 fill-blue-50" />
                       )}

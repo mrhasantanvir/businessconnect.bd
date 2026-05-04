@@ -106,7 +106,7 @@ export function WebChatWidget({ user }: { user?: any }) {
                  <Bot className="w-8 h-8" />
               </div>
               <div>
-                 <h3 className="text-lg font-black tracking-tight uppercase">Live Support</h3>
+                 <h3 className="text-lg font-semibold tracking-tight uppercase">Live Support</h3>
                  <div className="flex items-center gap-2 mt-1">
                     <span className="w-2 h-2 bg-[#BEF264] rounded-full animate-pulse" />
                     <p className="text-[10px] text-gray-400 font-black uppercase tracking-widest">Online • Powered by BusinessOS</p>

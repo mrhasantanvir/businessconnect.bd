@@ -66,7 +66,7 @@ export default function SystemUpdateWidget() {
              {status?.isUpdateAvailable ? <Zap className="w-7 h-7" /> : <ShieldCheck className="w-7 h-7" />}
           </div>
           <div>
-            <h2 className="text-xl font-black text-slate-900 uppercase tracking-tight">System <span className="text-indigo-600">Pulse</span></h2>
+            <h2 className="text-xl font-semibold text-slate-900 uppercase tracking-tight">System <span className="text-indigo-600">Pulse</span></h2>
             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Core Engine Orchestration</p>
           </div>
         </div>
@@ -131,7 +131,7 @@ export default function SystemUpdateWidget() {
               <div className="flex items-center justify-between mb-6">
                  <div className="flex items-center gap-3 text-white">
                     <History className="w-5 h-5 text-indigo-400" />
-                    <h3 className="text-sm font-black uppercase tracking-widest">Deployment Logs</h3>
+                    <h3 className="text-sm font-semibold uppercase tracking-widest">Deployment Logs</h3>
                  </div>
                  <button onClick={() => setShowLogs(false)} className="text-slate-500 hover:text-white transition-colors">
                     <Activity className="w-5 h-5" />

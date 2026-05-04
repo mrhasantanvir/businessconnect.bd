@@ -56,7 +56,7 @@ export default async function SuperAdminDashboard() {
     <div className="w-full max-w-7xl mx-auto space-y-8 animate-in fade-in duration-500 pb-12">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-[#0F172A] tracking-tight">System Global Pulse</h1>
+          <h1 className="text-2xl font-bold text-[#0F172A] tracking-tight">System Global Pulse</h1>
           <p className="text-[#64748B] text-sm font-medium mt-1">Platform-wide overview for {session?.name}.</p>
         </div>
         <div className="flex items-center gap-3">
@@ -75,11 +75,11 @@ export default async function SuperAdminDashboard() {
                    <Store className="w-8 h-8" />
                 </div>
                 <div>
-                   <div className="text-2xl font-black">{pendingOnboardingCount} New Requests</div>
+                   <div className="text-2xl font-bold">{pendingOnboardingCount} New Requests</div>
                    <div className="text-[10px] font-bold uppercase tracking-widest opacity-80">Pending Merchant Activations</div>
                 </div>
               </div>
-              <a href="/admin/merchants" className="bg-white text-[#1E40AF] px-6 py-2.5 rounded-full text-xs font-black hover:bg-[#BEF264] hover:text-black transition-all">
+              <a href="/admin/merchants" className="bg-white text-[#1E40AF] px-6 py-2.5 rounded-full text-xs font-bold hover:bg-[#BEF264] hover:text-black transition-all">
                 Review Now
               </a>
             </div>
@@ -92,11 +92,11 @@ export default async function SuperAdminDashboard() {
                    <ShieldAlert className="w-8 h-8" />
                 </div>
                 <div>
-                   <div className="text-2xl font-black">{pendingDocsCount} Doc Re-uploads</div>
+                   <div className="text-2xl font-bold">{pendingDocsCount} Doc Re-uploads</div>
                    <div className="text-[10px] font-bold uppercase tracking-widest opacity-80">Verify corrected documents</div>
                 </div>
               </div>
-              <a href="/admin/merchants" className="bg-white text-[#DC2626] px-6 py-2.5 rounded-full text-xs font-black hover:bg-black hover:text-white transition-all">
+              <a href="/admin/merchants" className="bg-white text-[#DC2626] px-6 py-2.5 rounded-full text-xs font-bold hover:bg-black hover:text-white transition-all">
                 Verify Now
               </a>
             </div>
@@ -115,7 +115,7 @@ export default async function SuperAdminDashboard() {
                 <span className="text-[10px] font-bold text-[#16A34A] bg-[#F0FDF4] px-2 py-0.5 rounded-full">{activeSubscriptions} Active</span>
              </div>
           </div>
-          <div className="text-3xl font-black text-[#0F172A]">{merchantCount || 0}</div>
+          <div className="text-2xl font-bold text-[#0F172A]">{merchantCount || 0}</div>
           <div className="text-xs font-bold text-[#64748B] uppercase tracking-wider mt-1">Total Merchants</div>
         </div>
 
@@ -125,7 +125,7 @@ export default async function SuperAdminDashboard() {
                 <Users className="w-6 h-6" />
              </div>
           </div>
-          <div className="text-3xl font-black text-[#0F172A]">{staffCount || 0}</div>
+          <div className="text-2xl font-bold text-[#0F172A]">{staffCount || 0}</div>
           <div className="text-xs font-bold text-[#64748B] uppercase tracking-wider mt-1">Platform Staff</div>
         </div>
 
@@ -136,7 +136,7 @@ export default async function SuperAdminDashboard() {
              </div>
              <span className="text-[10px] font-bold text-[#16A34A] bg-[#F0FDF4] px-2 py-0.5 rounded-full">+৳ {totalGmv.toLocaleString()}</span>
           </div>
-          <div className="text-3xl font-black text-[#0F172A]">৳ {(totalGmv / 1000).toFixed(1)}k</div>
+          <div className="text-2xl font-bold text-[#0F172A]">৳ {(totalGmv / 1000).toFixed(1)}k</div>
           <div className="text-xs font-bold text-[#64748B] uppercase tracking-wider mt-1">Total GMV (Lifecycle)</div>
         </div>
 
@@ -147,7 +147,7 @@ export default async function SuperAdminDashboard() {
              </div>
              <span className="text-[10px] font-bold text-[#EA580C] bg-[#FFF7ED] px-2 py-0.5 rounded-full">LIVE</span>
           </div>
-          <div className="text-3xl font-black text-[#0F172A]">{totalOrders}</div>
+          <div className="text-2xl font-bold text-[#0F172A]">{totalOrders}</div>
           <div className="text-xs font-bold text-[#64748B] uppercase tracking-wider mt-1">Platform Interaction</div>
         </div>
       </section>
@@ -182,7 +182,7 @@ export default async function SuperAdminDashboard() {
                            </td>
                            <td className="px-6 py-4">
                               <div className="flex flex-col gap-1">
-                                <span className="text-[10px] font-black text-[#1E40AF] uppercase">
+                                <span className="text-[10px] font-bold text-[#1E40AF] uppercase">
                                   {user.merchantStore?.subscriptionPlan?.name || user.merchantStore?.plan || "N/A"}
                                 </span>
                                 <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded w-fit ${
@@ -230,7 +230,7 @@ export default async function SuperAdminDashboard() {
                   <div>
                     <div className="flex justify-between items-end mb-2">
                        <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">SaaS Subscriptions</span>
-                       <span className="font-black text-gray-900">৳{saasRevenue.toLocaleString()}</span>
+                       <span className="font-bold text-gray-900">৳{saasRevenue.toLocaleString()}</span>
                     </div>
                     <div className="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
                        <div className="bg-indigo-600 h-full rounded-full" style={{ width: `${(saasRevenue / (saasRevenue + creditsRevenue + 1)) * 100}%` }}></div>
@@ -239,7 +239,7 @@ export default async function SuperAdminDashboard() {
                   <div>
                     <div className="flex justify-between items-end mb-2">
                        <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Resource Credits</span>
-                       <span className="font-black text-gray-900">৳{creditsRevenue.toLocaleString()}</span>
+                       <span className="font-bold text-gray-900">৳{creditsRevenue.toLocaleString()}</span>
                     </div>
                     <div className="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
                        <div className="bg-green-500 h-full rounded-full" style={{ width: `${(creditsRevenue / (saasRevenue + creditsRevenue + 1)) * 100}%` }}></div>
@@ -249,7 +249,7 @@ export default async function SuperAdminDashboard() {
                <div className="mt-8 pt-6 border-t border-gray-100 flex justify-between items-center">
                   <div className="flex flex-col">
                      <span className="text-xs font-bold text-gray-400">Total Pipeline</span>
-                     <span className="text-xl font-black text-indigo-600">৳{(saasRevenue + creditsRevenue).toLocaleString()}</span>
+                     <span className="text-xl font-bold text-indigo-600">৳{(saasRevenue + creditsRevenue).toLocaleString()}</span>
                   </div>
                   <a href="/admin/billing/revenue" className="p-3 bg-slate-900 text-white rounded-2xl hover:bg-black transition-all shadow-lg shadow-slate-100">
                      <ArrowUpRight className="w-5 h-5" />

@@ -151,7 +151,7 @@ export function OrderOverview({
             <div className={`w-7 h-7 md:w-8 md:h-8 rounded-lg flex items-center justify-center ${card.bgWhite} ${card.colorClass} group-hover:scale-105 transition-transform duration-300`}>
                {React.cloneElement(card.icon as React.ReactElement, { className: 'w-3.5 h-3.5 md:w-4 md:h-4' })}
             </div>
-            <h3 className="text-[8px] md:text-[9px] font-black text-gray-400 uppercase tracking-widest leading-tight">{card.label}</h3>
+            <h3 className="text-[8px] md:text-[9px] font-semibold text-gray-400 uppercase tracking-widest leading-tight">{card.label}</h3>
           </div>
 
           <div className="space-y-1 relative z-10">

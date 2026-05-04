@@ -68,7 +68,7 @@ export function TwoFactorSetup({ isEnabledInitial }: { isEnabledInitial: boolean
             {isEnabled ? <ShieldCheck className="w-6 h-6" /> : <ShieldAlert className="w-6 h-6" />}
           </div>
           <div>
-            <h3 className="text-lg font-black text-[#0F172A]">Two-Factor Authentication</h3>
+            <h3 className="text-lg font-semibold text-[#0F172A]">Two-Factor Authentication</h3>
             <p className="text-xs font-bold text-gray-400 uppercase tracking-tight">
               {isEnabled ? 'Your account is protected' : 'Highly recommended for security'}
             </p>
@@ -103,7 +103,7 @@ export function TwoFactorSetup({ isEnabledInitial }: { isEnabledInitial: boolean
                        <QrCode className="w-6 h-6" />
                     </div>
                     <div>
-                       <h3 className="text-xl font-black text-[#0F172A] tracking-tight">Security Token Setup</h3>
+                       <h3 className="text-xl font-semibold text-[#0F172A] tracking-tight">Security Token Setup</h3>
                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Follow steps to secure your account</p>
                     </div>
                  </div>

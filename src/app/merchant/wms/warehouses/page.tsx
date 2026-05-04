@@ -23,7 +23,7 @@ export default async function WarehousesPage() {
            <div className="flex items-center gap-2 text-[#1E40AF] font-bold text-xs uppercase tracking-widest">
             <Globe className="w-3.5 h-3.5" /> Logistics Control
           </div>
-          <h1 className="text-4xl font-extrabold text-[#0F172A] tracking-tight">Physical Hubs</h1>
+          <h1 className="text-2xl font-bold text-[#0F172A] tracking-tight">Physical Hubs</h1>
           <p className="text-[#64748B] text-sm max-w-xl leading-relaxed">
             Manage your globally distributed storage locations. Each hub can be assigned specific routing rules for automated fulfillment.
           </p>
@@ -41,7 +41,7 @@ export default async function WarehousesPage() {
            {warehouses.map((wh) => (
              <div key={wh.id} className="bg-white border border-[#E5E7EB] p-6 rounded-[24px] shadow-sm hover:shadow-md transition-all group overflow-hidden relative">
                 {wh.isDefault && (
-                  <div className="absolute top-0 right-0 bg-[#BEF264] text-[#0F172A] px-4 py-1 text-[10px] font-black uppercase tracking-widest rounded-bl-xl">
+                  <div className="absolute top-0 right-0 bg-[#BEF264] text-[#0F172A] px-4 py-1 text-[10px] font-bold uppercase tracking-widest rounded-bl-xl">
                     Primary Fulfillment Hub
                   </div>
                 )}
@@ -62,11 +62,11 @@ export default async function WarehousesPage() {
 
                 <div className="mt-8 flex items-center gap-8 border-t border-[#F1F5F9] pt-6">
                    <div>
-                      <div className="text-[10px] font-black text-[#A1A1AA] uppercase tracking-widest mb-1">Stocked SKUs</div>
-                      <div className="text-2xl font-black text-[#0F172A]">{wh._count.stocks}</div>
+                      <div className="text-[10px] font-bold text-[#A1A1AA] uppercase tracking-widest mb-1">Stocked SKUs</div>
+                      <div className="text-2xl font-bold text-[#0F172A]">{wh._count.stocks}</div>
                    </div>
                    <div>
-                      <div className="text-[10px] font-black text-[#A1A1AA] uppercase tracking-widest mb-1">Status</div>
+                      <div className="text-[10px] font-bold text-[#A1A1AA] uppercase tracking-widest mb-1">Status</div>
                       <div className="flex items-center gap-1.5 text-green-600 font-bold text-sm">
                          <CheckCircle2 className="w-4 h-4" /> Operational
                       </div>

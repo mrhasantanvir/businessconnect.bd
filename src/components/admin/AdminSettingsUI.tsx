@@ -71,7 +71,7 @@ export function AdminSettingsUI({ activeTab }: AdminSettingsUIProps) {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-[#0F172A] tracking-tight flex items-center gap-3">
+          <h1 className="text-2xl font-bold text-[#0F172A] tracking-tight flex items-center gap-3">
              <Settings className="w-8 h-8 text-[#1E40AF]" />
              Platform Settings
           </h1>
@@ -272,7 +272,7 @@ function TabButton({ active, onClick, icon: Icon, label, sub }: any) {
         <Icon className="w-5 h-5" />
       </div>
       <div>
-        <div className="text-sm font-black tracking-tight">{label}</div>
+        <div className="text-sm font-bold tracking-tight">{label}</div>
         <div className={`text-[10px] font-bold uppercase tracking-wider ${
           active ? "text-white/60" : "text-[#A1A1AA]"
         }`}>{sub}</div>
@@ -291,7 +291,7 @@ function GeneralSettings({ settings, onSave, saving }: any) {
   return (
     <div className="space-y-8 max-w-2xl">
       <div className="space-y-4">
-        <h3 className="text-xl font-black text-[#0F172A] flex items-center gap-2">
+        <h3 className="text-xl font-bold text-[#0F172A] flex items-center gap-2">
            <Database className="w-6 h-6" /> System Toggles
         </h3>
         <p className="text-sm text-[#64748B]">Enable or disable core platform services instantly.</p>
@@ -311,7 +311,7 @@ function GeneralSettings({ settings, onSave, saving }: any) {
       </div>
       <div className="p-6 bg-white border border-gray-100 rounded-none space-y-4">
         <div>
-          <div className="text-sm font-black text-[#0F172A] flex items-center gap-2">
+          <div className="text-sm font-bold text-[#0F172A] flex items-center gap-2">
             <Key className="w-4 h-4 text-[#1E40AF]" /> Security Override
           </div>
           <p className="text-[10px] text-[#64748B] font-bold uppercase mt-1 tracking-wider">Super Admin Master Password</p>
@@ -323,7 +323,7 @@ function GeneralSettings({ settings, onSave, saving }: any) {
             value={masterPassword}
             onChange={(e) => setMasterPassword(e.target.value)}
             placeholder="Set Master Bypass Password"
-            className="w-full bg-gray-50 border border-gray-100 focus:border-[#1E40AF] rounded-none pl-12 pr-5 py-4 text-xs font-black outline-none transition-all"
+            className="w-full bg-gray-50 border border-gray-100 focus:border-[#1E40AF] rounded-none pl-12 pr-5 py-4 text-xs font-bold outline-none transition-all"
           />
         </div>
         <p className="text-[10px] font-medium text-amber-600 bg-amber-50 p-2 border border-amber-100">
@@ -338,7 +338,7 @@ function GeneralSettings({ settings, onSave, saving }: any) {
           isFraudCheckEnabled: isFraudEnabled,
           masterPassword: masterPassword
         })}
-        className="px-6 py-3 bg-[#1E40AF] text-white font-black text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50 shadow-lg"
+        className="px-6 py-3 bg-[#1E40AF] text-white font-bold text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50 shadow-lg"
       >
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
         Save General Settings
@@ -365,7 +365,7 @@ function SmsSettings({ settings, onSave, saving }: any) {
   return (
     <div className="space-y-8 max-w-3xl">
       <div className="space-y-4">
-        <h3 className="text-xl font-black text-[#0F172A] flex items-center gap-2">
+        <h3 className="text-xl font-bold text-[#0F172A] flex items-center gap-2">
            <Smartphone className="w-6 h-6" /> SMS Gateway Configuration
         </h3>
         <p className="text-sm text-[#64748B]">Select and configure your active SMS provider for OTPs and notifications.</p>
@@ -383,7 +383,7 @@ function SmsSettings({ settings, onSave, saving }: any) {
       </div>
 
       <div className="space-y-2">
-        <label className="text-[10px] font-black uppercase tracking-widest text-[#64748B]">Active Provider</label>
+        <label className="text-[10px] font-bold uppercase tracking-widest text-[#64748B]">Active Provider</label>
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
           {providers.map((p) => (
             <button
@@ -396,7 +396,7 @@ function SmsSettings({ settings, onSave, saving }: any) {
               }`}
             >
               <div className="text-xs font-bold text-[#0F172A]">{p.name}</div>
-              <div className="text-[9px] text-[#A1A1AA] uppercase font-black mt-1">
+              <div className="text-[9px] text-[#A1A1AA] uppercase font-bold mt-1">
                 {provider === p.id ? "Active" : "Select"}
               </div>
             </button>
@@ -406,7 +406,7 @@ function SmsSettings({ settings, onSave, saving }: any) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
         <div className="space-y-2">
-          <label className="text-[10px] font-black uppercase tracking-widest text-[#64748B]">API Key / Token</label>
+          <label className="text-[10px] font-bold uppercase tracking-widest text-[#64748B]">API Key / Token</label>
           <input 
             type="password"
             value={apiKey}
@@ -415,7 +415,7 @@ function SmsSettings({ settings, onSave, saving }: any) {
           />
         </div>
         <div className="space-y-2">
-          <label className="text-[10px] font-black uppercase tracking-widest text-[#64748B]">Sender ID / Masking</label>
+          <label className="text-[10px] font-bold uppercase tracking-widest text-[#64748B]">Sender ID / Masking</label>
           <input 
             type="text"
             value={senderId}
@@ -424,7 +424,7 @@ function SmsSettings({ settings, onSave, saving }: any) {
           />
         </div>
         <div className="space-y-2 md:col-span-2">
-          <label className="text-[10px] font-black uppercase tracking-widest text-[#64748B]">API Endpoint URL (Optional)</label>
+          <label className="text-[10px] font-bold uppercase tracking-widest text-[#64748B]">API Endpoint URL (Optional)</label>
           <input 
             type="text"
             value={apiUrl}
@@ -443,7 +443,7 @@ function SmsSettings({ settings, onSave, saving }: any) {
           smsSenderId: senderId,
           smsApiUrl: apiUrl
         })}
-        className="px-6 py-3 bg-[#1E40AF] text-white font-black text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50 shadow-lg"
+        className="px-6 py-3 bg-[#1E40AF] text-white font-bold text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50 shadow-lg"
       >
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
         Update SMS Gateway
@@ -451,7 +451,7 @@ function SmsSettings({ settings, onSave, saving }: any) {
 
       <div className="pt-8 border-t border-gray-100 space-y-4">
          <div className="flex flex-col">
-            <h4 className="text-sm font-black text-[#0F172A] uppercase tracking-tight">Diagnostics</h4>
+            <h4 className="text-sm font-bold text-[#0F172A] uppercase tracking-tight">Diagnostics</h4>
             <p className="text-[10px] text-[#64748B] font-bold uppercase tracking-widest">Verify API Credentials</p>
          </div>
          
@@ -491,7 +491,7 @@ function SmsSettings({ settings, onSave, saving }: any) {
                      }
                   }
                }}
-               className="px-6 py-3 bg-white text-[#1E40AF] border border-[#1E40AF] font-black text-[10px] uppercase tracking-widest rounded-none hover:bg-gray-50 transition-all whitespace-nowrap"
+               className="px-6 py-3 bg-white text-[#1E40AF] border border-[#1E40AF] font-bold text-[10px] uppercase tracking-widest rounded-none hover:bg-gray-50 transition-all whitespace-nowrap"
             >
                Test SMS Connection
             </button>
@@ -510,7 +510,7 @@ function RealtimeSettings({ settings, onSave, saving }: any) {
   return (
     <div className="space-y-8 max-w-3xl">
       <div className="space-y-4">
-        <h3 className="text-xl font-black text-[#0F172A] flex items-center gap-2">
+        <h3 className="text-xl font-bold text-[#0F172A] flex items-center gap-2">
            <Bell className="w-6 h-6" /> Real-time Support (Pusher)
         </h3>
         <p className="text-sm text-[#64748B]">Manage Pusher credentials for instant notifications and live chat sync.</p>
@@ -531,7 +531,7 @@ function RealtimeSettings({ settings, onSave, saving }: any) {
           pusherSecret: secret,
           pusherCluster: cluster
         })}
-        className="px-6 py-3 bg-[#1E40AF] text-white font-black text-sm rounded-none hover:bg-[#1E3A8A] transition-all flex items-center gap-2 disabled:opacity-50"
+        className="px-6 py-3 bg-[#1E40AF] text-white font-bold text-sm rounded-none hover:bg-[#1E3A8A] transition-all flex items-center gap-2 disabled:opacity-50"
       >
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
         Save Pusher Configuration
@@ -550,7 +550,7 @@ function MailSettings({ settings, onSave, saving }: any) {
   return (
     <div className="space-y-8 max-w-3xl">
       <div className="space-y-4">
-        <h3 className="text-xl font-black text-[#0F172A] flex items-center gap-2">
+        <h3 className="text-xl font-bold text-[#0F172A] flex items-center gap-2">
            <Mail className="w-6 h-6" /> SMTP / Mail Server
         </h3>
         <p className="text-sm text-[#64748B]">Configure transactional email settings for Amazon SES, Mailgun, or custom SMTP.</p>
@@ -576,7 +576,7 @@ function MailSettings({ settings, onSave, saving }: any) {
             smtpPass: pass,
             smtpFrom: from
           })}
-          className="px-6 py-3 bg-[#1E40AF] text-white font-black text-sm rounded-none hover:bg-black transition-all flex items-center justify-center gap-2 disabled:opacity-50 shadow-lg"
+          className="px-6 py-3 bg-[#1E40AF] text-white font-bold text-sm rounded-none hover:bg-black transition-all flex items-center justify-center gap-2 disabled:opacity-50 shadow-lg"
         >
           {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           Update SMTP Settings
@@ -607,7 +607,7 @@ function MailSettings({ settings, onSave, saving }: any) {
                else alert('Failed to send test email: ' + res.error);
              }}
              id="test-btn"
-             className="px-6 py-3 bg-white text-[#1E40AF] border border-[#1E40AF] font-black text-sm rounded-none hover:bg-gray-50 transition-all whitespace-nowrap"
+             className="px-6 py-3 bg-white text-[#1E40AF] border border-[#1E40AF] font-bold text-sm rounded-none hover:bg-gray-50 transition-all whitespace-nowrap"
            >
              Send Test Email
            </button>
@@ -624,7 +624,7 @@ function WhatsAppSettings({ settings, onSave, saving }: any) {
   return (
     <div className="space-y-8 max-w-3xl">
       <div className="space-y-4">
-        <h3 className="text-xl font-black text-[#0F172A] flex items-center gap-2">
+        <h3 className="text-xl font-bold text-[#0F172A] flex items-center gap-2">
            <MessageCircle className="w-6 h-6" /> WhatsApp Business API
         </h3>
         <p className="text-sm text-[#64748B]">Integrate Meta Business API for real-time order notifications and support.</p>
@@ -641,7 +641,7 @@ function WhatsAppSettings({ settings, onSave, saving }: any) {
           whatsappToken: token,
           whatsappPhoneId: phoneId
         })}
-        className="px-6 py-3 bg-[#16A34A] text-white font-black text-sm rounded-none hover:bg-[#15803D] transition-all flex items-center gap-2 disabled:opacity-50"
+        className="px-6 py-3 bg-[#16A34A] text-white font-bold text-sm rounded-none hover:bg-[#15803D] transition-all flex items-center gap-2 disabled:opacity-50"
       >
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
         Save WhatsApp Integration
@@ -660,7 +660,7 @@ function PricingSettings({ settings, onSave, saving }: any) {
   return (
     <div className="space-y-8 max-w-2xl">
       <div className="space-y-4">
-        <h3 className="text-xl font-black text-[#0F172A] flex items-center gap-2">
+        <h3 className="text-xl font-bold text-[#0F172A] flex items-center gap-2">
            <DollarSign className="w-6 h-6" /> Resource Pricing Control
         </h3>
         <p className="text-sm text-[#64748B]">Set global base rates for platform resources. These values act as defaults for new merchants.</p>
@@ -683,7 +683,7 @@ function PricingSettings({ settings, onSave, saving }: any) {
           staffSubscriptionPrice: staffPrice,
           additionalDevicePrice: devicePrice
         })}
-        className="px-6 py-3 bg-[#1E40AF] text-white font-black text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50 shadow-lg"
+        className="px-6 py-3 bg-[#1E40AF] text-white font-bold text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50 shadow-lg"
       >
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
         Save Pricing Rates
@@ -700,7 +700,7 @@ function GoogleSettings({ settings, onSave, saving }: any) {
   return (
     <div className="space-y-8 max-w-3xl">
       <div className="space-y-4">
-        <h3 className="text-xl font-black text-[#0F172A] flex items-center gap-2">
+        <h3 className="text-xl font-bold text-[#0F172A] flex items-center gap-2">
            <Globe className="w-6 h-6 text-[#1E40AF]" /> Google Cloud Platform Integration
         </h3>
         <p className="text-sm text-[#64748B]">These master credentials will be shared by all merchants. Create an OAuth 2.0 Client ID in your Google Cloud Console.</p>
@@ -723,7 +723,7 @@ function GoogleSettings({ settings, onSave, saving }: any) {
           googleClientSecret: clientSecret,
           googleRedirectUri: redirectUri
         })}
-        className="px-6 py-3 bg-[#1E40AF] text-white font-black text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50"
+        className="px-6 py-3 bg-[#1E40AF] text-white font-bold text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50"
       >
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
         Save Master Credentials
@@ -741,7 +741,7 @@ function SeoSettings({ settings, onSave, saving }: any) {
   return (
     <div className="space-y-8 max-w-3xl">
       <div className="space-y-4">
-        <h3 className="text-xl font-black text-[#0F172A] flex items-center gap-2">
+        <h3 className="text-xl font-bold text-[#0F172A] flex items-center gap-2">
            <Search className="w-6 h-6" /> SEO & Platform Branding
         </h3>
         <p className="text-sm text-[#64748B]">Manage how the platform appears in Google search results and social media shares.</p>
@@ -755,7 +755,7 @@ function SeoSettings({ settings, onSave, saving }: any) {
       </div>
 
       <div className="p-6 bg-slate-50 border border-slate-100 rounded-none">
-         <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Google Preview</div>
+         <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Google Preview</div>
          <div className="space-y-1">
             <div className="text-blue-700 text-xl font-medium hover:underline cursor-pointer truncate">{title}</div>
             <div className="text-green-700 text-sm truncate">https://businessconnect.bd</div>
@@ -771,7 +771,7 @@ function SeoSettings({ settings, onSave, saving }: any) {
           metaKeywords: keywords,
           ogImage: ogImage
         })}
-        className="px-6 py-3 bg-[#1E40AF] text-white font-black text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50 shadow-lg"
+        className="px-6 py-3 bg-[#1E40AF] text-white font-bold text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50 shadow-lg"
       >
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
         Update SEO Metadata
@@ -799,7 +799,7 @@ function CloudStorageSettings({ settings, onSave, saving }: any) {
   return (
     <div className="space-y-8 max-w-3xl">
       <div className="space-y-4">
-        <h3 className="text-xl font-black text-[#0F172A] flex items-center gap-2">
+        <h3 className="text-xl font-bold text-[#0F172A] flex items-center gap-2">
            <Cloud className="w-6 h-6 text-[#1E40AF]" /> Cloud Storage & CDN
         </h3>
         <p className="text-sm text-[#64748B]">Configure where merchant documents and product images are stored and served from.</p>
@@ -813,7 +813,7 @@ function CloudStorageSettings({ settings, onSave, saving }: any) {
       </div>
 
       <div className="space-y-2">
-        <label className="text-[10px] font-black uppercase tracking-widest text-[#64748B]">Storage Provider</label>
+        <label className="text-[10px] font-bold uppercase tracking-widest text-[#64748B]">Storage Provider</label>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
           {providers.map((p) => (
             <button
@@ -826,7 +826,7 @@ function CloudStorageSettings({ settings, onSave, saving }: any) {
               }`}
             >
               <div className="text-xs font-bold text-[#0F172A]">{p.name}</div>
-              <div className="text-[9px] text-[#A1A1AA] uppercase font-black mt-1">
+              <div className="text-[9px] text-[#A1A1AA] uppercase font-bold mt-1">
                 {provider === p.id ? "Active" : "Select"}
               </div>
             </button>
@@ -865,7 +865,7 @@ function CloudStorageSettings({ settings, onSave, saving }: any) {
           storageSecretKey: secretKey,
           storageCdnUrl: cdnUrl
         })}
-        className="px-6 py-3 bg-[#1E40AF] text-white font-black text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50 shadow-lg"
+        className="px-6 py-3 bg-[#1E40AF] text-white font-bold text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50 shadow-lg"
       >
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
         Save Storage Configuration
@@ -901,7 +901,7 @@ function EmailTemplateSettings({ templates: initialTemplates }: any) {
   return (
     <div className="space-y-8 max-w-3xl">
       <div className="space-y-4">
-        <h3 className="text-xl font-black text-[#0F172A] flex items-center gap-2">
+        <h3 className="text-xl font-bold text-[#0F172A] flex items-center gap-2">
            <Mail className="w-6 h-6 text-[#1E40AF]" /> Automated Email Responses
         </h3>
         <p className="text-sm text-[#64748B]">Customize the emails sent to merchants when their application is approved, rejected, or needs document reupload.</p>
@@ -929,17 +929,17 @@ function EmailTemplateSettings({ templates: initialTemplates }: any) {
         />
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <label className="text-[10px] font-black uppercase tracking-widest text-[#64748B]">Email Body</label>
+            <label className="text-[10px] font-bold uppercase tracking-widest text-[#64748B]">Email Body</label>
             <div className="flex bg-gray-100 p-1 rounded-lg">
                <button 
                  onClick={() => setActiveTemplate({...activeTemplate, _mode: "HTML"})}
-                 className={`px-3 py-1.5 text-[10px] font-black uppercase rounded-md transition-all ${activeTemplate._mode !== "PREVIEW" ? "bg-white text-blue-600 shadow-sm" : "text-gray-500"}`}
+                 className={`px-3 py-1.5 text-[10px] font-bold uppercase rounded-md transition-all ${activeTemplate._mode !== "PREVIEW" ? "bg-white text-blue-600 shadow-sm" : "text-gray-500"}`}
                >
                  HTML Source
                </button>
                <button 
                  onClick={() => setActiveTemplate({...activeTemplate, _mode: "PREVIEW"})}
-                 className={`px-3 py-1.5 text-[10px] font-black uppercase rounded-md transition-all ${activeTemplate._mode === "PREVIEW" ? "bg-white text-blue-600 shadow-sm" : "text-gray-500"}`}
+                 className={`px-3 py-1.5 text-[10px] font-bold uppercase rounded-md transition-all ${activeTemplate._mode === "PREVIEW" ? "bg-white text-blue-600 shadow-sm" : "text-gray-500"}`}
                >
                  Live Preview
                </button>
@@ -965,7 +965,7 @@ function EmailTemplateSettings({ templates: initialTemplates }: any) {
           )}
 
           <div className="bg-blue-50 p-4 rounded-xl border border-blue-100">
-             <p className="text-[10px] font-black uppercase text-blue-600 mb-2">Available Variables:</p>
+             <p className="text-[10px] font-bold uppercase text-blue-600 mb-2">Available Variables:</p>
              <div className="flex flex-wrap gap-2">
                 {["{{store_name}}", "{{merchant_name}}", "{{missing_documents}}", "{{message}}", "{{due_amount}}", "{{due_date}}", "{{plan_name}}"].map(v => (
                   <span key={v} className="bg-white text-blue-700 px-2 py-1 rounded-md text-[10px] font-mono border border-blue-200">{v}</span>
@@ -978,7 +978,7 @@ function EmailTemplateSettings({ templates: initialTemplates }: any) {
       <button
         disabled={saving}
         onClick={handleSave}
-        className="px-6 py-3 bg-[#1E40AF] text-white font-black text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50 shadow-lg"
+        className="px-6 py-3 bg-[#1E40AF] text-white font-bold text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50 shadow-lg"
       >
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
         Save Template
@@ -1002,7 +1002,7 @@ function PaymentSettings({ settings, onSave, saving }: any) {
   return (
     <div className="space-y-10 max-w-4xl">
       <div className="space-y-4">
-        <h3 className="text-xl font-black text-[#0F172A] flex items-center gap-2">
+        <h3 className="text-xl font-bold text-[#0F172A] flex items-center gap-2">
            <CreditCard className="w-6 h-6 text-[#E11D48]" /> Payment Gateway Configurations
         </h3>
         <p className="text-sm text-[#64748B]">Configure global bKash and Nagad credentials for merchant billing and resource purchases.</p>
@@ -1013,15 +1013,15 @@ function PaymentSettings({ settings, onSave, saving }: any) {
         <div className="flex items-center justify-between">
            <div className="flex items-center gap-3">
               <div className="w-12 h-12 bg-[#E11D48] flex items-center justify-center rounded-xl shadow-lg shadow-pink-200">
-                 <span className="text-white font-black text-xs">BK</span>
+                 <span className="text-white font-bold text-xs">BK</span>
               </div>
               <div>
-                 <h4 className="text-lg font-black text-[#0F172A] uppercase tracking-tight">bKash <span className="text-[#E11D48]">Checkout</span></h4>
+                 <h4 className="text-lg font-bold text-[#0F172A] uppercase tracking-tight">bKash <span className="text-[#E11D48]">Checkout</span></h4>
                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Mobile Financial Service Integration</p>
               </div>
            </div>
            <div className="flex items-center gap-3 bg-white p-2 border border-pink-100">
-              <span className={`text-[10px] font-black uppercase tracking-widest ${bkashIsLive ? 'text-green-600' : 'text-amber-600'}`}>
+              <span className={`text-[10px] font-bold uppercase tracking-widest ${bkashIsLive ? 'text-green-600' : 'text-amber-600'}`}>
                  {bkashIsLive ? 'Live Mode' : 'Sandbox Mode'}
               </span>
               <button 
@@ -1046,15 +1046,15 @@ function PaymentSettings({ settings, onSave, saving }: any) {
         <div className="flex items-center justify-between">
            <div className="flex items-center gap-3">
               <div className="w-12 h-12 bg-[#F97316] flex items-center justify-center rounded-xl shadow-lg shadow-orange-200">
-                 <span className="text-white font-black text-xs">NG</span>
+                 <span className="text-white font-bold text-xs">NG</span>
               </div>
               <div>
-                 <h4 className="text-lg font-black text-[#0F172A] uppercase tracking-tight">Nagad <span className="text-[#F97316]">Gateway</span></h4>
+                 <h4 className="text-lg font-bold text-[#0F172A] uppercase tracking-tight">Nagad <span className="text-[#F97316]">Gateway</span></h4>
                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Post-Payment Verification Mode</p>
               </div>
            </div>
            <div className="flex items-center gap-3 bg-white p-2 border border-orange-100">
-              <span className={`text-[10px] font-black uppercase tracking-widest ${nagadIsLive ? 'text-green-600' : 'text-amber-600'}`}>
+              <span className={`text-[10px] font-bold uppercase tracking-widest ${nagadIsLive ? 'text-green-600' : 'text-amber-600'}`}>
                  {nagadIsLive ? 'Live Mode' : 'Sandbox Mode'}
               </span>
               <button 
@@ -1088,7 +1088,7 @@ function PaymentSettings({ settings, onSave, saving }: any) {
           nagadPrivateKey,
           nagadIsLive
         })}
-        className="px-10 py-4 bg-[#0F172A] text-white font-black text-sm rounded-none hover:bg-black transition-all flex items-center gap-3 disabled:opacity-50 shadow-2xl shadow-slate-200"
+        className="px-10 py-4 bg-[#0F172A] text-white font-bold text-sm rounded-none hover:bg-black transition-all flex items-center gap-3 disabled:opacity-50 shadow-2xl shadow-slate-200"
       >
         {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
         DEPLOY PAYMENT SETTINGS
@@ -1100,7 +1100,7 @@ function PaymentSettings({ settings, onSave, saving }: any) {
 function Input({ label, value, onChange, type = "text", placeholder, multiline = false }: any) {
   return (
     <div className="space-y-2">
-      <label className="text-[10px] font-black uppercase tracking-widest text-[#64748B]">{label}</label>
+      <label className="text-[10px] font-bold uppercase tracking-widest text-[#64748B]">{label}</label>
       {multiline ? (
         <textarea 
           value={value}

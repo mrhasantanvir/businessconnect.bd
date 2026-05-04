@@ -42,7 +42,7 @@ export function TransferForm({ warehouses, products }: { warehouses: any[], prod
     <form onSubmit={handleSubmit} className="bg-white  border border-[#E5E7EB]  p-8 rounded-[32px] shadow-sm space-y-8 animate-in slide-in-from-left-8 duration-700">
       <div className="flex items-center gap-2 mb-2 text-orange-600">
          <Send className="w-5 h-5" />
-         <h2 className="text-xl font-black text-[#0F172A]  tracking-tight">Initiate Movement</h2>
+         <h2 className="text-xl font-semibold text-[#0F172A]  tracking-tight">Initiate Movement</h2>
       </div>
 
       <div className="grid grid-cols-1 gap-6">

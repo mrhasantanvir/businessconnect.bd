@@ -34,7 +34,7 @@ export default function ForgotPasswordPage() {
         <div className="flex flex-col items-center mb-8">
           <div className="flex items-center gap-2 mb-4 group">
             <Box className="w-10 h-10 text-[#1E40AF] group-hover:scale-110 transition-transform" />
-            <span className="font-extrabold tracking-tight text-2xl text-[#0F172A]">Businessconnect.bd</span>
+            <span className="font-bold tracking-tight text-2xl text-[#0F172A]">Businessconnect.bd</span>
           </div>
         </div>
 
@@ -43,7 +43,7 @@ export default function ForgotPasswordPage() {
           <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#1E40AF] to-[#BEF264]"></div>
           
           <div className="mb-8">
-            <h1 className="text-2xl font-extrabold text-[#0F172A] mb-2 tracking-tight">Reset Password</h1>
+            <h1 className="text-2xl font-bold text-[#0F172A] mb-2 tracking-tight">Reset Password</h1>
             <p className="text-[#64748B] text-sm font-medium">Enter your email and we'll send you a reset link.</p>
           </div>
 

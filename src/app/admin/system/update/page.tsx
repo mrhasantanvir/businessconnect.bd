@@ -19,14 +19,14 @@ export default async function SystemUpdatePage() {
              <Cpu className="w-8 h-8" />
           </div>
           <div>
-            <h1 className="text-3xl font-black text-slate-900 tracking-tight">System <span className="text-indigo-600">Update Center</span></h1>
-            <p className="text-slate-400 text-xs font-black uppercase tracking-widest mt-1">Enterprise Orchestration & Lifecycle</p>
+            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">System <span className="text-indigo-600">Update Center</span></h1>
+            <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-1">Enterprise Orchestration & Lifecycle</p>
           </div>
         </div>
         
         <div className="flex items-center gap-3 px-6 py-3 bg-emerald-50 text-emerald-600 rounded-2xl border border-emerald-100">
            <ShieldCheck className="w-5 h-5" />
-           <span className="text-[10px] font-black uppercase tracking-widest text-emerald-700">Environment: Stable</span>
+           <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-700">Environment: Stable</span>
         </div>
       </div>
 
@@ -38,19 +38,19 @@ export default async function SystemUpdatePage() {
             <div className="relative z-10">
                <div className="flex items-center gap-3 mb-6">
                   <Zap className="w-5 h-5 text-indigo-400" />
-                  <h3 className="text-sm font-black uppercase tracking-widest">Deployment Best Practices</h3>
+                  <h3 className="text-sm font-bold uppercase tracking-widest">Deployment Best Practices</h3>
                </div>
                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   <div className="space-y-3">
-                     <div className="text-indigo-400 text-xs font-black uppercase">01. Verify Staging</div>
+                     <div className="text-indigo-400 text-xs font-bold uppercase">01. Verify Staging</div>
                      <p className="text-slate-400 text-[10px] leading-relaxed">Always check the dev.businessconnect.bd environment before pushing to production.</p>
                   </div>
                   <div className="space-y-3">
-                     <div className="text-indigo-400 text-xs font-black uppercase">02. Backups Active</div>
+                     <div className="text-indigo-400 text-xs font-bold uppercase">02. Backups Active</div>
                      <p className="text-slate-400 text-[10px] leading-relaxed">Automated database snapshots are taken every 6 hours and before every deployment.</p>
                   </div>
                   <div className="space-y-3">
-                     <div className="text-indigo-400 text-xs font-black uppercase">03. Zero Downtime</div>
+                     <div className="text-indigo-400 text-xs font-bold uppercase">03. Zero Downtime</div>
                      <p className="text-slate-400 text-[10px] leading-relaxed">The system uses PM2 reload to swap instances without dropping active connections.</p>
                   </div>
                </div>

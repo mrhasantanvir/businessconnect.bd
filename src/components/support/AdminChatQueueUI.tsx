@@ -60,7 +60,7 @@ export function AdminChatQueueUI({ initialChats, currentAdminId }: { initialChat
       {/* Sidebar: Chat List */}
       <div className="w-80 border-r border-[#E5E7EB] flex flex-col bg-[#F8F9FA]">
         <div className="p-6 border-b border-[#E5E7EB] bg-white text-slate-900 text-slate-900 border border-slate-100 text-white">
-          <h2 className="text-xs font-black uppercase tracking-[0.2em] opacity-60 mb-3">Merchant Support</h2>
+          <h2 className="text-xs font-semibold uppercase tracking-[0.2em] opacity-60 mb-3">Merchant Support</h2>
           <div className="relative">
             <Search className="w-4 h-4 text-white/30 absolute left-3 top-1/2 -translate-y-1/2" />
             <input 
@@ -117,7 +117,7 @@ export function AdminChatQueueUI({ initialChats, currentAdminId }: { initialChat
                  </div>
                  <div>
                    <div className="flex items-center gap-2">
-                     <h3 className="font-black text-[#0F172A] tracking-tight uppercase text-sm">{activeChat.merchantStore.name}</h3>
+                     <h3 className="font-semibold text-[#0F172A] tracking-tight uppercase text-sm">{activeChat.merchantStore.name}</h3>
                      <span className="px-2 py-0.5 bg-[#BEF264]/20 text-[#65A30D] text-[9px] font-black uppercase tracking-widest">{activeChat.merchantStore.plan}</span>
                    </div>
                    <p className="text-[10px] text-[#A1A1AA] flex items-center gap-2 font-bold uppercase mt-1">
@@ -193,7 +193,7 @@ export function AdminChatQueueUI({ initialChats, currentAdminId }: { initialChat
              <div className="w-20 h-20 bg-[#F1F5F9] flex items-center justify-center mb-6">
                 <ShieldCheck className="w-10 h-10 text-[#A1A1AA]" />
              </div>
-             <h3 className="text-xl font-black text-[#0F172A] uppercase tracking-tight mb-2">Support Management Hub</h3>
+             <h3 className="text-xl font-semibold text-[#0F172A] uppercase tracking-tight mb-2">Support Management Hub</h3>
              <p className="text-xs text-[#64748B] font-medium max-w-sm uppercase tracking-widest leading-loose">Select a merchant from the queue to initiate a secure support session.</p>
           </div>
         )}

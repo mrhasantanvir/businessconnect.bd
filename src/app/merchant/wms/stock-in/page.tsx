@@ -48,7 +48,7 @@ export default function StockInPage() {
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-8 border-b border-gray-100 ">
          <div>
-            <h1 className="text-4xl font-black tracking-tight text-[#0F172A]  uppercase">
+            <h1 className="text-2xl font-bold tracking-tight text-[#0F172A]  uppercase">
                Inventory <span className="text-indigo-600">Inbound</span>
             </h1>
             <p className="text-[#64748B]  text-sm font-bold mt-2 uppercase tracking-widest flex items-center gap-2">
@@ -58,7 +58,7 @@ export default function StockInPage() {
          
           <div className="flex items-center gap-4 bg-white  border border-gray-100  rounded-[32px] px-6 py-4">
              <div className="space-y-1">
-                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Current Bin</label>
+                <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest ml-1">Current Bin</label>
                 <input 
                   type="text" 
                   placeholder="Set Bin (e.g. A1)" 
@@ -69,7 +69,7 @@ export default function StockInPage() {
              </div>
              <button 
                onClick={() => setIsScanning(true)}
-               className="px-8 py-3 bg-white text-slate-900 text-slate-900 text-slate-900 border border-slate-100 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center gap-3 hover:bg-black transition-all shadow-xl active:scale-95 group"
+               className="px-8 py-3 bg-white text-slate-900 text-slate-900 text-slate-900 border border-slate-100 text-white rounded-2xl text-[10px] font-bold uppercase tracking-widest flex items-center gap-3 hover:bg-black transition-all shadow-xl active:scale-95 group"
              >
                 <ArrowUpCircle className="w-4 h-4 group-hover:scale-110 transition-transform" />
                 Scan
@@ -87,7 +87,7 @@ export default function StockInPage() {
                      <AlertCircle className="w-8 h-8 text-red-600" />
                   </div>
                   <div>
-                     <h4 className="text-sm font-black text-red-900 uppercase">Input Failed</h4>
+                     <h4 className="text-sm font-bold text-red-900 uppercase">Input Failed</h4>
                      <p className="text-xs text-red-600 font-bold mt-1 uppercase tracking-tight">{error}</p>
                   </div>
                </div>
@@ -103,27 +103,27 @@ export default function StockInPage() {
                      </div>
                      <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
-                           <span className="px-3 py-1 bg-[#BEF264]/20 text-[#65A30D] rounded-full text-[10px] font-black uppercase tracking-widest">Received</span>
-                           <span className="text-[10px] font-black text-gray-300 uppercase tracking-widest">Ref: #PRO-{Date.now().toString().slice(-6)}</span>
+                           <span className="px-3 py-1 bg-[#BEF264]/20 text-[#65A30D] rounded-full text-[10px] font-bold uppercase tracking-widest">Received</span>
+                           <span className="text-[10px] font-bold text-gray-300 uppercase tracking-widest">Ref: #PRO-{Date.now().toString().slice(-6)}</span>
                         </div>
-                        <h2 className="text-3xl font-black text-[#0F172A]  uppercase tracking-tight leading-none">
+                        <h2 className="text-2xl font-bold text-[#0F172A]  uppercase tracking-tight leading-none">
                            {lastScanned.productName}
                         </h2>
                         <div className="mt-4 flex items-center gap-6">
                            <div>
-                              <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Quantity Added</p>
-                              <p className="text-xl font-black text-indigo-600">+1 Unit</p>
+                              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Quantity Added</p>
+                              <p className="text-xl font-bold text-indigo-600">+1 Unit</p>
                            </div>
                            <div className="w-px h-10 bg-gray-100" />
                            <div>
-                              <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Current Stock</p>
-                              <p className="text-xl font-black text-[#0F172A] ">{lastScanned.newTotal} Units</p>
+                              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Current Stock</p>
+                              <p className="text-xl font-bold text-[#0F172A] ">{lastScanned.newTotal} Units</p>
                            </div>
                         </div>
                      </div>
                      <div className="hidden lg:flex flex-col items-center justify-center p-6 bg-gray-50  rounded-[32px] border border-gray-100">
                         <CheckCircle2 className="w-10 h-10 text-[#65A30D]" />
-                        <span className="text-[9px] font-black uppercase text-gray-400 mt-2">Verified</span>
+                        <span className="text-[9px] font-bold uppercase text-gray-400 mt-2">Verified</span>
                      </div>
                   </div>
                </div>
@@ -137,8 +137,8 @@ export default function StockInPage() {
             {/* Batch List */}
             <div className="space-y-4">
                <div className="flex items-center justify-between px-6">
-                  <h3 className="text-xs font-black uppercase tracking-widest text-[#64748B]">Batch Session Log</h3>
-                  <span className="text-[10px] font-black text-indigo-500">{batchLogs.length} Items Proccessed</span>
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-[#64748B]">Batch Session Log</h3>
+                  <span className="text-[10px] font-bold text-indigo-500">{batchLogs.length} Items Proccessed</span>
                </div>
                
                <div className="bg-white  border border-gray-100  rounded-[40px] overflow-hidden shadow-sm">
@@ -150,18 +150,18 @@ export default function StockInPage() {
                                  <CheckCircle2 className="w-5 h-5 text-indigo-600" />
                               </div>
                               <div>
-                                 <p className="text-sm font-black text-[#0F172A]  uppercase leading-none mb-1">{log.name}</p>
-                                 <p className="text-[10px] font-bold text-gray-400 tracking-tighter uppercase">{log.barcode}</p>
+                                 <p className="text-sm font-bold text-[#0F172A]  uppercase leading-none mb-1">{log.name}</p>
+                                 <p className="text-[10px] font-bold text-gray-400 tracking-tight uppercase">{log.barcode}</p>
                               </div>
                            </div>
                            <div className="text-right">
-                              <p className="text-[10px] font-black text-[#0F172A] ">{log.time}</p>
+                              <p className="text-[10px] font-bold text-[#0F172A] ">{log.time}</p>
                               <p className="text-[9px] font-bold text-[#65A30D] uppercase tracking-widest mt-0.5">Logged</p>
                            </div>
                         </div>
                      ))}
                      {batchLogs.length === 0 && (
-                        <div className="p-12 text-center text-[10px] font-black text-gray-300 uppercase tracking-widest">Waiting for session start...</div>
+                        <div className="p-12 text-center text-[10px] font-bold text-gray-300 uppercase tracking-widest">Waiting for session start...</div>
                      )}
                   </div>
                </div>
@@ -173,18 +173,18 @@ export default function StockInPage() {
             <div className="p-10 bg-white text-slate-900 text-slate-900 text-slate-900 border border-slate-100 text-white rounded-[48px] shadow-2xl relative overflow-hidden">
                <div className="absolute inset-0 bg-gradient-to-tr from-indigo-900/50 to-transparent" />
                <div className="relative z-10">
-                  <h3 className="text-lg font-black uppercase tracking-tight">Best Practice <br/><span className="text-indigo-400">Inventory Sync</span></h3>
+                  <h3 className="text-lg font-bold uppercase tracking-tight">Best Practice <br/><span className="text-indigo-400">Inventory Sync</span></h3>
                   <ul className="mt-8 space-y-6">
                      <li className="flex gap-4">
-                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0 text-xs font-black">01</div>
+                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0 text-xs font-bold">01</div>
                         <p className="text-xs font-bold leading-relaxed text-gray-300 uppercase tracking-tight">Ensure lighting is uniform to reduce optical reflection on glossy barcodes.</p>
                      </li>
                      <li className="flex gap-4">
-                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0 text-xs font-black">02</div>
+                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0 text-xs font-bold">02</div>
                         <p className="text-xs font-bold leading-relaxed text-gray-300 uppercase tracking-tight">Wait for the green "Verified" pulse before moving to the next item.</p>
                      </li>
                      <li className="flex gap-4">
-                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0 text-xs font-black">03</div>
+                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0 text-xs font-bold">03</div>
                         <p className="text-xs font-bold leading-relaxed text-gray-300 uppercase tracking-tight">Use HID industrial scanners for high-volume high-speed procurement.</p>
                      </li>
                   </ul>
@@ -192,10 +192,10 @@ export default function StockInPage() {
             </div>
             
             <div className="p-8 border border-gray-100  rounded-[40px] bg-white ">
-               <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">Supported Formats</h4>
+               <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Supported Formats</h4>
                <div className="grid grid-cols-2 gap-4">
                   {['QR Code', 'Code 128', 'EAN-13', 'UPC-A'].map(format => (
-                     <div key={format} className="p-3 bg-gray-50  rounded-2xl flex items-center justify-center text-[9px] font-black uppercase text-gray-600 ">
+                     <div key={format} className="p-3 bg-gray-50  rounded-2xl flex items-center justify-center text-[9px] font-bold uppercase text-gray-600 ">
                         {format}
                      </div>
                   ))}

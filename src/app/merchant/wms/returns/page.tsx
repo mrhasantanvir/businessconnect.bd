@@ -35,7 +35,7 @@ export default async function ReturnsHubPage() {
          <div className="flex items-center gap-2 text-rose-600  font-bold text-xs uppercase tracking-widest">
             <RotateCcw className="w-3.5 h-3.5" /> RMA Engine
          </div>
-         <h1 className="text-4xl font-extrabold text-[#0F172A]  tracking-tight">Returns & Inspections</h1>
+         <h1 className="text-2xl font-bold text-[#0F172A]  tracking-tight">Returns & Inspections</h1>
          <p className="text-[#64748B]  text-sm max-w-xl leading-relaxed">
             Process customer returns and automate inventory restock logic based on quality inspection results.
          </p>
@@ -51,7 +51,7 @@ export default async function ReturnsHubPage() {
                <div className="p-6 border-b border-[#F1F5F9]  flex items-center justify-between">
                   <div className="flex items-center gap-3">
                      <ShieldCheck className="w-5 h-5 text-rose-500" />
-                     <h3 className="font-extrabold text-[#0F172A] ">RMA Activity Log</h3>
+                     <h3 className="font-bold text-[#0F172A] ">RMA Activity Log</h3>
                   </div>
                </div>
 
@@ -62,14 +62,14 @@ export default async function ReturnsHubPage() {
                       <div key={ret.id} className="p-6 hover:bg-gray-50  transition-colors group">
                          <div className="flex items-start justify-between">
                             <div className="space-y-1">
-                               <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest">RMA-#{ret.id.slice(-6).toUpperCase()}</div>
+                               <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">RMA-#{ret.id.slice(-6).toUpperCase()}</div>
                                <div className="font-bold text-[#0F172A]  flex items-center gap-2">
                                   Order: ORD-{ret.order.id.slice(-6).toUpperCase()}
                                   <ExternalLink className="w-3 h-3 text-gray-400" />
                                </div>
                                <div className="text-sm text-gray-500 font-medium">Reason: {ret.reason}</div>
                             </div>
-                            <div className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest border ${
+                            <div className={`px-3 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-widest border ${
                                ret.status === 'RESTOCKED' ? 'bg-green-50 text-green-700 border-green-100' :
                                ret.status === 'DAMAGED' ? 'bg-orange-50 text-orange-700 border-orange-100' :
                                'bg-red-50 text-red-700 border-red-100'

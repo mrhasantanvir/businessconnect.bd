@@ -141,7 +141,7 @@ export function NewIncidentModal({ disabled }: { disabled?: boolean }) {
                   <div className="w-24 h-24 rounded-none bg-[#F0FDF4] border-4 border-white flex items-center justify-center text-[#16A34A] shadow-xl mb-6 animate-bounce">
                     <ShieldCheck className="w-12 h-12" />
                   </div>
-                  <h3 className="text-2xl font-black text-[#0F172A] mb-2">Incident Logged Successfully</h3>
+                  <h3 className="text-lg font-semibold text-[#0F172A] mb-2">Incident Logged Successfully</h3>
                   <p className="text-[#64748B] text-sm max-w-xs mx-auto leading-relaxed">
                     Your ticket has been registered. Our support engineers are already reviewing your request.
                   </p>

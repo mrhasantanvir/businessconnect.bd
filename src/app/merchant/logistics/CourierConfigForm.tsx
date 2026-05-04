@@ -44,7 +44,7 @@ export function CourierConfigForm({ existingConfigs }: { existingConfigs: any[] 
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-center">
-         <h2 className="text-lg font-black uppercase tracking-tight text-gray-400">Manage Couriers</h2>
+         <h2 className="text-lg font-semibold uppercase tracking-tight text-gray-400">Manage Couriers</h2>
          <button 
            onClick={() => setShowAddForm(!showAddForm)}
            className="px-4 py-2 bg-indigo-600 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100"
@@ -110,7 +110,7 @@ function CourierCard({ provider, config, isPending, handleSave }: {
                   <Server className="w-6 h-6 text-gray-400 group-hover:text-indigo-500 transition-colors" />
               </div>
               <div>
-                <h3 className="font-black text-gray-900 text-lg tracking-tight uppercase">{provider}</h3>
+                <h3 className="font-semibold text-gray-900 text-lg tracking-tight uppercase">{provider}</h3>
                 <div className="flex gap-2 mt-1">
                     <span className={`text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full ${mode === 'API' ? 'bg-blue-100 text-blue-700' : 'bg-amber-100 text-amber-700'}`}>
                       {mode}

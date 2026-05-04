@@ -12,7 +12,7 @@ export function Theme_1({ store, brandColor }: ThemeProps) {
     <div className="min-h-screen bg-white text-[#0F172A]">
       {/* 1. Slim Announcement Bar */}
       <div className="bg-white text-slate-900 text-slate-900 border border-slate-100 text-white py-2 text-center overflow-hidden">
-         <p className="text-[10px] font-black uppercase tracking-[0.2em] animate-pulse">
+         <p className="text-[10px] font-bold uppercase tracking-[0.2em] animate-pulse">
             {store.welcomeMessage || "Free Priority Shipping on orders over ৳5000"}
          </p>
       </div>
@@ -24,16 +24,16 @@ export function Theme_1({ store, brandColor }: ThemeProps) {
                {store.logo ? (
                  <img src={store.logo} alt={store.name} className="w-10 h-10 rounded-2xl object-cover shadow-sm" />
                ) : (
-                 <div className="w-12 h-12 bg-white text-slate-900 text-slate-900 border border-slate-100 text-white rounded-[18px] flex items-center justify-center font-black text-xl shadow-xl">
+                 <div className="w-12 h-12 bg-white text-slate-900 text-slate-900 border border-slate-100 text-white rounded-[18px] flex items-center justify-center font-bold text-xl shadow-xl">
                    {store.name.charAt(0)}
                  </div>
                )}
-               <h1 className="text-xl font-black tracking-tighter uppercase">{store.name}</h1>
+               <h1 className="text-xl font-bold tracking-tight uppercase">{store.name}</h1>
             </div>
 
             <nav className="hidden lg:flex items-center gap-10">
                {["Shop", "Collections", "About", "Track Order"].map(link => (
-                 <a key={link} href="#" className="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-[#0F172A] transition-colors">{link}</a>
+                 <a key={link} href="#" className="text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-[#0F172A] transition-colors">{link}</a>
                ))}
             </nav>
 
@@ -44,7 +44,7 @@ export function Theme_1({ store, brandColor }: ThemeProps) {
                   <div className="p-3 bg-[#F8F9FA] rounded-2xl group-hover:bg-white text-slate-900 text-slate-900 border border-slate-100 group-hover:text-white transition-all shadow-sm">
                     <ShoppingBag className="w-5 h-5" />
                   </div>
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-indigo-600 text-white text-[9px] font-black rounded-full flex items-center justify-center border-2 border-white">0</span>
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-indigo-600 text-white text-[9px] font-bold rounded-full flex items-center justify-center border-2 border-white">0</span>
                </button>
             </div>
          </div>
@@ -56,9 +56,9 @@ export function Theme_1({ store, brandColor }: ThemeProps) {
             <div className="space-y-6 md:space-y-10 group order-2 lg:order-1">
                <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 bg-indigo-50 text-indigo-600 rounded-full">
                   <span className="w-1.5 h-1.5 bg-indigo-600 rounded-full animate-ping" />
-                  <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest">New Season Drop</span>
+                  <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest">New Season Drop</span>
                </div>
-               <h2 className="text-4xl md:text-6xl lg:text-8xl font-black tracking-tight leading-[0.9] text-[#0F172A] transition-transform group-hover:-translate-y-2 duration-700">
+               <h2 className="text-2xl md:text-2xl lg:text-2xl font-bold tracking-tight leading-[0.9] text-[#0F172A] transition-transform group-hover:-translate-y-2 duration-700">
                   Elevate your <br /> standard.
                </h2>
                <p className="text-sm md:text-lg font-medium text-gray-500 max-w-md leading-relaxed">
@@ -67,11 +67,11 @@ export function Theme_1({ store, brandColor }: ThemeProps) {
                <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-6">
                   <button 
                     style={{ backgroundColor: brandColor }}
-                    className="w-full sm:w-auto px-8 md:px-10 py-5 md:py-6 text-white rounded-2xl md:rounded-[28px] text-[10px] md:text-xs font-black uppercase tracking-widest shadow-2xl hover:brightness-110 active:scale-95 transition-all"
+                    className="w-full sm:w-auto px-8 md:px-10 py-5 md:py-6 text-white rounded-2xl md:rounded-[28px] text-[10px] md:text-xs font-bold uppercase tracking-widest shadow-2xl hover:brightness-110 active:scale-95 transition-all"
                   >
                     Start Shopping
                   </button>
-                  <button className="text-[9px] md:text-[10px] font-black uppercase tracking-widest border-b-2 border-gray-100 pb-1 hover:border-indigo-600 transition-all">View Lookbook</button>
+                  <button className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest border-b-2 border-gray-100 pb-1 hover:border-indigo-600 transition-all">View Lookbook</button>
                </div>
             </div>
 
@@ -86,7 +86,7 @@ export function Theme_1({ store, brandColor }: ThemeProps) {
                <div className="absolute -bottom-6 md:-bottom-10 -left-4 md:-left-10 bg-white p-4 md:p-8 rounded-3xl md:rounded-[48px] shadow-2xl border border-gray-100 max-w-[180px] md:max-w-[240px] animate-bounce">
                   <div className="flex items-center gap-2 md:gap-3 mb-1 md:mb-2">
                      <Star className="w-4 h-4 md:w-5 md:h-5 text-orange-400 fill-orange-400" />
-                     <span className="text-xs md:text-sm font-black">4.9 Ratings</span>
+                     <span className="text-xs md:text-sm font-bold">4.9 Ratings</span>
                   </div>
                   <p className="text-[8px] md:text-[10px] font-bold text-gray-400 uppercase tracking-widest">Trusted by 2k+ Local Customers</p>
                </div>
@@ -99,10 +99,10 @@ export function Theme_1({ store, brandColor }: ThemeProps) {
          <div className="max-w-7xl mx-auto px-6 h-12 md:h-16 flex items-center justify-between">
             <div className="flex items-center gap-4 md:gap-8 overflow-x-auto no-scrollbar">
                {["All Products", "Best Sellers", "New Arrivals"].map(tab => (
-                 <button key={tab} className="whitespace-nowrap text-[8px] md:text-[9px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-[#0F172A] transition-all">{tab}</button>
+                 <button key={tab} className="whitespace-nowrap text-[8px] md:text-[9px] font-bold uppercase tracking-[0.2em] text-gray-400 hover:text-[#0F172A] transition-all">{tab}</button>
                ))}
             </div>
-            <button className="flex items-center gap-2 text-[8px] md:text-[9px] font-black uppercase tracking-[0.2em] shrink-0">
+            <button className="flex items-center gap-2 text-[8px] md:text-[9px] font-bold uppercase tracking-[0.2em] shrink-0">
                <Filter className="w-3.5 h-3.5" /> Filter
             </button>
          </div>
@@ -128,9 +128,9 @@ export function Theme_1({ store, brandColor }: ThemeProps) {
                      </div>
                   </div>
                   <div className="px-2 md:px-4 space-y-1.5 md:space-y-2 text-center">
-                     <h3 className="text-[10px] md:text-xs font-black uppercase tracking-[0.1em] text-gray-400 group-hover:text-indigo-600 transition-all duration-500 line-clamp-1">{product.name}</h3>
+                     <h3 className="text-[10px] md:text-xs font-bold uppercase tracking-[0.1em] text-gray-400 group-hover:text-indigo-600 transition-all duration-500 line-clamp-1">{product.name}</h3>
                      <div className="flex items-center justify-center gap-2 md:gap-3">
-                        <span className="text-sm md:text-xl font-black">৳{product.price.toLocaleString()}</span>
+                        <span className="text-sm md:text-xl font-bold">৳{product.price.toLocaleString()}</span>
                      </div>
                      <div className="pt-1 md:pt-2 md:opacity-0 md:group-hover:opacity-100 transition-all md:translate-y-2 md:group-hover:translate-y-0">
                         <AddToCartButton product={{ id: product.id, name: product.name, price: product.price, image: product.image }} />
@@ -153,7 +153,7 @@ export function Theme_1({ store, brandColor }: ThemeProps) {
                  <div className="w-20 h-20 bg-white rounded-[32px] flex items-center justify-center mx-auto shadow-xl border border-gray-100">
                     <v.icon style={{ color: brandColor }} className="w-8 h-8" />
                  </div>
-                 <h4 className="font-black uppercase tracking-widest text-sm">{v.title}</h4>
+                 <h4 className="font-bold uppercase tracking-widest text-sm">{v.title}</h4>
                  <p className="text-xs font-medium text-gray-400">{v.desc}</p>
               </div>
             ))}
@@ -163,7 +163,7 @@ export function Theme_1({ store, brandColor }: ThemeProps) {
       {/* 7. Footer */}
       <footer className="bg-white py-20 border-t border-gray-100">
          <div className="max-w-7xl mx-auto px-6 text-center space-y-10">
-            <h1 className="text-2xl font-black tracking-tighter uppercase">{store.name}</h1>
+            <h1 className="text-2xl font-bold tracking-tight uppercase">{store.name}</h1>
             <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Powered by BusinessConnect Cloud</p>
          </div>
       </footer>

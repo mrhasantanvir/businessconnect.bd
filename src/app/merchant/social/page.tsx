@@ -100,7 +100,7 @@ export default function UnifiedMetaHubPage() {
       {/* Header & Connection Status */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
          <div>
-            <h1 className="text-4xl font-black text-[#0F172A] tracking-tight flex items-center gap-4">
+            <h1 className="text-2xl font-bold text-[#0F172A] tracking-tight flex items-center gap-4">
               <Facebook className="w-10 h-10 text-blue-600" /> Meta Business Center
             </h1>
             <p className="text-sm font-bold text-gray-400 mt-2 uppercase tracking-widest">Unified Ads & Chatbot Intelligence</p>
@@ -109,14 +109,14 @@ export default function UnifiedMetaHubPage() {
          {!config?.accessToken ? (
             <a 
               href="/api/auth/facebook/login"
-              className="flex items-center gap-3 px-8 py-4 bg-[#1877F2] text-white rounded-2xl font-black uppercase text-xs tracking-widest shadow-xl hover:bg-[#166fe5] transition-all transform hover:-translate-y-1"
+              className="flex items-center gap-3 px-8 py-4 bg-[#1877F2] text-white rounded-2xl font-bold uppercase text-xs tracking-widest shadow-xl hover:bg-[#166fe5] transition-all transform hover:-translate-y-1"
             >
                Connect with Facebook <Facebook className="w-4 h-4" />
             </a>
          ) : (
             <div className="flex items-center gap-3 px-6 py-3 bg-green-50 border border-green-100 rounded-2xl">
                <ShieldCheck className="w-5 h-5 text-green-600" />
-               <span className="text-[10px] font-black text-green-700 uppercase tracking-widest">Successfully Authorized</span>
+               <span className="text-[10px] font-bold text-green-700 uppercase tracking-widest">Successfully Authorized</span>
             </div>
          )}
       </div>
@@ -141,7 +141,7 @@ export default function UnifiedMetaHubPage() {
             {activeTab === 'SYNC' && (
                <div className="bg-white border border-[#E5E7EB] rounded-[48px] p-10 shadow-sm space-y-8">
                   <div className="flex items-center justify-between">
-                     <h2 className="text-2xl font-black flex items-center gap-3"><Zap className="w-6 h-6 text-yellow-500"/> Smart Catalog Feed</h2>
+                     <h2 className="text-2xl font-bold flex items-center gap-3"><Zap className="w-6 h-6 text-yellow-500"/> Smart Catalog Feed</h2>
                      <button onClick={copyToClipboard} className="text-xs font-bold text-indigo-600 flex items-center gap-2 hover:underline">
                         {copied ? 'Copied URL!' : 'Copy Catalog URL'}
                      </button>
@@ -165,7 +165,7 @@ export default function UnifiedMetaHubPage() {
                   </div>
 
                   <div className="bg-white border border-[#E5E7EB] rounded-[48px] p-10 shadow-sm">
-                     <h2 className="text-xl font-black mb-6 flex items-center gap-3 font-outfit uppercase tracking-tight">
+                     <h2 className="text-xl font-bold mb-6 flex items-center gap-3 font-outfit uppercase tracking-tight">
                         <Settings2 className="w-5 h-5" /> Marketing Asset Mapping
                      </h2>
                      
@@ -193,7 +193,7 @@ export default function UnifiedMetaHubPage() {
                            <button 
                              disabled={saving}
                              type="submit" 
-                             className="w-full py-4 bg-white text-slate-900 text-slate-900 text-slate-900 border border-slate-100 text-white rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-black transition-all"
+                             className="w-full py-4 bg-white text-slate-900 text-slate-900 text-slate-900 border border-slate-100 text-white rounded-2xl font-bold uppercase text-xs tracking-widest hover:bg-black transition-all"
                            >
                               {saving ? 'Saving Asset Map...' : 'Save Marketing Configuration'}
                            </button>
@@ -205,7 +205,7 @@ export default function UnifiedMetaHubPage() {
 
             {activeTab === 'CHATBOT' && (
                <div className="bg-white border border-[#E5E7EB] rounded-[48px] p-10 shadow-sm space-y-8 animate-in slide-in-from-right-4">
-                  <h2 className="text-xl font-black flex items-center gap-3 uppercase tracking-tight">
+                  <h2 className="text-xl font-bold flex items-center gap-3 uppercase tracking-tight">
                      <MessageCircle className="w-6 h-6 text-green-600"/> Automation Master
                   </h2>
                   <p className="text-sm font-medium text-gray-500">
@@ -224,7 +224,7 @@ export default function UnifiedMetaHubPage() {
                         <button 
                            disabled={saving}
                            type="submit" 
-                           className="w-full py-4 bg-[#16A34A] text-white rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-green-700 transition-all shadow-lg"
+                           className="w-full py-4 bg-[#16A34A] text-white rounded-2xl font-bold uppercase text-xs tracking-widest hover:bg-green-700 transition-all shadow-lg"
                         >
                            {saving ? 'Linking Page...' : 'Activate AI Chatbot for selected page'}
                         </button>
@@ -242,7 +242,7 @@ export default function UnifiedMetaHubPage() {
          <div className="lg:col-span-4 space-y-6">
             <div className="bg-indigo-600 rounded-[40px] p-8 text-white relative overflow-hidden group">
                <BarChart3 className="absolute bottom-[-10px] right-[-10px] w-32 h-32 opacity-10 group-hover:scale-110 transition-transform" />
-               <h3 className="text-xs font-black uppercase tracking-[0.2em] mb-4 opacity-70">Hub Health</h3>
+               <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-4 opacity-70">Hub Health</h3>
                <div className="space-y-4">
                   <StatusRow label="Graph Auth" active={!!config?.accessToken} />
                   <StatusRow label="CAPI Tracking" active={!!config?.pixelId} />
@@ -251,7 +251,7 @@ export default function UnifiedMetaHubPage() {
             </div>
 
             <div className="bg-gray-50 border border-gray-100 rounded-[40px] p-8 space-y-4">
-               <h4 className="font-black text-xs uppercase tracking-widest flex items-center gap-2">
+               <h4 className="font-bold text-xs uppercase tracking-widest flex items-center gap-2">
                   <Info className="w-4 h-4 text-blue-500" /> Meta Integration Guide
                </h4>
                <ul className="space-y-3">
@@ -272,7 +272,7 @@ function TabButton({ active, label, icon: Icon, onClick }: any) {
   return (
     <button 
       onClick={onClick}
-      className={`flex items-center gap-2 px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${
+      className={`flex items-center gap-2 px-6 py-3 rounded-2xl text-[10px] font-bold uppercase tracking-widest transition-all ${
         active ? 'bg-indigo-50 text-indigo-600 ring-1 ring-indigo-200' : 'text-gray-400 hover:text-[#0F172A]'
       }`}
     >
@@ -288,7 +288,7 @@ function ROICard({ title, value, icon: Icon, color }: any) {
          <div className={`w-10 h-10 bg-${color}-50 rounded-xl flex items-center justify-center text-${color}-600 group-hover:scale-110 transition-transform`}>
             <Icon className="w-5 h-5" />
          </div>
-         <div className="text-xl font-black tracking-tight">{value}</div>
+         <div className="text-xl font-bold tracking-tight">{value}</div>
          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{title}</p>
       </div>
    );
@@ -297,7 +297,7 @@ function ROICard({ title, value, icon: Icon, color }: any) {
 function SelectField({ label, name, options, defaultValue }: any) {
    return (
       <div className="space-y-2">
-         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{label}</label>
+         <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{label}</label>
          <select 
             name={name}
             defaultValue={defaultValue}
@@ -324,7 +324,7 @@ function StatusRow({ label, active }: any) {
 function GuideItem({ step, text }: any) {
    return (
       <li className="flex items-start gap-3">
-         <span className="text-[10px] font-black w-5 h-5 bg-white border border-gray-200 rounded-full flex items-center justify-center shrink-0">{step}</span>
+         <span className="text-[10px] font-bold w-5 h-5 bg-white border border-gray-200 rounded-full flex items-center justify-center shrink-0">{step}</span>
          <span className="text-[10px] font-bold text-gray-500 uppercase leading-none mt-1.5">{text}</span>
       </li>
    );

@@ -72,7 +72,7 @@ export function ReturnProcessingForm({ warehouses, orders }: { warehouses: any[]
         <div className="flex items-center justify-between mb-2">
            <div className="flex items-center gap-2 text-rose-600">
               <RotateCcw className="w-5 h-5" />
-              <h2 className="text-xl font-black text-[#0F172A]  tracking-tight">RMA Intake</h2>
+              <h2 className="text-xl font-semibold text-[#0F172A]  tracking-tight">RMA Intake</h2>
            </div>
            <button 
               type="button"

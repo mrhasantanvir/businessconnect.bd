@@ -90,7 +90,7 @@ export function SmsSettingsForm({ initialConfigs, smsBalance }: { initialConfigs
                       <MessageSquare className="w-8 h-8" />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-black text-slate-900  tracking-tighter uppercase">{p.name}</h3>
+                      <h3 className="text-lg font-semibold text-slate-900  tracking-tighter uppercase">{p.name}</h3>
                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">SMS Gateway Integration</p>
                     </div>
                   </div>
@@ -174,7 +174,7 @@ export function SmsSettingsForm({ initialConfigs, smsBalance }: { initialConfigs
            
            <div className="relative z-10 space-y-10">
               <div className="flex items-center justify-between">
-                 <h3 className="text-xs font-black uppercase text-blue-400 tracking-[0.2em]">SMS Credit Wallet</h3>
+                 <h3 className="text-xs font-semibold uppercase text-blue-400 tracking-[0.2em]">SMS Credit Wallet</h3>
                  <Zap className="w-5 h-5 text-amber-500 animate-pulse" />
               </div>
 

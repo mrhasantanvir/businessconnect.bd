@@ -392,14 +392,14 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
                                <div className="flex-1 flex items-center justify-between">
                                  <span className={cn("text-[13px] font-medium", language === 'bn' && "text-sm")}>{item.label}</span>
                                  {item.label === "Merchant Ecosystem" && user?.adminNotifications > 0 && (
-                                   <span className="bg-[#DC2626] text-white text-[10px] font-black px-1.5 py-0.5 rounded-none">
+                                   <span className="bg-[#DC2626] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-none">
                                      {user.adminNotifications}
                                    </span>
                                  )}
                                </div>
                              )}
                              {!isSidebarExpanded && item.label === "Merchant Ecosystem" && user?.adminNotifications > 0 && (
-                               <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#DC2626] text-white text-[9px] font-black flex items-center justify-center rounded-none border border-white">
+                               <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#DC2626] text-white text-[9px] font-bold flex items-center justify-center rounded-none border border-white">
                                  {user.adminNotifications}
                                </span>
                              )}
@@ -462,7 +462,7 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
                    <AlertTriangle className={cn("w-4 h-4", user?.activationStatus === "BILLING_RESTRICTED" ? "text-rose-600" : "text-amber-600")} />
                 </div>
                 <div>
-                   <h4 className={cn("text-[10px] font-black uppercase tracking-widest", user?.activationStatus === "BILLING_RESTRICTED" ? "text-rose-900" : "text-amber-900")}>
+                   <h4 className={cn("text-[10px] font-bold uppercase tracking-widest", user?.activationStatus === "BILLING_RESTRICTED" ? "text-rose-900" : "text-amber-900")}>
                       {user?.activationStatus === "PENDING" ? "Account Pending Activation" : 
                        user?.activationStatus === "BILLING_RESTRICTED" ? "Billing Overdue - Restricted Access" : "Activation Rejected"}
                    </h4>
@@ -477,7 +477,7 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
              </div>
              <Link 
                href={user?.activationStatus === "BILLING_RESTRICTED" ? "/merchant/billing" : "/merchant/onboarding"} 
-               className={cn("text-white text-[9px] font-black uppercase tracking-widest px-4 py-2 rounded-none transition-all shadow-sm", user?.activationStatus === "BILLING_RESTRICTED" ? "bg-rose-600 hover:bg-rose-700" : "bg-amber-600 hover:bg-amber-700")}
+               className={cn("text-white text-[9px] font-bold uppercase tracking-widest px-4 py-2 rounded-none transition-all shadow-sm", user?.activationStatus === "BILLING_RESTRICTED" ? "bg-rose-600 hover:bg-rose-700" : "bg-amber-600 hover:bg-amber-700")}
              >
                 {user?.activationStatus === "PENDING" ? "View Submission" : 
                  user?.activationStatus === "BILLING_RESTRICTED" ? "Pay Now" : "Re-Onboard Now"}
@@ -555,7 +555,7 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
             <button className="p-1.5 text-gray-500 hover:bg-gray-50 rounded-none transition-colors relative">
               <Bell className="w-4 h-4" />
               {user?.adminNotifications > 0 && (
-                <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] bg-red-500 text-white text-[10px] font-black flex items-center justify-center rounded-none border-2 border-white px-1">
+                <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] bg-red-500 text-white text-[10px] font-bold flex items-center justify-center rounded-none border-2 border-white px-1">
                   {user.adminNotifications}
                 </span>
               )}

@@ -25,7 +25,7 @@ export default async function MerchantCategoriesPage() {
     <div className="w-full max-w-7xl mx-auto space-y-8 animate-in fade-in duration-500 pb-20">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-[#0F172A] tracking-tight">International Catalog Hub</h1>
+          <h1 className="text-2xl font-bold text-[#0F172A] tracking-tight">International Catalog Hub</h1>
           <p className="text-[#64748B] text-sm font-medium mt-1">
             Manage hierarchical categories with 3-level depth and SEO intelligence.
           </p>
