@@ -1021,7 +1021,7 @@ model SystemSettings {
   deepseekKey         String?
   deepseekModel       String   @default("deepseek-chat")
   groqKey             String?
-  groqModel           String   @default("llama-3.1-70b-versatile")
+  groqModel           String   @default("llama-3.3-70b-versatile")
   aiProviderPriority  String   @default("OPENAI,GEMINI,DEEPSEEK,OPENROUTER")
   googleVisionKey     String?
   fbAppSecret         String?
