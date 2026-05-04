@@ -33,7 +33,7 @@ export default async function CodReconciliationPage() {
                <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
                <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Financial Integrity System</span>
             </div>
-            <h1 className="text-5xl font-black tracking-tighter text-slate-900  uppercase italic leading-none">
+            <h1 className="text-5xl font-black tracking-tighter text-slate-900  uppercase leading-none">
                COD <span className="text-indigo-600">Reconciliation</span>
             </h1>
             <p className="text-slate-500  text-sm font-bold max-w-xl">
@@ -55,7 +55,7 @@ export default async function CodReconciliationPage() {
                <Zap className="w-8 h-8" />
             </div>
             <div>
-               <h3 className="text-xl font-black text-indigo-900  uppercase tracking-tight italic">Consolidated Settlement</h3>
+               <h3 className="text-xl font-black text-indigo-900  uppercase tracking-tight">Consolidated Settlement</h3>
                <p className="text-[11px] font-bold text-indigo-800/60  mt-1 max-w-md">
                   Select multiple delivered parcels and mark them as settled in one click. This keeps your financial ledger accurate and aligned with your bank statements.
                </p>

@@ -18,7 +18,7 @@ export default async function PosPage() {
           <div className="w-20 h-20 bg-rose-50 rounded-[32px] flex items-center justify-center text-rose-500">
              <ShoppingBag className="w-10 h-10" />
           </div>
-          <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter italic">Access Denied</h2>
+          <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">Access Denied</h2>
           <p className="text-slate-500 font-bold uppercase text-[10px] tracking-widest text-center max-w-xs">
              POS terminal access is restricted. Authorized credentials required for Sales execution.
           </p>
@@ -43,7 +43,7 @@ export default async function PosPage() {
                <ShieldCheck className="w-3.5 h-3.5 text-indigo-500" />
                <span className="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Enterprise Cloud POS</span>
             </div>
-            <h1 className="text-6xl font-black tracking-tighter text-slate-900  uppercase italic leading-none">
+            <h1 className="text-6xl font-black tracking-tighter text-slate-900  uppercase leading-none">
                Sales <span className="text-indigo-600">Terminal</span>
             </h1>
          </div>

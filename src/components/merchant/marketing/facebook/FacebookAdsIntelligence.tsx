@@ -61,7 +61,7 @@ export default function FacebookAdsIntelligence({
               <div className="w-10 h-10 bg-[#1877F2] text-white rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">
                  <Facebook className="w-6 h-6" />
               </div>
-              <h1 className="text-2xl md:text-3xl font-black text-[#0F172A]  uppercase tracking-tighter italic">
+              <h1 className="text-2xl md:text-3xl font-black text-[#0F172A]  uppercase tracking-tighter">
                 Ads <span className="text-[#1877F2]">Intelligence</span>
               </h1>
            </div>
@@ -134,7 +134,7 @@ export default function FacebookAdsIntelligence({
                          <p className="text-[9px] text-gray-400 font-bold">Fashion Industry</p>
                       </div>
                    </div>
-                   <p className="text-[11px] text-gray-500 font-medium leading-relaxed italic line-clamp-3">
+                   <p className="text-[11px] text-gray-500 font-medium leading-relaxed line-clamp-3">
                      "Transform your style with our latest collection. 20% off for first 100 orders!"
                    </p>
                    <button className="w-full py-3 bg-gray-50  border border-gray-100  rounded-xl text-[9px] font-black uppercase tracking-widest flex items-center justify-center gap-2 group-hover:bg-indigo-600 group-hover:text-white transition-all">
@@ -204,7 +204,7 @@ export default function FacebookAdsIntelligence({
                    </div>
                  ) : (
                    <>
-                     <h3 className="text-2xl md:text-3xl font-black tracking-tighter leading-tight italic">
+                     <h3 className="text-2xl md:text-3xl font-black tracking-tighter leading-tight">
                        {isGenerating ? "Analyzing product and crafting copy..." : "Your AI-generated copy will appear here."}
                      </h3>
                      {!isGenerating && (

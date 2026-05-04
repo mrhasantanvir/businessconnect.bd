@@ -68,7 +68,7 @@ export function BrandList({ brands }: { brands: any[] }) {
             </div>
             
             {brand.description && (
-              <p className="text-sm text-gray-500 mt-4 pl-[84px] leading-relaxed line-clamp-1 italic">
+              <p className="text-sm text-gray-500 mt-4 pl-[84px] leading-relaxed line-clamp-1">
                  "{brand.description}"
               </p>
             )}

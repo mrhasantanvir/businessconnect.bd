@@ -64,7 +64,7 @@ export function AutomationDashboard({ initialCarts }: { initialCarts: any[] }) {
               </div>
 
               <div className="space-y-2">
-                 <h3 className="text-xl font-black text-slate-900  tracking-tight uppercase italic">{a.name}</h3>
+                 <h3 className="text-xl font-black text-slate-900  tracking-tight uppercase">{a.name}</h3>
                  <p className="text-[11px] font-bold text-slate-400 leading-relaxed">{a.desc}</p>
               </div>
 
@@ -89,7 +89,7 @@ export function AutomationDashboard({ initialCarts }: { initialCarts: any[] }) {
                   <Clock className="w-6 h-6" />
                </div>
                <div>
-                  <h3 className="text-lg font-black uppercase italic tracking-tight text-slate-900 ">Recent Automation Logs</h3>
+                  <h3 className="text-lg font-black uppercase tracking-tight text-slate-900 ">Recent Automation Logs</h3>
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Tracking recovered revenue in real-time</p>
                </div>
             </div>
@@ -123,7 +123,7 @@ export function AutomationDashboard({ initialCarts }: { initialCarts: any[] }) {
                              </div>
                           </div>
                        </td>
-                       <td className="px-10 py-8 text-sm font-black text-slate-900  italic tracking-tight">
+                       <td className="px-10 py-8 text-sm font-black text-slate-900  tracking-tight">
                           ৳{(JSON.parse(cart.cartData || "{}").total || 0).toLocaleString()}
                        </td>
                        <td className="px-10 py-8">

@@ -73,7 +73,7 @@ export default function RegisterPage() {
           <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#1E40AF] via-[#3B82F6] to-[#BEF264]"></div>
           
           <div className="mb-12">
-            <h1 className="text-4xl font-black text-[#0F172A] mb-3 tracking-tighter uppercase italic">
+            <h1 className="text-4xl font-black text-[#0F172A] mb-3 tracking-tighter uppercase">
               Join the <span className="text-[#1E40AF]">Grid.</span>
             </h1>
             <p className="text-[#64748B] text-sm font-medium">Verify your phone to start your business journey.</p>
@@ -222,7 +222,7 @@ export default function RegisterPage() {
           <div className="mt-10 pt-8 border-t border-[#F1F5F9] text-center">
             <p className="text-[#64748B] text-sm font-medium">
               Already have an account?{" "}
-              <Link href="/login" className="text-[#1E40AF] font-bold hover:underline tracking-tight uppercase italic text-[10px]">Log in here</Link>
+              <Link href="/login" className="text-[#1E40AF] font-bold hover:underline tracking-tight uppercase text-[10px]">Log in here</Link>
             </p>
           </div>
         </div>

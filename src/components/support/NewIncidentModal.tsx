@@ -292,7 +292,7 @@ export function NewIncidentModal({ disabled }: { disabled?: boolean }) {
             </div>
 
             <div className="bg-[#F8F9FA] px-8 py-3 border-t border-[#F1F5F9] shrink-0">
-              <p className="text-[9px] text-[#A1A1AA] font-bold uppercase tracking-[0.2em] text-center italic">
+              <p className="text-[9px] text-[#A1A1AA] font-bold uppercase tracking-[0.2em] text-center">
                 {view === "AI_SUGGESTION" ? "AI analysis is based on historical patterns and knowledge base" : "Data Protection: Encrypted & Compliant Storage"}
               </p>
             </div>

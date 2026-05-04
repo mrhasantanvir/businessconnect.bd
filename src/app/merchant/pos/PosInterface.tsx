@@ -127,7 +127,7 @@ export function PosInterface({ initialProducts }: { initialProducts: any[] }) {
       {/* 1. Product Explorer */}
       <div className="flex-1 bg-white  border border-slate-100  rounded-[40px] p-8 flex flex-col space-y-6 shadow-sm overflow-hidden">
          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-black text-slate-900  uppercase italic flex items-center gap-3">
+            <h2 className="text-xl font-black text-slate-900  uppercase flex items-center gap-3">
                <Calculator className="w-6 h-6 text-indigo-600" /> POS Terminal
             </h2>
             <div className="flex items-center gap-3">
@@ -309,7 +309,7 @@ export function PosInterface({ initialProducts }: { initialProducts: any[] }) {
             <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-md" onClick={() => setShowPrintSettings(false)} />
             <div className="bg-white w-full max-w-lg rounded-[48px] p-12 relative z-10 shadow-2xl border border-slate-100 space-y-10">
                <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-black uppercase italic tracking-tight text-slate-900">Printing <span className="text-indigo-600">Preferences</span></h2>
+                  <h2 className="text-2xl font-black uppercase tracking-tight text-slate-900">Printing <span className="text-indigo-600">Preferences</span></h2>
                   <button onClick={() => setShowPrintSettings(false)} className="p-3 bg-slate-50 rounded-2xl text-slate-400 hover:text-red-500 transition-all"><X className="w-5 h-5" /></button>
                </div>
 
@@ -387,10 +387,10 @@ export function PosInterface({ initialProducts }: { initialProducts: any[] }) {
             <div className="flex justify-between"><span>Subtotal:</span><span>৳{subtotal}</span></div>
             <div className="flex justify-between"><span>Tax ({taxRate}%):</span><span>৳{taxAmount}</span></div>
             <div className="flex justify-between font-bold"><span>Total:</span><span>৳{grandTotal}</span></div>
-            <div className="flex justify-between italic"><span>Method:</span><span>{paymentMethod}</span></div>
+            <div className="flex justify-between"><span>Method:</span><span>{paymentMethod}</span></div>
          </div>
          <div className="text-center mt-8 pt-4 border-t border-dashed border-black">
-            <p className="italic">{printConfig.footerText}</p>
+            <p className="">{printConfig.footerText}</p>
             <p className="mt-2 text-[8px]">Powered by BusinessConnect.bd</p>
          </div>
       </div>

@@ -90,7 +90,7 @@ export function SmsSettingsForm({ initialConfigs, smsBalance }: { initialConfigs
                       <MessageSquare className="w-8 h-8" />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-black text-slate-900  tracking-tighter italic uppercase">{p.name}</h3>
+                      <h3 className="text-2xl font-black text-slate-900  tracking-tighter uppercase">{p.name}</h3>
                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">SMS Gateway Integration</p>
                     </div>
                   </div>
@@ -200,7 +200,7 @@ export function SmsSettingsForm({ initialConfigs, smsBalance }: { initialConfigs
         </div>
 
         <div className="bg-white  border border-slate-100  rounded-[40px] p-8 space-y-6">
-           <h4 className="text-sm font-black uppercase italic tracking-tight flex items-center gap-3">
+           <h4 className="text-sm font-black uppercase tracking-tight flex items-center gap-3">
               <Info className="w-5 h-5 text-indigo-500" /> Integration Tips
            </h4>
            <ul className="space-y-4">

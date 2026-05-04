@@ -157,7 +157,7 @@ export function MerchantRoleManagement({ roles, onUpdate }: { roles: any[], onUp
                       <span key={p} className="text-[9px] font-bold px-2 py-0.5 bg-gray-50 text-gray-600 rounded-[2px] border border-gray-100 uppercase tracking-tighter">
                         {p.split(':')[1]}
                       </span>
-                    )) : <span className="text-[10px] text-gray-400 italic">No specific permissions</span>}
+                    )) : <span className="text-[10px] text-gray-400">No specific permissions</span>}
                     {perms.length > 4 && <span className="text-[9px] font-bold px-2 py-0.5 bg-indigo-50 text-indigo-600 rounded-[2px] border border-indigo-100">+{perms.length - 4} More</span>}
                   </div>
                </div>

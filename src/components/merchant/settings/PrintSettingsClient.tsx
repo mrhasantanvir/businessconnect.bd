@@ -63,7 +63,7 @@ export default function PrintSettingsClient({ initialConfig }: { initialConfig: 
               <div className="w-10 h-10 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-200">
                  <Printer className="w-5 h-5" />
               </div>
-              <h1 className="text-2xl font-black text-[#0F172A] uppercase tracking-tighter italic">Document <span className="text-indigo-600">& Print Engine</span></h1>
+              <h1 className="text-2xl font-black text-[#0F172A] uppercase tracking-tighter">Document <span className="text-indigo-600">& Print Engine</span></h1>
            </div>
            <p className="text-gray-400 text-xs font-black uppercase tracking-widest">Customize your invoices, labels and reports</p>
         </div>
@@ -285,7 +285,7 @@ export default function PrintSettingsClient({ initialConfig }: { initialConfig: 
                      </div>
                   )}
               </div>
-              <p className="text-center text-[9px] font-bold text-gray-400 uppercase tracking-widest italic">WYSIWYG: Real-time rendering enabled</p>
+              <p className="text-center text-[9px] font-bold text-gray-400 uppercase tracking-widest">WYSIWYG: Real-time rendering enabled</p>
            </div>
         </div>
       </div>

@@ -40,7 +40,7 @@ export function TaxSettingsClient({ initialData }: { initialData: any }) {
                   <Globe className="w-8 h-8" />
                </div>
                <div>
-                  <h3 className="text-xl font-black uppercase italic tracking-tight">Global VAT Activation</h3>
+                  <h3 className="text-xl font-black uppercase tracking-tight">Global VAT Activation</h3>
                   <p className={`text-[10px] font-bold uppercase tracking-widest mt-1 ${
                     formData.isVatEnabled ? 'text-indigo-100' : 'text-slate-400'
                   }`}>

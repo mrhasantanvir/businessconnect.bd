@@ -125,7 +125,7 @@ export function CampaignCreator({ categories, products }: { categories: any[], p
                       )}
                     >
                        <t.icon className={cn("w-6 h-6 mb-4", formData.targetType === t.id ? "text-white" : "text-indigo-500")} />
-                       <div className="text-sm font-black uppercase tracking-tight italic">{t.label}</div>
+                       <div className="text-sm font-black uppercase tracking-tight">{t.label}</div>
                        <div className={cn("text-[10px] font-bold mt-1 uppercase opacity-60", formData.targetType === t.id ? "text-white" : "text-slate-400")}>{t.desc}</div>
                     </button>
                   ))}
@@ -296,7 +296,7 @@ export function CampaignCreator({ categories, products }: { categories: any[], p
                <div className="bg-indigo-600 rounded-[40px] p-10 text-white relative overflow-hidden shadow-2xl">
                   <Calendar className="absolute right-[-20px] bottom-[-20px] w-48 h-48 opacity-10" />
                   <div className="relative z-10 max-w-lg space-y-6">
-                     <h3 className="text-3xl font-black tracking-tighter uppercase italic italic">Ready for Blast Off?</h3>
+                     <h3 className="text-3xl font-black tracking-tighter uppercase">Ready for Blast Off?</h3>
                      <p className="text-sm font-bold text-indigo-100 opacity-80 uppercase leading-relaxed">
                         Schedule your campaign for the perfect moment or send it immediately to all selected targets.
                      </p>
@@ -319,11 +319,11 @@ export function CampaignCreator({ categories, products }: { categories: any[], p
                      <div className="space-y-3">
                         <div className="flex justify-between text-sm font-black text-slate-900  uppercase">
                            <span>Audience</span>
-                           <span className="italic text-indigo-600">{formData.targetType}</span>
+                           <span className="text-indigo-600">{formData.targetType}</span>
                         </div>
                         <div className="flex justify-between text-sm font-black text-slate-900  uppercase">
                            <span>Language</span>
-                           <span className="italic">Bengali/English</span>
+                           <span className="">Bengali/English</span>
                         </div>
                      </div>
                   </div>

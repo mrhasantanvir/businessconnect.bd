@@ -22,7 +22,7 @@ export default async function TaxSettingsPage() {
   return (
     <div className="max-w-4xl mx-auto space-y-10 pb-20">
       <div className="space-y-4">
-         <h1 className="text-4xl font-black text-slate-900 tracking-tighter uppercase italic">
+         <h1 className="text-4xl font-black text-slate-900 tracking-tighter uppercase">
             NBR <span className="text-indigo-600">Tax & VAT</span> Compliance
          </h1>
          <p className="text-slate-500 text-sm font-bold max-w-xl uppercase tracking-widest leading-relaxed">

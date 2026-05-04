@@ -153,7 +153,7 @@ export function CallAuditTimeline({ logs, auditorId }: { logs: CallLog[], audito
                           <div className="flex items-center gap-2 text-[9px] font-black uppercase text-indigo-400 tracking-widest mb-2">
                               <ShieldCheck size={12} /> Intelligence Summary
                           </div>
-                          <p className="text-xs text-gray-400 leading-relaxed font-bold italic">
+                          <p className="text-xs text-gray-400 leading-relaxed font-bold">
                               "{log.aiSummary}"
                           </p>
                         </div>

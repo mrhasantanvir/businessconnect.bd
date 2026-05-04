@@ -57,11 +57,11 @@ export function MerchantTableClient({ merchants, settings }: { merchants: any[],
                 <tr key={m.id} className="hover:bg-slate-50/50 transition-colors group">
                   <td className="p-6">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-[16px] bg-slate-900 flex items-center justify-center text-white text-xl font-black italic shadow-md shrink-0">
+                      <div className="w-12 h-12 rounded-[16px] bg-slate-900 flex items-center justify-center text-white text-xl font-black shadow-md shrink-0">
                         {m.name.charAt(0)}
                       </div>
                       <div>
-                        <div className="text-sm font-black text-slate-900 tracking-tight uppercase italic flex items-center gap-2">
+                        <div className="text-sm font-black text-slate-900 tracking-tight uppercase flex items-center gap-2">
                            {m.name}
                            {m.businessType && <span className="text-[8px] px-2 py-0.5 bg-blue-50 text-blue-600 rounded-full">{m.businessType}</span>}
                         </div>
@@ -308,7 +308,7 @@ function EditPhoneModal({ userId, currentPhone, onClose }: { userId: string, cur
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in">
       <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-6 flex flex-col space-y-6">
          <div>
-            <h3 className="text-xl font-black text-slate-900 tracking-tight uppercase italic">Update Merchant Phone</h3>
+            <h3 className="text-xl font-black text-slate-900 tracking-tight uppercase">Update Merchant Phone</h3>
             <p className="text-xs text-slate-500 mt-1">Careful: Changing this will affect their login credentials.</p>
          </div>
 

@@ -341,7 +341,7 @@ export default function TaskDrawer({
                     </div>
                   </div>
                </div>
-               <p className="text-[11px] font-bold leading-relaxed text-indigo-900 italic whitespace-pre-wrap">
+               <p className="text-[11px] font-bold leading-relaxed text-indigo-900 whitespace-pre-wrap">
                   {generateAiSummary()}
                </p>
             </div>
@@ -415,7 +415,7 @@ export default function TaskDrawer({
                     {task.messages?.map((msg: any) => (
                        <div key={msg.id} className={cn(
                          "max-w-[85%] p-4 rounded-none",
-                         msg.isAi ? "bg-indigo-50 text-indigo-700 border border-indigo-100 italic" : "bg-gray-50 text-[#0F172A] border border-gray-100"
+                         msg.isAi ? "bg-indigo-50 text-indigo-700 border border-indigo-100" : "bg-gray-50 text-[#0F172A] border border-gray-100"
                        )}>
                           <p className="text-[11px] font-medium leading-relaxed">{msg.content}</p>
                           <div className="flex items-center justify-between mt-2 opacity-50">

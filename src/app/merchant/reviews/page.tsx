@@ -39,7 +39,7 @@ export default async function MerchantReviewsPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
          <div className="space-y-4">
-            <h1 className="text-4xl font-black text-slate-900 tracking-tighter uppercase italic">
+            <h1 className="text-4xl font-black text-slate-900 tracking-tighter uppercase">
                Review <span className="text-indigo-600">Manager</span>
             </h1>
             <p className="text-slate-500 text-sm font-bold max-w-xl uppercase tracking-widest leading-relaxed">
@@ -77,7 +77,7 @@ export default async function MerchantReviewsPage() {
                     {/* Customer & Product */}
                     <div className="space-y-6">
                        <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 font-black italic">
+                          <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 font-black">
                              {r.customerName?.slice(0, 2) || "CU"}
                           </div>
                           <div>
@@ -104,7 +104,7 @@ export default async function MerchantReviewsPage() {
                           </div>
                           <span className="text-[10px] font-black uppercase text-slate-400">{new Date(r.createdAt).toLocaleDateString()}</span>
                        </div>
-                       <p className="text-sm font-bold text-slate-600 leading-relaxed italic">
+                       <p className="text-sm font-bold text-slate-600 leading-relaxed">
                           "{r.comment || "No text provided."}"
                        </p>
                        {r.merchantReply && (
@@ -112,7 +112,7 @@ export default async function MerchantReviewsPage() {
                              <p className="text-[9px] font-black uppercase text-indigo-600 flex items-center gap-2">
                                 <Reply className="w-3.5 h-3.5" /> Your Official Reply
                              </p>
-                             <p className="text-xs font-bold text-slate-600 italic">"{r.merchantReply}"</p>
+                             <p className="text-xs font-bold text-slate-600">"{r.merchantReply}"</p>
                           </div>
                        )}
                     </div>

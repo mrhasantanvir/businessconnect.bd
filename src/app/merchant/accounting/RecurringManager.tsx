@@ -45,7 +45,7 @@ export function RecurringManager({ categories, branches, recurrings }: { categor
                <Repeat className="w-7 h-7" />
             </div>
             <div>
-               <h3 className="text-2xl font-black uppercase tracking-tighter italic">Automation Engine</h3>
+               <h3 className="text-2xl font-black uppercase tracking-tighter">Automation Engine</h3>
                <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mt-1">Automated recurring journals</p>
             </div>
          </div>
@@ -115,7 +115,7 @@ export function RecurringManager({ categories, branches, recurrings }: { categor
             ))}
             {recurrings.length === 0 && (
                <div className="py-8 text-center border-2 border-dashed border-white/5 rounded-[32px]">
-                  <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest italic">No automations deployed</p>
+                  <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest">No automations deployed</p>
                </div>
             )}
          </div>

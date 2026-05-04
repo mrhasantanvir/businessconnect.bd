@@ -201,11 +201,11 @@ export function LandingPageContent() {
          <div className="max-w-7xl mx-auto px-6">
             <p className="text-center text-sm font-bold text-gray-400 uppercase tracking-[0.3em] mb-16">Trusted by High-Scale Brands</p>
             <div className="flex flex-wrap justify-center items-center gap-16 lg:gap-24 opacity-40 grayscale hover:grayscale-0 transition-all duration-700">
-               <div className="text-3xl font-black italic">DARAZ</div>
-               <div className="text-3xl font-black italic">CHALDAL</div>
-               <div className="text-3xl font-black italic">PATHAO</div>
-               <div className="text-3xl font-black italic">SHOPUP</div>
-               <div className="text-3xl font-black italic">G&G</div>
+               <div className="text-3xl font-black">DARAZ</div>
+               <div className="text-3xl font-black">CHALDAL</div>
+               <div className="text-3xl font-black">PATHAO</div>
+               <div className="text-3xl font-black">SHOPUP</div>
+               <div className="text-3xl font-black">G&G</div>
             </div>
          </div>
       </section>
@@ -304,7 +304,7 @@ export function LandingPageContent() {
                          <Star key={i} size={16} className="fill-amber-400 text-amber-400" />
                        ))}
                     </div>
-                    <p className="text-lg font-medium text-slate-600 leading-relaxed mb-10 italic">
+                    <p className="text-lg font-medium text-slate-600 leading-relaxed mb-10">
                       "{review.content}"
                     </p>
                     <div className="flex items-center gap-4 pt-6 border-t border-slate-50">

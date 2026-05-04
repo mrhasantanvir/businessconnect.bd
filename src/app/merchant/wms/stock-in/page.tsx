@@ -48,7 +48,7 @@ export default function StockInPage() {
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-8 border-b border-gray-100 ">
          <div>
-            <h1 className="text-4xl font-black tracking-tight text-[#0F172A]  uppercase italic">
+            <h1 className="text-4xl font-black tracking-tight text-[#0F172A]  uppercase">
                Inventory <span className="text-indigo-600">Inbound</span>
             </h1>
             <p className="text-[#64748B]  text-sm font-bold mt-2 uppercase tracking-widest flex items-center gap-2">
@@ -173,18 +173,18 @@ export default function StockInPage() {
             <div className="p-10 bg-white text-slate-900 text-slate-900 text-slate-900 border border-slate-100 text-white rounded-[48px] shadow-2xl relative overflow-hidden">
                <div className="absolute inset-0 bg-gradient-to-tr from-indigo-900/50 to-transparent" />
                <div className="relative z-10">
-                  <h3 className="text-lg font-black uppercase italic tracking-tight">Best Practice <br/><span className="text-indigo-400">Inventory Sync</span></h3>
+                  <h3 className="text-lg font-black uppercase tracking-tight">Best Practice <br/><span className="text-indigo-400">Inventory Sync</span></h3>
                   <ul className="mt-8 space-y-6">
                      <li className="flex gap-4">
-                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0 text-xs font-black italic">01</div>
+                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0 text-xs font-black">01</div>
                         <p className="text-xs font-bold leading-relaxed text-gray-300 uppercase tracking-tight">Ensure lighting is uniform to reduce optical reflection on glossy barcodes.</p>
                      </li>
                      <li className="flex gap-4">
-                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0 text-xs font-black italic">02</div>
+                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0 text-xs font-black">02</div>
                         <p className="text-xs font-bold leading-relaxed text-gray-300 uppercase tracking-tight">Wait for the green "Verified" pulse before moving to the next item.</p>
                      </li>
                      <li className="flex gap-4">
-                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0 text-xs font-black italic">03</div>
+                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0 text-xs font-black">03</div>
                         <p className="text-xs font-bold leading-relaxed text-gray-300 uppercase tracking-tight">Use HID industrial scanners for high-volume high-speed procurement.</p>
                      </li>
                   </ul>

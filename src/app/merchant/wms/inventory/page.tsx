@@ -18,7 +18,7 @@ export default async function InventoryOverviewPage() {
           <div className="w-20 h-20 bg-rose-50 rounded-[32px] flex items-center justify-center text-rose-500">
              <Package className="w-10 h-10" />
           </div>
-          <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter italic">Access Denied</h2>
+          <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">Access Denied</h2>
           <p className="text-slate-500 font-bold uppercase text-[10px] tracking-widest text-center max-w-xs">
              Your account is not authorized for inventory management. Please contact your system administrator.
           </p>
@@ -110,14 +110,14 @@ export default async function InventoryOverviewPage() {
                                      {st.quantity}
                                   </span>
                                </td>
-                               <td className="px-6 py-4 text-right text-[10px] text-gray-400 font-medium italic">
+                               <td className="px-6 py-4 text-right text-[10px] text-gray-400 font-medium">
                                   {new Date(st.updatedAt).toLocaleString()}
                                </td>
                             </tr>
                           ))}
                           {wh.stocks.length === 0 && (
                             <tr>
-                               <td colSpan={3} className="px-6 py-10 text-center text-gray-400 text-xs italic">No stock initialized in this hub.</td>
+                               <td colSpan={3} className="px-6 py-10 text-center text-gray-400 text-xs">No stock initialized in this hub.</td>
                             </tr>
                           )}
                        </tbody>

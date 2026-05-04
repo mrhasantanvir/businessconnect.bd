@@ -9,7 +9,7 @@ export function ReturnPackingSlip({ order, returnRequest }: { order: any, return
       {/* Header */}
       <div className="flex justify-between items-start border-b-4 border-slate-900 pb-8 mb-8">
         <div>
-          <h1 className="text-4xl font-black tracking-tighter uppercase italic">
+          <h1 className="text-4xl font-black tracking-tighter uppercase">
             RETURN <span className="text-red-600">MANIFEST</span>
           </h1>
           <p className="text-slate-400 font-bold uppercase text-xs tracking-widest mt-1">Authorized Reverse Logistics Document</p>
@@ -33,7 +33,7 @@ export function ReturnPackingSlip({ order, returnRequest }: { order: any, return
             <p className="text-sm font-bold text-slate-500 flex items-center gap-2 mb-2">
               <Phone className="w-4 h-4" /> {order.customerPhone}
             </p>
-            <p className="text-sm font-bold text-slate-500 leading-relaxed italic">
+            <p className="text-sm font-bold text-slate-500 leading-relaxed">
               {order.deliveryAddress}
             </p>
           </div>
@@ -49,7 +49,7 @@ export function ReturnPackingSlip({ order, returnRequest }: { order: any, return
             <p className="text-sm font-bold text-indigo-600/80 flex items-center gap-2 mb-2">
               <Phone className="w-4 h-4" /> {order.merchantStore?.phone || "Office Contact"}
             </p>
-            <p className="text-sm font-bold text-indigo-600/80 leading-relaxed italic">
+            <p className="text-sm font-bold text-indigo-600/80 leading-relaxed">
               {order.merchantStore?.address || "Registered Business Address"}
             </p>
           </div>
@@ -99,7 +99,7 @@ export function ReturnPackingSlip({ order, returnRequest }: { order: any, return
             </div>
             <div className="flex-1 p-6 bg-slate-50 rounded-3xl border border-slate-100">
               <p className="text-[9px] font-black text-slate-400 uppercase mb-2">Return Method</p>
-              <p className="font-black text-slate-900 uppercase italic">{returnRequest.method || "Standard Courier"}</p>
+              <p className="font-black text-slate-900 uppercase">{returnRequest.method || "Standard Courier"}</p>
             </div>
           </div>
         </div>

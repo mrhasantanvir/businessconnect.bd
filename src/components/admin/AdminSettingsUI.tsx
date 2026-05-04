@@ -372,7 +372,7 @@ function SmsSettings({ settings, onSave, saving }: any) {
         
         {provider === "SSLCOMMERZ" && (
           <div className="p-4 bg-blue-50 border border-blue-100 rounded-none text-xs text-[#1E40AF] space-y-2">
-            <p className="font-bold flex items-center gap-2 italic uppercase tracking-widest">
+            <p className="font-bold flex items-center gap-2 uppercase tracking-widest">
               <ShieldCheck className="w-4 h-4" /> SSLCommerz Integration Active
             </p>
             <p>This provider is currently used for <strong>Merchant Phone Verification (OTP)</strong>.</p>
@@ -1016,7 +1016,7 @@ function PaymentSettings({ settings, onSave, saving }: any) {
                  <span className="text-white font-black text-xs">BK</span>
               </div>
               <div>
-                 <h4 className="text-lg font-black text-[#0F172A] italic uppercase tracking-tight">bKash <span className="text-[#E11D48]">Checkout</span></h4>
+                 <h4 className="text-lg font-black text-[#0F172A] uppercase tracking-tight">bKash <span className="text-[#E11D48]">Checkout</span></h4>
                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Mobile Financial Service Integration</p>
               </div>
            </div>
@@ -1049,7 +1049,7 @@ function PaymentSettings({ settings, onSave, saving }: any) {
                  <span className="text-white font-black text-xs">NG</span>
               </div>
               <div>
-                 <h4 className="text-lg font-black text-[#0F172A] italic uppercase tracking-tight">Nagad <span className="text-[#F97316]">Gateway</span></h4>
+                 <h4 className="text-lg font-black text-[#0F172A] uppercase tracking-tight">Nagad <span className="text-[#F97316]">Gateway</span></h4>
                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Post-Payment Verification Mode</p>
               </div>
            </div>

@@ -69,7 +69,7 @@ export function PredictiveSearch({ storeId }: { storeId: string }) {
                             <img src={item.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
                          </div>
                          <div>
-                            <h4 className="text-[11px] font-black uppercase italic text-slate-900 leading-none">{item.name}</h4>
+                            <h4 className="text-[11px] font-black uppercase text-slate-900 leading-none">{item.name}</h4>
                             <p className="text-[9px] font-bold text-slate-400 uppercase mt-2 tracking-widest">{item.category?.name || "General"}</p>
                          </div>
                       </div>
@@ -81,7 +81,7 @@ export function PredictiveSearch({ storeId }: { storeId: string }) {
                  ))}
                  {results.length === 0 && !loading && (
                    <div className="py-10 text-center space-y-2">
-                      <p className="text-xs font-bold text-slate-400 italic">"No items found for this query"</p>
+                      <p className="text-xs font-bold text-slate-400">"No items found for this query"</p>
                       <p className="text-[9px] font-black uppercase text-indigo-600 tracking-widest">Try searching for 'Mango' or 'Fresh'</p>
                    </div>
                  )}

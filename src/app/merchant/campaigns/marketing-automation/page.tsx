@@ -26,7 +26,7 @@ export default async function MarketingAutomationPage() {
                <ShieldCheck className="w-3.5 h-3.5 text-indigo-500" />
                <span className="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Growth Hyper-Automation</span>
             </div>
-            <h1 className="text-5xl font-black tracking-tighter text-slate-900  uppercase italic leading-none">
+            <h1 className="text-5xl font-black tracking-tighter text-slate-900  uppercase leading-none">
                Marketing <span className="text-indigo-600">Automation</span>
             </h1>
             <p className="text-slate-500  text-sm font-bold max-w-xl">

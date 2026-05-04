@@ -41,7 +41,7 @@ export default async function MerchantAccountingPage() {
           <div className="w-20 h-20 bg-rose-50 rounded-[32px] flex items-center justify-center text-rose-500">
              <Zap className="w-10 h-10" />
           </div>
-          <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter italic">Access Denied</h2>
+          <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">Access Denied</h2>
           <p className="text-slate-500 font-bold uppercase text-[10px] tracking-widest text-center max-w-xs">
              You do not have permission to access the Accounting module.
           </p>
@@ -109,7 +109,7 @@ export default async function MerchantAccountingPage() {
                   <span className="text-slate-300 font-medium">/</span>
                   <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Accounts Management</div>
                </div>
-               <h1 className="text-7xl font-black text-slate-900 tracking-tighter leading-none italic">
+               <h1 className="text-7xl font-black text-slate-900 tracking-tighter leading-none">
                   ACCOUNTS<span className="text-indigo-600">.</span>
                </h1>
                <p className="max-w-md text-slate-500 font-medium text-lg leading-relaxed uppercase tracking-tight">
@@ -122,14 +122,14 @@ export default async function MerchantAccountingPage() {
                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-2">
                      <TrendingUp className="w-3 h-3 text-emerald-500" /> Total Revenue
                   </p>
-                  <p className="text-4xl font-black text-slate-900 tracking-tighter italic">৳{totalIncome.toLocaleString()}</p>
+                  <p className="text-4xl font-black text-slate-900 tracking-tighter">৳{totalIncome.toLocaleString()}</p>
                </div>
                <div className="px-10 py-8 bg-slate-900 text-white rounded-[40px] shadow-2xl shadow-indigo-100 flex flex-col justify-center min-w-[220px] relative overflow-hidden">
                   <div className="absolute inset-0 bg-indigo-600/10 group-hover:bg-indigo-600/20 transition-all" />
                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 relative z-10 flex items-center gap-2">
                      <Landmark className="w-3 h-3 text-[#BEF264]" /> Cash Liquidity
                   </p>
-                  <p className="text-4xl font-black text-[#BEF264] tracking-tighter italic relative z-10">৳{totalLiquidity.toLocaleString()}</p>
+                  <p className="text-4xl font-black text-[#BEF264] tracking-tighter relative z-10">৳{totalLiquidity.toLocaleString()}</p>
                </div>
             </div>
          </div>
@@ -166,7 +166,7 @@ export default async function MerchantAccountingPage() {
                      </div>
                      <div>
                         <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tight">Profitability Report</h2>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1 italic">Real-time branch profitability analysis</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Real-time branch profitability analysis</p>
                      </div>
                   </div>
                </div>
@@ -196,8 +196,8 @@ export default async function MerchantAccountingPage() {
                              <span className="text-sm font-black text-slate-900 group-hover:text-white">৳{bs.expense.toLocaleString()}</span>
                           </div>
                           <div className="pt-5 border-t border-slate-200 group-hover:border-slate-800 flex items-center justify-between">
-                             <span className="text-xs font-black text-slate-900 uppercase group-hover:text-slate-400 italic tracking-tighter">Branch Yield</span>
-                             <span className={`text-xl font-black italic ${bs.profit >= 0 ? 'text-emerald-600 group-hover:text-[#BEF264]' : 'text-rose-600'}`}>৳{bs.profit.toLocaleString()}</span>
+                             <span className="text-xs font-black text-slate-900 uppercase group-hover:text-slate-400 tracking-tighter">Branch Yield</span>
+                             <span className={`text-xl font-black ${bs.profit >= 0 ? 'text-emerald-600 group-hover:text-[#BEF264]' : 'text-rose-600'}`}>৳{bs.profit.toLocaleString()}</span>
                           </div>
                        </div>
                     </div>
@@ -219,14 +219,14 @@ export default async function MerchantAccountingPage() {
                   <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-3xl flex items-center justify-center text-[#BEF264] border border-white/20 shadow-xl">
                      <Layers className="w-8 h-8" />
                   </div>
-                  <h4 className="text-4xl font-black tracking-tighter italic leading-[0.9] uppercase">Accounting<br/>Insights</h4>
+                  <h4 className="text-4xl font-black tracking-tighter leading-[0.9] uppercase">Accounting<br/>Insights</h4>
                   <p className="text-sm font-medium text-indigo-100 leading-relaxed uppercase tracking-tight opacity-90">
                      Track Buy, Sell, Salaries and Courier settlements in one unified dashboard.
                   </p>
                   <div className="pt-8 border-t border-white/10 flex items-center justify-between">
                      <div className="flex flex-col">
                         <span className="text-[9px] font-black uppercase tracking-widest text-indigo-300">Net Profit</span>
-                        <span className="text-2xl font-black italic">৳{netProfit.toLocaleString()}</span>
+                        <span className="text-2xl font-black">৳{netProfit.toLocaleString()}</span>
                      </div>
                      <div className="w-12 h-12 rounded-full border-2 border-white/20 flex items-center justify-center group-hover:scale-110 transition-transform">
                         <TrendingUp className="w-5 h-5 text-[#BEF264]" />

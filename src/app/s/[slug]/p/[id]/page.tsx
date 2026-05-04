@@ -53,7 +53,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
          <Link href={`/s/${slug}`} className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-indigo-600 transition-colors">
             <ArrowLeft className="w-4 h-4" /> Back to Collection
          </Link>
-         <h1 className="text-xl font-black tracking-tighter uppercase italic text-indigo-600">{store.name}</h1>
+         <h1 className="text-xl font-black tracking-tighter uppercase text-indigo-600">{store.name}</h1>
          <div className="flex items-center gap-6">
             <button className="p-2 hover:bg-slate-50 rounded-full text-slate-400"><Share2 className="w-5 h-5" /></button>
             <button className="p-2 hover:bg-slate-50 rounded-full text-slate-400"><Heart className="w-5 h-5" /></button>
@@ -93,10 +93,10 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
                         <span className="text-[10px] font-bold text-slate-400 uppercase ml-1">({reviews.length} Reviews)</span>
                      </div>
                   </div>
-                  <h2 className="text-6xl lg:text-7xl font-black tracking-tighter uppercase italic leading-none text-slate-900">{product.name}</h2>
+                  <h2 className="text-6xl lg:text-7xl font-black tracking-tighter uppercase leading-none text-slate-900">{product.name}</h2>
                   <div className="flex items-baseline gap-4">
                      <span className="text-5xl font-black text-indigo-600 tracking-tighter">৳{product.price.toLocaleString()}</span>
-                     <span className="text-xl font-bold text-slate-300 line-through tracking-tighter italic">৳{(product.price * 1.2).toLocaleString()}</span>
+                     <span className="text-xl font-bold text-slate-300 line-through tracking-tighter">৳{(product.price * 1.2).toLocaleString()}</span>
                   </div>
                </div>
 
@@ -137,7 +137,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
                         <ShieldCheck className="w-8 h-8" />
                      </div>
                      <div>
-                        <h4 className="text-xl font-black uppercase italic leading-none">Security Guaranteed</h4>
+                        <h4 className="text-xl font-black uppercase leading-none">Security Guaranteed</h4>
                         <p className="text-[10px] font-bold uppercase tracking-widest opacity-60 mt-2">Verified Merchant • Protected Payments</p>
                      </div>
                   </div>

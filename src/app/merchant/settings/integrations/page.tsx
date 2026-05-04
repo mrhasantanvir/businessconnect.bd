@@ -134,7 +134,7 @@ export default function IntegrationHubPage() {
           <div key={idx} className="space-y-6">
              <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-l-4 border-indigo-500 pl-6">
                 <div>
-                   <h2 className="text-2xl font-black text-foreground tracking-tight uppercase italic">{group.title}</h2>
+                   <h2 className="text-2xl font-black text-foreground tracking-tight uppercase">{group.title}</h2>
                    <p className="text-sm text-muted-foreground font-medium">{group.description}</p>
                 </div>
              </div>

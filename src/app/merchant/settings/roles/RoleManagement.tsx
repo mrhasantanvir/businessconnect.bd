@@ -50,7 +50,7 @@ export default function RoleManagement({ initialRoles }: { initialRoles: any[] }
                </div>
                <span className="text-[10px] font-black text-indigo-500 uppercase tracking-widest">Security Layer</span>
             </div>
-            <h1 className="text-4xl font-black text-slate-900 tracking-tighter uppercase italic">Access<span className="text-indigo-600">Control</span></h1>
+            <h1 className="text-4xl font-black text-slate-900 tracking-tighter uppercase">Access<span className="text-indigo-600">Control</span></h1>
             <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">Define custom roles and granular permissions for your team.</p>
          </div>
 
@@ -68,12 +68,12 @@ export default function RoleManagement({ initialRoles }: { initialRoles: any[] }
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
                <div className="space-y-6">
                   <div className="space-y-2">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">Role Name</label>
+                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Role Name</label>
                      <input 
                         value={newRoleName}
                         onChange={(e) => setNewRoleName(e.target.value)}
                         placeholder="e.g. Sales Manager"
-                        className="w-full px-8 py-5 bg-slate-50 border-none rounded-[24px] font-black italic text-slate-900 outline-none focus:ring-4 focus:ring-indigo-50 transition-all"
+                        className="w-full px-8 py-5 bg-slate-50 border-none rounded-[24px] font-black text-slate-900 outline-none focus:ring-4 focus:ring-indigo-50 transition-all"
                      />
                   </div>
 
@@ -81,7 +81,7 @@ export default function RoleManagement({ initialRoles }: { initialRoles: any[] }
                      <h4 className="text-sm font-black text-slate-900 uppercase tracking-tight mb-4 flex items-center gap-2">
                         <ShieldAlert className="w-4 h-4 text-indigo-600" /> Permissions Matrix
                      </h4>
-                     <p className="text-[10px] font-bold text-indigo-600/60 leading-relaxed uppercase tracking-tighter italic">
+                     <p className="text-[10px] font-bold text-indigo-600/60 leading-relaxed uppercase tracking-tighter">
                         Select the features this role can access. Granting 'Accounting' permissions will expose financial sensitive data to the staff.
                      </p>
                   </div>
@@ -97,7 +97,7 @@ export default function RoleManagement({ initialRoles }: { initialRoles: any[] }
                </div>
 
                <div className="space-y-6">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">Available Permissions</label>
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Available Permissions</label>
                   <div className="grid grid-cols-1 gap-3 max-h-[400px] overflow-y-auto pr-4 custom-scrollbar">
                      {PERMISSIONS_LIST.map(p => (
                         <div 
@@ -149,7 +149,7 @@ export default function RoleManagement({ initialRoles }: { initialRoles: any[] }
                   </div>
 
                   <div>
-                     <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tighter italic">{role.name}</h3>
+                     <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">{role.name}</h3>
                      <div className="flex items-center gap-2 mt-2">
                         <div className="px-3 py-1 bg-indigo-50 text-indigo-600 text-[9px] font-black uppercase tracking-widest rounded-full">
                            {role.permissions.length} PERMISSIONS
@@ -177,7 +177,7 @@ export default function RoleManagement({ initialRoles }: { initialRoles: any[] }
          {initialRoles.length === 0 && !showAdd && (
             <div className="col-span-full py-32 text-center border-4 border-dashed border-slate-100 rounded-[56px]">
                <ShieldAlert className="w-16 h-16 text-slate-200 mx-auto mb-6" />
-               <p className="text-xl font-black text-slate-300 uppercase tracking-tighter italic italic italic">No custom roles found.</p>
+               <p className="text-xl font-black text-slate-300 uppercase tracking-tighter">No custom roles found.</p>
                <button 
                   onClick={() => setShowAdd(true)}
                   className="mt-6 text-indigo-600 font-black uppercase tracking-widest text-[10px] hover:underline"

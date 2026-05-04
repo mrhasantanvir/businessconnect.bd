@@ -150,7 +150,7 @@ export function AdminCreateIncidentModal({ stores }: { stores: any[] }) {
                                </button>
                              ))
                            ) : (
-                             <div className="p-4 text-center text-xs text-[#A1A1AA] font-bold italic">No stores found matching "{searchQuery}"</div>
+                             <div className="p-4 text-center text-xs text-[#A1A1AA] font-bold">No stores found matching "{searchQuery}"</div>
                            )}
                         </div>
                       )}
@@ -215,7 +215,7 @@ export function AdminCreateIncidentModal({ stores }: { stores: any[] }) {
             </div>
             
             <div className="bg-[#F8F9FA] px-8 py-3 border-t border-[#F1F5F9] text-center">
-               <p className="text-[9px] text-[#A1A1AA] font-black uppercase tracking-widest italic">Always verify merchant identity before logging on-behalf</p>
+               <p className="text-[9px] text-[#A1A1AA] font-black uppercase tracking-widest">Always verify merchant identity before logging on-behalf</p>
             </div>
           </div>
         </div>

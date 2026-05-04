@@ -62,7 +62,7 @@ export default async function AnalyticsDashboardPage() {
       {/* Header - More Compact */}
       <div className="flex items-center justify-between shrink-0">
          <div className="flex items-center gap-4">
-            <h1 className="text-2xl font-black text-slate-900 tracking-tight uppercase italic leading-none">
+            <h1 className="text-2xl font-black text-slate-900 tracking-tight uppercase leading-none">
                Advanced <span className="text-indigo-600">Analytics</span>
             </h1>
             <div className="hidden sm:flex items-center gap-2 px-2 py-0.5 bg-indigo-50 text-indigo-600 rounded-lg">

@@ -82,7 +82,7 @@ export function GoogleSheetsSettingsForm({ config }: { config: any }) {
                <FileSpreadsheet className="w-8 h-8" />
             </div>
             <div>
-               <h3 className="text-xl font-black uppercase tracking-tight italic">
+               <h3 className="text-xl font-black uppercase tracking-tight">
                   {isConnected ? "Google Pipeline Active" : "Disconnected"}
                </h3>
                <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest leading-none mt-1">
@@ -133,7 +133,7 @@ export function GoogleSheetsSettingsForm({ config }: { config: any }) {
                        placeholder="e.g. 1aBC-dEf_gHiJkLmNoP" 
                        className="w-full px-6 py-5 bg-gray-50  border border-gray-100  rounded-[32px] text-xs font-bold outline-none focus:ring-2 focus:ring-indigo-100  transition-all font-mono"
                      />
-                     <p className="text-[9px] text-gray-400 font-bold uppercase ml-2 italic">Found in your sheet URL: https://docs.google.com/spreadsheets/d/<b>SpreadsheetID</b>/edit</p>
+                     <p className="text-[9px] text-gray-400 font-bold uppercase ml-2">Found in your sheet URL: https://docs.google.com/spreadsheets/d/<b>SpreadsheetID</b>/edit</p>
                   </div>
 
                   <div className="space-y-4">
@@ -163,13 +163,13 @@ export function GoogleSheetsSettingsForm({ config }: { config: any }) {
                      <ShieldCheck className="w-6 h-6" />
                   </div>
                   <div>
-                     <h3 className="text-lg font-black uppercase tracking-tight italic">Synchronization Portal</h3>
+                     <h3 className="text-lg font-black uppercase tracking-tight">Synchronization Portal</h3>
                      <p className="text-[10px] font-bold text-indigo-200 uppercase tracking-widest leading-none mt-1">Real-time Data Exchange</p>
                   </div>
                </div>
 
                <div className="space-y-4">
-                  <p className="text-xs text-indigo-100/60 font-bold uppercase tracking-widest leading-relaxed italic border-l-2 border-indigo-500/30 pl-4">
+                  <p className="text-xs text-indigo-100/60 font-bold uppercase tracking-widest leading-relaxed border-l-2 border-indigo-500/30 pl-4">
                      Export your centralized logistics data into your connected Google Spreadsheet for advanced reporting or external analysis.
                   </p>
                   

@@ -27,7 +27,7 @@ export function OrderInvoice({ order, store }: { order: any, store: any }) {
                <div className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white">
                   <ShoppingBag className="w-7 h-7" />
                </div>
-               <h1 className="text-3xl font-black tracking-tighter uppercase italic text-indigo-600">{store.name}</h1>
+               <h1 className="text-3xl font-black tracking-tighter uppercase text-indigo-600">{store.name}</h1>
             </div>
             <div className="space-y-1 text-xs font-bold text-slate-400 uppercase tracking-widest">
                <p className="flex items-center gap-2"><MapPin className="w-3.5 h-3.5" /> Rajshahi HQ, Bangladesh</p>
@@ -36,7 +36,7 @@ export function OrderInvoice({ order, store }: { order: any, store: any }) {
             </div>
          </div>
          <div className="text-right space-y-2">
-            <h2 className="text-5xl font-black text-slate-100 uppercase italic tracking-tighter absolute right-16 top-16 opacity-50">{store.printSettings?.invoiceTitle || "INVOICE"}</h2>
+            <h2 className="text-5xl font-black text-slate-100 uppercase tracking-tighter absolute right-16 top-16 opacity-50">{store.printSettings?.invoiceTitle || "INVOICE"}</h2>
             <div className="relative z-10 pt-10">
                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Invoice Number</p>
                <p className="text-2xl font-black text-slate-900 tracking-tight">#{order.id.slice(-8).toUpperCase()}</p>
@@ -53,7 +53,7 @@ export function OrderInvoice({ order, store }: { order: any, store: any }) {
          <div className="space-y-4">
             <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-600">Bill To</h4>
             <div className="space-y-2">
-               <h5 className="text-xl font-black text-slate-900 uppercase italic flex items-center gap-2">
+               <h5 className="text-xl font-black text-slate-900 uppercase flex items-center gap-2">
                   <User className="w-5 h-5 text-slate-300" /> {order.customerName || "Guest Customer"}
                </h5>
                <p className="text-xs font-bold text-slate-500 uppercase leading-relaxed max-w-xs">
@@ -112,7 +112,7 @@ export function OrderInvoice({ order, store }: { order: any, store: any }) {
             {store.printSettings?.showReturnPolicy && (
                <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100">
                   <h4 className="text-[10px] font-black uppercase tracking-widest text-indigo-600 mb-2">Special Footnotes / Terms</h4>
-                  <p className="text-[10px] font-bold text-slate-500 leading-relaxed italic">
+                  <p className="text-[10px] font-bold text-slate-500 leading-relaxed">
                      {store.printSettings?.returnPolicy || "Standard terms and conditions apply."}
                   </p>
                </div>
@@ -160,7 +160,7 @@ export function OrderInvoice({ order, store }: { order: any, store: any }) {
                {store.printSettings?.showFooter ? store.printSettings.footerText : "This is a system generated invoice"}
             </p>
          </div>
-         <p className="text-[10px] font-black text-slate-900 uppercase italic">
+         <p className="text-[10px] font-black text-slate-900 uppercase">
             #{order.id.slice(-6).toUpperCase()}
          </p>
       </div>

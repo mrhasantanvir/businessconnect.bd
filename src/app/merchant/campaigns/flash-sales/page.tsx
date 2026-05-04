@@ -108,7 +108,7 @@ export default function FlashSalesPage() {
       {/* Campaigns List */}
       <div className="bg-white  rounded-[48px] border border-slate-100  overflow-hidden shadow-2xl">
          <div className="p-10 border-b border-slate-50  flex items-center justify-between bg-slate-50/50 ">
-            <h2 className="text-xl font-black text-slate-900  tracking-tighter uppercase italic">Campaign Pipeline</h2>
+            <h2 className="text-xl font-black text-slate-900  tracking-tighter uppercase">Campaign Pipeline</h2>
             <div className="flex items-center gap-4">
                <div className="flex items-center gap-2 bg-white  px-6 py-2.5 rounded-2xl border border-slate-200  shadow-sm focus-within:ring-2 focus-within:ring-amber-500 transition-all">
                   <Search className="w-4 h-4 text-slate-400" />
@@ -197,7 +197,7 @@ export default function FlashSalesPage() {
                                 <AlertCircle className="w-10 h-10" />
                              </div>
                              <div className="space-y-1">
-                                <h3 className="text-sm font-black text-slate-900 uppercase tracking-tighter italic">No Campaigns Initialized</h3>
+                                <h3 className="text-sm font-black text-slate-900 uppercase tracking-tighter">No Campaigns Initialized</h3>
                                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Start your first flash sale to boost conversions</p>
                              </div>
                              <button 
@@ -238,7 +238,7 @@ export default function FlashSalesPage() {
                <div className="inline-flex items-center gap-2 px-6 py-2 bg-amber-500 rounded-full text-[10px] font-black uppercase tracking-widest shadow-xl shadow-amber-500/30">
                   <TrendingUp className="w-4 h-4" /> Global Performance Engine
                </div>
-               <h2 className="text-5xl font-black tracking-tighter leading-none uppercase">Ali-Grade <span className="text-amber-500 italic">Flash Sales</span></h2>
+               <h2 className="text-5xl font-black tracking-tighter leading-none uppercase">Ali-Grade <span className="text-amber-500">Flash Sales</span></h2>
                <p className="text-slate-400 text-lg font-bold leading-relaxed">
                   Maximize your turnover with high-frequency time-slots, real-time stock limits, and neural-optimized discount landing pages. 
                </p>
@@ -275,7 +275,7 @@ export default function FlashSalesPage() {
                      <div className="h-4 w-2/3 bg-slate-200 rounded-full" />
                      <div className="flex items-center justify-between">
                         <div className="space-y-1">
-                           <div className="text-lg font-black text-slate-900 italic tracking-tighter leading-none">৳2,450</div>
+                           <div className="text-lg font-black text-slate-900 tracking-tighter leading-none">৳2,450</div>
                            <div className="text-[10px] font-bold text-slate-400 line-through">৳5,800</div>
                         </div>
                         <div className="w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center text-white"><ShoppingBag className="w-5 h-5" /></div>

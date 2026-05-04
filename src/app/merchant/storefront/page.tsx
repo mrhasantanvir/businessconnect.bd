@@ -87,7 +87,7 @@ export default async function StorefrontSettingsPage() {
                         </div>
                         <div className="flex gap-3">
                            <div className="w-5 h-5 rounded-full bg-[#BEF264]/10 border border-[#BEF264]/20 flex items-center justify-center text-[#BEF264] text-[10px] font-bold shrink-0">2</div>
-                           <p className="text-[10px] font-medium text-slate-300 leading-relaxed">Go to DNS Settings and add a <span className="text-white font-black italic">CNAME</span> record</p>
+                           <p className="text-[10px] font-medium text-slate-300 leading-relaxed">Go to DNS Settings and add a <span className="text-white font-black">CNAME</span> record</p>
                         </div>
                         <div className="flex gap-3">
                            <div className="w-5 h-5 rounded-full bg-[#BEF264]/10 border border-[#BEF264]/20 flex items-center justify-center text-[#BEF264] text-[10px] font-bold shrink-0">3</div>
@@ -95,12 +95,12 @@ export default async function StorefrontSettingsPage() {
                         </div>
                         <div className="flex gap-3">
                            <div className="w-5 h-5 rounded-full bg-[#BEF264]/10 border border-[#BEF264]/20 flex items-center justify-center text-[#BEF264] text-[10px] font-bold shrink-0">4</div>
-                           <p className="text-[10px] font-medium text-slate-300 leading-relaxed">Set Proxy Status to <span className="text-orange-400 font-black italic">DNS Only</span> for SSL propagation</p>
+                           <p className="text-[10px] font-medium text-slate-300 leading-relaxed">Set Proxy Status to <span className="text-orange-400 font-black">DNS Only</span> for SSL propagation</p>
                         </div>
                      </div>
                   </div>
                   <div className="pt-4 border-t border-white/10">
-                     <p className="text-[9px] font-medium text-indigo-200/60 leading-relaxed uppercase tracking-tighter italic">Propagation may take up to 24 hours.</p>
+                     <p className="text-[9px] font-medium text-indigo-200/60 leading-relaxed uppercase tracking-tighter">Propagation may take up to 24 hours.</p>
                   </div>
                </div>
             </div>

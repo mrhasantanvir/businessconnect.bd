@@ -105,7 +105,7 @@ export default function ReportsPage() {
       {/* 1. Page Header & Actions */}
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
          <div>
-            <h1 className="text-4xl font-black tracking-tighter uppercase italic flex items-center gap-4">
+            <h1 className="text-4xl font-black tracking-tighter uppercase flex items-center gap-4">
               <BarChart3 className="w-10 h-10 text-[#0F172A]" /> Advanced Intelligence
             </h1>
             <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mt-2 flex items-center gap-2">
@@ -213,7 +213,7 @@ export default function ReportsPage() {
            {/* Primary Visualization */}
            <div className="lg:col-span-2 bg-white  border border-[#E5E7EB]  rounded-[48px] p-10 shadow-sm space-y-8">
               <div className="flex items-center justify-between border-b border-gray-100  pb-8">
-                 <h3 className="text-xl font-black uppercase italic tracking-tight">Performance Trend</h3>
+                 <h3 className="text-xl font-black uppercase tracking-tight">Performance Trend</h3>
                  <div className="flex items-center gap-2 text-[10px] font-black text-emerald-600 bg-emerald-50 px-4 py-1.5 rounded-full">
                     <TrendingUp className="w-3 h-3" /> Real-time Sync
                  </div>
@@ -278,7 +278,7 @@ export default function ReportsPage() {
               </div>
 
               <div className="pt-10 border-t border-white/10 mt-auto">
-                 <p className="text-[10px] font-black uppercase tracking-widest text-indigo-300 italic">Global Market Intelligence Powered</p>
+                 <p className="text-[10px] font-black uppercase tracking-widest text-indigo-300">Global Market Intelligence Powered</p>
               </div>
            </div>
         </div>
@@ -333,7 +333,7 @@ export default function ReportsPage() {
                   <RefreshCw className="w-6 h-6 text-[#BEF264]" />
                </div>
                <div>
-                  <h3 className="text-xl font-black uppercase tracking-tight italic">Schedule Intelligence</h3>
+                  <h3 className="text-xl font-black uppercase tracking-tight">Schedule Intelligence</h3>
                   <p className="text-[10px] font-bold text-blue-100 uppercase tracking-widest leading-none mt-1">Automated Multi-Tenant Delivery</p>
                </div>
             </div>

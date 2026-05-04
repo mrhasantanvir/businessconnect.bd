@@ -41,7 +41,7 @@ export function CategoryList({ categories }: { categories: any[] }) {
                 )}
               </div>
               <div className="flex items-center gap-3 mt-1">
-                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest italic">slug: {category.slug || "n/a"}</span>
+                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">slug: {category.slug || "n/a"}</span>
                 <span className="w-1 h-1 bg-gray-200 rounded-full" />
                 <span className="text-[10px] text-indigo-500 font-black flex items-center gap-1 uppercase tracking-tighter">
                    <Database className="w-3 h-3" /> {category._count?.products || 0} Products

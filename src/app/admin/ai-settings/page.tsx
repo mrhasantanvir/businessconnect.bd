@@ -325,7 +325,7 @@ export default async function AiSettingsPage() {
                             );
                          })}
                       </div>
-                      <div className="mt-2 text-[9px] text-gray-400 font-bold italic">
+                      <div className="mt-2 text-[9px] text-gray-400 font-bold">
                          Select your top 3 providers. System will automatically jump to the next one if the previous fails.
                       </div>
                    </div>
@@ -391,7 +391,7 @@ export default async function AiSettingsPage() {
                </h3>
                <div className="space-y-4">
                   {usageStats.length === 0 ? (
-                     <div className="text-xs text-gray-400 italic">No usage tracked yet this month.</div>
+                     <div className="text-xs text-gray-400">No usage tracked yet this month.</div>
                   ) : (
                      usageStats.map((stat) => {
                         const provider = stat.provider || "UNKNOWN";

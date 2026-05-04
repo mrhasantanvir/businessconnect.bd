@@ -78,7 +78,7 @@ export function BranchLedger({ transactions }: { transactions: any[] }) {
                ))}
                {transactions.length === 0 && (
                   <tr>
-                     <td colSpan={5} className="py-20 text-center text-slate-300 font-black uppercase tracking-tighter text-xl italic opacity-30">No Journal Entries Found</td>
+                     <td colSpan={5} className="py-20 text-center text-slate-300 font-black uppercase tracking-tighter text-xl opacity-30">No Journal Entries Found</td>
                   </tr>
                )}
             </tbody>

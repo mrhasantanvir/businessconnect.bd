@@ -40,7 +40,7 @@ export function AIPersonalizedPicks({ products, storeId }: { products: any[], st
                <Sparkles className="w-3.5 h-3.5" />
                <span className="text-[10px] font-black uppercase tracking-widest">AI Intelligence</span>
             </div>
-            <h3 className="text-4xl font-black tracking-tighter uppercase italic text-slate-900">
+            <h3 className="text-4xl font-black tracking-tighter uppercase text-slate-900">
                Suggested <span className="text-indigo-600">For You</span>
             </h3>
             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Based on your browsing patterns</p>
@@ -65,7 +65,7 @@ export function AIPersonalizedPicks({ products, storeId }: { products: any[], st
                     <span className="text-[9px] font-black uppercase tracking-widest text-indigo-600">{product.category?.name || "Premium"}</span>
                     <span className="text-sm font-black text-slate-900">৳{product.price}</span>
                  </div>
-                 <h4 className="text-sm font-black uppercase tracking-tight truncate italic">{product.name}</h4>
+                 <h4 className="text-sm font-black uppercase tracking-tight truncate">{product.name}</h4>
                  <button className="w-full py-4 bg-indigo-50 text-indigo-600 rounded-2xl text-[9px] font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-indigo-600 hover:text-white transition-all shadow-sm">
                     <ShoppingBag className="w-4 h-4" /> Quick Add
                  </button>

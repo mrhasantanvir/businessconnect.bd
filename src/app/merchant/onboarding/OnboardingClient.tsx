@@ -169,7 +169,7 @@ export function OnboardingClient() {
            <Sparkles className="w-12 h-12 text-indigo-600 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" />
         </div>
         <div className="space-y-4">
-           <h2 className="text-4xl font-black text-slate-900 tracking-tighter uppercase italic">Activating <span className="text-indigo-600">Merchant</span> Store...</h2>
+           <h2 className="text-4xl font-black text-slate-900 tracking-tighter uppercase">Activating <span className="text-indigo-600">Merchant</span> Store...</h2>
            <p className="text-slate-500 font-medium max-w-sm mx-auto uppercase text-[10px] tracking-[0.2em]">We are synchronizing your workspace and deploying your storefront environment.</p>
         </div>
         <div className="w-full max-w-md bg-white border border-slate-100 h-2 rounded-full overflow-hidden shadow-inner">
@@ -193,7 +193,7 @@ export function OnboardingClient() {
               <div className="w-10 h-10 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-200">
                  <Box className="w-6 h-6 text-white" />
               </div>
-              <span className="font-black text-2xl tracking-tighter text-slate-900 uppercase italic">Business<span className="text-indigo-600">Connect</span></span>
+              <span className="font-black text-2xl tracking-tighter text-slate-900 uppercase">Business<span className="text-indigo-600">Connect</span></span>
            </div>
            <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] bg-white px-4 py-2 rounded-full border border-slate-100 shadow-sm">
               Step {step} of 5
@@ -220,7 +220,7 @@ export function OnboardingClient() {
                <div className="inline-flex items-center gap-2 text-indigo-600 font-bold text-[10px] uppercase tracking-[0.3em] bg-indigo-50 px-4 py-1.5 rounded-full">
                   <Building2 className="w-4 h-4" /> Business Identity
                </div>
-               <h2 className="text-3xl font-black text-slate-900 tracking-tight leading-tight">Start with your <span className="text-indigo-600 italic">Business Details.</span></h2>
+               <h2 className="text-3xl font-black text-slate-900 tracking-tight leading-tight">Start with your <span className="text-indigo-600">Business Details.</span></h2>
             </div>
             
             <div className="space-y-5">
@@ -295,7 +295,7 @@ export function OnboardingClient() {
                <div className="inline-flex items-center gap-2 text-indigo-600 font-bold text-[10px] uppercase tracking-[0.3em] bg-indigo-50 px-4 py-1.5 rounded-full">
                   <FileText className="w-4 h-4" /> Verification
                </div>
-               <h2 className="text-3xl font-black text-slate-900 tracking-tight leading-tight">Upload <span className="text-indigo-600 italic">Legal Documents.</span></h2>
+               <h2 className="text-3xl font-black text-slate-900 tracking-tight leading-tight">Upload <span className="text-indigo-600">Legal Documents.</span></h2>
             </div>
 
             <div className="space-y-6">
@@ -402,7 +402,7 @@ export function OnboardingClient() {
                <div className="inline-flex items-center gap-2 text-indigo-600 font-bold text-[10px] uppercase tracking-[0.3em] bg-indigo-50 px-4 py-1.5 rounded-full">
                   <Users className="w-4 h-4" /> Team Scale
                </div>
-               <h2 className="text-3xl font-black text-slate-900 tracking-tight leading-tight">How many <span className="text-indigo-600 italic">Employees?</span></h2>
+               <h2 className="text-3xl font-black text-slate-900 tracking-tight leading-tight">How many <span className="text-indigo-600">Employees?</span></h2>
                <p className="text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em] px-8">System resources will be allocated based on your team size.</p>
             </div>
 
@@ -440,7 +440,7 @@ export function OnboardingClient() {
                <div className="absolute inset-0 bg-indigo-600/10 animate-ping rounded-[40px]"></div>
             </div>
             <div className="space-y-4">
-               <h2 className="text-3xl font-black text-slate-900 tracking-tight">Review & <span className="text-indigo-600 italic">Submit.</span></h2>
+               <h2 className="text-3xl font-black text-slate-900 tracking-tight">Review & <span className="text-indigo-600">Submit.</span></h2>
                <p className="text-slate-400 text-base font-medium max-w-[280px] mx-auto uppercase text-[10px] tracking-widest leading-loose">
                  Your information will be reviewed by the BusinessConnect Super Admin panel. Verification typically takes <span className="text-indigo-600 font-black">2-4 business hours.</span>
                </p>

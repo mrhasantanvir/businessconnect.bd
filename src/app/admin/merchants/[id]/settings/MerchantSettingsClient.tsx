@@ -63,7 +63,7 @@ export function MerchantSettingsClient({ merchant }: { merchant: any }) {
             <ArrowLeft className="w-6 h-6 text-slate-900" />
          </Link>
          <div>
-            <h1 className="text-4xl font-black text-slate-900 tracking-tighter uppercase italic">Manage <span className="text-blue-600">{merchant.name}</span></h1>
+            <h1 className="text-4xl font-black text-slate-900 tracking-tighter uppercase">Manage <span className="text-blue-600">{merchant.name}</span></h1>
             <p className="text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mt-1">Resource & Credential Control Center</p>
          </div>
       </div>
@@ -78,7 +78,7 @@ export function MerchantSettingsClient({ merchant }: { merchant: any }) {
                      <KeyRound className="w-6 h-6" />
                   </div>
                   <div>
-                     <h2 className="text-xl font-black text-slate-900 uppercase italic">Core Credentials</h2>
+                     <h2 className="text-xl font-black text-slate-900 uppercase">Core Credentials</h2>
                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Configure platform-level connectivity</p>
                   </div>
                </div>
@@ -160,7 +160,7 @@ export function MerchantSettingsClient({ merchant }: { merchant: any }) {
                         <PlusCircle className="w-6 h-6 text-blue-600" />
                      </div>
                      <div>
-                        <h3 className="text-xl font-black uppercase italic text-slate-900">Sell Credits</h3>
+                        <h3 className="text-xl font-black uppercase text-slate-900">Sell Credits</h3>
                         <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Top up merchant balance</p>
                      </div>
                   </div>
@@ -229,7 +229,7 @@ export function MerchantSettingsClient({ merchant }: { merchant: any }) {
                <ShieldCheck className="w-6 h-6" />
             </div>
             <div>
-               <h2 className="text-xl font-black text-slate-900 uppercase italic">Merchant Account Management</h2>
+               <h2 className="text-xl font-black text-slate-900 uppercase">Merchant Account Management</h2>
                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Update owner credentials and login information</p>
             </div>
          </div>
@@ -239,7 +239,7 @@ export function MerchantSettingsClient({ merchant }: { merchant: any }) {
                <MerchantUserEditCard key={user.id} user={user} />
             ))}
             {(!merchant.users || merchant.users.length === 0) && (
-               <div className="text-center py-10 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200 text-slate-400 font-bold italic">
+               <div className="text-center py-10 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200 text-slate-400 font-bold">
                   No merchant accounts found for this store.
                </div>
             )}

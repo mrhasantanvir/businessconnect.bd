@@ -125,7 +125,7 @@ export default function PaymentConfigClient({ initialConfigs = [] }: { initialCo
             <div className="w-12 h-12 bg-indigo-600 text-white rounded-2xl flex items-center justify-center shadow-xl shadow-indigo-100">
                <CreditCard className="w-6 h-6" />
             </div>
-            <h1 className="text-3xl font-black text-[#0F172A]  uppercase tracking-tighter italic">
+            <h1 className="text-3xl font-black text-[#0F172A]  uppercase tracking-tighter">
               Payment <span className="text-indigo-600">Gateways</span>
             </h1>
           </div>
@@ -196,7 +196,7 @@ export default function PaymentConfigClient({ initialConfigs = [] }: { initialCo
                  >
                     {selectedGateway.logo}
                  </div>
-                 <h2 className="text-xl font-black text-[#0F172A]  uppercase tracking-tight italic">
+                 <h2 className="text-xl font-black text-[#0F172A]  uppercase tracking-tight">
                    {selectedGateway.name} <span className="text-gray-400 opacity-30">Settings</span>
                  </h2>
               </div>

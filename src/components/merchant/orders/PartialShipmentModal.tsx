@@ -70,7 +70,7 @@ export function PartialShipmentModal({ orderId, items, onClose, couriers, prefer
         {/* Header */}
         <div className="p-8 border-b border-gray-100  flex items-center justify-between bg-[#F8F9FA] ">
            <div>
-              <h3 className="text-xl font-black text-[#0F172A]  uppercase italic">Partial <span className="text-indigo-600">Dispatch</span></h3>
+              <h3 className="text-xl font-black text-[#0F172A]  uppercase">Partial <span className="text-indigo-600">Dispatch</span></h3>
               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Select items for this fulfillment batch</p>
            </div>
            <button onClick={onClose} className="p-2 hover:bg-gray-100  rounded-xl transition-all">

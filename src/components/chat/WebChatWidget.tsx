@@ -195,7 +195,7 @@ export function WebChatWidget({ user }: { user?: any }) {
               </button>
            </form>
            <div className="text-center mt-6">
-              <p className="italic text-[8px] font-black uppercase text-gray-300 tracking-[0.2em]">
+              <p className="text-[8px] font-black uppercase text-gray-300 tracking-[0.2em]">
                  Military-Grade Privacy • 256-Bit SSL
               </p>
            </div>

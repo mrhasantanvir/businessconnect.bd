@@ -66,7 +66,7 @@ export default function SystemUpdateWidget() {
              {status?.isUpdateAvailable ? <Zap className="w-7 h-7" /> : <ShieldCheck className="w-7 h-7" />}
           </div>
           <div>
-            <h2 className="text-xl font-black text-slate-900 uppercase tracking-tight italic">System <span className="text-indigo-600">Pulse</span></h2>
+            <h2 className="text-xl font-black text-slate-900 uppercase tracking-tight">System <span className="text-indigo-600">Pulse</span></h2>
             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Core Engine Orchestration</p>
           </div>
         </div>

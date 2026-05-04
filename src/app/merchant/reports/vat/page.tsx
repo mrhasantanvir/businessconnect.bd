@@ -26,7 +26,7 @@ export default async function VatReportPage() {
           <div className="w-20 h-20 bg-rose-50 rounded-[32px] flex items-center justify-center text-rose-500">
              <FileText className="w-10 h-10" />
           </div>
-          <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter italic">Access Denied</h2>
+          <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">Access Denied</h2>
           <p className="text-slate-500 font-bold uppercase text-[10px] tracking-widest text-center max-w-xs">
              Tax Intelligence data is restricted. Your node lacks the required analytics clearance.
           </p>
@@ -77,7 +77,7 @@ export default async function VatReportPage() {
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
          <div>
-            <h1 className="text-4xl font-black text-slate-900 tracking-tighter uppercase italic">VAT <span className="text-indigo-600">Reporting</span> Center</h1>
+            <h1 className="text-4xl font-black text-slate-900 tracking-tighter uppercase">VAT <span className="text-indigo-600">Reporting</span> Center</h1>
             <p className="text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] mt-1">Official Tax Logs & Compliance Documentation</p>
          </div>
          <div className="flex items-center gap-4">

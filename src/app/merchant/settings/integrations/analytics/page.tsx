@@ -72,7 +72,7 @@ export default function AnalyticsSettingsPage() {
             <ArrowLeft className="w-5 h-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-2xl font-black text-foreground tracking-tight uppercase italic">Tracking & Analytics</h1>
+            <h1 className="text-2xl font-black text-foreground tracking-tight uppercase">Tracking & Analytics</h1>
             <p className="text-xs text-muted-foreground font-bold uppercase tracking-widest mt-1">Configure your marketing and measurement pixels</p>
           </div>
         </div>

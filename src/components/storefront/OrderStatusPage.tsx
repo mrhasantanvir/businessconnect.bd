@@ -58,12 +58,12 @@ export function OrderStatusPage({ order, store, slug }: { order: any, store: any
                <div className="w-16 h-16 bg-white/20 backdrop-blur-xl rounded-3xl flex items-center justify-center">
                   <CheckCircle2 className="w-8 h-8" />
                </div>
-               <h1 className="text-4xl font-black tracking-tighter uppercase italic">Order <span className="text-indigo-200">Confirmed</span></h1>
+               <h1 className="text-4xl font-black tracking-tighter uppercase">Order <span className="text-indigo-200">Confirmed</span></h1>
                <p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-80">Order ID: #{order.id.slice(-8).toUpperCase()}</p>
             </div>
             <div className="relative z-10 text-center md:text-right space-y-2">
                <p className="text-sm font-bold opacity-60 uppercase tracking-widest">Est. Delivery</p>
-               <p className="text-2xl font-black tracking-tighter uppercase italic">3-5 Business Days</p>
+               <p className="text-2xl font-black tracking-tighter uppercase">3-5 Business Days</p>
             </div>
          </div>
 
@@ -104,7 +104,7 @@ export function OrderStatusPage({ order, store, slug }: { order: any, store: any
             {/* Invoice Header */}
             <div className="flex justify-between items-start border-b border-slate-100 pb-12">
                <div className="space-y-6">
-                  <h2 className="text-4xl font-black tracking-tighter uppercase italic text-indigo-600">{store.name}</h2>
+                  <h2 className="text-4xl font-black tracking-tighter uppercase text-indigo-600">{store.name}</h2>
                   <div className="space-y-1">
                      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Order Information</p>
                      <p className="text-xs font-bold text-slate-900">Invoice: #INV-{order.id.slice(-6).toUpperCase()}</p>
@@ -166,7 +166,7 @@ export function OrderStatusPage({ order, store, slug }: { order: any, store: any
                      {order.items.map((item: any, i: number) => (
                         <tr key={i} className="group">
                            <td className="py-6">
-                              <p className="text-[11px] font-black uppercase italic text-slate-900">{item.product?.name || item.name}</p>
+                              <p className="text-[11px] font-black uppercase text-slate-900">{item.product?.name || item.name}</p>
                               <p className="text-[8px] font-bold text-slate-400 uppercase mt-1">SKU: {item.product?.sku || "N/A"}</p>
                            </td>
                            <td className="py-6 text-center text-[11px] font-black text-slate-900">{item.quantity}</td>
@@ -204,7 +204,7 @@ export function OrderStatusPage({ order, store, slug }: { order: any, store: any
                         <RotateCcw className="w-6 h-6" />
                      </div>
                      <div>
-                        <h4 className="text-lg font-black text-red-900 uppercase italic">Not satisfied?</h4>
+                        <h4 className="text-lg font-black text-red-900 uppercase">Not satisfied?</h4>
                         <p className="text-xs font-bold text-red-600 uppercase tracking-widest">Initiate a return request within 7 days of delivery.</p>
                      </div>
                   </div>
@@ -253,7 +253,7 @@ export function OrderStatusPage({ order, store, slug }: { order: any, store: any
             {/* Footer */}
             <div className="mt-20 pt-12 border-t border-slate-100 text-center space-y-4">
                <p className="text-[9px] font-black uppercase tracking-[0.3em] text-slate-400">Thank you for choosing {store.name}</p>
-               <p className="text-[8px] font-bold text-slate-300 uppercase italic">Powered by BusinessConnect.bd - AI-First Business OS</p>
+               <p className="text-[8px] font-bold text-slate-300 uppercase">Powered by BusinessConnect.bd - AI-First Business OS</p>
             </div>
 
          </div>

@@ -54,7 +54,7 @@ export function ThemeNokkhotro({ store, brandColor }: { store: any, brandColor: 
                   >
                     <Menu className="w-5 h-5 text-slate-900" />
                   </button>
-                  <h1 className="text-2xl font-black tracking-tighter uppercase italic text-indigo-600">
+                  <h1 className="text-2xl font-black tracking-tighter uppercase text-indigo-600">
                     {store.name}
                   </h1>
                </div>
@@ -102,7 +102,7 @@ export function ThemeNokkhotro({ store, brandColor }: { store: any, brandColor: 
                      <div className="absolute top-full right-0 mt-4 w-64 bg-white border border-slate-100 rounded-3xl shadow-2xl p-6 opacity-0 translate-y-4 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 transition-all z-50">
                         <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Cart Preview</p>
                         {cartCount === 0 ? (
-                           <div className="text-center py-6 text-slate-300 italic text-xs font-bold">Your cart is empty</div>
+                           <div className="text-center py-6 text-slate-300 text-xs font-bold">Your cart is empty</div>
                         ) : (
                            <div className="space-y-4 mb-6">
                               <div className="flex justify-between text-[10px] font-black uppercase">
@@ -124,14 +124,14 @@ export function ThemeNokkhotro({ store, brandColor }: { store: any, brandColor: 
                <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)} />
                <div className="absolute inset-y-0 left-0 w-[80%] max-w-sm bg-white shadow-2xl p-8 animate-in slide-in-from-left duration-500">
                   <div className="flex items-center justify-between mb-12">
-                     <h1 className="text-xl font-black tracking-tighter uppercase italic text-indigo-600">{store.name}</h1>
+                     <h1 className="text-xl font-black tracking-tighter uppercase text-indigo-600">{store.name}</h1>
                      <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 hover:bg-slate-50 rounded-full">
                         <X className="w-6 h-6 text-slate-400" />
                      </button>
                   </div>
                   <nav className="space-y-8">
                      {["Collection", "New Arrivals", "Premium Pick", "Story"].map(item => (
-                        <a key={item} href="#" className="block text-2xl font-black uppercase tracking-tighter italic hover:text-indigo-600 transition-colors">
+                        <a key={item} href="#" className="block text-2xl font-black uppercase tracking-tighter hover:text-indigo-600 transition-colors">
                            {item}
                         </a>
                      ))}
@@ -174,7 +174,7 @@ export function ThemeNokkhotro({ store, brandColor }: { store: any, brandColor: 
                <Sparkles className="w-4 h-4" />
                <span className="text-[10px] font-black uppercase tracking-widest">Direct from Origin</span>
             </div>
-            <h2 className="text-7xl lg:text-[140px] font-black tracking-tighter uppercase italic leading-[0.85] text-slate-900">
+            <h2 className="text-7xl lg:text-[140px] font-black tracking-tighter uppercase leading-[0.85] text-slate-900">
                Pure <br /> <span className="text-indigo-600">Heritage</span>
             </h2>
             <p className="max-w-md text-lg font-bold text-slate-500 uppercase leading-relaxed tracking-wider">
@@ -211,7 +211,7 @@ export function ThemeNokkhotro({ store, brandColor }: { store: any, brandColor: 
       {/* 4. Trending Categories (Visual Grid) */}
       <section className="max-w-[1400px] mx-auto px-8 py-32 space-y-16">
          <div className="text-center space-y-4">
-            <h3 className="text-4xl font-black tracking-tighter uppercase italic">Shop By <span className="text-indigo-600">Category</span></h3>
+            <h3 className="text-4xl font-black tracking-tighter uppercase">Shop By <span className="text-indigo-600">Category</span></h3>
             <div className="w-20 h-1 bg-indigo-600 mx-auto" />
          </div>
          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8">
@@ -230,7 +230,7 @@ export function ThemeNokkhotro({ store, brandColor }: { store: any, brandColor: 
       <section className="max-w-[1400px] mx-auto px-8 pb-32 space-y-20">
          <div className="flex items-end justify-between border-b border-slate-100 pb-12">
             <div>
-               <h3 className="text-4xl font-black tracking-tighter uppercase italic">The <span className="text-indigo-600">Premium</span> List</h3>
+               <h3 className="text-4xl font-black tracking-tighter uppercase">The <span className="text-indigo-600">Premium</span> List</h3>
                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-2">Selected for excellence</p>
             </div>
             <button className="text-[10px] font-black uppercase tracking-[0.2em] hover:text-indigo-600 transition-all">Explore All Products</button>
@@ -295,7 +295,7 @@ export function ThemeNokkhotro({ store, brandColor }: { store: any, brandColor: 
             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10" />
             <div className="space-y-6 relative z-10">
                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-indigo-100">Limited Time Offer</p>
-               <h2 className="text-5xl lg:text-7xl font-black tracking-tighter uppercase italic leading-none">Deal Of The <span className="text-indigo-200">Season</span></h2>
+               <h2 className="text-5xl lg:text-7xl font-black tracking-tighter uppercase leading-none">Deal Of The <span className="text-indigo-200">Season</span></h2>
             </div>
             
             <div className="flex gap-4 md:gap-12 relative z-10">
@@ -319,7 +319,7 @@ export function ThemeNokkhotro({ store, brandColor }: { store: any, brandColor: 
             <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80" className="w-full h-full object-cover" />
          </div>
          <div className="space-y-10">
-            <h3 className="text-5xl font-black tracking-tighter uppercase italic leading-none text-slate-900">
+            <h3 className="text-5xl font-black tracking-tighter uppercase leading-none text-slate-900">
                The Story of <br /> <span className="text-indigo-600">Authenticity</span>
             </h3>
             <div className="space-y-6">
@@ -347,7 +347,7 @@ export function ThemeNokkhotro({ store, brandColor }: { store: any, brandColor: 
          <div className="max-w-[1400px] mx-auto space-y-20">
             <div className="flex items-end justify-between border-b border-slate-100 pb-12">
                <div>
-                  <h3 className="text-4xl font-black tracking-tighter uppercase italic">Loved by <span className="text-indigo-600">The People</span></h3>
+                  <h3 className="text-4xl font-black tracking-tighter uppercase">Loved by <span className="text-indigo-600">The People</span></h3>
                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-2">Verified customer experiences</p>
                </div>
                <button className="text-[10px] font-black uppercase tracking-[0.2em] hover:text-indigo-600 transition-all">All Reviews</button>
@@ -357,15 +357,15 @@ export function ThemeNokkhotro({ store, brandColor }: { store: any, brandColor: 
                {[1, 2, 3].map(i => (
                  <div key={i} className="p-10 bg-[#F9FAFB] rounded-[48px] space-y-8 border border-slate-100 hover:border-indigo-600 transition-all group">
                     <div className="flex items-center gap-4">
-                       <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-indigo-600 font-black italic shadow-sm">KU</div>
+                       <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-indigo-600 font-black shadow-sm">KU</div>
                        <div>
-                          <h5 className="text-xs font-black uppercase text-slate-900 italic">Kabir Ullah</h5>
+                          <h5 className="text-xs font-black uppercase text-slate-900">Kabir Ullah</h5>
                           <div className="flex gap-1 mt-1">
                              {[1, 2, 3, 4, 5].map(s => <Star key={s} className="w-3 h-3 text-amber-500 fill-amber-500" />)}
                           </div>
                        </div>
                     </div>
-                    <p className="text-sm font-bold text-slate-500 uppercase italic leading-relaxed">
+                    <p className="text-sm font-bold text-slate-500 uppercase leading-relaxed">
                        "The quality of the mangoes was beyond expectations. Delivered fresh and within 24 hours in Dhaka."
                     </p>
                     <div className="flex items-center gap-2 text-[8px] font-black uppercase text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full w-fit">
@@ -384,7 +384,7 @@ export function ThemeNokkhotro({ store, brandColor }: { store: any, brandColor: 
       <footer className="bg-slate-900 py-32 px-8 text-white">
          <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-20">
             <div className="col-span-1 lg:col-span-2 space-y-12">
-               <h2 className="text-4xl font-black tracking-tighter uppercase italic leading-none">Stay In The <br /> <span className="text-indigo-400">Inner Circle</span></h2>
+               <h2 className="text-4xl font-black tracking-tighter uppercase leading-none">Stay In The <br /> <span className="text-indigo-400">Inner Circle</span></h2>
                <div className="max-w-md space-y-6">
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Subscribe for 10% off your first order and exclusive access to new harvests.</p>
                   <div className="flex border-b-2 border-slate-700 pb-4">

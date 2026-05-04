@@ -468,7 +468,7 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
 
                 {/* Financial Policy Integration */}
                 <div className="space-y-6 bg-gray-50/50  p-10 rounded-[48px] border border-surface-border">
-                   <div className="flex items-center gap-3 mb-6"><div className="w-1.5 h-6 bg-primary-blue rounded-full" /><h4 className="text-xl font-black text-foreground tracking-tighter italic uppercase">Financial Policy Integration</h4></div>
+                   <div className="flex items-center gap-3 mb-6"><div className="w-1.5 h-6 bg-primary-blue rounded-full" /><h4 className="text-xl font-black text-foreground tracking-tighter uppercase">Financial Policy Integration</h4></div>
                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                       {[{ id: "COD", label: "Cash on Delivery", sub: "Pay at doorstep", icon: ShoppingBag }, { id: "FULL_ADVANCE", label: "Full Advance", sub: "Payment upfront", icon: ShieldCheck }, { id: "PARTIAL_ADVANCE", label: "Partial Payment", sub: "Booking amount", icon: RefreshCw }].map((policy) => (
                         <button key={policy.id} type="button" onClick={() => setFormData({ ...formData, paymentPolicy: policy.id })} className={cn("p-8 rounded-[32px] border transition-all text-left group flex flex-col gap-4", formData.paymentPolicy === policy.id ? "bg-white  border-primary-blue shadow-2xl" : "bg-white  border-surface-border")}>
@@ -570,7 +570,7 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
                </div>
 
                <div className="p-10 bg-gray-50  rounded-[48px] border border-surface-border space-y-6">
-                  <div className="flex items-center gap-3"><div className="w-1.5 h-6 bg-indigo-600 rounded-full" /><h4 className="text-xl font-black text-foreground tracking-tighter italic uppercase">Neural SEO Metadata</h4></div>
+                  <div className="flex items-center gap-3"><div className="w-1.5 h-6 bg-indigo-600 rounded-full" /><h4 className="text-xl font-black text-foreground tracking-tighter uppercase">Neural SEO Metadata</h4></div>
                   <div className="space-y-4">
                      <div className="space-y-1"><label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">SEO Optimized Title</label><input name="seoTitle" value={formData.seoTitle} onChange={handleInputChange} className="w-full bg-white  border border-surface-border rounded-2xl px-6 py-3 text-sm font-bold text-foreground outline-none focus:ring-2 focus:ring-indigo-600/20" /></div>
                      <div className="space-y-1"><label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Meta Neural Description</label><textarea name="seoDescription" value={formData.seoDescription} onChange={handleInputChange} rows={3} className="w-full bg-white  border border-surface-border rounded-2xl px-6 py-3 text-sm font-medium text-foreground outline-none focus:ring-2 focus:ring-indigo-600/20 resize-none" /></div>

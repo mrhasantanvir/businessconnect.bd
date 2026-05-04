@@ -42,7 +42,7 @@ export function ProductReviews({
          {/* 1. Summary Column */}
          <div className="space-y-10">
             <div>
-               <h3 className="text-4xl font-black tracking-tighter uppercase italic">Customer <span className="text-indigo-600">Reviews</span></h3>
+               <h3 className="text-4xl font-black tracking-tighter uppercase">Customer <span className="text-indigo-600">Reviews</span></h3>
                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-2">Honest feedback from our community</p>
             </div>
 
@@ -75,7 +75,7 @@ export function ProductReviews({
                   <div className="p-6 bg-indigo-600 rounded-3xl text-white space-y-4 relative overflow-hidden group">
                      <Sparkles className="absolute right-[-10px] top-[-10px] w-20 h-20 text-white/10 group-hover:scale-125 transition-transform" />
                      <p className="text-[10px] font-black uppercase tracking-widest opacity-60">Reward Program</p>
-                     <h4 className="text-lg font-black uppercase italic leading-none">Earn 10 Points</h4>
+                     <h4 className="text-lg font-black uppercase leading-none">Earn 10 Points</h4>
                      <p className="text-[10px] font-bold text-indigo-100 leading-relaxed">Leave a photo review and get points for your next purchase.</p>
                      <button className="w-full py-3 bg-white text-indigo-600 rounded-xl text-[9px] font-black uppercase tracking-widest shadow-xl">Write a Review</button>
                   </div>
@@ -108,11 +108,11 @@ export function ProductReviews({
                  <div key={i} className="pt-12 first:pt-0 space-y-6 group">
                     <div className="flex items-start justify-between">
                        <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 bg-indigo-100 rounded-2xl flex items-center justify-center text-indigo-600 font-black uppercase italic">
+                          <div className="w-12 h-12 bg-indigo-100 rounded-2xl flex items-center justify-center text-indigo-600 font-black uppercase">
                              {review.customerName?.slice(0, 2) || "AN"}
                           </div>
                           <div>
-                             <h4 className="text-sm font-black uppercase italic text-slate-900">{review.customerName || "Anonymous User"}</h4>
+                             <h4 className="text-sm font-black uppercase text-slate-900">{review.customerName || "Anonymous User"}</h4>
                              <div className="flex items-center gap-2 mt-1">
                                 {review.isVerified && (
                                    <div className="flex items-center gap-1 text-[8px] font-black uppercase text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
@@ -149,7 +149,7 @@ export function ProductReviews({
                           <p className="text-[10px] font-black uppercase text-indigo-600 tracking-widest flex items-center gap-2">
                              <MessageSquare className="w-3.5 h-3.5" /> Merchant Reply
                           </p>
-                          <p className="text-xs font-bold text-slate-500 leading-relaxed italic">
+                          <p className="text-xs font-bold text-slate-500 leading-relaxed">
                              "{review.merchantReply}"
                           </p>
                        </div>

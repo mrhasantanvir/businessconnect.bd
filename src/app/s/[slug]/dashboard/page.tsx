@@ -48,11 +48,11 @@ export default async function CustomerDashboardPage({ params }: { params: { slug
       <header className="bg-white border-b border-slate-100 py-12 px-8 lg:px-20">
          <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-8">
             <div className="flex items-center gap-6">
-               <div className="w-20 h-20 bg-indigo-50 rounded-[32px] flex items-center justify-center text-indigo-600 font-black text-2xl italic border border-indigo-100 shadow-sm">
+               <div className="w-20 h-20 bg-indigo-50 rounded-[32px] flex items-center justify-center text-indigo-600 font-black text-2xl border border-indigo-100 shadow-sm">
                   {customer.name?.slice(0, 2).toUpperCase() || "CU"}
                </div>
                <div>
-                  <h1 className="text-3xl font-black tracking-tighter uppercase italic text-slate-900 leading-none">
+                  <h1 className="text-3xl font-black tracking-tighter uppercase text-slate-900 leading-none">
                      Hello, <span className="text-indigo-600">{customer.name?.split(" ")[0]}</span>
                   </h1>
                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-2">Member since {new Date(customer.createdAt).toLocaleDateString()}</p>
@@ -119,7 +119,7 @@ export default async function CustomerDashboardPage({ params }: { params: { slug
             
             <div className="flex items-end justify-between border-b border-slate-100 pb-8">
                <div>
-                  <h3 className="text-2xl font-black tracking-tighter uppercase italic">Order <span className="text-indigo-600">History</span></h3>
+                  <h3 className="text-2xl font-black tracking-tighter uppercase">Order <span className="text-indigo-600">History</span></h3>
                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Track your recent purchases</p>
                </div>
                <button className="text-[10px] font-black uppercase tracking-widest hover:text-indigo-600 transition-colors">View All</button>
@@ -135,7 +135,7 @@ export default async function CustomerDashboardPage({ params }: { params: { slug
                           </div>
                           <div>
                              <div className="flex items-center gap-3">
-                                <h4 className="text-sm font-black uppercase italic text-slate-900">Order #{order.id.slice(-6).toUpperCase()}</h4>
+                                <h4 className="text-sm font-black uppercase text-slate-900">Order #{order.id.slice(-6).toUpperCase()}</h4>
                                 <span className={cn(
                                   "px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-widest",
                                   order.status === 'DELIVERED' ? "bg-emerald-100 text-emerald-700" : "bg-orange-100 text-orange-700"
@@ -177,7 +177,7 @@ export default async function CustomerDashboardPage({ params }: { params: { slug
                   <Sparkles className="w-16 h-16 text-indigo-400" />
                </div>
                <div className="relative z-10 space-y-6 flex-1">
-                  <h3 className="text-3xl font-black uppercase italic tracking-tighter leading-none">
+                  <h3 className="text-3xl font-black uppercase tracking-tighter leading-none">
                      You have <span className="text-indigo-400">10 Unused Points</span>
                   </h3>
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-relaxed">

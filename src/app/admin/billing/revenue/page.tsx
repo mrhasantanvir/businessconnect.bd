@@ -76,7 +76,7 @@ export default async function AdminRevenuePage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight italic uppercase">Revenue <span className="text-indigo-600">Intelligence</span></h1>
+          <h1 className="text-3xl font-black text-slate-900 tracking-tight uppercase">Revenue <span className="text-indigo-600">Intelligence</span></h1>
           <p className="text-slate-500 font-medium mt-1">Real-time financial analytics and transaction oversight.</p>
         </div>
         <div className="flex items-center gap-3">
@@ -96,7 +96,7 @@ export default async function AdminRevenuePage() {
                <DollarSign className="w-20 h-20 text-slate-900" />
             </div>
             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Total Lifecycle Revenue</p>
-            <p className="text-3xl font-black text-slate-900 italic">৳{totalRevenue.toLocaleString()}</p>
+            <p className="text-3xl font-black text-slate-900">৳{totalRevenue.toLocaleString()}</p>
             <div className="mt-4 flex items-center gap-1.5">
                <span className="text-[10px] font-black bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded-full">+12.5%</span>
                <span className="text-[10px] font-bold text-slate-400">vs overall target</span>
@@ -108,7 +108,7 @@ export default async function AdminRevenuePage() {
                <TrendingUp className="w-20 h-20" />
             </div>
             <p className="text-[10px] font-black text-indigo-200 uppercase tracking-widest mb-2">Current Month Revenue</p>
-            <p className="text-3xl font-black italic">৳{currentMonthRevenue.toLocaleString()}</p>
+            <p className="text-3xl font-black">৳{currentMonthRevenue.toLocaleString()}</p>
             <div className="mt-4 flex items-center gap-1.5">
                <span className={`text-[10px] font-black px-2 py-0.5 rounded-full ${revenueChange >= 0 ? 'bg-white/20 text-white' : 'bg-rose-400 text-white'}`}>
                   {revenueChange >= 0 ? '+' : ''}{revenueChange.toFixed(1)}%
@@ -122,7 +122,7 @@ export default async function AdminRevenuePage() {
                <CreditCard className="w-20 h-20 text-slate-900" />
             </div>
             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Successful Payments</p>
-            <p className="text-3xl font-black text-slate-900 italic">{recentTransactions.length}+</p>
+            <p className="text-3xl font-black text-slate-900">{recentTransactions.length}+</p>
             <div className="mt-4 flex items-center gap-1.5">
                <span className="text-[10px] font-black bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full">LIVE</span>
                <span className="text-[10px] font-bold text-slate-400">Active gateways</span>
@@ -134,7 +134,7 @@ export default async function AdminRevenuePage() {
                <Activity className="w-20 h-20" />
             </div>
             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Last Month Final</p>
-            <p className="text-3xl font-black italic">৳{lastMonthRevenue.toLocaleString()}</p>
+            <p className="text-3xl font-black">৳{lastMonthRevenue.toLocaleString()}</p>
             <div className="mt-4 flex items-center gap-1.5 text-slate-400">
                <span className="text-[10px] font-bold uppercase tracking-widest">{format(lastMonthStart, "MMMM yyyy")}</span>
             </div>
@@ -145,13 +145,13 @@ export default async function AdminRevenuePage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
          {/* Revenue by Source */}
          <div className="bg-white border border-slate-100 rounded-[32px] p-8 shadow-sm lg:col-span-1">
-            <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight italic mb-8">Revenue <span className="text-indigo-600">Sources</span></h3>
+            <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight mb-8">Revenue <span className="text-indigo-600">Sources</span></h3>
             <div className="space-y-6">
                {typeBreakdown.map((item: any) => (
                   <div key={item.type} className="group">
                      <div className="flex justify-between items-end mb-2">
                         <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{item.type.replace('_', ' ')}</span>
-                        <span className="font-black text-slate-900 italic">৳{item._sum.amount.toLocaleString()}</span>
+                        <span className="font-black text-slate-900">৳{item._sum.amount.toLocaleString()}</span>
                      </div>
                      <div className="w-full bg-slate-50 h-3 rounded-full overflow-hidden border border-slate-100">
                         <div 
@@ -176,7 +176,7 @@ export default async function AdminRevenuePage() {
          <div className="bg-white border border-slate-100 rounded-[32px] overflow-hidden shadow-sm lg:col-span-2">
             <div className="p-8 border-b border-slate-50 flex items-center justify-between bg-slate-50/50">
                <div>
-                  <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight italic">Global <span className="text-indigo-600">Ledger</span></h3>
+                  <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight">Global <span className="text-indigo-600">Ledger</span></h3>
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Real-time successful transaction stream</p>
                </div>
                <button className="p-3 bg-white border border-slate-200 rounded-2xl hover:bg-slate-50 transition-all text-slate-400">
@@ -197,7 +197,7 @@ export default async function AdminRevenuePage() {
                      {recentTransactions.map((tx: any) => (
                         <tr key={tx.id} className="hover:bg-slate-50/30 transition-colors group">
                            <td className="px-8 py-6">
-                              <div className="font-black text-slate-900 italic tracking-tight">{tx.merchantStore?.name || "N/A"}</div>
+                              <div className="font-black text-slate-900 tracking-tight">{tx.merchantStore?.name || "N/A"}</div>
                               <div className="text-[10px] text-slate-400 font-bold uppercase">{tx.user?.name || "Unknown User"}</div>
                            </td>
                            <td className="px-8 py-6">
@@ -210,11 +210,11 @@ export default async function AdminRevenuePage() {
                               </div>
                            </td>
                            <td className="px-8 py-6">
-                              <div className="text-lg font-black text-slate-900 italic tracking-tighter">৳{tx.amount.toLocaleString()}</div>
+                              <div className="text-lg font-black text-slate-900 tracking-tighter">৳{tx.amount.toLocaleString()}</div>
                               <div className="text-[9px] font-bold text-emerald-500 uppercase tracking-widest">Successful</div>
                            </td>
                            <td className="px-8 py-6 text-right">
-                              <div className="text-xs font-black text-slate-900 uppercase tracking-tighter italic">{format(tx.createdAt, "dd MMM, yy")}</div>
+                              <div className="text-xs font-black text-slate-900 uppercase tracking-tighter">{format(tx.createdAt, "dd MMM, yy")}</div>
                               <div className="text-[10px] text-slate-400 font-medium">{format(tx.createdAt, "hh:mm a")}</div>
                            </td>
                         </tr>
@@ -239,7 +239,7 @@ export default async function AdminRevenuePage() {
                      <CreditCard className="w-4 h-4" />
                   </div>
                </div>
-               <p className="text-3xl font-black text-slate-900 italic tracking-tighter">৳{method._sum.amount.toLocaleString()}</p>
+               <p className="text-3xl font-black text-slate-900 tracking-tighter">৳{method._sum.amount.toLocaleString()}</p>
                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Total processed via {method.paymentMethod}</p>
             </div>
          ))}

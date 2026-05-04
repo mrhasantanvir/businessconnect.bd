@@ -380,7 +380,7 @@ export default function MerchantCatalogPage() {
                       </div>
                       <div className="p-5 rounded-[24px] bg-white border border-surface-border shadow-sm">
                          <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2 block">Meta Description</span>
-                         <p className="text-xs text-muted-foreground leading-relaxed italic">
+                         <p className="text-xs text-muted-foreground leading-relaxed">
                             "{selectedProduct.seoDescription || "No custom SEO snippet provided. System is using auto-generated content."}"
                          </p>
                       </div>

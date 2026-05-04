@@ -23,10 +23,10 @@ export default async function MerchantLogisticsPage() {
               <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-indigo-600 mb-2">
                  <Truck className="w-4 h-4" /> Logistics Intelligence Layer
               </div>
-              <h1 className="text-4xl font-black text-gray-900 tracking-tighter uppercase italic">
+              <h1 className="text-4xl font-black text-gray-900 tracking-tighter uppercase">
                  Logistics <span className="text-indigo-600">Control</span> Center
               </h1>
-              <p className="text-gray-500 text-sm font-medium mt-2 italic opacity-80">
+              <p className="text-gray-500 text-sm font-medium mt-2 opacity-80">
                 Manage automated courier APIs and zone-based pricing strategies in one unified hub.
               </p>
            </div>

@@ -179,7 +179,7 @@ export default function TaskDashboard({ tasks = [], staff = [] }: { tasks: any[]
                                  </div>
                               </div>
                            ) : (
-                              <span className="text-[10px] font-black text-gray-300 italic uppercase">Unassigned</span>
+                              <span className="text-[10px] font-black text-gray-300 uppercase">Unassigned</span>
                            )}
                         </td>
                         <td className="px-6 py-6">

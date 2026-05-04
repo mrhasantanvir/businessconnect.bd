@@ -167,10 +167,10 @@ export default function ShippingSettingsPage() {
               <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-primary-blue mb-2">
                  <Truck className="w-4 h-4" /> Logistics Intelligence
               </div>
-              <h1 className="text-4xl font-black text-foreground tracking-tighter uppercase italic">
+              <h1 className="text-4xl font-black text-foreground tracking-tighter uppercase">
                  Advanced <span className="text-primary-blue">Shipping</span> Module
               </h1>
-              <p className="text-muted-foreground text-sm font-medium mt-1 italic opacity-80">Configure courier-specific charges and location surcharges for unified fulfillment.</p>
+              <p className="text-muted-foreground text-sm font-medium mt-1 opacity-80">Configure courier-specific charges and location surcharges for unified fulfillment.</p>
            </div>
            <button 
              onClick={() => setIsAddingCustom(true)}
@@ -185,7 +185,7 @@ export default function ShippingSettingsPage() {
           <div className="p-8 rounded-[40px] bg-card border-2 border-primary-blue/30 shadow-2xl animate-in zoom-in-95 space-y-8 max-h-[80vh] overflow-y-auto">
              <div className="flex items-center justify-between">
                 <div className="space-y-1">
-                   <h3 className="text-xl font-black uppercase italic tracking-tight text-foreground">BD Courier Intelligence</h3>
+                   <h3 className="text-xl font-black uppercase tracking-tight text-foreground">BD Courier Intelligence</h3>
                    <p className="text-[10px] font-bold text-muted-foreground uppercase">Select from national logistics network</p>
                 </div>
                 <button onClick={() => setIsAddingCustom(false)} className="text-muted-foreground hover:text-foreground">

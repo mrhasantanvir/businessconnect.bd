@@ -30,7 +30,7 @@ export default async function AdminMerchantsPage() {
                <ShieldCheck className="w-3.5 h-3.5 text-blue-500" />
                <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Platform Control</span>
             </div>
-            <h1 className="text-5xl font-black tracking-tighter text-slate-900 uppercase italic">
+            <h1 className="text-5xl font-black tracking-tighter text-slate-900 uppercase">
                Merchant <span className="text-blue-600">Ecosystem</span>
             </h1>
          </div>

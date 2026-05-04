@@ -107,7 +107,7 @@ export function ThemeDairy({ store, brandColor }: { store: any, brandColor: stri
             <ShieldCheck className="w-8 h-8 text-emerald-500" />
             <div className="text-left">
                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Verified Secure</p>
-               <h5 className="text-sm font-black uppercase italic">Safe Commerce Engine</h5>
+               <h5 className="text-sm font-black uppercase">Safe Commerce Engine</h5>
             </div>
          </div>
          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">© 2026 {store.name}. All Rights Reserved.</p>

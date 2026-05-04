@@ -29,7 +29,7 @@ export default async function SmsSettingsPage() {
                <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
                <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Global Communication Suite</span>
             </div>
-            <h1 className="text-5xl font-black tracking-tighter text-slate-900  uppercase italic leading-none">
+            <h1 className="text-5xl font-black tracking-tighter text-slate-900  uppercase leading-none">
                SMS <span className="text-indigo-600">Gateways</span>
             </h1>
             <p className="text-slate-500  text-sm font-bold max-w-xl">

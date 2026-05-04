@@ -51,7 +51,7 @@ export default async function TaskConfirmPage({ searchParams }: { searchParams: 
             <div className="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6">
                <ShieldCheck className="w-8 h-8" />
             </div>
-            <h1 className="text-2xl font-black text-[#0F172A] uppercase tracking-tighter italic">Task <span className="text-indigo-600">Confirmation</span></h1>
+            <h1 className="text-2xl font-black text-[#0F172A] uppercase tracking-tighter">Task <span className="text-indigo-600">Confirmation</span></h1>
             <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Acknowledgment for New Assignment</p>
          </div>
 
@@ -68,7 +68,7 @@ export default async function TaskConfirmPage({ searchParams }: { searchParams: 
                <div>
                   <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Priority</label>
                   <p className={cn(
-                    "text-xs font-black italic",
+                    "text-xs font-black",
                     task.priority === 'URGENT' ? 'text-red-600' : 
                     task.priority === 'HIGH' ? 'text-orange-600' : 'text-indigo-600'
                   )}>{task.priority}</p>

@@ -46,7 +46,7 @@ export function AccountManager({ branches, accounts }: { branches: any[], accoun
                <Landmark className="w-7 h-7" />
             </div>
             <div>
-               <h3 className="text-2xl font-black uppercase tracking-tighter italic">Treasury Nodes</h3>
+               <h3 className="text-2xl font-black uppercase tracking-tighter">Treasury Nodes</h3>
                <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mt-1">Manage bank & cash liquidity</p>
             </div>
          </div>
@@ -122,7 +122,7 @@ export function AccountManager({ branches, accounts }: { branches: any[], accoun
                   <h4 className="text-sm font-black text-slate-900 truncate uppercase tracking-tighter">{acc.name}</h4>
                   <p className="text-[10px] font-bold text-slate-400 mt-0.5">{acc.accountNumber || "Direct Access"}</p>
                   <div className="mt-4 pt-4 border-t border-slate-200">
-                     <p className="text-xl font-black text-slate-900 italic">৳{acc.balance.toLocaleString()}</p>
+                     <p className="text-xl font-black text-slate-900">৳{acc.balance.toLocaleString()}</p>
                   </div>
                </div>
             ))}

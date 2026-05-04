@@ -86,7 +86,7 @@ export default async function StockTransfersPage() {
                                </div>
                                <div className="text-right min-w-[100px]">
                                   <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Date</div>
-                                  <div className="flex items-center justify-end gap-2 text-xs font-medium text-gray-500 italic">
+                                  <div className="flex items-center justify-end gap-2 text-xs font-medium text-gray-500">
                                      <Calendar className="w-3.5 h-3.5" /> {new Date(tr.createdAt).toLocaleDateString()}
                                   </div>
                                </div>
@@ -96,7 +96,7 @@ export default async function StockTransfersPage() {
                             </div>
                          </div>
                          {tr.notes && (
-                           <p className="mt-4 text-[10px] text-gray-400 font-medium px-4 py-2 bg-gray-50  border-l-2 border-gray-200 rounded-r-lg italic">
+                           <p className="mt-4 text-[10px] text-gray-400 font-medium px-4 py-2 bg-gray-50  border-l-2 border-gray-200 rounded-r-lg">
                              Note: {tr.notes}
                            </p>
                          )}

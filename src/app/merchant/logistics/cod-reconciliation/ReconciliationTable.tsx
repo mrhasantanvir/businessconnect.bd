@@ -109,7 +109,7 @@ export function ReconciliationTable({ initialOrders }: { initialOrders: any[] })
                             <Truck className="w-6 h-6" />
                          </div>
                          <div>
-                            <div className="text-sm font-black text-slate-900  uppercase italic">{order.preferredCourier || "Standard"}</div>
+                            <div className="text-sm font-black text-slate-900  uppercase">{order.preferredCourier || "Standard"}</div>
                             <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{order.courierTrxId || "No Tracking"}</div>
                          </div>
                       </div>

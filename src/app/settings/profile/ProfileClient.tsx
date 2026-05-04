@@ -151,7 +151,7 @@ export default function ProfileClient({ user }: { user: any }) {
       <div className="bg-white rounded-none p-8 md:p-12 shadow-2xl shadow-slate-200/40 border border-slate-100 space-y-10">
           <div className="flex items-center justify-between border-b border-slate-50 pb-6">
               <div className="space-y-1">
-                  <h3 className="text-xl font-black text-slate-900 uppercase italic tracking-tighter">Security Settings</h3>
+                  <h3 className="text-xl font-black text-slate-900 uppercase tracking-tighter">Security Settings</h3>
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Manage your credentials and 2FA</p>
               </div>
               <div className="w-12 h-12 bg-slate-900 rounded-none flex items-center justify-center text-white">
@@ -218,7 +218,7 @@ export default function ProfileClient({ user }: { user: any }) {
                               <QrCode className="w-6 h-6" />
                           </div>
                           <div>
-                              <p className="text-sm font-black text-slate-900 uppercase tracking-tighter italic">Two-Factor Authentication</p>
+                              <p className="text-sm font-black text-slate-900 uppercase tracking-tighter">Two-Factor Authentication</p>
                               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Protect your account with 2FA</p>
                           </div>
                       </div>

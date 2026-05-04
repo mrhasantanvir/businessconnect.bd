@@ -62,7 +62,7 @@ export default async function MerchantBranchesPage() {
                  <div className="w-10 h-10 bg-[#BEF264] rounded-xl flex items-center justify-center text-green-900 shadow-xl">
                     <Globe className="w-6 h-6" />
                  </div>
-                 <h4 className="text-sm font-black uppercase tracking-tight italic text-indigo-200">Network Intelligence</h4>
+                 <h4 className="text-sm font-black uppercase tracking-tight text-indigo-200">Network Intelligence</h4>
                  <p className="text-[10px] font-medium text-slate-300 leading-relaxed uppercase tracking-tighter">
                    Centralized control for all branches. Orders and inventory are automatically routed based on branch assignment.
                  </p>

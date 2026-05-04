@@ -52,7 +52,7 @@ export function ThemeOrganic({ store, brandColor }: { store: any, brandColor: st
                   <span className="text-[10px] font-black uppercase tracking-widest">Fresh From the Root</span>
                </div>
                <h2 className="text-6xl lg:text-8xl font-black leading-tight tracking-tight text-emerald-950">
-                  Organic <br /> <span className="italic text-emerald-600">Nutrition</span> <br /> For Life
+                  Organic <br /> <span className="text-emerald-600">Nutrition</span> <br /> For Life
                </h2>
                <p className="text-lg text-emerald-800/60 max-w-md leading-relaxed">
                   We bridge the gap between farmers and your table. 100% Pesticide-free, hand-picked daily.
@@ -93,7 +93,7 @@ export function ThemeOrganic({ store, brandColor }: { store: any, brandColor: st
       <section className="max-w-7xl mx-auto px-6 py-32 space-y-20">
          <div className="flex items-center justify-between">
             <div>
-               <h3 className="text-4xl font-black text-emerald-950 tracking-tight">Today's <span className="italic text-emerald-600">Fresh</span> Pick</h3>
+               <h3 className="text-4xl font-black text-emerald-950 tracking-tight">Today's <span className="text-emerald-600">Fresh</span> Pick</h3>
                <p className="text-xs font-bold text-emerald-800/40 uppercase tracking-widest mt-2">Supplied by local artisan farmers</p>
             </div>
             <button className="text-xs font-black uppercase tracking-widest text-emerald-600 border-b-2 border-emerald-100 pb-2 hover:border-emerald-600 transition-all">View All Products</button>
@@ -109,7 +109,7 @@ export function ThemeOrganic({ store, brandColor }: { store: any, brandColor: st
                     </button>
                  </div>
                  <div className="text-center space-y-2">
-                    <h4 className="text-lg font-black text-emerald-950 uppercase italic leading-none">{product.name}</h4>
+                    <h4 className="text-lg font-black text-emerald-950 uppercase leading-none">{product.name}</h4>
                     <p className="text-xs font-bold text-emerald-800/40 uppercase tracking-widest">৳{product.price} / KG</p>
                     <div className="pt-4">
                        <button className="px-6 py-3 bg-emerald-50 text-emerald-700 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-600 hover:text-white transition-all">Add To Basket</button>
@@ -125,7 +125,7 @@ export function ThemeOrganic({ store, brandColor }: { store: any, brandColor: st
          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] opacity-10" />
          <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div className="space-y-10 relative z-10">
-               <h2 className="text-5xl lg:text-7xl font-black italic tracking-tighter leading-none">
+               <h2 className="text-5xl lg:text-7xl font-black tracking-tighter leading-none">
                   Supporting Our <br /> <span className="text-emerald-400">Local Heroes</span>
                </h2>
                <p className="text-lg text-emerald-200/60 leading-relaxed max-w-lg">
@@ -157,7 +157,7 @@ export function ThemeOrganic({ store, brandColor }: { store: any, brandColor: st
          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12">
             <div className="flex items-center gap-3">
                <Leaf className="w-6 h-6 text-emerald-600" />
-               <h2 className="text-xl font-black text-emerald-950 uppercase italic">{store.name}</h2>
+               <h2 className="text-xl font-black text-emerald-950 uppercase">{store.name}</h2>
             </div>
             <p className="text-xs font-bold text-emerald-800/40 uppercase tracking-widest text-center">
                © 2026 {store.name}. Sustainable Commerce Engine.

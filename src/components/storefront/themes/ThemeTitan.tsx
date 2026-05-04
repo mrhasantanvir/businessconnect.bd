@@ -26,7 +26,7 @@ export function ThemeTitan({ store, brandColor }: { store: any, brandColor: stri
                <div className="w-10 h-10 bg-gradient-to-tr from-cyan-600 to-blue-600 rounded-lg flex items-center justify-center text-white shadow-lg shadow-cyan-500/20">
                   <Cpu className="w-6 h-6" />
                </div>
-               <h1 className="text-xl font-black tracking-tighter uppercase italic">{store.name}</h1>
+               <h1 className="text-xl font-black tracking-tighter uppercase">{store.name}</h1>
             </div>
 
             <nav className="hidden md:flex items-center gap-8">
@@ -56,7 +56,7 @@ export function ThemeTitan({ store, brandColor }: { store: any, brandColor: stri
                      <Zap className="w-4 h-4 text-cyan-400" />
                      <span className="text-[10px] font-black text-cyan-400 uppercase tracking-widest">Next-Gen Technology</span>
                   </div>
-                  <h2 className="text-6xl lg:text-8xl font-black tracking-tighter uppercase italic leading-[0.9]">
+                  <h2 className="text-6xl lg:text-8xl font-black tracking-tighter uppercase leading-[0.9]">
                      Power <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Unleashed</span>
                   </h2>
                   <p className="text-lg text-slate-400 max-w-md leading-relaxed font-medium">
@@ -107,7 +107,7 @@ export function ThemeTitan({ store, brandColor }: { store: any, brandColor: stri
       <section className="max-w-7xl mx-auto px-6 pb-32 space-y-20">
          <div className="flex items-end justify-between border-b border-white/5 pb-12">
             <div>
-               <h3 className="text-4xl font-black uppercase italic tracking-tighter">Engineered <span className="text-cyan-400">Superiority</span></h3>
+               <h3 className="text-4xl font-black uppercase tracking-tighter">Engineered <span className="text-cyan-400">Superiority</span></h3>
                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-2">Latest technical arrivals</p>
             </div>
             <button className="text-[10px] font-black uppercase tracking-[0.2em] text-cyan-400 border-b-2 border-cyan-500 pb-2">Full Inventory</button>
@@ -125,7 +125,7 @@ export function ThemeTitan({ store, brandColor }: { store: any, brandColor: stri
                        <span className="px-3 py-1 bg-cyan-500/10 text-cyan-400 text-[8px] font-black uppercase tracking-widest rounded-full border border-cyan-500/20">Tech Specs</span>
                        <span className="text-lg font-black text-white">৳{product.price}</span>
                     </div>
-                    <h4 className="text-xl font-black uppercase italic tracking-tight">{product.name}</h4>
+                    <h4 className="text-xl font-black uppercase tracking-tight">{product.name}</h4>
                     
                     <div className="space-y-3 pt-4 border-t border-white/5">
                        <div className="flex justify-between text-[10px] font-bold text-slate-500 uppercase tracking-widest">
@@ -157,7 +157,7 @@ export function ThemeTitan({ store, brandColor }: { store: any, brandColor: stri
             ].map((f, i) => (
               <div key={i} className="p-10 bg-white/5 border border-white/5 rounded-[40px] space-y-6">
                  <f.icon className="w-10 h-10 text-cyan-400" />
-                 <h5 className="text-lg font-black uppercase italic tracking-tight">{f.title || f.label}</h5>
+                 <h5 className="text-lg font-black uppercase tracking-tight">{f.title || f.label}</h5>
                  <p className="text-sm text-slate-500 font-medium leading-relaxed">{f.desc}</p>
               </div>
             ))}
@@ -169,7 +169,7 @@ export function ThemeTitan({ store, brandColor }: { store: any, brandColor: stri
          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12 text-slate-500">
             <div className="flex items-center gap-3">
                <Cpu className="w-6 h-6 text-cyan-500" />
-               <h2 className="text-xl font-black text-white uppercase italic tracking-tighter">{store.name}</h2>
+               <h2 className="text-xl font-black text-white uppercase tracking-tighter">{store.name}</h2>
             </div>
             <div className="flex items-center gap-10">
                {["Protocols", "Compliance", "Architecture"].map(l => (

@@ -82,11 +82,11 @@ export default function DocumentReuploadClient({ store }: { store: any }) {
                  <RefreshCw className="w-3.5 h-3.5 text-rose-600 animate-spin-slow" />
                  <span className="text-[10px] font-black text-rose-700 uppercase tracking-widest">Update Required</span>
               </div>
-              <h1 className="text-4xl font-black text-slate-900 uppercase italic tracking-tighter">Document <span className="text-rose-600">Re-upload</span></h1>
+              <h1 className="text-4xl font-black text-slate-900 uppercase tracking-tighter">Document <span className="text-rose-600">Re-upload</span></h1>
               <p className="text-sm text-slate-500 font-medium leading-relaxed">
                 Admin requested a re-upload for your store <strong>{store.name}</strong>.<br />
                 {store.reuploadMessage && (
-                  <span className="block mt-2 p-4 bg-slate-50 border-l-4 border-rose-500 text-rose-700 rounded-r-xl italic font-bold">
+                  <span className="block mt-2 p-4 bg-slate-50 border-l-4 border-rose-500 text-rose-700 rounded-r-xl font-bold">
                     Reason: {store.reuploadMessage}
                   </span>
                 )}

@@ -53,7 +53,7 @@ export default async function WarehousesPage() {
                       </div>
                       <div>
                          <h3 className="text-xl font-bold text-[#0F172A]">{wh.name}</h3>
-                         <div className="flex items-center gap-2 text-sm text-[#64748B] mt-1 font-medium italic">
+                         <div className="flex items-center gap-2 text-sm text-[#64748B] mt-1 font-medium">
                             <MapPin className="w-3.5 h-3.5" /> {wh.location || "Global Coordinates"}
                          </div>
                       </div>

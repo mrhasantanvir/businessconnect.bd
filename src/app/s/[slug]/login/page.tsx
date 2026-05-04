@@ -52,14 +52,14 @@ export default function CustomerLoginPage() {
             <div className="w-16 h-16 bg-white rounded-3xl flex items-center justify-center text-indigo-600 shadow-2xl">
                <Sparkles className="w-8 h-8" />
             </div>
-            <h1 className="text-6xl font-black tracking-tighter uppercase italic text-white leading-none">
+            <h1 className="text-6xl font-black tracking-tighter uppercase text-white leading-none">
                Welcome <br /> Back To <br /> <span className="text-indigo-200">Excellence</span>
             </h1>
          </div>
          <div className="relative z-10 space-y-8">
             <div className="p-8 bg-white/10 backdrop-blur-xl rounded-[40px] border border-white/20 space-y-4">
                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-indigo-100">Loyalty Program</p>
-               <h4 className="text-xl font-black text-white uppercase italic">Your points are waiting</h4>
+               <h4 className="text-xl font-black text-white uppercase">Your points are waiting</h4>
                <p className="text-sm font-bold text-indigo-100 leading-relaxed uppercase">Log in to check your reward balance and claim exclusive discounts.</p>
             </div>
             <div className="flex items-center gap-4 text-white/40">
@@ -79,7 +79,7 @@ export default function CustomerLoginPage() {
 
          <div className="max-w-md mx-auto w-full space-y-12 animate-in fade-in slide-in-from-right-20 duration-1000">
             <div className="space-y-4">
-               <h2 className="text-4xl font-black tracking-tighter uppercase italic leading-none">Customer <span className="text-indigo-600">Login</span></h2>
+               <h2 className="text-4xl font-black tracking-tighter uppercase leading-none">Customer <span className="text-indigo-600">Login</span></h2>
                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-relaxed">Enter your credentials to access your dashboard.</p>
             </div>
 

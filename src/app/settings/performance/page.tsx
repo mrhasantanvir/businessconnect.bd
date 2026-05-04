@@ -14,7 +14,7 @@ export default async function PerformancePage() {
           <Activity className="w-7 h-7" />
         </div>
         <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight uppercase italic">Performance Hub</h1>
+          <h1 className="text-3xl font-black text-slate-900 tracking-tight uppercase">Performance Hub</h1>
           <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Real-time productivity & growth analytics</p>
         </div>
       </div>

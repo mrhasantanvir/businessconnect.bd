@@ -218,7 +218,7 @@ export function StaffProfileCard({ user, isEditable = false, onUpdate, activityS
 
           <div className="pt-20 md:pt-4 md:pl-48 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-2">
-               <h1 className="text-3xl font-bold text-slate-900 tracking-tight flex items-center gap-2 italic">
+               <h1 className="text-3xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
                  {user.name}
                  <CheckCircle2 className="w-5 h-5 text-blue-500" />
                </h1>
@@ -250,7 +250,7 @@ export function StaffProfileCard({ user, isEditable = false, onUpdate, activityS
           {/* Personal Details */}
           <div className="bg-white rounded-none p-8 md:p-12 shadow-2xl shadow-slate-200/40 border border-slate-100 space-y-10">
              <div className="flex items-center justify-between border-b border-slate-50 pb-6">
-                <h3 className="text-xl font-black text-slate-900 uppercase italic tracking-tighter">Personal Details</h3>
+                <h3 className="text-xl font-black text-slate-900 uppercase tracking-tighter">Personal Details</h3>
                 <div className="w-10 h-10 bg-slate-900 rounded-none flex items-center justify-center text-white">
                    <User className="w-5 h-5" />
                 </div>
@@ -295,15 +295,15 @@ export function StaffProfileCard({ user, isEditable = false, onUpdate, activityS
               <div className="space-y-6">
                  <div className="p-6 bg-slate-50 rounded-none border-l-2 border-slate-900">
                     <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Attendance Record</p>
-                    <p className="text-2xl font-bold text-slate-900 tracking-tight italic">{activityStats?.attendance ?? staff?.attendance ?? 0} Sessions</p>
+                    <p className="text-2xl font-bold text-slate-900 tracking-tight">{activityStats?.attendance ?? staff?.attendance ?? 0} Sessions</p>
                  </div>
                  <div className="p-6 bg-slate-50 rounded-none border-l-2 border-indigo-600">
                     <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Units Dispatched</p>
-                    <p className="text-2xl font-bold text-indigo-600 tracking-tight italic">{activityStats?.tasksCompleted ?? 0} Units</p>
+                    <p className="text-2xl font-bold text-indigo-600 tracking-tight">{activityStats?.tasksCompleted ?? 0} Units</p>
                  </div>
                  <div className="p-6 bg-slate-50 rounded-none border-l-2 border-emerald-600">
                     <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Activity Score</p>
-                    <p className="text-2xl font-bold text-emerald-600 tracking-tight italic">{(activityStats?.avgActivityScore ?? staff?.avgActivityScore ?? 0).toFixed(1)}%</p>
+                    <p className="text-2xl font-bold text-emerald-600 tracking-tight">{(activityStats?.avgActivityScore ?? staff?.avgActivityScore ?? 0).toFixed(1)}%</p>
                  </div>
               </div>
            </div>
@@ -313,7 +313,7 @@ export function StaffProfileCard({ user, isEditable = false, onUpdate, activityS
         <div className="lg:col-span-3 space-y-8">
           <div className="bg-white rounded-none p-8 md:p-12 shadow-2xl shadow-slate-200/40 border border-slate-100 space-y-10">
              <div className="flex items-center justify-between border-b border-slate-50 pb-6">
-                <h3 className="text-xl font-black text-slate-900 uppercase italic tracking-tighter">Verified Documents</h3>
+                <h3 className="text-xl font-black text-slate-900 uppercase tracking-tighter">Verified Documents</h3>
                 <div className="w-10 h-10 bg-slate-900 rounded-none flex items-center justify-center text-white">
                    <FileText className="w-5 h-5" />
                 </div>
@@ -403,7 +403,7 @@ export function StaffProfileCard({ user, isEditable = false, onUpdate, activityS
                        ))}
                       {!staff?.nidFrontUrl && !staff?.nidBackUrl && (!staff?.documents || staff.documents.length === 0) && (
                          <tr>
-                            <td colSpan={3} className="py-12 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest italic">
+                            <td colSpan={3} className="py-12 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">
                                No verified documents in registry
                             </td>
                          </tr>

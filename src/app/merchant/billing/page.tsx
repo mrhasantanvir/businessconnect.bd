@@ -53,7 +53,7 @@ export default async function MerchantBillingPage() {
                      <Activity className="w-5 h-5" />
                   </div>
                   <div>
-                     <h2 className="text-xl font-black text-slate-900 uppercase tracking-tight italic">Staff Subscription <span className="text-indigo-600">Invoices</span></h2>
+                     <h2 className="text-xl font-black text-slate-900 uppercase tracking-tight">Staff Subscription <span className="text-indigo-600">Invoices</span></h2>
                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Pay-per-User Model: ৳300/Staff/30 Days</p>
                   </div>
                </div>
@@ -80,10 +80,10 @@ export default async function MerchantBillingPage() {
                           {store.invoices.map((inv: any) => (
                              <tr key={inv.id} className="group hover:bg-slate-50/50 transition-colors">
                                 <td className="py-5">
-                                   <p className="text-sm font-black text-slate-900 uppercase tracking-tight italic">{inv.billingCycle}</p>
+                                   <p className="text-sm font-black text-slate-900 uppercase tracking-tight">{inv.billingCycle}</p>
                                 </td>
                                 <td className="py-5">
-                                   <p className="text-sm font-black text-indigo-600 italic">৳{inv.amount.toLocaleString()}</p>
+                                   <p className="text-sm font-black text-indigo-600">৳{inv.amount.toLocaleString()}</p>
                                 </td>
                                 <td className="py-5">
                                    <p className="text-xs font-bold text-slate-500 uppercase">{new Date(inv.dueDate).toLocaleDateString()}</p>
@@ -233,7 +233,7 @@ export default async function MerchantBillingPage() {
             
             <div className="space-y-4">
               {(!store || !store.transactions || store.transactions.length === 0) ? (
-                <p className="text-xs text-gray-400 text-center py-4 italic">No transactions found.</p>
+                <p className="text-xs text-gray-400 text-center py-4">No transactions found.</p>
               ) : (
                 store.transactions.map((tx: any) => (
                   <div key={tx.id} className="flex justify-between items-center pb-3 border-b border-gray-50 last:border-0 last:pb-0 group">
@@ -247,7 +247,7 @@ export default async function MerchantBillingPage() {
                        </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-black text-green-600 italic">৳{tx.amount.toLocaleString()}</p>
+                      <p className="text-sm font-black text-green-600">৳{tx.amount.toLocaleString()}</p>
                       {tx.invoiceUrl ? (
                          <a 
                            href={tx.invoiceUrl} 

@@ -19,7 +19,7 @@ export default async function WoocommerceSettingsPage() {
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-8 border-b border-gray-100 ">
          <div>
-            <h1 className="text-4xl font-black tracking-tight text-[#0F172A]  uppercase italic">
+            <h1 className="text-4xl font-black tracking-tight text-[#0F172A]  uppercase">
                eCommerce <span className="text-indigo-600">Pipeline</span>
             </h1>
             <p className="text-[#64748B]  text-sm font-bold mt-2 uppercase tracking-widest flex items-center gap-2">

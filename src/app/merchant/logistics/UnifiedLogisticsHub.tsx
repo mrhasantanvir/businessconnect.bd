@@ -172,7 +172,7 @@ export function UnifiedLogisticsHub({ existingConfigs }: { existingConfigs: any[
                 <div className="p-8 md:p-12 space-y-8 overflow-y-auto custom-scrollbar">
                    <div className="flex items-center justify-between">
                       <div className="space-y-1">
-                         <h3 className="text-2xl font-black uppercase italic tracking-tight text-indigo-900">Logistics Node Registration</h3>
+                         <h3 className="text-2xl font-black uppercase tracking-tight text-indigo-900">Logistics Node Registration</h3>
                          <p className="text-[10px] font-bold text-gray-400 uppercase">Select provider or add custom infrastructure</p>
                       </div>
                       <button onClick={() => setIsAddingCustom(false)} className="w-12 h-12 rounded-2xl bg-gray-50 flex items-center justify-center text-gray-400 hover:text-indigo-600 transition-all hover:rotate-90">

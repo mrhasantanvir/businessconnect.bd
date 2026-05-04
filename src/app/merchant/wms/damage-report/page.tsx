@@ -63,7 +63,7 @@ export default async function DamageReportPage() {
                        <td className="px-6 py-4 text-center font-black text-red-600">
                           {log.quantity}
                        </td>
-                       <td className="px-6 py-4 text-xs text-gray-500 italic max-w-xs truncate">
+                       <td className="px-6 py-4 text-xs text-gray-500 max-w-xs truncate">
                           {log.reason}
                        </td>
                        <td className="px-6 py-4 text-right">
@@ -75,7 +75,7 @@ export default async function DamageReportPage() {
                   ))}
                   {damageLogs.length === 0 && (
                     <tr>
-                       <td colSpan={5} className="px-6 py-20 text-center text-gray-400 text-xs italic">
+                       <td colSpan={5} className="px-6 py-20 text-center text-gray-400 text-xs">
                           No damage records found in the current ledger.
                        </td>
                     </tr>

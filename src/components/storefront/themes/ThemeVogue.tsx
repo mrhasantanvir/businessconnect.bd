@@ -35,7 +35,7 @@ export function ThemeVogue({ store, brandColor }: { store: any, brandColor: stri
                </nav>
             </div>
 
-            <h1 className="text-2xl font-black tracking-tighter uppercase italic translate-x-[-50%] absolute left-1/2">
+            <h1 className="text-2xl font-black tracking-tighter uppercase translate-x-[-50%] absolute left-1/2">
                {store.name}
             </h1>
 
@@ -64,7 +64,7 @@ export function ThemeVogue({ store, brandColor }: { store: any, brandColor: stri
                   <div className="w-12 h-px bg-slate-900" />
                   <span className="text-[10px] font-black uppercase tracking-[0.4em]">SS/2026 Collection</span>
                </div>
-               <h2 className="text-6xl lg:text-9xl font-black tracking-tighter uppercase italic leading-[0.85]">
+               <h2 className="text-6xl lg:text-9xl font-black tracking-tighter uppercase leading-[0.85]">
                   Modern <br /> <span className="text-indigo-600">Aesthetics</span>
                </h2>
                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 pt-10">
@@ -83,7 +83,7 @@ export function ThemeVogue({ store, brandColor }: { store: any, brandColor: stri
       <section className="max-w-[1600px] mx-auto px-8 py-32 space-y-20">
          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 border-b border-slate-100 pb-12">
             <div>
-               <h3 className="text-4xl font-black tracking-tighter uppercase italic">Curated <span className="text-indigo-600">Essentials</span></h3>
+               <h3 className="text-4xl font-black tracking-tighter uppercase">Curated <span className="text-indigo-600">Essentials</span></h3>
                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-2">Hand-picked by our editorial team</p>
             </div>
             <div className="flex items-center gap-8">
@@ -138,7 +138,7 @@ export function ThemeVogue({ store, brandColor }: { store: any, brandColor: stri
          <div className="bg-white border border-slate-100 rounded-[64px] h-[60vh] relative overflow-hidden flex items-center justify-center text-center p-12">
             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/dark-matter.png')] opacity-20" />
             <div className="relative z-10 max-w-2xl space-y-8">
-               <h2 className="text-5xl lg:text-7xl font-black text-white tracking-tighter uppercase italic leading-none">
+               <h2 className="text-5xl lg:text-7xl font-black text-white tracking-tighter uppercase leading-none">
                   Sustainability is <span className="text-indigo-400">Not Optional</span>
                </h2>
                <p className="text-sm font-bold text-slate-400 uppercase tracking-widest leading-relaxed">
@@ -155,7 +155,7 @@ export function ThemeVogue({ store, brandColor }: { store: any, brandColor: stri
       <footer className="bg-slate-50 py-20 px-8 lg:px-20 border-t border-slate-100">
          <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16">
             <div className="space-y-6">
-               <h2 className="text-xl font-black tracking-tighter uppercase italic">{store.name}</h2>
+               <h2 className="text-xl font-black tracking-tighter uppercase">{store.name}</h2>
                <p className="text-xs font-bold text-slate-400 uppercase leading-relaxed tracking-wider">
                   International Standard Commerce Platform for the next generation of brands.
                </p>
