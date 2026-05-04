@@ -14,11 +14,13 @@ const googleClient = new vision.ImageAnnotatorClient({
 
 export async function extractNIDInfo(imageUrl: string, merchantStoreId?: string) {
   try {
+    console.log(`[Vision] Processing NID extraction for: ${imageUrl}`);
     // Use the new Bulletproof Gateway which handles fallbacks automatically
-    return await extractWithGateway(imageUrl, merchantStoreId);
-  } catch (error) {
+    const result = await extractWithGateway(imageUrl, merchantStoreId);
+    return result;
+  } catch (error: any) {
     console.error("Extraction Error:", error);
-    return { error: "Failed to extract information from NID" };
+    return { error: `AI Extraction Failed: ${error.message || "Unknown error occurred"}` };
   }
 }
 
@@ -63,9 +65,16 @@ Rules:
     let imageContent: string = imageUrl;
     if (imageUrl.startsWith("/")) {
       const filePath = path.join(process.cwd(), "public", imageUrl);
-      const buffer = await fs.readFile(filePath);
-      const ext = path.extname(filePath).slice(1) || "jpeg";
-      imageContent = `data:image/${ext};base64,${buffer.toString("base64")}`;
+      try {
+        const buffer = await fs.readFile(filePath);
+        const ext = path.extname(filePath).slice(1) || "jpeg";
+        imageContent = `data:image/${ext};base64,${buffer.toString("base64")}`;
+      } catch (err) {
+        console.error(`[Vision] Local file not found: ${filePath}`);
+        // If local file fails, maybe it's accessible via URL?
+        // But usually it's a relative path starting with /
+        throw new Error(`NID Image file not found at ${imageUrl}`);
+      }
     }
 
     // Use the Bulletproof Vision Gateway
@@ -185,8 +194,8 @@ async function extractWithGoogle(imageUrl: string) {
     }
 
     return info;
-  } catch (error) {
+  } catch (error: any) {
     console.error("Google Vision Error:", error);
-    return { error: "Failed to extract info" };
+    return { error: `Google Vision Error: ${error.message || "Failed to extract info"}` };
   }
 }

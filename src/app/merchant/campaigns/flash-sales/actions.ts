@@ -31,7 +31,9 @@ export async function createFlashSaleAction(data: {
           salePrice: item.salePrice,
           stockLimit: item.stockLimit,
         }))
-      }
+      },
+      createdBy: session.userId,
+      updatedBy: session.userId
     }
   });
 

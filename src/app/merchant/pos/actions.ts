@@ -25,6 +25,9 @@ export async function createPosOrderAction(data: {
     }
 
     try {
+        const { generateReadableId } = await import("@/lib/id-generator");
+        const readableId = await generateReadableId("ORDER", session.merchantStoreId);
+
         const order = await prisma.order.create({
             data: {
                 merchantStoreId: session.merchantStoreId,
@@ -32,6 +35,7 @@ export async function createPosOrderAction(data: {
                 status: "DELIVERED", // POS orders are usually immediate
                 paymentStatus: "PAID",
                 source: "POS",
+                readableId,
                 customerEntityId: data.customerId,
                 customerPhone: data.customerPhone,
                 customerName: data.customerName,

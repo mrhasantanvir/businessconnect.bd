@@ -57,6 +57,7 @@ export async function createLedgerTransactionAction(data: {
       accountId: data.accountId || null,
       date: data.date || new Date(),
       merchantStoreId: session.merchantStoreId,
+      userId: session.userId,
     },
   });
 
@@ -196,6 +197,7 @@ export async function recordDisbursementAction(data: {
       accountId: data.accountId,
       branchId: data.branchId || null,
       merchantStoreId: session.merchantStoreId,
+      userId: session.userId,
       date: new Date()
     }
   });

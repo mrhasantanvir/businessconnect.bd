@@ -75,13 +75,15 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
 
   useEffect(() => {
     if (user?.activationStatus === "STAFF_ONBOARDING" && !pathname.startsWith("/staff/onboarding")) {
-       router.push("/staff/onboarding");
+       router.replace("/staff/onboarding");
     }
 
     if ((user?.role === "MERCHANT" || user?.role === "STAFF") && user?.activationStatus && user.activationStatus !== "ACTIVE") {
-       const allowedPaths = ["/dashboard", "/merchant/settings/documents", "/settings/profile"];
-       if (!allowedPaths.includes(pathname)) {
-          router.push("/dashboard");
+       const allowedPaths = ["/dashboard", "/merchant/settings/documents", "/settings/profile", "/staff/onboarding", "/merchant/onboarding", "/merchant/billing", "/mobile/staff", "/mobile/owner"];
+       const isAllowed = allowedPaths.some(path => pathname === path || pathname.startsWith(path + "/"));
+       
+       if (!isAllowed) {
+          router.replace("/dashboard");
        }
     }
   }, [user, pathname, router]);
@@ -209,7 +211,7 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
     { icon: PhoneCall, label: "Support Chat Queue", href: "/admin/support/chats", roles: ["SUPER_ADMIN"] },
   ].filter(item => item.roles.includes(role));
 
-  const isGuestRoute = pathname === "/" || pathname === "/login" || pathname === "/register" || pathname.startsWith("/s/") || pathname === "/merchant/onboarding";
+  const isGuestRoute = pathname === "/" || pathname === "/login" || pathname === "/register" || pathname.startsWith("/s/") || pathname === "/merchant/onboarding" || pathname === "/staff/onboarding";
 
   if (isGuestRoute) {
      return <>{children}</>;

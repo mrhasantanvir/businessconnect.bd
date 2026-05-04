@@ -39,7 +39,9 @@ export async function createCategoryAction(data: { name: string, slug: string, p
       name: data.name,
       slug: data.slug,
       parentId: data.parentId || null,
-      merchantStoreId: session.merchantStoreId
+      merchantStoreId: session.merchantStoreId,
+      createdBy: session.userId,
+      updatedBy: session.userId
     }
   });
 
@@ -110,7 +112,9 @@ export async function createProductAction(data: {
       seoDescription: data.seoDescription,
       seoKeywords: data.seoKeywords,
       image: data.image,
-      merchantStoreId: session.merchantStoreId
+      merchantStoreId: session.merchantStoreId,
+      createdBy: session.userId,
+      updatedBy: session.userId
     }
   });
 

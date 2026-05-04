@@ -74,11 +74,15 @@ export async function POST(req: NextRequest) {
     }
 
     // 3. Create the Order
+    const { generateReadableId } = await import("@/lib/id-generator");
+    const readableId = await generateReadableId("ORDER", storeId);
+
     const order = await prisma.order.create({
       data: {
         merchantStoreId: storeId,
         externalId: body.id.toString(),
         source: "WOOCOMMERCE",
+        readableId,
         total: parseFloat(body.total),
         status: mapStatus(body.status),
         customerName: `${body.customer.first_name} ${body.customer.last_name}`,

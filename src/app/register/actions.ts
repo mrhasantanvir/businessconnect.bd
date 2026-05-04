@@ -89,6 +89,9 @@ export async function registerAction(prevState: any, formData: FormData) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const result = await prisma.$transaction(async (tx) => {
+      const { generateReadableId } = await import("@/lib/id-generator");
+      const storeReadableId = await generateReadableId("MERCHANT");
+      
       const store = await tx.merchantStore.create({
         data: {
           name: storeName,
@@ -96,8 +99,11 @@ export async function registerAction(prevState: any, formData: FormData) {
           isOnboarded: false,
           address: "", 
           activationStatus: "PENDING",
+          readableId: storeReadableId,
         },
       });
+
+      const userReadableId = await generateReadableId("MERCHANT");
 
       const user = await tx.user.create({
         data: {
@@ -108,7 +114,15 @@ export async function registerAction(prevState: any, formData: FormData) {
           role: "MERCHANT",
           merchantStoreId: store.id,
           isOnboarded: false,
+          readableId: userReadableId,
         },
+      });
+
+      // Initialize sequence for the new merchant
+      await tx.merchantSequence.create({
+        data: {
+          merchantStoreId: store.id,
+        }
       });
 
       return { user, store };

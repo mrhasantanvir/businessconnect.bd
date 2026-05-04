@@ -65,6 +65,13 @@ model User {
   taskMessages        TaskMessage[]
   taskActivities      TaskActivity[]
   hasSeenCelebration  Boolean              @default(false)
+  shipments           Shipment[]
+  repliedReviews      ProductReview[]
+  campaignLogs        CampaignLog[]
+  ledgerTransactions  LedgerTransaction[]
+  initiatedTransfers  StockTransfer[]
+  payoutRequests      PayoutRequest[]
+  invoices            Invoice[]
 }
 
 model MerchantStore {
@@ -206,6 +213,8 @@ model ProductReview {
   customer      Customer      @relation(fields: [customerId], references: [id])
   product       Product       @relation(fields: [productId], references: [id])
   images        ReviewImage[]
+  repliedById   String?
+  repliedBy     User?         @relation(fields: [repliedById], references: [id])
 }
 
 model ReviewImage {
@@ -233,6 +242,8 @@ model MarketingCampaign {
   logs             CampaignLog[]
   coupons          Coupon[]
   merchantStore    MerchantStore @relation(fields: [merchantStoreId], references: [id])
+  createdBy        String?
+  updatedBy        String?
 }
 
 model Coupon {
@@ -250,6 +261,8 @@ model Coupon {
   campaign        MarketingCampaign? @relation(fields: [campaignId], references: [id])
   merchantStore   MerchantStore      @relation(fields: [merchantStoreId], references: [id])
   orders          Order[]
+  createdBy       String?
+  updatedBy       String?
 }
 
 model CampaignLog {
@@ -259,6 +272,8 @@ model CampaignLog {
   status     String
   error      String?
   createdAt  DateTime          @default(now())
+  userId     String?
+  user       User?             @relation(fields: [userId], references: [id])
   campaign   MarketingCampaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
 }
 
@@ -350,6 +365,8 @@ model Warehouse {
   branch          Branch?          @relation(fields: [branchId], references: [id])
   merchantStore   MerchantStore    @relation(fields: [merchantStoreId], references: [id])
   stocks          WarehouseStock[]
+  createdBy       String?
+  updatedBy       String?
 }
 
 model WarehouseStock {
@@ -394,6 +411,8 @@ model StockTransfer {
   approvedBy      String?
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
+  initiatedById   String?
+  initiatedBy     User?         @relation(fields: [initiatedById], references: [id])
   toWarehouse     Warehouse     @relation("TransferToWarehouse", fields: [toWarehouseId], references: [id])
   fromWarehouse   Warehouse     @relation("TransferFromWarehouse", fields: [fromWarehouseId], references: [id])
   merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
@@ -516,6 +535,8 @@ model Category {
   parent          Category?     @relation("SubCategories", fields: [parentId], references: [id])
   children        Category[]    @relation("SubCategories")
   products        Product[]
+  createdBy       String?
+  updatedBy       String?
 }
 
 model Role {
@@ -545,6 +566,8 @@ model Brand {
   updatedAt       DateTime      @default(now()) @updatedAt
   merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
   products        Product[]
+  createdBy       String?
+  updatedBy       String?
 }
 
 model StaffProfile {
@@ -733,6 +756,8 @@ model Product {
   orderItems        OrderItem[]
   merchantStore     MerchantStore    @relation(fields: [merchantStoreId], references: [id])
   brand             Brand?           @relation(fields: [brandId], references: [id])
+  createdBy         String?
+  updatedBy         String?
   category          Category?        @relation(fields: [categoryId], references: [id])
   reviews           ProductReview[]
   warehouseStocks   WarehouseStock[]
@@ -752,6 +777,8 @@ model FlashSale {
   updatedAt       DateTime        @updatedAt
   merchantStore   MerchantStore   @relation(fields: [merchantStoreId], references: [id])
   items           FlashSaleItem[]
+  createdBy       String?
+  updatedBy       String?
 }
 
 model FlashSaleItem {
@@ -837,6 +864,7 @@ model Order {
   commissions         StaffCommission[]
   chatChannel         ChatChannel?
   tasks               Task[]          @relation("OrderTasks")
+  readableId          String?         @unique
 }
 
 model OrderActivity {
@@ -900,6 +928,8 @@ model Shipment {
   shippedAt    DateTime       @default(now())
   order        Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
   items        ShipmentItem[]
+  userId       String?
+  user         User?          @relation(fields: [userId], references: [id])
 }
 
 model ShipmentItem {
@@ -1082,6 +1112,8 @@ model PayoutRequest {
   processedAt     DateTime?
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
+  userId          String?
+  user            User?         @relation(fields: [userId], references: [id])
   merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
 }
 
@@ -1267,6 +1299,8 @@ model LedgerTransaction {
   accountId       String?
   merchantStoreId String
   referenceId     String?
+  userId          String?
+  user            User?                  @relation(fields: [userId], references: [id])
   branch          Branch?                @relation(fields: [branchId], references: [id])
   category        AccountCategory        @relation(fields: [categoryId], references: [id])
   account         BusinessAccount?       @relation(fields: [accountId], references: [id])
@@ -1358,6 +1392,8 @@ model Invoice {
   invoiceUrl      String?
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
+  userId          String?
+  user            User?         @relation(fields: [userId], references: [id])
   merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
   items           InvoiceItem[]
 }

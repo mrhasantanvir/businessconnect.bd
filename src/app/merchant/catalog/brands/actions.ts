@@ -28,6 +28,8 @@ export async function createOrUpdateBrandAction(data: {
     seoDescription: data.seoDescription,
     isFeatured: data.isFeatured ?? false,
     merchantStoreId: session.merchantStoreId,
+    createdBy: data.id ? undefined : session.userId,
+    updatedBy: session.userId,
   };
 
   if (data.id) {

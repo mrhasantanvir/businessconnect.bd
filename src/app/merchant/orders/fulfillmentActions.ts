@@ -139,6 +139,7 @@ export async function dispatchOrderAction(orderId: string, courierName: string, 
         orderId,
         courierName,
         trackingCode,
+        userId: session.userId,
         items: {
           create: order.items.map(item => ({
             orderItemId: item.id,
@@ -228,6 +229,7 @@ export async function partialShipOrderAction(orderId: string, courierName: strin
         orderId,
         courierName,
         trackingCode: finalTrackingCode,
+        userId: session.userId,
         items: {
           create: items.map(i => ({
             orderItemId: i.orderItemId,
@@ -396,6 +398,7 @@ export async function completeDeliveryAction(orderId: string) {
            type: "INCOME",
            description: `Automated Sales Revenue: Order #${orderId}`,
            merchantStoreId: session.merchantStoreId,
+           userId: session.userId,
            categoryId: salesCategory.id,
            accountId: defaultAccount?.id || null,
            referenceId: orderId,

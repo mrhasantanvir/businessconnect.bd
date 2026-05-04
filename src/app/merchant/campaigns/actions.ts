@@ -48,7 +48,9 @@ export async function createCampaignAction(data: {
       content: data.content,
       targetCriteria: JSON.stringify(data.targetCriteria),
       totalTarget: targetCustomers.length,
-      status: "DRAFT"
+      status: "DRAFT",
+      createdBy: session.userId,
+      updatedBy: session.userId
     }
   });
 
@@ -172,7 +174,8 @@ export async function executeCampaignAction(campaignId: string) {
           data: {
             campaignId,
             customerId: customer.id,
-            status: "SUCCESS"
+            status: "SUCCESS",
+            userId: session.userId
           }
         });
       }
@@ -182,7 +185,8 @@ export async function executeCampaignAction(campaignId: string) {
           campaignId,
           customerId: customer.id,
           status: "FAILED",
-          error: error.message
+          error: error.message,
+          userId: session.userId
         }
       });
     }

@@ -35,7 +35,9 @@ export async function createWarehouseAction(data: { name: string; location: stri
   const warehouse = await prisma.warehouse.create({
     data: {
       ...data,
-      merchantStoreId: session.merchantStoreId as string
+      merchantStoreId: session.merchantStoreId as string,
+      createdBy: session.userId,
+      updatedBy: session.userId
     }
   });
 
@@ -147,6 +149,7 @@ export async function updateStockAction(warehouseId: string, productId: string, 
               type: "EXPENSE",
               description: `Automated Purchase: ${product.name} (Qty: ${quantity})`,
               merchantStoreId: session.merchantStoreId as string,
+              userId: session.userId,
               categoryId: purchaseCategory.id,
               accountId: defaultAccount?.id || null,
               date: new Date()
@@ -181,7 +184,9 @@ export async function initializeWarehousesAction() {
       name: "Main Distribution Center",
       location: "Dhaka Central",
       isDefault: true,
-      merchantStoreId: storeId
+      merchantStoreId: storeId,
+      createdBy: session.userId,
+      updatedBy: session.userId
     }
   });
 
@@ -191,7 +196,9 @@ export async function initializeWarehousesAction() {
       name: "Secondary Storage Hub",
       location: "Chittagong Port",
       isDefault: false,
-      merchantStoreId: storeId
+      merchantStoreId: storeId,
+      createdBy: session.userId,
+      updatedBy: session.userId
     }
   });
 
