@@ -8,13 +8,22 @@ import {
   MessageCircle, DollarSign, Search, Cloud,
   Key, Shield, CreditCard
 } from "lucide-react";
-import { getSystemSettingsAction, updateSystemSettingsAction, getEmailTemplatesAction, updateEmailTemplateAction, testOpenAIConnectionAction, testSmsConnectionAction } from "@/app/admin/settings/actions";
+import {
+  getSystemSettingsAction,
+  updateSystemSettingsAction,
+  getEmailTemplatesAction,
+  updateEmailTemplateAction,
+  testOpenAIConnectionAction,
+  testSmsConnectionAction,
+  testDbClusterNodesAction,
+  deployDbClusterConfigAction,
+} from "@/app/admin/settings/actions";
 import { RichEditor } from "@/components/ui/RichEditor";
 import { Sparkles, BrainCircuit, Scan, Terminal } from "lucide-react";
 
 import { useRouter, usePathname } from "next/navigation";
 
-type Tab = "GENERAL" | "SMS" | "REALTIME" | "MAIL" | "WHATSAPP" | "PRICING" | "GOOGLE" | "SEO" | "STORAGE" | "EMAIL_TEMPLATES" | "PAYMENTS";
+type Tab = "GENERAL" | "SMS" | "REALTIME" | "MAIL" | "WHATSAPP" | "PRICING" | "GOOGLE" | "SEO" | "STORAGE" | "EMAIL_TEMPLATES" | "PAYMENTS" | "DB_CLUSTER";
 
 interface AdminSettingsUIProps {
   activeTab: Tab;
@@ -169,6 +178,13 @@ export function AdminSettingsUI({ activeTab }: AdminSettingsUIProps) {
             label="Payment Gateways" 
             sub="bKash & Nagad"
           />
+          <TabButton 
+            active={activeTab === "DB_CLUSTER"} 
+            onClick={() => router.push("/admin/settings/db-cluster")} 
+            icon={Database} 
+            label="DB Cluster" 
+            sub="Read/Write Nodes"
+          />
         </div>
 
         {/* Content Area */}
@@ -247,6 +263,13 @@ export function AdminSettingsUI({ activeTab }: AdminSettingsUIProps) {
                   settings={settings} 
                   onSave={handleSave} 
                   saving={saving} 
+                />
+              )}
+              {activeTab === "DB_CLUSTER" && (
+                <DbClusterSettings
+                  settings={settings}
+                  onSave={handleSave}
+                  saving={saving}
                 />
               )}
            </div>
@@ -983,6 +1006,141 @@ function EmailTemplateSettings({ templates: initialTemplates }: any) {
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
         Save Template
       </button>
+    </div>
+  );
+}
+
+function DbClusterSettings({ settings, onSave, saving }: any) {
+  const [enabled, setEnabled] = useState(settings?.dbClusterEnabled ?? false);
+  const [provider, setProvider] = useState(settings?.dbClusterProvider ?? "AZURE_MYSQL");
+  const [region, setRegion] = useState(settings?.dbClusterRegion ?? "southeastasia");
+  const [primaryUrl, setPrimaryUrl] = useState(settings?.dbClusterPrimaryUrl ?? "");
+  const [write1, setWrite1] = useState(settings?.dbClusterWriteUrl1 ?? "");
+  const [write2, setWrite2] = useState(settings?.dbClusterWriteUrl2 ?? "");
+  const [read1, setRead1] = useState(settings?.dbClusterReadUrl1 ?? "");
+  const [read2, setRead2] = useState(settings?.dbClusterReadUrl2 ?? "");
+  const [proxyUrl, setProxyUrl] = useState(settings?.dbClusterProxyUrl ?? "");
+  const [testing, setTesting] = useState(false);
+  const [deploying, setDeploying] = useState(false);
+  const [status, setStatus] = useState<string | null>(null);
+  const [testReport, setTestReport] = useState<any[]>([]);
+
+  const savePayload = {
+    dbClusterEnabled: enabled,
+    dbClusterProvider: provider,
+    dbClusterRegion: region,
+    dbClusterPrimaryUrl: primaryUrl,
+    dbClusterWriteUrl1: write1,
+    dbClusterWriteUrl2: write2,
+    dbClusterReadUrl1: read1,
+    dbClusterReadUrl2: read2,
+    dbClusterProxyUrl: proxyUrl,
+  };
+
+  const handleTest = async () => {
+    setTesting(true);
+    setStatus(null);
+    const res = await testDbClusterNodesAction();
+    if (res.success) {
+      setTestReport(res.checks || []);
+      setStatus(res.summary || "Node test completed.");
+    } else {
+      setTestReport([]);
+      setStatus(res.error || "Node test failed.");
+    }
+    setTesting(false);
+  };
+
+  const handleDeploy = async () => {
+    setDeploying(true);
+    setStatus(null);
+    await onSave(savePayload);
+    const res = await deployDbClusterConfigAction();
+    setStatus(res.success ? (res.message || "Cluster config deployed.") : (res.error || "Deploy failed."));
+    setDeploying(false);
+  };
+
+  return (
+    <div className="space-y-8 max-w-4xl">
+      <div className="space-y-4">
+        <h3 className="text-xl font-bold text-[#0F172A] flex items-center gap-2">
+          <Database className="w-6 h-6 text-[#1E40AF]" /> Database Cluster Orchestration
+        </h3>
+        <p className="text-sm text-[#64748B]">Host the app in Bangladesh while managing cloud DB cluster read/write nodes centrally.</p>
+      </div>
+
+      <div className="p-6 bg-gray-50 border border-gray-200 rounded-none flex items-center justify-between">
+        <div>
+          <div className="font-bold text-[#0F172A]">Enable DB Cluster Mode</div>
+          <div className="text-xs text-[#64748B] mt-1">Enable centralized cluster config for failover-ready read/write topology.</div>
+        </div>
+        <button
+          onClick={() => setEnabled(!enabled)}
+          className={`relative w-14 h-7 rounded-none transition-colors ${enabled ? "bg-[#BEF264]" : "bg-gray-300"}`}
+        >
+          <div className={`absolute top-1 w-5 h-5 bg-white rounded-none transition-all ${enabled ? "left-8" : "left-1"}`} />
+        </button>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Input label="Provider" value={provider} onChange={setProvider} />
+        <Input label="Region" value={region} onChange={setRegion} />
+        <Input label="Primary DB URL" value={primaryUrl} onChange={setPrimaryUrl} type="password" />
+        <Input label="Proxy / Router URL (optional)" value={proxyUrl} onChange={setProxyUrl} type="password" />
+        <Input label="Write Node 1 URL" value={write1} onChange={setWrite1} type="password" />
+        <Input label="Write Node 2 URL" value={write2} onChange={setWrite2} type="password" />
+        <Input label="Read Node 1 URL" value={read1} onChange={setRead1} type="password" />
+        <Input label="Read Node 2 URL" value={read2} onChange={setRead2} type="password" />
+      </div>
+
+      <div className="flex flex-wrap gap-3">
+        <button
+          disabled={saving}
+          onClick={() => onSave(savePayload)}
+          className="px-6 py-3 bg-[#1E40AF] text-white font-bold text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50 shadow-lg"
+        >
+          {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+          Save Cluster Config
+        </button>
+
+        <button
+          disabled={testing}
+          onClick={handleTest}
+          className="px-6 py-3 bg-white border border-[#1E40AF] text-[#1E40AF] font-bold text-sm rounded-none hover:bg-blue-50 transition-all flex items-center gap-2 disabled:opacity-50"
+        >
+          {testing ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShieldCheck className="w-4 h-4" />}
+          Test Nodes
+        </button>
+
+        <button
+          disabled={deploying}
+          onClick={handleDeploy}
+          className="px-6 py-3 bg-[#0F172A] text-white font-bold text-sm rounded-none hover:bg-[#1E293B] transition-all flex items-center gap-2 disabled:opacity-50"
+        >
+          {deploying ? <Loader2 className="w-4 h-4 animate-spin" /> : <Database className="w-4 h-4" />}
+          Deploy Cluster Config
+        </button>
+      </div>
+
+      {status && (
+        <div className="p-4 text-xs font-bold border rounded-none bg-blue-50 text-blue-700 border-blue-200">{status}</div>
+      )}
+
+      {testReport.length > 0 && (
+        <div className="border border-gray-200 rounded-none overflow-hidden">
+          <div className="px-4 py-3 bg-gray-50 border-b border-gray-200 text-xs font-bold text-[#0F172A] uppercase">Node Reachability Report</div>
+          <div className="divide-y divide-gray-100">
+            {testReport.map((item: any, idx: number) => (
+              <div key={idx} className="px-4 py-3 text-xs flex items-center justify-between gap-4">
+                <span className="text-[#334155] truncate">{item.url}</span>
+                <span className={item.ok ? "text-emerald-600 font-bold" : "text-red-600 font-bold"}>
+                  {item.ok ? "OK" : (item.reason || "FAILED")}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

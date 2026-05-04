@@ -3,6 +3,13 @@
 import { db as prisma } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
+import { promises as fs } from "fs";
+import net from "net";
+import path from "path";
+import { exec } from "child_process";
+import { promisify } from "util";
+
+const execPromise = promisify(exec);
 
 export async function getSystemSettingsAction() {
   try {
@@ -394,5 +401,144 @@ export async function testSmsConnectionAction(phoneNumber: string) {
   } catch (error: any) {
     console.error("SMS Test Error:", error);
     return { success: false, error: error.message || "Failed to send test SMS." };
+  }
+}
+
+function extractClusterUrls(settings: any) {
+  const urls = [
+    settings?.dbClusterPrimaryUrl,
+    settings?.dbClusterWriteUrl1,
+    settings?.dbClusterWriteUrl2,
+    settings?.dbClusterReadUrl1,
+    settings?.dbClusterReadUrl2,
+    settings?.dbClusterProxyUrl,
+  ].filter(Boolean) as string[];
+
+  return Array.from(new Set(urls));
+}
+
+async function testTcpReachability(dbUrl: string) {
+  try {
+    const parsed = new URL(dbUrl);
+    const host = parsed.hostname;
+    const port = Number(parsed.port || "3306");
+
+    if (!host || Number.isNaN(port)) {
+      return { url: dbUrl, ok: false, reason: "Invalid host/port" };
+    }
+
+    const result = await new Promise<{ ok: boolean; reason?: string }>((resolve) => {
+      const socket = new net.Socket();
+      socket.setTimeout(3000);
+
+      socket.once("connect", () => {
+        socket.destroy();
+        resolve({ ok: true });
+      });
+
+      socket.once("timeout", () => {
+        socket.destroy();
+        resolve({ ok: false, reason: "Timeout" });
+      });
+
+      socket.once("error", (err) => {
+        socket.destroy();
+        resolve({ ok: false, reason: err.message });
+      });
+
+      socket.connect(port, host);
+    });
+
+    return { url: dbUrl, ...result };
+  } catch (error: any) {
+    return { url: dbUrl, ok: false, reason: error?.message || "Invalid URL" };
+  }
+}
+
+export async function testDbClusterNodesAction() {
+  try {
+    const session = await getSession();
+    if (!session || session.role !== "SUPER_ADMIN") throw new Error("Unauthorized");
+
+    const settings = await prisma.systemSettings.findUnique({ where: { id: "GLOBAL" } });
+    const urls = extractClusterUrls(settings);
+
+    if (urls.length === 0) {
+      return { success: false, error: "No DB cluster URLs configured yet." };
+    }
+
+    const checks = await Promise.all(urls.map((url) => testTcpReachability(url)));
+    const okCount = checks.filter((c) => c.ok).length;
+
+    return {
+      success: true,
+      summary: `${okCount}/${checks.length} nodes reachable`,
+      checks,
+    };
+  } catch (error: any) {
+    return { success: false, error: error.message || "Failed to test DB cluster nodes." };
+  }
+}
+
+export async function deployDbClusterConfigAction() {
+  try {
+    const session = await getSession();
+    if (!session || session.role !== "SUPER_ADMIN") throw new Error("Unauthorized");
+
+    const settings = await prisma.systemSettings.findUnique({ where: { id: "GLOBAL" } });
+    if (!settings?.dbClusterEnabled) {
+      return { success: false, error: "Enable DB cluster first, then deploy." };
+    }
+
+    const writeNodes = [settings.dbClusterWriteUrl1, settings.dbClusterWriteUrl2].filter(Boolean);
+    const readNodes = [settings.dbClusterReadUrl1, settings.dbClusterReadUrl2].filter(Boolean);
+
+    if (writeNodes.length === 0 || readNodes.length === 0) {
+      return { success: false, error: "At least 1 write and 1 read DB node URL are required." };
+    }
+
+    const payload = {
+      enabled: settings.dbClusterEnabled,
+      provider: settings.dbClusterProvider,
+      region: settings.dbClusterRegion,
+      primary: settings.dbClusterPrimaryUrl,
+      proxy: settings.dbClusterProxyUrl,
+      writeNodes,
+      readNodes,
+      generatedAt: new Date().toISOString(),
+    };
+
+    const configDir = path.join(process.cwd(), "config");
+    await fs.mkdir(configDir, { recursive: true });
+
+    const configPath = path.join(configDir, "db-cluster.runtime.json");
+    await fs.writeFile(configPath, JSON.stringify(payload, null, 2), "utf8");
+
+    const deployScript = path.join(process.cwd(), "scripts", "deploy-db-cluster-config.sh");
+    if (process.platform !== "win32") {
+      await execPromise(`chmod +x ${deployScript}`);
+      await execPromise(`bash ${deployScript}`);
+    }
+
+    await prisma.systemSettings.update({
+      where: { id: "GLOBAL" },
+      data: {
+        dbClusterLastStatus: "DEPLOYED",
+        dbClusterLastDeployedAt: new Date(),
+      },
+    });
+
+    revalidatePath("/admin/settings/db-cluster");
+
+    return { success: true, message: "DB cluster configuration deployed successfully." };
+  } catch (error: any) {
+    await prisma.systemSettings.update({
+      where: { id: "GLOBAL" },
+      data: {
+        dbClusterLastStatus: `FAILED: ${error.message?.slice(0, 140) || "Unknown"}`,
+      },
+    }).catch(() => undefined);
+
+    return { success: false, error: error.message || "Failed to deploy DB cluster config." };
   }
 }

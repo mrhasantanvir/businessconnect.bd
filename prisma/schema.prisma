@@ -1046,6 +1046,19 @@ model SystemSettings {
   storageSecretKey    String?
   storageCdnUrl       String?
 
+  // Database Cluster Settings (Super Admin Managed)
+  dbClusterEnabled      Boolean  @default(false)
+  dbClusterProvider     String   @default("AZURE_MYSQL") // AZURE_MYSQL, AWS_RDS, GCP_SQL, CUSTOM
+  dbClusterRegion       String?  @default("southeastasia")
+  dbClusterPrimaryUrl   String?
+  dbClusterWriteUrl1    String?
+  dbClusterWriteUrl2    String?
+  dbClusterReadUrl1     String?
+  dbClusterReadUrl2     String?
+  dbClusterProxyUrl     String?
+  dbClusterLastStatus   String?
+  dbClusterLastDeployedAt DateTime?
+
   updatedAt           DateTime @updatedAt
   googleClientId      String?
   googleClientSecret  String?
