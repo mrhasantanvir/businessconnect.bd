@@ -1020,6 +1020,22 @@ function DbClusterSettings({ settings, onSave, saving }: any) {
   const [read1, setRead1] = useState(settings?.dbClusterReadUrl1 ?? "");
   const [read2, setRead2] = useState(settings?.dbClusterReadUrl2 ?? "");
   const [proxyUrl, setProxyUrl] = useState(settings?.dbClusterProxyUrl ?? "");
+  const [apiKey, setApiKey] = useState(settings?.dbClusterApiKey ?? "");
+  const [apiSecret, setApiSecret] = useState(settings?.dbClusterApiSecret ?? "");
+  const [tenantId, setTenantId] = useState(settings?.dbClusterTenantId ?? "");
+  const [subscriptionId, setSubscriptionId] = useState(settings?.dbClusterSubscriptionId ?? "");
+  const [resourceGroup, setResourceGroup] = useState(settings?.dbClusterResourceGroup ?? "");
+  const [projectId, setProjectId] = useState(settings?.dbClusterProjectId ?? "");
+  const [writeNodesText, setWriteNodesText] = useState(
+    Array.isArray(settings?.dbClusterWriteNodes)
+      ? settings.dbClusterWriteNodes.filter(Boolean).join("\n")
+      : [settings?.dbClusterWriteUrl1, settings?.dbClusterWriteUrl2].filter(Boolean).join("\n")
+  );
+  const [readNodesText, setReadNodesText] = useState(
+    Array.isArray(settings?.dbClusterReadNodes)
+      ? settings.dbClusterReadNodes.filter(Boolean).join("\n")
+      : [settings?.dbClusterReadUrl1, settings?.dbClusterReadUrl2].filter(Boolean).join("\n")
+  );
   const [testing, setTesting] = useState(false);
   const [deploying, setDeploying] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
@@ -1030,11 +1046,19 @@ function DbClusterSettings({ settings, onSave, saving }: any) {
     dbClusterProvider: provider,
     dbClusterRegion: region,
     dbClusterPrimaryUrl: primaryUrl,
+    dbClusterProxyUrl: proxyUrl,
+    dbClusterApiKey: apiKey,
+    dbClusterApiSecret: apiSecret,
+    dbClusterTenantId: tenantId,
+    dbClusterSubscriptionId: subscriptionId,
+    dbClusterResourceGroup: resourceGroup,
+    dbClusterProjectId: projectId,
+    dbClusterWriteNodes: writeNodesText.split("\n").map((v) => v.trim()).filter(Boolean),
+    dbClusterReadNodes: readNodesText.split("\n").map((v) => v.trim()).filter(Boolean),
     dbClusterWriteUrl1: write1,
     dbClusterWriteUrl2: write2,
     dbClusterReadUrl1: read1,
     dbClusterReadUrl2: read2,
-    dbClusterProxyUrl: proxyUrl,
   };
 
   const handleTest = async () => {
@@ -1087,10 +1111,28 @@ function DbClusterSettings({ settings, onSave, saving }: any) {
         <Input label="Region" value={region} onChange={setRegion} />
         <Input label="Primary DB URL" value={primaryUrl} onChange={setPrimaryUrl} type="password" />
         <Input label="Proxy / Router URL (optional)" value={proxyUrl} onChange={setProxyUrl} type="password" />
+        <Input label="Cloud API Key / Client ID" value={apiKey} onChange={setApiKey} type="password" />
+        <Input label="Cloud API Secret" value={apiSecret} onChange={setApiSecret} type="password" />
+        <Input label="Tenant ID" value={tenantId} onChange={setTenantId} />
+        <Input label="Subscription ID" value={subscriptionId} onChange={setSubscriptionId} />
+        <Input label="Resource Group" value={resourceGroup} onChange={setResourceGroup} />
+        <Input label="Project ID (optional)" value={projectId} onChange={setProjectId} />
         <Input label="Write Node 1 URL" value={write1} onChange={setWrite1} type="password" />
         <Input label="Write Node 2 URL" value={write2} onChange={setWrite2} type="password" />
         <Input label="Read Node 1 URL" value={read1} onChange={setRead1} type="password" />
         <Input label="Read Node 2 URL" value={read2} onChange={setRead2} type="password" />
+        <Input
+          label="Write Nodes (one URL per line, scalable)"
+          value={writeNodesText}
+          onChange={setWriteNodesText}
+          multiline
+        />
+        <Input
+          label="Read Nodes (one URL per line, scalable)"
+          value={readNodesText}
+          onChange={setReadNodesText}
+          multiline
+        />
       </div>
 
       <div className="flex flex-wrap gap-3">

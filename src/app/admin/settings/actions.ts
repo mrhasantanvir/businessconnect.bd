@@ -404,13 +404,39 @@ export async function testSmsConnectionAction(phoneNumber: string) {
   }
 }
 
-function extractClusterUrls(settings: any) {
-  const urls = [
-    settings?.dbClusterPrimaryUrl,
+function toStringArray(value: any): string[] {
+  if (!Array.isArray(value)) return [];
+  return value
+    .filter((item) => typeof item === "string")
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function extractReadWriteNodes(settings: any) {
+  const writeNodes = toStringArray(settings?.dbClusterWriteNodes);
+  const readNodes = toStringArray(settings?.dbClusterReadNodes);
+
+  const mergedWriteNodes = Array.from(new Set([
+    ...writeNodes,
     settings?.dbClusterWriteUrl1,
     settings?.dbClusterWriteUrl2,
+  ].filter(Boolean) as string[]));
+
+  const mergedReadNodes = Array.from(new Set([
+    ...readNodes,
     settings?.dbClusterReadUrl1,
     settings?.dbClusterReadUrl2,
+  ].filter(Boolean) as string[]));
+
+  return { mergedWriteNodes, mergedReadNodes };
+}
+
+function extractClusterUrls(settings: any) {
+  const { mergedWriteNodes, mergedReadNodes } = extractReadWriteNodes(settings);
+  const urls = [
+    settings?.dbClusterPrimaryUrl,
+    ...mergedWriteNodes,
+    ...mergedReadNodes,
     settings?.dbClusterProxyUrl,
   ].filter(Boolean) as string[];
 
@@ -490,8 +516,9 @@ export async function deployDbClusterConfigAction() {
       return { success: false, error: "Enable DB cluster first, then deploy." };
     }
 
-    const writeNodes = [settings.dbClusterWriteUrl1, settings.dbClusterWriteUrl2].filter(Boolean);
-    const readNodes = [settings.dbClusterReadUrl1, settings.dbClusterReadUrl2].filter(Boolean);
+    const { mergedWriteNodes, mergedReadNodes } = extractReadWriteNodes(settings);
+    const writeNodes = mergedWriteNodes;
+    const readNodes = mergedReadNodes;
 
     if (writeNodes.length === 0 || readNodes.length === 0) {
       return { success: false, error: "At least 1 write and 1 read DB node URL are required." };
@@ -505,6 +532,14 @@ export async function deployDbClusterConfigAction() {
       proxy: settings.dbClusterProxyUrl,
       writeNodes,
       readNodes,
+      credentials: {
+        apiKey: settings.dbClusterApiKey || null,
+        apiSecret: settings.dbClusterApiSecret || null,
+        tenantId: settings.dbClusterTenantId || null,
+        subscriptionId: settings.dbClusterSubscriptionId || null,
+        resourceGroup: settings.dbClusterResourceGroup || null,
+        projectId: settings.dbClusterProjectId || null,
+      },
       generatedAt: new Date().toISOString(),
     };
 

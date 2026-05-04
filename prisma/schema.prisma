@@ -1055,7 +1055,15 @@ model SystemSettings {
   dbClusterWriteUrl2    String?
   dbClusterReadUrl1     String?
   dbClusterReadUrl2     String?
+  dbClusterWriteNodes   Json?
+  dbClusterReadNodes    Json?
   dbClusterProxyUrl     String?
+  dbClusterApiKey       String?
+  dbClusterApiSecret    String?
+  dbClusterTenantId     String?
+  dbClusterSubscriptionId String?
+  dbClusterResourceGroup String?
+  dbClusterProjectId    String?
   dbClusterLastStatus   String?
   dbClusterLastDeployedAt DateTime?
 
