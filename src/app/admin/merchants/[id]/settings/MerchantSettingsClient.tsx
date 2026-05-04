@@ -152,15 +152,15 @@ export function MerchantSettingsClient({ merchant }: { merchant: any }) {
 
          {/* Credit Management Sidebar */}
          <div className="space-y-8">
-            <div className="bg-slate-900 rounded-[48px] p-10 text-white space-y-10 shadow-2xl relative overflow-hidden">
-               <TrendingUp className="absolute bottom-[-20px] right-[-20px] w-40 h-40 opacity-5" />
+            <div className="bg-white border border-slate-100 rounded-[48px] p-10 space-y-10 shadow-sm relative overflow-hidden">
+               <TrendingUp className="absolute bottom-[-20px] right-[-20px] w-40 h-40 opacity-5 text-slate-300" />
                <div className="relative z-10 space-y-8">
                   <div className="flex items-center gap-4">
-                     <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center">
-                        <PlusCircle className="w-6 h-6 text-blue-400" />
+                     <div className="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center">
+                        <PlusCircle className="w-6 h-6 text-blue-600" />
                      </div>
                      <div>
-                        <h3 className="text-xl font-black uppercase italic">Sell Credits</h3>
+                        <h3 className="text-xl font-black uppercase italic text-slate-900">Sell Credits</h3>
                         <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Top up merchant balance</p>
                      </div>
                   </div>
@@ -172,7 +172,7 @@ export function MerchantSettingsClient({ merchant }: { merchant: any }) {
                               key={t}
                               onClick={() => setTopup({...topup, type: t})}
                               className={`flex-1 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest border transition-all ${
-                                 topup.type === t ? 'bg-blue-600 border-blue-500 shadow-lg' : 'bg-white/5 border-transparent text-slate-400 hover:bg-white/10'
+                                 topup.type === t ? 'bg-blue-600 text-white border-blue-500 shadow-lg' : 'bg-slate-50 border-slate-200 text-slate-400 hover:bg-slate-100'
                               }`}
                            >
                               {t}
@@ -181,39 +181,39 @@ export function MerchantSettingsClient({ merchant }: { merchant: any }) {
                      </div>
 
                      <div className="space-y-3">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Amount to Add</label>
+                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Amount to Add</label>
                         <input 
                            type="number"
                            value={topup.amount}
                            onChange={e => setTopup({...topup, amount: parseInt(e.target.value) || 0})}
-                           className="w-full h-14 px-6 bg-white text-slate-900 text-slate-900/10 border-none rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-blue-400 transition-all text-white" 
+                           className="w-full h-14 px-6 bg-slate-50 text-slate-900 border-none rounded-2xl text-sm font-bold outline-none focus:ring-2 focus:ring-blue-100 transition-all" 
                         />
                      </div>
 
                      <button 
                         onClick={handleTopup}
                         disabled={!!topupLoading}
-                        className="w-full py-5 bg-white text-slate-900 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:scale-[1.05] active:scale-95 transition-all shadow-xl disabled:opacity-50 flex items-center justify-center gap-2"
+                        className="w-full py-5 bg-blue-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:scale-[1.05] active:scale-95 transition-all shadow-xl shadow-blue-100 disabled:opacity-50 flex items-center justify-center gap-2"
                      >
                         {topupLoading === topup.type ? <RefreshCw className="w-4 h-4 animate-spin" /> : <ShieldCheck className="w-4 h-4" />}
                         Execute Top-up
                      </button>
                   </div>
 
-                  <div className="pt-8 border-t border-white/5 space-y-6">
+                  <div className="pt-8 border-t border-slate-100 space-y-6">
                      <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                           <MessageSquare className="w-4 h-4 text-blue-400" />
+                           <MessageSquare className="w-4 h-4 text-blue-500" />
                            <span className="text-[10px] font-bold text-slate-400 uppercase">Current SMS</span>
                         </div>
-                        <span className="text-xl font-black">৳{merchant.smsBalance.toLocaleString()}</span>
+                        <span className="text-xl font-black text-slate-900">৳{merchant.smsBalance.toLocaleString()}</span>
                      </div>
                      <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                           <Phone className="w-4 h-4 text-emerald-400" />
+                           <Phone className="w-4 h-4 text-emerald-500" />
                            <span className="text-[10px] font-bold text-slate-400 uppercase">Current SIP</span>
                         </div>
-                        <span className="text-xl font-black">{merchant.sipBalance.toLocaleString()}</span>
+                        <span className="text-xl font-black text-slate-900">{merchant.sipBalance.toLocaleString()}</span>
                      </div>
                   </div>
                </div>
