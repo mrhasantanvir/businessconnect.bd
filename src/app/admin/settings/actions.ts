@@ -412,6 +412,12 @@ function toStringArray(value: any): string[] {
     .filter(Boolean);
 }
 
+function toHostArray(value: any): string[] {
+  return toStringArray(value)
+    .map((host) => host.replace(/^https?:\/\//, "").replace(/\/.*/, "").trim())
+    .filter(Boolean);
+}
+
 function extractReadWriteNodes(settings: any) {
   const writeNodes = toStringArray(settings?.dbClusterWriteNodes);
   const readNodes = toStringArray(settings?.dbClusterReadNodes);
@@ -540,6 +546,17 @@ export async function deployDbClusterConfigAction() {
         resourceGroup: settings.dbClusterResourceGroup || null,
         projectId: settings.dbClusterProjectId || null,
       },
+      vm: {
+        sshUser: settings.dbClusterSshUser || null,
+        sshPort: settings.dbClusterSshPort || 22,
+        sshPrivateKey: settings.dbClusterSshPrivateKey || null,
+        writeHosts: toHostArray(settings.dbClusterVmWriteHosts),
+        readHosts: toHostArray(settings.dbClusterVmReadHosts),
+        mysqlRootPassword: settings.dbClusterMySqlRootPassword || null,
+        mysqlReplicationUser: settings.dbClusterMySqlReplicationUser || "replicator",
+        mysqlReplicationPassword: settings.dbClusterMySqlReplicationPassword || null,
+        mysqlAppDatabase: settings.dbClusterMySqlAppDatabase || "businessconnect",
+      },
       generatedAt: new Date().toISOString(),
     };
 
@@ -553,6 +570,12 @@ export async function deployDbClusterConfigAction() {
     if (process.platform !== "win32") {
       await execPromise(`chmod +x ${deployScript}`);
       await execPromise(`bash ${deployScript}`);
+
+      if ((settings.dbClusterProvider || "").toUpperCase() === "SELF_HOSTED_VM") {
+        const vmScript = path.join(process.cwd(), "scripts", "deploy-self-hosted-mysql-cluster.sh");
+        await execPromise(`chmod +x ${vmScript}`);
+        await execPromise(`bash ${vmScript}`);
+      }
     }
 
     await prisma.systemSettings.update({

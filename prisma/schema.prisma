@@ -1048,7 +1048,7 @@ model SystemSettings {
 
   // Database Cluster Settings (Super Admin Managed)
   dbClusterEnabled      Boolean  @default(false)
-  dbClusterProvider     String   @default("AZURE_MYSQL") // AZURE_MYSQL, AWS_RDS, GCP_SQL, CUSTOM
+  dbClusterProvider     String   @default("AZURE_MYSQL") // AZURE_MYSQL, AWS_RDS, GCP_SQL, SELF_HOSTED_VM, CUSTOM
   dbClusterRegion       String?  @default("southeastasia")
   dbClusterPrimaryUrl   String?
   dbClusterWriteUrl1    String?
@@ -1064,6 +1064,15 @@ model SystemSettings {
   dbClusterSubscriptionId String?
   dbClusterResourceGroup String?
   dbClusterProjectId    String?
+  dbClusterSshUser      String?
+  dbClusterSshPort      Int?     @default(22)
+  dbClusterSshPrivateKey String?
+  dbClusterVmWriteHosts Json?
+  dbClusterVmReadHosts  Json?
+  dbClusterMySqlRootPassword String?
+  dbClusterMySqlReplicationUser String?
+  dbClusterMySqlReplicationPassword String?
+  dbClusterMySqlAppDatabase String?
   dbClusterLastStatus   String?
   dbClusterLastDeployedAt DateTime?
 

@@ -1026,6 +1026,23 @@ function DbClusterSettings({ settings, onSave, saving }: any) {
   const [subscriptionId, setSubscriptionId] = useState(settings?.dbClusterSubscriptionId ?? "");
   const [resourceGroup, setResourceGroup] = useState(settings?.dbClusterResourceGroup ?? "");
   const [projectId, setProjectId] = useState(settings?.dbClusterProjectId ?? "");
+  const [sshUser, setSshUser] = useState(settings?.dbClusterSshUser ?? "ubuntu");
+  const [sshPort, setSshPort] = useState((settings?.dbClusterSshPort ?? 22).toString());
+  const [sshPrivateKey, setSshPrivateKey] = useState(settings?.dbClusterSshPrivateKey ?? "");
+  const [vmWriteHostsText, setVmWriteHostsText] = useState(
+    Array.isArray(settings?.dbClusterVmWriteHosts)
+      ? settings.dbClusterVmWriteHosts.filter(Boolean).join("\n")
+      : ""
+  );
+  const [vmReadHostsText, setVmReadHostsText] = useState(
+    Array.isArray(settings?.dbClusterVmReadHosts)
+      ? settings.dbClusterVmReadHosts.filter(Boolean).join("\n")
+      : ""
+  );
+  const [mySqlRootPassword, setMySqlRootPassword] = useState(settings?.dbClusterMySqlRootPassword ?? "");
+  const [mySqlReplicationUser, setMySqlReplicationUser] = useState(settings?.dbClusterMySqlReplicationUser ?? "replicator");
+  const [mySqlReplicationPassword, setMySqlReplicationPassword] = useState(settings?.dbClusterMySqlReplicationPassword ?? "");
+  const [mySqlAppDatabase, setMySqlAppDatabase] = useState(settings?.dbClusterMySqlAppDatabase ?? "businessconnect");
   const [writeNodesText, setWriteNodesText] = useState(
     Array.isArray(settings?.dbClusterWriteNodes)
       ? settings.dbClusterWriteNodes.filter(Boolean).join("\n")
@@ -1053,6 +1070,15 @@ function DbClusterSettings({ settings, onSave, saving }: any) {
     dbClusterSubscriptionId: subscriptionId,
     dbClusterResourceGroup: resourceGroup,
     dbClusterProjectId: projectId,
+    dbClusterSshUser: sshUser,
+    dbClusterSshPort: Number.parseInt(sshPort || "22", 10) || 22,
+    dbClusterSshPrivateKey: sshPrivateKey,
+    dbClusterVmWriteHosts: vmWriteHostsText.split("\n").map((v) => v.trim()).filter(Boolean),
+    dbClusterVmReadHosts: vmReadHostsText.split("\n").map((v) => v.trim()).filter(Boolean),
+    dbClusterMySqlRootPassword: mySqlRootPassword,
+    dbClusterMySqlReplicationUser: mySqlReplicationUser,
+    dbClusterMySqlReplicationPassword: mySqlReplicationPassword,
+    dbClusterMySqlAppDatabase: mySqlAppDatabase,
     dbClusterWriteNodes: writeNodesText.split("\n").map((v) => v.trim()).filter(Boolean),
     dbClusterReadNodes: readNodesText.split("\n").map((v) => v.trim()).filter(Boolean),
     dbClusterWriteUrl1: write1,
@@ -1107,7 +1133,20 @@ function DbClusterSettings({ settings, onSave, saving }: any) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Input label="Provider" value={provider} onChange={setProvider} />
+        <div className="space-y-2">
+          <label className="text-[10px] font-bold uppercase tracking-widest text-[#64748B]">Provider</label>
+          <select
+            value={provider}
+            onChange={(e) => setProvider(e.target.value)}
+            className="w-full h-12 px-4 bg-gray-50 border border-gray-200 rounded-none focus:outline-none focus:ring-2 focus:ring-[#1E40AF] text-sm"
+          >
+            <option value="AZURE_MYSQL">Azure MySQL</option>
+            <option value="AWS_RDS">AWS RDS/Aurora</option>
+            <option value="GCP_SQL">Google Cloud SQL</option>
+            <option value="SELF_HOSTED_VM">Self-Hosted Ubuntu VM</option>
+            <option value="CUSTOM">Custom</option>
+          </select>
+        </div>
         <Input label="Region" value={region} onChange={setRegion} />
         <Input label="Primary DB URL" value={primaryUrl} onChange={setPrimaryUrl} type="password" />
         <Input label="Proxy / Router URL (optional)" value={proxyUrl} onChange={setProxyUrl} type="password" />
@@ -1134,6 +1173,43 @@ function DbClusterSettings({ settings, onSave, saving }: any) {
           multiline
         />
       </div>
+
+      {provider === "SELF_HOSTED_VM" && (
+        <div className="border border-amber-200 bg-amber-50 p-6 space-y-6">
+          <div>
+            <h4 className="text-sm font-bold text-amber-800 uppercase tracking-wider">Ubuntu VM MySQL Cluster Provisioning</h4>
+            <p className="text-xs text-amber-700 mt-1">These fields are used to SSH into your Ubuntu VMs and provision MySQL automatically.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Input label="SSH User" value={sshUser} onChange={setSshUser} />
+            <Input label="SSH Port" value={sshPort} onChange={setSshPort} />
+            <Input label="MySQL Root Password" value={mySqlRootPassword} onChange={setMySqlRootPassword} type="password" />
+            <Input label="Replication User" value={mySqlReplicationUser} onChange={setMySqlReplicationUser} />
+            <Input label="Replication Password" value={mySqlReplicationPassword} onChange={setMySqlReplicationPassword} type="password" />
+            <Input label="App Database Name" value={mySqlAppDatabase} onChange={setMySqlAppDatabase} />
+            <Input
+              label="VM Write Hosts (one IP/host per line)"
+              value={vmWriteHostsText}
+              onChange={setVmWriteHostsText}
+              multiline
+            />
+            <Input
+              label="VM Read Hosts (one IP/host per line)"
+              value={vmReadHostsText}
+              onChange={setVmReadHostsText}
+              multiline
+            />
+          </div>
+
+          <Input
+            label="SSH Private Key (PEM)"
+            value={sshPrivateKey}
+            onChange={setSshPrivateKey}
+            multiline
+          />
+        </div>
+      )}
 
       <div className="flex flex-wrap gap-3">
         <button
