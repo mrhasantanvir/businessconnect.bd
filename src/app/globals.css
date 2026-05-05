@@ -155,3 +155,33 @@ p { font-size: 14px; color: #111827; }
 .animate-spin-slow {
   animation: spin-slow 8s linear infinite;
 }
+
+  /* ─── Landing Page Overrides ─────────────────────────────────────────────────
+     The admin UI uses zero border-radius globally. The landing page needs proper
+     rounded corners. This scope restores Tailwind defaults for .landing-page.
+     ─────────────────────────────────────────────────────────────────────────── */
+  .landing-page {
+    --radius-none: 0;
+    --radius-xs:   2px;
+    --radius-sm:   4px;
+    --radius-md:   6px;
+    --radius-lg:   8px;
+    --radius-xl:   12px;
+    --radius-2xl:  16px;
+    --radius-3xl:  24px;
+    --radius-full: 9999px;
+  }
+
+  /* Reset global h1/h2/h3/p overrides inside landing page so clamp() sizes work */
+  .landing-page h1,
+  .landing-page h2,
+  .landing-page h3 {
+    font-size: unset;
+    font-weight: unset;
+    letter-spacing: unset;
+    color: unset;
+  }
+  .landing-page p {
+    font-size: unset;
+    color: unset;
+  }

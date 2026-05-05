@@ -151,7 +151,7 @@ export function LandingPageContent() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-[#0F172A] font-jakarta selection:bg-[#DEEBFF] selection:text-[#0052CC] leading-normal">
+    <div className="landing-page min-h-screen bg-white text-slate-900 antialiased" style={{ fontFamily: "'Plus Jakarta Sans', Inter, -apple-system, BlinkMacSystemFont, sans-serif" }}>
 
       {/* Top Accent Bar */}
       <div className="fixed top-0 w-full h-[3px] bg-gradient-to-r from-[#1E40AF] via-[#2563EB] to-[#16A34A] z-[2000]" />
@@ -264,7 +264,7 @@ export function LandingPageContent() {
       </section>
 
       {/* ─── FEATURES ─── */}
-      <section id="features" className="py-32 px-6">
+      <section id="features" className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20 space-y-5">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-[#1E40AF] rounded-full text-xs font-bold uppercase tracking-widest">
@@ -369,8 +369,8 @@ export function LandingPageContent() {
               const Icon = f.icon;
               return (
                 <button key={i} onClick={() => setActiveFeature(i)}
-                  className={`p-7 text-left rounded-[28px] border transition-all hover:shadow-lg group ${
-                    activeFeature === i ? `${c.bg} border-transparent shadow-md` : "bg-white border-gray-100 hover:border-gray-200"
+                  className={`p-7 text-left rounded-[28px] border transition-all group ${
+                    activeFeature === i ? `${c.bg} border-transparent shadow-md` : "bg-white border-slate-100 hover:bg-slate-50 hover:border-slate-300 hover:shadow-md"
                   }`}>
                   <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-5 ${c.bg} group-hover:scale-105 transition-transform`}>
                     <Icon size={22} className={c.text} />
@@ -386,7 +386,7 @@ export function LandingPageContent() {
       </section>
 
       {/* ─── HOW IT WORKS ─── */}
-      <section id="how-it-works" className="py-32 px-6 bg-slate-50/60 border-y border-gray-100">
+      <section id="how-it-works" className="py-20 px-6 bg-slate-50/60 border-y border-gray-100">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-20 space-y-5">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-200 rounded-full text-xs font-bold uppercase tracking-widest text-gray-600">
@@ -407,7 +407,7 @@ export function LandingPageContent() {
             {steps.map((step, i) => {
               const Icon = step.icon;
               return (
-                <div key={i} className="relative bg-white rounded-[32px] p-10 border border-gray-100 shadow-sm hover:shadow-xl transition-all text-center space-y-6">
+                <div key={i} className="relative bg-white rounded-[32px] p-10 border border-slate-100 hover:border-blue-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-200 text-center space-y-6">
                   <div className="w-14 h-14 bg-[#1E40AF] text-white rounded-2xl flex items-center justify-center mx-auto shadow-lg shadow-blue-500/20">
                     <Icon size={26} />
                   </div>
@@ -422,7 +422,7 @@ export function LandingPageContent() {
       </section>
 
       {/* ─── SOLUTIONS ─── */}
-      <section id="solutions" className="py-32 px-6 overflow-hidden">
+      <section id="solutions" className="py-20 px-6 overflow-hidden">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-20">
           <div className="flex-1 space-y-10">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-[#1E40AF] rounded-full text-xs font-bold uppercase tracking-widest">
@@ -510,7 +510,7 @@ export function LandingPageContent() {
       </section>
 
       {/* ─── INTEGRATIONS ─── */}
-      <section id="integrations" className="py-28 px-6 bg-slate-50/50 border-y border-gray-100">
+      <section id="integrations" className="py-16 px-6 bg-slate-50/50 border-y border-gray-100">
         <div className="max-w-5xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-200 rounded-full text-xs font-bold uppercase tracking-widest text-gray-500 mb-8">
             <Zap size={13} className="text-amber-500" /> Native Integrations
@@ -523,7 +523,7 @@ export function LandingPageContent() {
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {integrations.map((item) => (
-              <div key={item.name} className={`flex flex-col items-center gap-3 p-6 bg-white rounded-[24px] border ${item.color.split(" ").find(c => c.startsWith("border-")) || "border-gray-100"} hover:shadow-lg transition-all`}>
+              <div key={item.name} className={`flex flex-col items-center gap-3 p-6 bg-white rounded-[24px] border transition-all duration-150 cursor-default hover:shadow-lg hover:-translate-y-0.5 ${item.color.split(" ").find(c => c.startsWith("border-")) || "border-gray-100"}`}>
                 <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-lg font-black ${item.color}`}>
                   {item.name.charAt(0)}
                 </div>
@@ -536,7 +536,7 @@ export function LandingPageContent() {
       </section>
 
       {/* ─── TESTIMONIALS ─── */}
-      <section className="py-32 px-6 overflow-hidden relative">
+      <section className="py-20 px-6 overflow-hidden relative">
         <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/4 blur-[120px] rounded-full -mr-48 -mt-48" />
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-16">
