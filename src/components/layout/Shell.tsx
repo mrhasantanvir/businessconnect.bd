@@ -152,9 +152,11 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
       version: APP_VERSION.features.coreHub,
       items: [
         { icon: LayoutDashboard, label: t("dashboard"), href: "/dashboard", roles: ["MERCHANT", "STAFF"] },
+        { icon: Briefcase, label: "Enterprise Workspace", href: "/merchant/workspace", roles: ["MERCHANT"], version: "PREMIUM" },
         { icon: Database, label: t("data_insights"), roles: ["MERCHANT"], permission: "reports:view", subItems: [
            { label: t("live_reports"), href: "/merchant/reports" },
            { label: t("vat_compliance"), href: "/merchant/reports/vat" },
+           { label: "P&L Intelligence", href: "/merchant/reports/pnl" },
         ]},
       ]
     },
@@ -204,7 +206,7 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
           { icon: MessageSquare, label: t("inbox"), href: "/merchant/inbox", roles: ["MERCHANT", "STAFF"], permission: "customers:manage" },
           { icon: Star, label: "Customer Reviews", href: "/merchant/reviews", roles: ["MERCHANT", "STAFF"], permission: "customers:manage" },
           { icon: PhoneCall, label: t("cloud_dialer"), href: "#", roles: ["MERCHANT", "STAFF"], permission: "customers:manage" },
-          { icon: Users, label: t("customer_crm"), href: "/merchant/customers", roles: ["MERCHANT", "STAFF"], permission: "customers:manage" },
+          { icon: Users, label: "CRM 360 & Pipeline", href: "/merchant/customers", roles: ["MERCHANT", "STAFF"], permission: "customers:manage" },
       ]
     },
     {
