@@ -49,12 +49,12 @@ export default function LoginPage() {
     return (
       <div className="min-h-screen bg-[#F8F9FA] flex items-center justify-center p-4">
         <div className="w-full max-w-md">
-          <div className="flex flex-col items-center mb-8">
-            <div className="flex items-center gap-2 mb-4 group">
+          <Link href="/" className="flex flex-col items-center mb-8 group">
+            <div className="flex items-center gap-2 mb-4">
               <Box className="w-10 h-10 text-[#1E40AF] group-hover:scale-110 transition-transform" />
               <span className="font-bold tracking-tight text-2xl text-[#0F172A]">Businessconnect.bd</span>
             </div>
-          </div>
+          </Link>
 
           <div className="bg-white border border-[#E5E7EB] rounded-[32px] p-8 md:p-10 shadow-2xl shadow-[#1E40AF]/5 relative overflow-hidden">
             <div className="absolute top-0 left-0 w-full h-1.5 bg-[#BEF264]"></div>
@@ -115,8 +115,8 @@ export default function LoginPage() {
     <div className="min-h-screen bg-[#F8F9FA] flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Logo & Brand */}
-        <div className="flex flex-col items-center mb-8">
-          <div className="flex items-center gap-2 mb-4 group">
+        <Link href="/" className="flex flex-col items-center mb-8 group">
+          <div className="flex items-center gap-2 mb-4">
             <Box className="w-10 h-10 text-[#1E40AF] group-hover:scale-110 transition-transform" />
             <span className="font-bold tracking-tight text-2xl text-[#0F172A]">Businessconnect.bd</span>
           </div>
@@ -124,7 +124,7 @@ export default function LoginPage() {
             <Sparkles className="w-3.5 h-3.5 text-[#16A34A]" />
             <span className="text-[10px] uppercase font-bold tracking-widest text-[#16A34A]">AI-First Business OS</span>
           </div>
-        </div>
+        </Link>
 
         {/* Login Card */}
         <div className="bg-white border border-[#E5E7EB] rounded-[32px] p-8 md:p-10 shadow-2xl shadow-[#1E40AF]/5 relative overflow-hidden">
