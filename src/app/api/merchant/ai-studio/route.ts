@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { AIImageStudio } from "@/lib/ai/image-studio";
-import { auth } from "@clerk/nextjs/server";
+import { getSession } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
   try {
-    const { userId } = await auth();
-    if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
     const { action, imageUrl } = await req.json();
 
