@@ -145,7 +145,7 @@ export default async function InventoryOverviewPage() {
                          }`}>
                            {log.type}
                          </span>
-                         <span className="text-[10px] text-slate-400 font-mono">{new Date(log.createdAt).toLocaleTimeString()}</span>
+                         <span className="text-[10px] text-slate-400 font-mono">{new Date(log.createdAt).toLocaleTimeString("en-US")}</span>
                        </div>
                        <div className="text-sm font-bold truncate max-w-[180px] text-slate-900">{log.product.name}</div>
                        <div className="text-[10px] text-slate-400 flex items-center gap-2">

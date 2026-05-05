@@ -186,7 +186,7 @@ export async function getEmailTemplatesAction() {
           "Upcoming Payment Reminder",
           "Hello <strong>{{merchant_name}}</strong>,<br><br>This is a friendly reminder that a payment of <strong>৳{{due_amount}}</strong> for <strong>{{store_name}}</strong> is due in 5 days ({{due_date}}).",
           "পেমেন্ট রিমাইন্ডার",
-          "হ্যালো <strong>{{merchant_name}}</strong>,<br><br>আপনাকে মনে করিয়ে দিচ্ছি যে <strong>{{store_name}}</strong> এর <strong>৳{{due_amount}}</strong> পেমেন্টটি আগামী ৫ দিনের ({{due_date}}) মধ্যে পরিশোধ করতে হবে।"
+          "হ্যালো <strong>{{merchant_name}}</strong>,<br><br>আপনাকে মনে করিয়ে দিচ্ছি যে <strong>{{store_name}}</strong> এর <strong>৳{{due_amount}}</strong> পেমেন্টটি আগামী 5 দিনের ({{due_date}}) মধ্যে পরিশোধ করতে হবে।"
         )
       },
       { 
@@ -197,7 +197,7 @@ export async function getEmailTemplatesAction() {
           "Upcoming Payment Reminder",
           "Hello <strong>{{merchant_name}}</strong>,<br><br>This is a friendly reminder that a payment of <strong>৳{{due_amount}}</strong> for <strong>{{store_name}}</strong> is due in 4 days ({{due_date}}).",
           "পেমেন্ট রিমাইন্ডার",
-          "হ্যালো <strong>{{merchant_name}}</strong>,<br><br>আপনাকে মনে করিয়ে দিচ্ছি যে <strong>{{store_name}}</strong> এর <strong>৳{{due_amount}}</strong> পেমেন্টটি আগামী ৪ দিনের ({{due_date}}) মধ্যে পরিশোধ করতে হবে।"
+          "হ্যালো <strong>{{merchant_name}}</strong>,<br><br>আপনাকে মনে করিয়ে দিচ্ছি যে <strong>{{store_name}}</strong> এর <strong>৳{{due_amount}}</strong> পেমেন্টটি আগামী 4 দিনের ({{due_date}}) মধ্যে পরিশোধ করতে হবে।"
         )
       },
       { 
@@ -208,7 +208,7 @@ export async function getEmailTemplatesAction() {
           "Upcoming Payment Reminder",
           "Hello <strong>{{merchant_name}}</strong>,<br><br>This is a friendly reminder that a payment of <strong>৳{{due_amount}}</strong> for <strong>{{store_name}}</strong> is due in 3 days ({{due_date}}).",
           "পেমেন্ট রিমাইন্ডার",
-          "হ্যালো <strong>{{merchant_name}}</strong>,<br><br>আপনাকে মনে করিয়ে দিচ্ছি যে <strong>{{store_name}}</strong> এর <strong>৳{{due_amount}}</strong> পেমেন্টটি আগামী ৩ দিনের ({{due_date}}) মধ্যে পরিশোধ করতে হবে।"
+          "হ্যালো <strong>{{merchant_name}}</strong>,<br><br>আপনাকে মনে করিয়ে দিচ্ছি যে <strong>{{store_name}}</strong> এর <strong>৳{{due_amount}}</strong> পেমেন্টটি আগামী 3 দিনের ({{due_date}}) মধ্যে পরিশোধ করতে হবে।"
         )
       },
       { 
@@ -219,7 +219,7 @@ export async function getEmailTemplatesAction() {
           "Urgent Payment Reminder",
           "Hello <strong>{{merchant_name}}</strong>,<br><br>Your payment of <strong>৳{{due_amount}}</strong> for <strong>{{store_name}}</strong> is due in just 2 days ({{due_date}}). Please process it soon to avoid service interruption.",
           "জরুরী পেমেন্ট রিমাইন্ডার",
-          "হ্যালো <strong>{{merchant_name}}</strong>,<br><br>আপনার <strong>{{store_name}}</strong> এর <strong>৳{{due_amount}}</strong> পেমেন্টটি মাত্র ২ দিনের ({{due_date}}) মধ্যে পরিশোধ করতে হবে। সার্ভিস বন্ধ হওয়া এড়াতে দ্রুত পেমেন্ট করুন।"
+          "হ্যালো <strong>{{merchant_name}}</strong>,<br><br>আপনার <strong>{{store_name}}</strong> এর <strong>৳{{due_amount}}</strong> পেমেন্টটি মাত্র 2 দিনের ({{due_date}}) মধ্যে পরিশোধ করতে হবে। সার্ভিস বন্ধ হওয়া এড়াতে দ্রুত পেমেন্ট করুন।"
         )
       },
       { 

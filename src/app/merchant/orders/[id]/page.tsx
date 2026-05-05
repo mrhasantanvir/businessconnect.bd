@@ -68,9 +68,9 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                   </div>
                </div>
                <div className="flex items-center gap-4 mt-2 text-xs font-bold text-gray-400">
-                  <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5" /> Ordered on {new Date(order.createdAt).toLocaleDateString()}</span>
+                  <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5" /> Ordered on {new Date(order.createdAt).toLocaleDateString("en-US")}</span>
                   <span className="w-1 h-1 rounded-full bg-gray-300" />
-                  <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> {new Date(order.createdAt).toLocaleTimeString()}</span>
+                  <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> {new Date(order.createdAt).toLocaleTimeString("en-US")}</span>
                </div>
             </div>
          </div>
@@ -168,7 +168,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                        <div className="flex-1 pt-1">
                           <div className="flex items-center justify-between mb-1">
                              <h4 className="text-xs font-bold uppercase tracking-widest">{activity.type.replace("_", " ")}</h4>
-                             <span className="text-[9px] font-bold text-gray-400">{new Date(activity.createdAt).toLocaleString()}</span>
+                             <span className="text-[9px] font-bold text-gray-400">{new Date(activity.createdAt).toLocaleString("en-US")}</span>
                           </div>
                           <p className="text-xs font-medium text-gray-500 leading-relaxed">{activity.message}</p>
                        </div>

@@ -330,72 +330,53 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
           setExpandedCategories([]);
         }}
       >
-        {/* Logo Section */}
-        <div className="h-14 flex items-center px-4 border-b border-[#E5E7EB]">
-          <div className="w-7 h-7 bg-[#1E40AF] rounded-[2px] flex items-center justify-center shadow-sm">
-            <Box className="w-4 h-4 text-white" />
+        {/* Compact Logo Section */}
+        <div className="h-12 flex items-center px-4 border-b border-[#E5E7EB]">
+          <div className="w-6 h-6 bg-[#1E40AF] rounded-[2px] flex items-center justify-center shadow-sm">
+            <Box className="w-3.5 h-3.5 text-white" />
           </div>
           {(isSidebarExpanded || isMobileMenuOpen) && (
-            <span className="ml-2.5 font-bold text-xs text-[#0F172A] uppercase tracking-tight flex-1">
-              Business<span className="text-[#1E40AF]">Connect</span> <span className="text-[8px] bg-indigo-100 text-indigo-700 px-1 py-0.5 rounded ml-1 font-mono">{APP_VERSION.current}</span>
+            <span className="ml-2 font-bold text-[11px] text-[#0F172A] uppercase tracking-tight flex-1">
+              Business<span className="text-[#1E40AF]">Connect</span> <span className="text-[7px] bg-indigo-100 text-indigo-700 px-1 py-0.5 rounded ml-1 font-mono">{APP_VERSION.current}</span>
             </span>
           )}
           {isMobileMenuOpen && (
             <button 
               onClick={() => setIsMobileMenuOpen(false)}
-              className="lg:hidden p-1.5 text-gray-400 hover:text-red-500 transition-colors"
+              className="lg:hidden p-1 text-gray-400 hover:text-red-500 transition-colors"
             >
-              <X className="w-4 h-4" />
+              <X className="w-3.5 h-3.5" />
             </button>
           )}
         </div>
 
-        <nav className={cn("flex-1 py-4 flex flex-col gap-1 px-3 overflow-y-auto", isInactiveStore && "pointer-events-none opacity-40 select-none grayscale")}>
+        <nav className={cn("flex-1 py-2 flex flex-col gap-0.5 px-2 overflow-y-auto", isInactiveStore && "pointer-events-none opacity-40 select-none grayscale")}>
           {NAVIGATION.map((group) => {
             
             const visibleItems = group.items.filter(item => {
               if (!item.roles) return false;
-              
-              // 1. Basic Role Check
               const hasRole = item.roles.includes(role);
               if (!hasRole) return false;
-
-              // 2. Strict Permission Check for STAFF or anyone with a Custom Role
               const isRestricted = role === "STAFF" || user?.customRoleId;
-
-              // 3. Final decision
               if (isRestricted) {
-                // If it's a restricted user, we already checked permission above.
-                // If it passed item.permission check, it will continue.
-                // If it reached here without returning, and it has a permission key, it means it failed includes().
                 if (item.permission) return user.permissions?.includes(item.permission);
-                
-                // If no permission key, we only show it if it's NOT a restricted merchant/admin feature
                 if (item.roles.includes("MERCHANT") || item.roles.includes("SUPER_ADMIN")) return false;
               }
-
-              // Owners and Super Admins (without custom roles) see everything allowed for their role
               if (role === "SUPER_ADMIN" || (role === "MERCHANT" && !user?.customRoleId)) return true;
-
               return true;
             });
             
             if (visibleItems.length === 0) return null;
 
             return (
-              <div key={group.group} className="mb-2">
+              <div key={group.group} className="mb-1.5">
                 {(isSidebarExpanded || isMobileMenuOpen) && (
-                  <div className="px-3 py-1.5 flex items-center justify-between mb-0.5">
-                    <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{group.group}</span>
-                    {group.version && (
-                       <span className="text-[8px] bg-slate-100 text-slate-500 px-1 rounded font-mono border border-slate-200">
-                          {group.version}
-                       </span>
-                    )}
+                  <div className="px-2 py-1 flex items-center justify-between mb-0.5">
+                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{group.group}</span>
                   </div>
                 )}
                 
-                <div className="space-y-0.5">
+                <div className="space-y-px">
                   {visibleItems.map((item) => {
                     const hasSubItems = !!item.subItems;
                     const isExpanded = expandedCategories.includes(item.label);
@@ -407,17 +388,17 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
                           <button
                             onClick={() => toggleCategory(item.label)}
                             className={cn(
-                              "w-full flex items-center gap-2.5 px-3 py-1.5 rounded-none transition-all group relative",
+                              "w-full flex items-center gap-2 px-2 py-1.5 rounded-none transition-all group relative",
                               isActive 
                                 ? "bg-indigo-50 text-indigo-700" 
                                 : "text-slate-700 hover:bg-gray-50"
                             )}
                           >
-                            <item.icon className="w-4 h-4 flex-shrink-0" />
+                            <item.icon className="w-3.5 h-3.5 flex-shrink-0" />
                             {(isSidebarExpanded || isMobileMenuOpen) && (
                               <>
-                                <span className={cn("flex-1 text-[13px] font-medium text-left", language === 'bn' && "text-sm")}>{item.label}</span>
-                                {isExpanded ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
+                                <span className={cn("flex-1 text-[12px] font-medium text-left", language === 'bn' && "text-xs")}>{item.label}</span>
+                                {isExpanded ? <ChevronDown className="w-2.5 h-2.5" /> : <ChevronRight className="w-2.5 h-2.5" />}
                               </>
                             )}
                           </button>
@@ -428,40 +409,35 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
                               if (isMobileMenuOpen) setIsMobileMenuOpen(false);
                             }}
                             className={cn(
-                              "flex items-center gap-2.5 px-3 py-1.5 rounded-none transition-all group relative",
+                              "flex items-center gap-2 px-2 py-1.5 rounded-none transition-all group relative",
                               isActive 
                                 ? "bg-slate-100 text-slate-900 border-l-2 border-slate-900 shadow-sm" 
                                 : "text-slate-700 hover:bg-gray-50"
                             )}
                           >
-                             <item.icon className="w-4 h-4 flex-shrink-0" />
+                             <item.icon className="w-3.5 h-3.5 flex-shrink-0" />
                              {(isSidebarExpanded || isMobileMenuOpen) && (
                                <div className="flex-1 flex items-center justify-between">
-                                 <span className={cn("text-[13px] font-medium", language === 'bn' && "text-sm")}>{item.label}</span>
+                                 <span className={cn("text-[12px] font-medium", language === 'bn' && "text-xs")}>{item.label}</span>
                                  {item.label === "Merchant Ecosystem" && user?.adminNotifications > 0 && (
-                                   <span className="bg-[#DC2626] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-none">
+                                   <span className="bg-[#DC2626] text-white text-[9px] font-bold px-1 py-0.5 rounded-none">
                                      {user.adminNotifications}
                                    </span>
                                  )}
                                </div>
                              )}
-                             {!isSidebarExpanded && item.label === "Merchant Ecosystem" && user?.adminNotifications > 0 && (
-                               <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#DC2626] text-white text-[9px] font-bold flex items-center justify-center rounded-none border border-white">
-                                 {user.adminNotifications}
-                               </span>
-                             )}
                           </Link>
                         )}
 
-                        {/* Sub Items Rendering */}
+                        {/* Compact Sub Items Rendering */}
                         {hasSubItems && isExpanded && (isSidebarExpanded || isMobileMenuOpen) && (
-                          <div className="mt-0.5 ml-8 border-l border-gray-100 space-y-0.5 py-0.5">
+                          <div className="mt-px ml-6 border-l border-gray-100 space-y-px py-px">
                             {item.subItems?.map(sub => (
                               <Link
                                 key={sub.label}
                                 href={sub.href}
                                 className={cn(
-                                  "block px-3 py-1 text-[12px] font-medium transition-all relative",
+                                  "block px-3 py-1 text-[11px] font-medium transition-all relative",
                                   pathname === sub.href 
                                     ? "text-indigo-600 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-1 before:bg-indigo-600 before:rounded-none before:-ml-[4px]"
                                     : "text-gray-400 hover:text-indigo-600"

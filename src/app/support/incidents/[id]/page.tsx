@@ -104,7 +104,7 @@ export default async function MerchantIncidentDetailPage({ params }: { params: P
                   )}
                 </div>
                 <span className="text-[10px] text-[#A1A1AA] font-medium px-1">
-                  {msg.user.name} · {new Date(msg.createdAt).toLocaleString()}
+                  {msg.user.name} · {new Date(msg.createdAt).toLocaleString("en-US")}
                 </span>
               </div>
             </div>

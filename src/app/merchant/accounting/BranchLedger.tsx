@@ -40,7 +40,7 @@ export function BranchLedger({ transactions }: { transactions: any[] }) {
                               <p className="text-sm font-black text-slate-900 leading-none">{trx.description || "No narrative"}</p>
                               <div className="flex items-center gap-2 mt-1.5 opacity-60">
                                  <Calendar className="w-3 h-3" />
-                                 <span className="text-[10px] font-bold uppercase tracking-widest">{new Date(trx.date).toLocaleDateString()}</span>
+                                 <span className="text-[10px] font-bold uppercase tracking-widest">{new Date(trx.date).toLocaleDateString("en-US")}</span>
                               </div>
                            </div>
                         </div>

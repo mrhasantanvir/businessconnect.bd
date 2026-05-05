@@ -119,7 +119,7 @@ export function ProductReviews({
                                       <CheckCircle2 className="w-3 h-3" /> Verified Purchase
                                    </div>
                                 )}
-                                <span className="text-[9px] font-bold text-slate-400 uppercase">{new Date(review.createdAt).toLocaleDateString()}</span>
+                                <span className="text-[9px] font-bold text-slate-400 uppercase">{new Date(review.createdAt).toLocaleDateString("en-US")}</span>
                              </div>
                           </div>
                        </div>

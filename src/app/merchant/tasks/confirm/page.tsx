@@ -77,7 +77,7 @@ export default async function TaskConfirmPage({ searchParams }: { searchParams: 
                   <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Deadline</label>
                   <div className="flex items-center gap-1.5 text-xs font-bold text-[#0F172A]">
                      <Clock className="w-3.5 h-3.5 text-indigo-600" />
-                     {task.deadline ? new Date(task.deadline).toLocaleDateString() : 'ASAP'}
+                     {task.deadline ? new Date(task.deadline).toLocaleDateString("en-US") : 'ASAP'}
                   </div>
                </div>
             </div>

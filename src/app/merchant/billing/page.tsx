@@ -86,7 +86,7 @@ export default async function MerchantBillingPage() {
                                    <p className="text-sm font-bold text-indigo-600">৳{inv.amount.toLocaleString("en-US")}</p>
                                 </td>
                                 <td className="py-5">
-                                   <p className="text-xs font-bold text-slate-500 uppercase">{new Date(inv.dueDate).toLocaleDateString()}</p>
+                                   <p className="text-xs font-bold text-slate-500 uppercase">{new Date(inv.dueDate).toLocaleDateString("en-US")}</p>
                                 </td>
                                 <td className="py-5">
                                    <span className={`text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-widest ${inv.status === 'PAID' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
@@ -129,7 +129,7 @@ export default async function MerchantBillingPage() {
                   </span>
                 </p>
                 <p className="text-xs text-indigo-600">
-                  Expires: {store?.subscriptionExpiry ? new Date(store?.subscriptionExpiry).toLocaleDateString() : 'Trial / Lifetime'}
+                  Expires: {store?.subscriptionExpiry ? new Date(store?.subscriptionExpiry).toLocaleDateString("en-US") : 'Trial / Lifetime'}
                 </p>
               </div>
             </div>

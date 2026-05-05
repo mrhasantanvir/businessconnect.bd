@@ -55,7 +55,7 @@ export default async function CustomerDashboardPage({ params }: { params: { slug
                   <h1 className="text-2xl font-bold tracking-tight uppercase text-slate-900 leading-none">
                      Hello, <span className="text-indigo-600">{customer.name?.split(" ")[0]}</span>
                   </h1>
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-2">Member since {new Date(customer.createdAt).toLocaleDateString()}</p>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-2">Member since {new Date(customer.createdAt).toLocaleDateString("en-US")}</p>
                </div>
             </div>
             <div className="flex items-center gap-4">

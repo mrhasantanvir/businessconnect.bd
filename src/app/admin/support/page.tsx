@@ -169,7 +169,7 @@ export default async function AdminSupportQueuePage() {
                        <div className="text-xs text-[#A1A1AA] flex items-center gap-2 mt-1">
                           <User className="w-3 h-3" /> {inc.user.name}
                           <span className="opacity-30">•</span>
-                          {new Date(inc.createdAt).toLocaleDateString()}
+                          {new Date(inc.createdAt).toLocaleDateString("en-US")}
                        </div>
                     </div>
                   </td>

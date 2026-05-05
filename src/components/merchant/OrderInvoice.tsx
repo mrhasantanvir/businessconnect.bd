@@ -43,7 +43,7 @@ export function OrderInvoice({ order, store }: { order: any, store: any }) {
             </div>
             <div className="relative z-10">
                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Date Issued</p>
-               <p className="text-sm font-bold text-slate-900">{new Date(order.createdAt).toLocaleDateString()}</p>
+               <p className="text-sm font-bold text-slate-900">{new Date(order.createdAt).toLocaleDateString("en-US")}</p>
             </div>
          </div>
       </div>

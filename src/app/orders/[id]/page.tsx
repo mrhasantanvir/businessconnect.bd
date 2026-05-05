@@ -162,7 +162,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                           </div>
                        </div>
                        <div className="text-right shrink-0">
-                          <div className="text-xs md:text-sm font-bold text-[#0F172A] ">৳{(item.price * item.quantity).toLocaleString()}</div>
+                          <div className="text-xs md:text-sm font-bold text-[#0F172A] ">৳{(item.price * item.quantity).toLocaleString("en-US")}</div>
                           <div className="text-[8px] md:text-[10px] font-bold text-gray-400 uppercase">Item Value</div>
                        </div>
                     </div>
@@ -218,7 +218,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                                  </div>
                                  <span className="text-[10px] font-bold uppercase tracking-widest">{shipment.courierName}</span>
                               </div>
-                              <span className="text-[9px] font-mono font-bold text-gray-400">{new Date(shipment.shippedAt).toLocaleDateString()}</span>
+                              <span className="text-[9px] font-mono font-bold text-gray-400">{new Date(shipment.shippedAt).toLocaleDateString("en-US")}</span>
                            </div>
                            <div className="px-4 py-2 bg-gray-50  rounded-xl border border-gray-100  font-mono text-[10px] text-gray-500 flex items-center justify-between">
                               {shipment.trackingCode}

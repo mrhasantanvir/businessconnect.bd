@@ -88,7 +88,7 @@ export default async function MerchantAiHubPage() {
                        </div>
                        <div>
                           <div className="text-sm font-bold text-[#0F172A]  truncate max-w-[200px]">{doc.fileName}</div>
-                          <div className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{doc.fileType} • {new Date(doc.createdAt).toLocaleDateString()}</div>
+                          <div className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{doc.fileType} • {new Date(doc.createdAt).toLocaleDateString("en-US")}</div>
                        </div>
                     </div>
                     {doc.isIndexed ? (

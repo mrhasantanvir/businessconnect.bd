@@ -96,7 +96,7 @@ export default async function CustomerDetailPage({ params }: { params: { id: str
                       </div>
                       <span className="text-[10px] font-bold uppercase text-gray-400 tracking-widest">Lifetime Value</span>
                    </div>
-                   <h2 className="text-2xl font-bold text-[#0F172A] ">৳{customer.totalSpend.toLocaleString()}</h2>
+                   <h2 className="text-2xl font-bold text-[#0F172A] ">৳{customer.totalSpend.toLocaleString("en-US")}</h2>
                    <p className="text-[10px] font-bold text-gray-400 mt-2 uppercase tracking-tight leading-none">Total Gross Spend</p>
                 </div>
 
@@ -150,7 +150,7 @@ export default async function CustomerDetailPage({ params }: { params: { id: str
                                  </Link>
                               </td>
                               <td className="px-6 py-6 font-bold text-gray-500">
-                                 {new Date(order.createdAt).toLocaleDateString()}
+                                 {new Date(order.createdAt).toLocaleDateString("en-US")}
                               </td>
                               <td className="px-6 py-6">
                                  <div className={`inline-flex px-3 py-1 rounded-full text-[8px] font-bold uppercase tracking-widest border ${
@@ -160,7 +160,7 @@ export default async function CustomerDetailPage({ params }: { params: { id: str
                                  </div>
                               </td>
                               <td className="px-8 py-6 text-right font-bold text-[#0F172A] ">
-                                 ৳{order.total.toLocaleString()}
+                                 ৳{order.total.toLocaleString("en-US")}
                               </td>
                            </tr>
                         ))}

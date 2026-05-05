@@ -30,7 +30,7 @@ export default function StockInPage() {
           id: Date.now(),
           name: res.productName,
           barcode,
-          time: new Date().toLocaleTimeString(),
+          time: new Date().toLocaleTimeString("en-US"),
           status: "SUCCESS"
         }, ...prev]);
         

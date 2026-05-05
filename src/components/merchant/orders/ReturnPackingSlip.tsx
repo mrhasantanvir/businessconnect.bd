@@ -18,7 +18,7 @@ export function ReturnPackingSlip({ order, returnRequest }: { order: any, return
           <div className="bg-slate-900 text-white px-6 py-2 rounded-full font-bold text-sm uppercase tracking-widest mb-2">
             SLIP #{returnRequest.id.slice(-8).toUpperCase()}
           </div>
-          <p className="text-slate-400 font-bold text-[10px] uppercase tracking-widest">Date: {new Date().toLocaleDateString()}</p>
+          <p className="text-slate-400 font-bold text-[10px] uppercase tracking-widest">Date: {new Date().toLocaleDateString("en-US")}</p>
         </div>
       </div>
 

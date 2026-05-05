@@ -7,6 +7,7 @@ interface AiOptions {
   jsonMode?: boolean;
   imageUrl?: string;
   maxTokens?: number;
+  validator?: (content: string) => boolean;
 }
 
 /**
@@ -60,7 +61,13 @@ export async function askAI(prompt: string, options: AiOptions = {}) {
           break;
       }
 
-      if (content) return { content, provider };
+      if (content) {
+        if (options.validator && !options.validator(content)) {
+          console.warn(`[AI Gateway] ${provider} response failed validation. Trying next...`);
+          continue;
+        }
+        return { content, provider };
+      }
     } catch (error: any) {
       console.error(`[AI Gateway] ${provider} failed:`, error.message);
       lastError = error;
@@ -73,8 +80,8 @@ export async function askAI(prompt: string, options: AiOptions = {}) {
 /**
  * Specialized Vision Gateway Wrapper
  */
-export async function askAiVision(imageUrl: string, prompt: string, systemPrompt?: string) {
-  return await askAI(prompt, { imageUrl, systemPrompt, jsonMode: true });
+export async function askAiVision(imageUrl: string, prompt: string, systemPrompt?: string, validator?: (content: string) => boolean) {
+  return await askAI(prompt, { imageUrl, systemPrompt, jsonMode: true, validator });
 }
 
 /**

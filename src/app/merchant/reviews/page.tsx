@@ -102,7 +102,7 @@ export default async function MerchantReviewsPage() {
                                <Star key={s} className={cn("w-4 h-4", s <= r.rating ? "text-amber-500 fill-amber-500" : "text-slate-200")} />
                              ))}
                           </div>
-                          <span className="text-[10px] font-bold uppercase text-slate-400">{new Date(r.createdAt).toLocaleDateString()}</span>
+                          <span className="text-[10px] font-bold uppercase text-slate-400">{new Date(r.createdAt).toLocaleDateString("en-US")}</span>
                        </div>
                        <p className="text-sm font-bold text-slate-600 leading-relaxed">
                           "{r.comment || "No text provided."}"

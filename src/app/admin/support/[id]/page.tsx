@@ -132,7 +132,7 @@ export default async function AdminIncidentDetailPage({
                <div className="space-y-1">
                   <div className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Resolved Date</div>
                   <div className="text-xs font-bold text-[#64748B]">
-                    {incident.resolvedAt ? new Date(incident.resolvedAt).toLocaleDateString() : 'Pending'}
+                    {incident.resolvedAt ? new Date(incident.resolvedAt).toLocaleDateString("en-US") : 'Pending'}
                   </div>
                </div>
             </div>

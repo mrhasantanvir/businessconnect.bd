@@ -105,7 +105,7 @@ export function RecurringManager({ categories, branches, recurrings }: { categor
                      <Clock className="w-4 h-4 text-[#BEF264]" />
                      <div>
                         <p className="text-xs font-black text-white">{r.category.name}</p>
-                        <p className="text-[9px] font-bold text-slate-500 uppercase">{r.frequency} • Next: {new Date(r.nextRunDate).toLocaleDateString()}</p>
+                        <p className="text-[9px] font-bold text-slate-500 uppercase">{r.frequency} • Next: {new Date(r.nextRunDate).toLocaleDateString("en-US")}</p>
                      </div>
                   </div>
                   <div className="text-right">

@@ -104,7 +104,7 @@ export default async function MarketingDashboard() {
                              </div>
                              <div>
                                 <h4 className="font-bold text-sm uppercase tracking-tight">{c.name}</h4>
-                                <p className="text-[10px] font-bold text-gray-400 mt-1">{new Date(c.createdAt).toLocaleDateString()} • {c.type}</p>
+                                <p className="text-[10px] font-bold text-gray-400 mt-1">{new Date(c.createdAt).toLocaleDateString("en-US")} • {c.type}</p>
                              </div>
                           </div>
                        </td>

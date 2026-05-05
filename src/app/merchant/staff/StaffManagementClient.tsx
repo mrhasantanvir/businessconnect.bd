@@ -309,150 +309,129 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
     }
   };
 
-  return (
-    <div className="space-y-6">
-      {/* Stats & Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-        <div className="bg-white border border-gray-100 rounded-[4px] p-4 shadow-sm">
-           <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-slate-50 text-slate-600 rounded-[4px] flex items-center justify-center">
-                 <Users className="w-5 h-5" />
+  return (    <div className="space-y-4">
+      {/* Slim Stats & Actions */}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+        <div className="bg-white border border-gray-100 rounded-[8px] p-2.5 shadow-sm">
+           <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-slate-50 text-slate-600 rounded-[6px] flex items-center justify-center">
+                 <Users className="w-4 h-4" />
               </div>
               <div>
-                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Total Members</p>
-                 <p className="text-xl font-bold text-[#0F172A]">{staff.length}</p>
+                 <p className="text-[8px] font-bold text-gray-400 uppercase tracking-widest leading-none mb-1">Total</p>
+                 <p className="text-base font-bold text-[#0F172A] leading-none">{staff.length}</p>
               </div>
            </div>
         </div>
-        <div className="bg-white border border-gray-100 rounded-[4px] p-4 shadow-sm">
-           <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-green-50 text-green-600 rounded-[4px] flex items-center justify-center">
-                 <ShieldCheck className="w-5 h-5" />
+        <div className="bg-white border border-gray-100 rounded-[8px] p-2.5 shadow-sm">
+           <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-green-50 text-green-600 rounded-[6px] flex items-center justify-center">
+                 <ShieldCheck className="w-4 h-4" />
               </div>
               <div>
-                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Active</p>
-                 <p className="text-xl font-bold text-[#0F172A]">{staff.filter(s => s.staffProfile?.status === "ACTIVE").length}</p>
+                 <p className="text-[8px] font-bold text-gray-400 uppercase tracking-widest leading-none mb-1">Active</p>
+                 <p className="text-base font-bold text-[#0F172A] leading-none">{staff.filter(s => s.staffProfile?.status === "ACTIVE").length}</p>
               </div>
            </div>
         </div>
-        <div className="bg-white border border-gray-100 rounded-[4px] p-4 shadow-sm">
-           <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-amber-50 text-amber-600 rounded-[4px] flex items-center justify-center">
-                 <Clock className="w-5 h-5" />
+        <div className="bg-white border border-gray-100 rounded-[8px] p-2.5 shadow-sm">
+           <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-amber-50 text-amber-600 rounded-[6px] flex items-center justify-center">
+                 <Clock className="w-4 h-4" />
               </div>
               <div>
-                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Onboard Pending</p>
-                 <p className="text-xl font-bold text-[#0F172A]">{staff.filter(s => s.staffProfile?.status === "ONBOARDING").length}</p>
+                 <p className="text-[8px] font-bold text-gray-400 uppercase tracking-widest leading-none mb-1">Pending</p>
+                 <p className="text-base font-bold text-[#0F172A] leading-none">{staff.filter(s => s.staffProfile?.status === "ONBOARDING").length}</p>
               </div>
            </div>
         </div>
-        <div className="bg-white border border-gray-100 rounded-[4px] p-4 shadow-sm">
-           <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-rose-50 text-rose-600 rounded-[4px] flex items-center justify-center">
-                 <UserX className="w-5 h-5" />
+        <div className="bg-white border border-gray-100 rounded-[8px] p-2.5 shadow-sm">
+           <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-rose-50 text-rose-600 rounded-[6px] flex items-center justify-center">
+                 <UserX className="w-4 h-4" />
               </div>
               <div>
-                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Inactive Members</p>
-                 <p className="text-xl font-bold text-[#0F172A]">{staff.filter(s => s.staffProfile?.status === "TERMINATED").length}</p>
+                 <p className="text-[8px] font-bold text-gray-400 uppercase tracking-widest leading-none mb-1">Inactive</p>
+                 <p className="text-base font-bold text-[#0F172A] leading-none">{staff.filter(s => s.staffProfile?.status === "TERMINATED").length}</p>
               </div>
            </div>
         </div>
         <button 
           onClick={() => setIsAddModalOpen(true)}
-          className="bg-[#1E40AF] text-white rounded-[4px] p-4 shadow-sm hover:bg-[#1E3A8A] transition-all flex items-center justify-center gap-2"
+          className="bg-[#1E40AF] text-white rounded-[8px] p-2.5 shadow-sm hover:bg-[#1E3A8A] transition-all flex items-center justify-center gap-2 col-span-2 md:col-span-1"
         >
-          <UserPlus className="w-5 h-5" />
-          <span className="font-bold text-xs uppercase tracking-widest">Add Team Member</span>
+          <UserPlus className="w-4 h-4" />
+          <span className="font-bold text-[10px] uppercase tracking-widest">Add Member</span>
         </button>
       </div>
 
-      {/* Tabs */}
-      <div className="flex items-center gap-1 bg-gray-100/50 p-1 rounded-[4px] w-fit">
+      {/* Compact Tabs */}
+      <div className="flex items-center gap-1 bg-gray-100/50 p-1 rounded-[6px] w-fit">
         <button 
           onClick={() => setActiveTab("STAFF")}
           className={cn(
-            "px-6 py-2 text-[10px] font-black uppercase tracking-widest transition-all rounded-[4px]",
+            "px-4 py-1.5 text-[9px] font-black uppercase tracking-widest transition-all rounded-[4px]",
             activeTab === "STAFF" ? "bg-white text-indigo-600 shadow-sm" : "text-gray-400 hover:text-gray-600"
           )}
         >
-          Team Directory
+          Directory
         </button>
         <button 
           onClick={() => setActiveTab("ROLES")}
           className={cn(
-            "px-6 py-2 text-[10px] font-black uppercase tracking-widest transition-all rounded-[4px]",
+            "px-4 py-1.5 text-[9px] font-black uppercase tracking-widest transition-all rounded-[4px]",
             activeTab === "ROLES" ? "bg-white text-indigo-600 shadow-sm" : "text-gray-400 hover:text-gray-600"
           )}
         >
-          Create Role
+          Roles
         </button>
       </div>
 
       {activeTab === "ROLES" ? (
         <MerchantRoleManagement roles={roles} onUpdate={loadRoles} />
       ) : (
-        <div className="space-y-6">
-          {/* Review Required Section - Only for STAFF tab */}
+        <div className="space-y-4">
+          {/* Review Required Section - Compact */}
           {activeTab === "STAFF" && staff.filter(s => s.staffProfile?.status === "ONBOARDING" && s.staffProfile?.nidFrontUrl && !s.staffProfile?.missingDocuments).length > 0 && (
-            <div className="bg-indigo-50/50 border border-indigo-100 rounded-[4px] p-4">
-              <div className="flex items-center gap-2 mb-4">
-                <AlertCircle className="w-4 h-4 text-indigo-600" />
-                <h3 className="text-[11px] font-semibold text-indigo-600 uppercase tracking-widest">Action Required: Review Onboarding Documents</h3>
+            <div className="bg-indigo-50/50 border border-indigo-100 rounded-[8px] p-3">
+              <div className="flex items-center gap-2 mb-3">
+                <AlertCircle className="w-3.5 h-3.5 text-indigo-600" />
+                <h3 className="text-[10px] font-semibold text-indigo-600 uppercase tracking-widest">Review Documents</h3>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 {staff.filter(s => s.staffProfile?.status === "ONBOARDING" && s.staffProfile?.nidFrontUrl && !s.staffProfile?.missingDocuments).map(member => (
-                  <div key={member.id} className="bg-white border border-indigo-100 rounded-[4px] p-4 flex items-center justify-between shadow-sm">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-indigo-50 rounded-[4px] flex items-center justify-center text-indigo-600 font-bold text-xs">
+                  <div key={member.id} className="bg-white border border-indigo-100 rounded-[8px] p-3 flex items-center justify-between shadow-sm">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 bg-indigo-50 rounded-[4px] flex items-center justify-center text-indigo-600 font-bold text-[10px]">
                         {member.name.substring(0, 2).toUpperCase()}
                       </div>
                       <div>
-                        <p className="text-[12px] font-bold text-slate-900">{member.name}</p>
-                        <p className="text-[10px] font-medium text-gray-400">Submitted {member.staffProfile?.updatedAt ? new Date(member.staffProfile.updatedAt).toLocaleDateString() : "N/A"}</p>
+                        <p className="text-[11px] font-bold text-slate-900 leading-tight">{member.name}</p>
+                        <p className="text-[9px] font-medium text-gray-400">{new Date(member.staffProfile?.updatedAt || member.createdAt).toLocaleDateString("en-US")}</p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <button 
-                        onClick={() => { setSelectedStaff(member); setIsReviewModalOpen(true); }}
-                        className="px-4 py-2 bg-indigo-600 text-white rounded-[4px] text-[10px] font-black uppercase tracking-widest hover:bg-indigo-700 transition-all"
-                      >
-                        Review
-                      </button>
-                      <div className="relative">
-                        <button 
-                          onClick={() => setActiveMenuId(activeMenuId === member.id ? null : member.id)}
-                          className="p-1.5 hover:bg-indigo-50 text-indigo-400 rounded-[4px] transition-all"
-                        >
-                          <MoreVertical className="w-4 h-4" />
-                        </button>
-                        {activeMenuId === member.id && (
-                          <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-[4px] shadow-lg z-50 py-1 animate-in fade-in slide-in-from-top-1 duration-200">
-                             <button 
-                               onClick={() => handleDeleteInvitation(member.id)}
-                               className="w-full px-4 py-2 text-left text-[11px] font-bold text-red-600 hover:bg-red-50 flex items-center gap-2"
-                             >
-                                <Trash2 className="w-3.5 h-3.5" /> DELETE INVITATION
-                             </button>
-                          </div>
-                        )}
-                      </div>
-                    </div>
+                    <button 
+                      onClick={() => { setSelectedStaff(member); setIsReviewModalOpen(true); }}
+                      className="px-3 py-1.5 bg-indigo-600 text-white rounded-[4px] text-[9px] font-black uppercase tracking-widest hover:bg-indigo-700 transition-all"
+                    >
+                      Review
+                    </button>
                   </div>
                 ))}
               </div>
             </div>
           )}
 
-          <div className="bg-white border border-gray-100 rounded-[4px] overflow-hidden shadow-sm">
+          <div className="bg-white border border-gray-100 rounded-[8px] overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
+          <table className="w-full text-left text-xs">
             <thead className="bg-gray-50 border-b border-gray-100">
               <tr>
-                <th className="px-6 py-3 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Full Name</th>
-                <th className="px-6 py-3 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Role</th>
-                <th className="px-6 py-3 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Status</th>
-                <th className="px-6 py-3 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Salary</th>
-                <th className="px-6 py-3 text-[10px] font-bold text-gray-500 uppercase tracking-widest text-right">Actions</th>
+                <th className="px-4 py-2.5 text-[9px] font-bold text-gray-500 uppercase tracking-widest">Full Name</th>
+                <th className="px-4 py-2.5 text-[9px] font-bold text-gray-500 uppercase tracking-widest">Role</th>
+                <th className="px-4 py-2.5 text-[9px] font-bold text-gray-500 uppercase tracking-widest">Status</th>
+                <th className="px-4 py-2.5 text-[9px] font-bold text-gray-500 uppercase tracking-widest">Salary</th>
+                <th className="px-4 py-2.5 text-[9px] font-bold text-gray-500 uppercase tracking-widest text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
@@ -460,9 +439,9 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                 .filter(member => member.staffProfile?.status !== "TERMINATED")
                 .map((member) => (
                 <tr key={member.id} className="hover:bg-gray-50/50 transition-colors group">
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-indigo-50 rounded-[4px] flex items-center justify-center text-indigo-600 font-bold text-[10px] overflow-hidden">
+                  <td className="px-4 py-2.5">
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 bg-indigo-50 rounded-[4px] flex items-center justify-center text-indigo-600 font-bold text-[9px] overflow-hidden">
                         {member.image ? (
                           <img src={member.image} className="w-full h-full object-cover" alt={member.name} />
                         ) : (
@@ -470,103 +449,103 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                         )}
                       </div>
                       <div>
-                        <div className="flex items-center gap-2">
-                           <p className="text-[13px] font-bold text-[#0F172A]">{member.name}</p>
+                        <div className="flex items-center gap-1.5">
+                           <p className="text-[12px] font-bold text-[#0F172A]">{member.name}</p>
                            {member.readableId && (
-                              <span className="text-[9px] font-black bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded-[2px] uppercase tracking-tighter ring-1 ring-slate-200">
+                              <span className="text-[8px] font-black bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded-[2px] uppercase tracking-tighter">
                                  {member.readableId}
                               </span>
                            )}
                         </div>
-                        <p className="text-[11px] font-medium text-gray-400">{member.email}</p>
+                        <p className="text-[10px] font-medium text-gray-400">{member.email}</p>
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4">
-                    <p className="text-[13px] font-medium text-[#0F172A]">{member.staffProfile?.jobRole}</p>
+                  <td className="px-4 py-2.5">
+                    <p className="text-[12px] font-medium text-[#0F172A]">{member.staffProfile?.jobRole}</p>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-4 py-2.5">
                     <span className={cn(
-                      "px-3 py-1 rounded-[4px] text-[10px] font-bold uppercase tracking-wider border",
+                      "px-2 py-0.5 rounded-[4px] text-[8px] font-bold uppercase tracking-wider border",
                       member.staffProfile?.status === "ONBOARDING" 
                         ? (member.staffProfile?.missingDocuments ? "bg-orange-50 text-orange-600 border-orange-100" : (member.staffProfile?.nidFrontUrl ? "bg-indigo-50 text-indigo-600 border-indigo-100" : "bg-amber-50 text-amber-600 border-amber-100"))
                         : getStatusStyle(member.staffProfile?.status)
                     )}>
                       {member.staffProfile?.status === "ONBOARDING" 
-                        ? (member.staffProfile?.missingDocuments ? "Re-uploading" : (member.staffProfile?.nidFrontUrl ? "Waiting Review" : "Invitation Sent"))
+                        ? (member.staffProfile?.missingDocuments ? "Re-upload" : (member.staffProfile?.nidFrontUrl ? "Review" : "Invited"))
                         : member.staffProfile?.status.replace('_', ' ')}
                     </span>
                   </td>
-                  <td className="px-6 py-4">
-                    <p className="text-[13px] font-bold text-[#0F172A]">৳{member.staffProfile?.baseSalary?.toLocaleString("en-US")}</p>
-                    <p className="text-[10px] font-medium text-gray-400 uppercase">{member.staffProfile?.wageType}</p>
+                  <td className="px-4 py-2.5">
+                    <p className="text-[12px] font-bold text-[#0F172A]">৳{member.staffProfile?.baseSalary?.toLocaleString("en-US")}</p>
+                    <p className="text-[9px] font-medium text-gray-400 uppercase leading-none mt-1">{member.staffProfile?.wageType}</p>
                   </td>
-                  <td className="px-6 py-4 text-right relative">
+                  <td className="px-4 py-2.5 text-right relative">
                     <div className="flex justify-end items-center gap-1">
                       {(member.staffProfile?.status === "ONBOARDING" || member.staffProfile?.status === "ACTIVE") && member.staffProfile?.nidFrontUrl ? (
                         <button 
                           onClick={() => { setSelectedStaff(member); setIsReviewModalOpen(true); }}
-                          className="p-1.5 bg-indigo-50 text-indigo-600 rounded-[4px] hover:bg-indigo-100 transition-all inline-flex items-center gap-2"
+                          className="px-2.5 py-1 bg-indigo-50 text-indigo-600 rounded-[4px] hover:bg-indigo-100 transition-all inline-flex items-center gap-1.5"
                         >
-                          <Eye className="w-4 h-4" />
-                          <span className="text-[10px] font-bold uppercase tracking-widest">Review</span>
+                          <Eye className="w-3.5 h-3.5" />
+                          <span className="text-[9px] font-bold uppercase tracking-widest">Review</span>
                         </button>
                       ) : (
                         <button 
                           onClick={() => { setSelectedStaff(member); setIsEditModalOpen(true); }}
-                          className="p-1.5 hover:bg-indigo-50 text-indigo-600 rounded-[4px] transition-all"
+                          className="p-1 hover:bg-indigo-50 text-indigo-600 rounded-[4px] transition-all"
                         >
-                          <Edit3 className="w-4 h-4" />
+                          <Edit3 className="w-3.5 h-3.5" />
                         </button>
                       )}
 
                       <div className="relative">
                         <button 
                           onClick={() => setActiveMenuId(activeMenuId === member.id ? null : member.id)}
-                          className="p-1.5 hover:bg-gray-100 text-gray-400 rounded-[4px] transition-all"
+                          className="p-1 hover:bg-gray-100 text-gray-400 rounded-[4px] transition-all"
                         >
-                          <MoreVertical className="w-4 h-4" />
+                          <MoreVertical className="w-3.5 h-3.5" />
                         </button>
                           {activeMenuId === member.id && (
-                            <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-100 rounded-[4px] shadow-lg z-50 py-1 animate-in fade-in slide-in-from-top-1 duration-200">
+                            <div className="absolute right-0 mt-1 w-40 bg-white border border-gray-200 rounded-[6px] shadow-lg z-50 py-1 animate-in fade-in slide-in-from-top-1 duration-200">
                              {member.staffProfile?.status !== "ACTIVE" && (
                                <button 
                                  onClick={() => handleResendInvitation(member.id)}
-                                 className="w-full px-4 py-2 text-left text-[11px] font-bold text-gray-600 hover:bg-gray-50 flex items-center gap-2"
+                                 className="w-full px-3 py-1.5 text-left text-[10px] font-bold text-gray-600 hover:bg-gray-50 flex items-center gap-2"
                                >
-                                  <Mail className="w-3.5 h-3.5" /> RESEND INVITATION
+                                  <Mail className="w-3 h-3" /> RESEND
                                </button>
                              )}
                                  {member.staffProfile?.status !== "ACTIVE" && (
                                    <button 
                                      onClick={() => handleDeleteInvitation(member.id)}
-                                     className="w-full px-4 py-2 text-left text-[11px] font-bold text-red-600 hover:bg-red-50 flex items-center gap-2"
+                                     className="w-full px-3 py-1.5 text-left text-[10px] font-bold text-red-600 hover:bg-red-50 flex items-center gap-2"
                                    >
-                                      <Trash2 className="w-3.5 h-3.5" /> DELETE INVITATION
+                                      <Trash2 className="w-3 h-3" /> DELETE
                                    </button>
                                  )}
                                  {member.staffProfile?.status === "TERMINATED" && (
                                    <button 
                                      onClick={() => { setSelectedStaff(member); setIsRejoinModalOpen(true); }}
-                                     className="w-full px-4 py-2 text-left text-[11px] font-bold text-green-600 hover:bg-green-50 flex items-center gap-2"
+                                     className="w-full px-3 py-1.5 text-left text-[10px] font-bold text-green-600 hover:bg-green-50 flex items-center gap-2"
                                    >
-                                      <RotateCcw className="w-3.5 h-3.5" /> REJOIN STAFF
+                                      <RotateCcw className="w-3 h-3" /> REJOIN
                                    </button>
                                  )}
                                  {member.staffProfile?.status !== "TERMINATED" && (
                                    <button 
                                      onClick={() => handleOpenDevices(member)}
-                                     className="w-full px-4 py-2 text-left text-[11px] font-bold text-indigo-600 hover:bg-indigo-50 flex items-center gap-2"
+                                     className="w-full px-3 py-1.5 text-left text-[10px] font-bold text-indigo-600 hover:bg-indigo-50 flex items-center gap-2"
                                    >
-                                      <Smartphone className="w-3.5 h-3.5" /> MANAGE DEVICES
+                                      <Smartphone className="w-3 h-3" /> DEVICES
                                    </button>
                                  )}
                                  {member.staffProfile?.status !== "TERMINATED" && (
                                    <button 
                                      onClick={() => handleTerminate(member.id)}
-                                     className="w-full px-4 py-2 text-left text-[11px] font-bold text-rose-600 hover:bg-rose-50 flex items-center gap-2"
+                                     className="w-full px-3 py-1.5 text-left text-[10px] font-bold text-rose-600 hover:bg-rose-50 flex items-center gap-2"
                                    >
-                                      <UserX className="w-3.5 h-3.5" /> TERMINATE
+                                      <UserX className="w-3 h-3" /> TERMINATE
                                    </button>
                                  )}
                               </div>
@@ -583,6 +562,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
       </div>
     </div>
     )}
+)}
 
       {/* Add Staff Modal */}
       {isAddModalOpen && (
@@ -1511,7 +1491,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                              <div className="text-right">
                                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Licensed</p>
                                 <p className="text-[12px] font-black text-green-600">৳{device.license?.price}</p>
-                                <p className="text-[8px] font-medium text-gray-400">{new Date(device.license?.activatedAt).toLocaleDateString()}</p>
+                                <p className="text-[8px] font-medium text-gray-400">{new Date(device.license?.activatedAt).toLocaleDateString("en-US")}</p>
                              </div>
                            ) : (
                              <button 

@@ -87,7 +87,7 @@ export default async function StockTransfersPage() {
                                <div className="text-right min-w-[100px]">
                                   <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Date</div>
                                   <div className="flex items-center justify-end gap-2 text-xs font-medium text-gray-500">
-                                     <Calendar className="w-3.5 h-3.5" /> {new Date(tr.createdAt).toLocaleDateString()}
+                                     <Calendar className="w-3.5 h-3.5" /> {new Date(tr.createdAt).toLocaleDateString("en-US")}
                                   </div>
                                </div>
                                <div className="bg-green-50  text-green-600  px-3 py-1.5 rounded-xl text-[10px] font-bold uppercase border border-green-100 ">

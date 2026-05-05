@@ -29,24 +29,26 @@ async function extractWithGateway(imageUrl: string, merchantStoreId?: string) {
     const isBack = imageUrl.includes("back") || imageUrl.includes("_back");
     console.log(`[Vision] Starting NID extraction for ${isBack ? "BACK" : "FRONT"} image:`, imageUrl);
 
-    const prompt = `You are an elite document analysis expert specializing in Bangladeshi National ID (NID) cards. 
-Analyze the provided image with extreme precision. This is likely the ${isBack ? "BACK (Address side)" : "FRONT (Information side)"} of the card.
+    const prompt = `You are a highly specialized document parser for Bangladeshi National ID (NID) cards. 
+Analyze the provided image with surgical precision. 
+Identify the card type (Smart Card or Old Laminated) and extract information.
 
-CRITICAL INSTRUCTIONS:
-1. SPELLING ACCURACY: Do not hallucinate or guess names. Check every character.
-2. BILINGUAL MATCHING: Smart NIDs have names in both Bengali and English. Cross-reference them.
-3. FIELD MAPPING:
-   - "Name (English)" -> nameEn
-   - "নাম (বাংলা)" -> nameBn
-   - "Father" / "পিতা" -> fatherName (Translate to English)
-   - "Mother" / "মাতা" -> motherName (Translate to English)
-   - "ID No" / "NID No" -> nidNumber
-   - "Date of Birth" / "জন্ম তারিখ" -> dob (Format: YYYY-MM-DD)
-   - "Address" / "ঠিকানা" (usually on back) -> permanentAddress (Translate to English accurately)
+FIELD MAPPING RULES:
+- "Name (English)" / "Name" -> nameEn
+- "নাম (বাংলা)" -> nameBn
+- "Father's Name" / "পিতা" -> fatherName (MUST be in English)
+- "Mother's Name" / "মাতা" -> motherName (MUST be in English)
+- "NID No" / "ID No" / "National ID" -> nidNumber (10, 13, or 17 digits)
+- "Date of Birth" / "জন্ম তারিখ" -> dob (Convert to YYYY-MM-DD)
+- "Address" / "ঠিকানা" (Found on the BACK side) -> permanentAddress (Translate to English)
 
-4. ADDRESS FORMAT: For permanentAddress, include all details: Village/House, Road, Post Office, Upazila/Thana, District.
+EXTRACTION STRATEGY:
+1. Scan for the unique 10, 13, or 17 digit NID number first.
+2. Look for "নাম" (Bengali) and "Name" (English) which are usually adjacent.
+3. If this is the BACK side, extract the full address including Village, Post Office, and District.
+4. If some fields are missing (e.g., this is only one side), leave them as empty strings "".
 
-Return ONLY a valid JSON object. No preamble, no markdown.
+CRITICAL: Return ONLY a valid JSON object. Do not include any text before or after the JSON.
 {
   "nameEn": "",
   "nameBn": "",
@@ -55,11 +57,7 @@ Return ONLY a valid JSON object. No preamble, no markdown.
   "fatherName": "",
   "motherName": "",
   "permanentAddress": ""
-}
-
-Rules:
-- Translate Father, Mother, and Address to English.
-- Keep nameBn in Bengali.`;
+}`;
 
     // Convert local path to base64 if needed
     let imageContent: string = imageUrl;
@@ -71,14 +69,19 @@ Rules:
         imageContent = `data:image/${ext};base64,${buffer.toString("base64")}`;
       } catch (err) {
         console.error(`[Vision] Local file not found: ${filePath}`);
-        // If local file fails, maybe it's accessible via URL?
-        // But usually it's a relative path starting with /
         throw new Error(`NID Image file not found at ${imageUrl}`);
       }
     }
 
-    // Use the Bulletproof Vision Gateway
-    const { content, provider } = await askAiVision(imageContent, prompt);
+    // Use the Bulletproof Vision Gateway with a validator
+    const validator = (content: string) => {
+      const lower = content.toLowerCase();
+      // Look for keys or patterns that suggest it actually found something
+      return lower.includes("nameen") || lower.includes("namebn") || lower.includes("nidnumber") || 
+             lower.includes("name") || lower.includes("nid");
+    };
+
+    const { content, provider } = await askAiVision(imageContent, prompt, undefined, validator);
 
     console.log(`[Vision] AI Response from ${provider} [${isBack ? "BACK" : "FRONT"}]:`, content);
 
@@ -89,21 +92,31 @@ Rules:
     // Attempt to parse the JSON response more robustly
     let extraction: any = {};
     try {
-      const jsonStr = content.includes("```json") 
-        ? content.split("```json")[1].split("```")[0] 
-        : content;
+      // Clean the content of any markdown or noise
+      const cleanContent = content.replace(/```json/g, "").replace(/```/g, "").trim();
       
-      extraction = JSON.parse(jsonStr.trim());
+      // Try to find the first '{' and last '}'
+      const firstBrace = cleanContent.indexOf('{');
+      const lastBrace = cleanContent.lastIndexOf('}');
+      
+      if (firstBrace !== -1 && lastBrace !== -1) {
+        const jsonPart = cleanContent.substring(firstBrace, lastBrace + 1);
+        extraction = JSON.parse(jsonPart);
+      } else {
+        throw new Error("No JSON object found in response");
+      }
     } catch (parseError) {
       console.warn("[Vision] JSON Parse failed, attempting regex extraction...");
       extraction = {
-        nameEn: content.match(/"(?:nameEn|name)":\s*"([^"]*)"/i)?.[1] || "",
-        nameBn: content.match(/"nameBn":\s*"([^"]*)"/i)?.[1] || "",
-        nidNumber: content.match(/"(?:nidNumber|idNo|idNumber)":\s*"([^"]*)"/i)?.[1] || "",
-        dob: content.match(/"dob":\s*"([^"]*)"/i)?.[1] || "",
-        fatherName: content.match(/"fatherName":\s*"([^"]*)"/i)?.[1] || "",
-        motherName: content.match(/"motherName":\s*"([^"]*)"/i)?.[1] || "",
-        permanentAddress: content.match(/"permanentAddress":\s*"([^"]*)"/i)?.[1] || ""
+        nameEn: content.match(/"(?:nameEn|name|name_en)":\s*"([^"]*)"/i)?.[1] || 
+                content.match(/Name:\s*([A-Za-z\s]+)/i)?.[1]?.trim() || "",
+        nameBn: content.match(/"(?:nameBn|name_bn)":\s*"([^"]*)"/i)?.[1] || "",
+        nidNumber: content.match(/"(?:nidNumber|idNo|idNumber|nid_no)":\s*"([^"]*)"/i)?.[1] || 
+                   content.match(/(?:ID NO|NID NO):\s*(\d+)/i)?.[1] || "",
+        dob: content.match(/"(?:dob|date_of_birth)":\s*"([^"]*)"/i)?.[1] || "",
+        fatherName: content.match(/"(?:fatherName|father_name)":\s*"([^"]*)"/i)?.[1] || "",
+        motherName: content.match(/"(?:motherName|mother_name)":\s*"([^"]*)"/i)?.[1] || "",
+        permanentAddress: content.match(/"(?:permanentAddress|address)":\s*"([^"]*)"/i)?.[1] || ""
       };
     }
 
@@ -112,10 +125,17 @@ Rules:
     if (!extraction.nidNumber && extraction.idNo) extraction.nidNumber = extraction.idNo;
     if (!extraction.nidNumber && extraction.idNumber) extraction.nidNumber = extraction.idNumber;
 
-    // Final check - if we have almost nothing, it's a failure for this specific side
-    const hasData = Object.values(extraction).some(v => v && v !== "");
-    if (!hasData) {
-      console.warn(`[Vision] AI returned empty data for ${isBack ? "BACK" : "FRONT"}, falling back to Google...`);
+    // Final check - if we have almost nothing, it's a failure for this specific provider
+    const crucialDataFound = extraction.nameEn || extraction.nameBn || extraction.nidNumber;
+    
+    if (!crucialDataFound) {
+      console.warn(`[Vision] AI [${provider}] returned suspiciously empty data for ${isBack ? "BACK" : "FRONT"}.`);
+      
+      // If we used a lower-tier provider, we could try again, but askAI already loops.
+      // The issue is askAI returns 'success' even if content is garbage.
+      // Let's force a retry by throwing an error if data is empty, allowing the next iteration in askAI (if we were to restructure askAI)
+      // For now, if gateway fails to give meaningful data, we trigger Google Fallback.
+      console.log(`[Vision] Falling back to Google for ${isBack ? "BACK" : "FRONT"}...`);
       return await extractWithGoogle(imageUrl);
     }
 

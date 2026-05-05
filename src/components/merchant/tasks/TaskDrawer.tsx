@@ -287,7 +287,7 @@ export default function TaskDrawer({
                   )}>{task.priority} Priority</span>
                   <div className="flex items-center gap-1.5 text-[10px] font-bold text-gray-400 uppercase">
                      <Clock className="w-3.5 h-3.5" />
-                     {task.status === 'COMPLETED' ? 'Completed At ' + new Date(task.completedAt).toLocaleDateString() : 'Due ' + (task.deadline ? new Date(task.deadline).toLocaleDateString() : 'ASAP')}
+                     {task.status === 'COMPLETED' ? 'Completed At ' + new Date(task.completedAt).toLocaleDateString("en-US") : 'Due ' + (task.deadline ? new Date(task.deadline).toLocaleDateString("en-US") : 'ASAP')}
                   </div>
                </div>
                <h1 className="text-2xl font-bold text-[#0F172A] leading-tight tracking-tight">{task.title}</h1>

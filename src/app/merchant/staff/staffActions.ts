@@ -483,7 +483,7 @@ export async function rejoinStaffAction(userId: string, data: {
             <p>We are excited to have you back at <strong>${staff.merchantStore?.name}</strong>. Your account has been <strong>REACTIVATED</strong> with the following terms:</p>
             <div style="background: #F0FDF4; padding: 16px; border-radius: 8px; margin: 20px 0;">
               <p style="margin: 0; font-size: 13px; color: #166534;"><strong>New Designation:</strong> ${data.jobRole}</p>
-              <p style="margin: 5px 0 0 0; font-size: 13px; color: #166534;"><strong>Effective Date:</strong> ${new Date().toLocaleDateString()}</p>
+              <p style="margin: 5px 0 0 0; font-size: 13px; color: #166534;"><strong>Effective Date:</strong> ${new Date().toLocaleDateString("en-US")}</p>
             </div>
             <p>You can now login and resume your duties.</p>
             <a href="https://businessconnect.bd/dashboard" style="display: inline-block; background: #059669; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 10px;">Login to Dashboard</a>

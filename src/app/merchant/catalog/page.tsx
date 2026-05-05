@@ -72,33 +72,30 @@ export default function MerchantCatalogPage() {
     <div className="min-h-screen w-full bg-[#F8F9FA] flex overflow-hidden">
       
       {/* Main Content Area */}
-      <div className="flex-1 overflow-y-auto p-6 md:p-10 custom-scrollbar relative">
+      <div className="flex-1 overflow-y-auto p-4 md:p-6 custom-scrollbar relative">
         <div className="max-w-7xl mx-auto">
           
-          {/* Header Area */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+          {/* Compact Header Area */}
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-6">
             <div>
-              <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2">
-                <ShoppingBag className="w-3 h-3" /> Catalog Management
+              <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-widest text-muted-foreground mb-1">
+                <ShoppingBag className="w-3 h-3" /> Catalog
               </div>
-              <h1 className="text-2xl font-bold text-foreground tracking-tight">
+              <h1 className="text-xl font-bold text-foreground tracking-tight">
                 Unified <span className="text-primary-blue">Catalog</span>
               </h1>
-              <p className="text-muted-foreground text-sm font-medium mt-1">
-                Deep-dive into your products across all sales channels.
-              </p>
             </div>
 
             <Link 
               href="/products/add" 
-              className="flex items-center gap-2 px-6 py-3 bg-primary-blue text-white rounded-2xl text-sm font-bold transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary-blue/20"
+              className="flex items-center gap-2 px-4 py-2 bg-primary-blue text-white rounded-xl text-xs font-bold transition-all hover:scale-[1.02] active:scale-[0.98] shadow-sm"
             >
-              <Plus className="w-4 h-4" /> Add Product
+              <Plus className="w-3.5 h-3.5" /> Add Product
             </Link>
           </div>
 
-          {/* Scalable KPI Tabs */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+          {/* Slim KPI Tabs */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
             {[
               { id: "all", label: "All Products", count: products.length, icon: Layers, color: "text-blue-500", bg: "bg-blue-500/10" },
               { id: "out_of_stock", label: "Out of Stock", count: products.filter(p => p.stock <= 0).length, icon: AlertCircle, color: "text-red-500", bg: "bg-red-500/10" },
@@ -109,71 +106,67 @@ export default function MerchantCatalogPage() {
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={cn(
-                  "p-5 rounded-[24px] border transition-all text-left group relative overflow-hidden",
+                  "p-3 rounded-[16px] border transition-all text-left group relative",
                   activeTab === tab.id 
-                    ? "bg-white border-primary-blue shadow-lg shadow-primary-blue/5" 
+                    ? "bg-white border-primary-blue shadow-sm" 
                     : "bg-white border-surface-border hover:border-primary-blue/30"
                 )}
               >
-                <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center mb-3", tab.bg)}>
-                  <tab.icon className={cn("w-5 h-5", tab.color)} />
+                <div className="flex items-center gap-2.5 mb-2">
+                   <div className={cn("w-7 h-7 rounded-lg flex items-center justify-center", tab.bg)}>
+                     <tab.icon className={cn("w-3.5 h-3.5", tab.color)} />
+                   </div>
+                   <p className="text-[9px] font-bold uppercase text-muted-foreground tracking-widest">{tab.label}</p>
                 </div>
-                <p className="text-[10px] font-bold uppercase text-muted-foreground tracking-widest">{tab.label}</p>
-                <h4 className="text-2xl font-bold text-foreground">{tab.count}</h4>
-                {activeTab === tab.id && (
-                  <div className="absolute right-4 bottom-4 w-2 h-2 rounded-full bg-primary-blue animate-pulse" />
-                )}
+                <h4 className="text-xl font-bold text-foreground leading-none">{tab.count}</h4>
               </button>
             ))}
           </div>
 
-          {/* Unified Sync Hub (Futuristic) */}
-          <div className="mb-10 p-1 bg-gradient-to-r from-primary-blue via-indigo-500 to-purple-500 rounded-[32px] shadow-xl shadow-primary-blue/10">
-             <div className="bg-white rounded-[31px] p-6 flex flex-col md:flex-row items-center justify-between gap-6">
-                <div className="flex items-center gap-4">
-                   <div className="w-14 h-14 rounded-2xl bg-primary-blue/10 flex items-center justify-center animate-pulse">
-                      <Globe className="w-7 h-7 text-primary-blue" />
-                   </div>
-                   <div>
-                      <h3 className="text-lg font-bold text-foreground leading-tight">Unified Sync Hub</h3>
-                      <p className="text-xs text-muted-foreground font-medium">Connect external platforms to sync products, orders, and inventory automatically.</p>
-                   </div>
-                </div>
-                <div className="flex items-center gap-3">
-                   <button className="flex items-center gap-2 px-5 py-2.5 bg-gray-50 border border-surface-border rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-primary-blue/50 transition-all">
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/WooCommerce_logo.svg" alt="Woo" className="w-4 h-4 grayscale group-hover:grayscale-0" />
-                      WooCommerce
-                   </button>
-                   <button className="flex items-center gap-2 px-5 py-2.5 bg-gray-50 border border-surface-border rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-indigo-500/50 transition-all">
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Shopify_Logo.png" alt="Shopify" className="w-4 h-4 grayscale" />
-                      Shopify
-                   </button>
-                   <div className="w-px h-8 bg-surface-border mx-2" />
-                   <button className="px-6 py-2.5 bg-foreground text-background rounded-xl text-[10px] font-bold uppercase tracking-widest hover:scale-105 transition-all">
-                      Configure Sync
-                   </button>
-                </div>
-             </div>
+          {/* Slim Sync Hub */}
+          <div className="mb-6 bg-white rounded-[20px] p-3 border border-surface-border shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+               <div className="w-10 h-10 rounded-xl bg-primary-blue/10 flex items-center justify-center">
+                  <Globe className="w-5 h-5 text-primary-blue" />
+               </div>
+               <div>
+                  <h3 className="text-sm font-bold text-foreground">Unified Sync Hub</h3>
+                  <p className="text-[10px] text-muted-foreground font-medium">Connect external platforms automatically.</p>
+               </div>
+            </div>
+            <div className="flex items-center gap-2">
+               <button className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-50 border border-surface-border rounded-lg text-[9px] font-bold uppercase tracking-widest">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/WooCommerce_logo.svg" alt="Woo" className="w-3 h-3 grayscale" />
+                  Woo
+               </button>
+               <button className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-50 border border-surface-border rounded-lg text-[9px] font-bold uppercase tracking-widest">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Shopify_Logo.png" alt="Shopify" className="w-3 h-3 grayscale" />
+                  Shopify
+               </button>
+               <div className="w-px h-6 bg-surface-border mx-1" />
+               <button className="px-4 py-1.5 bg-foreground text-background rounded-lg text-[9px] font-bold uppercase tracking-widest">
+                  Sync
+               </button>
+            </div>
           </div>
 
-          {/* Catalog Controls */}
-          <div className="bg-white rounded-[32px] border border-surface-border shadow-2xl overflow-hidden">
-            <div className="p-6 border-b border-surface-border flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div className="relative flex-1 max-w-md">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          {/* Compact Catalog Controls */}
+          <div className="bg-white rounded-[20px] border border-surface-border shadow-sm overflow-hidden">
+            <div className="p-3 border-b border-surface-border flex flex-col md:flex-row md:items-center justify-between gap-3">
+              <div className="relative flex-1 max-w-xs">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
                   <input 
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    placeholder="Global search by SKU, Barcode, Name..."
-                    className="w-full bg-gray-50 border border-surface-border rounded-2xl py-3 pl-11 pr-4 text-sm font-medium outline-none focus:ring-2 focus:ring-primary-blue/20 transition-all"
+                    placeholder="Search SKU, Name..."
+                    className="w-full bg-gray-50 border border-surface-border rounded-xl py-1.5 pl-9 pr-3 text-xs font-medium outline-none focus:ring-1 focus:ring-primary-blue/20 transition-all"
                   />
               </div>
-              <div className="flex items-center gap-3">
-                  <button className="p-3 rounded-xl bg-gray-50 border border-surface-border text-muted-foreground hover:text-foreground transition-colors">
-                    <Filter className="w-4 h-4" />
+              <div className="flex items-center gap-2">
+                  <button className="p-2 rounded-lg bg-gray-50 border border-surface-border text-muted-foreground hover:text-foreground">
+                    <Filter className="w-3.5 h-3.5" />
                   </button>
-                  <div className="w-px h-8 bg-surface-border mx-2" />
-                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Showing {filteredProducts.length} items</p>
+                  <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Total {filteredProducts.length}</p>
               </div>
             </div>
 
@@ -181,10 +174,10 @@ export default function MerchantCatalogPage() {
               <table className="w-full border-collapse">
                 <thead>
                   <tr className="bg-gray-50/50 border-b border-surface-border">
-                    <th className="px-6 py-4 text-left text-[11px] font-bold uppercase text-muted-foreground tracking-widest">Product Details</th>
-                    <th className="px-6 py-4 text-left text-[11px] font-bold uppercase text-muted-foreground tracking-widest">Inventory</th>
-                    <th className="px-6 py-4 text-left text-[11px] font-bold uppercase text-muted-foreground tracking-widest">Channel Sync</th>
-                    <th className="px-6 py-4 text-right text-[11px] font-bold uppercase text-muted-foreground tracking-widest">Quick Actions</th>
+                    <th className="px-4 py-2.5 text-left text-[9px] font-bold uppercase text-muted-foreground tracking-widest">Product Details</th>
+                    <th className="px-4 py-2.5 text-left text-[9px] font-bold uppercase text-muted-foreground tracking-widest">Inventory</th>
+                    <th className="px-4 py-2.5 text-left text-[9px] font-bold uppercase text-muted-foreground tracking-widest">Channel</th>
+                    <th className="px-4 py-2.5 text-right text-[9px] font-bold uppercase text-muted-foreground tracking-widest">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-surface-border">
@@ -197,32 +190,32 @@ export default function MerchantCatalogPage() {
                         selectedProduct?.id === product.id ? "bg-primary-blue/5" : ""
                       )}
                     >
-                      <td className="px-6 py-5">
-                        <div className="flex items-center gap-4">
-                          <div className="w-14 h-14 rounded-2xl bg-surface-hover border border-surface-border overflow-hidden flex-shrink-0 shadow-sm group-hover:scale-105 transition-transform">
+                      <td className="px-4 py-2.5">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-lg bg-surface-hover border border-surface-border overflow-hidden flex-shrink-0 shadow-sm">
                             {product.image ? (
                               <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                                <ShoppingBag className="w-6 h-6 text-muted-foreground/20" />
+                                <ShoppingBag className="w-4 h-4 text-muted-foreground/20" />
                               </div>
                             )}
                           </div>
                           <div>
-                            <p className="font-bold text-foreground text-base tracking-tight leading-tight mb-1">{product.name}</p>
-                            <div className="flex items-center gap-3">
-                               <span className="text-[10px] font-bold text-muted-foreground/60 uppercase tracking-widest">SKU: {product.sku || "N/A"}</span>
-                               <span className="text-[10px] font-bold text-primary-blue uppercase tracking-widest">{product.category?.name || "Global"}</span>
+                            <p className="font-bold text-foreground text-xs tracking-tight leading-tight mb-0.5">{product.name}</p>
+                            <div className="flex items-center gap-2">
+                               <span className="text-[8px] font-bold text-muted-foreground/60 uppercase tracking-widest">SKU: {product.sku || "N/A"}</span>
+                               <span className="text-[8px] font-bold text-primary-blue uppercase tracking-widest">{product.category?.name || "Global"}</span>
                             </div>
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-5">
-                         <div className="space-y-1">
-                            <p className="font-bold text-foreground">৳{product.price.toLocaleString("en-US")}</p>
-                            <div className="flex items-center gap-2">
+                      <td className="px-4 py-2.5">
+                         <div className="space-y-0.5">
+                            <p className="font-bold text-foreground text-xs">৳{product.price.toLocaleString("en-US")}</p>
+                            <div className="flex items-center gap-1.5">
                                <span className={cn(
-                                 "text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full border",
+                                 "text-[8px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded-full border",
                                  product.stock <= 0 ? "bg-red-500/10 border-red-500/20 text-red-600" : 
                                  product.stock < 10 ? "bg-amber-500/10 border-amber-500/20 text-amber-600" : "bg-green-500/10 border-green-500/20 text-green-600"
                                )}>
@@ -231,23 +224,22 @@ export default function MerchantCatalogPage() {
                             </div>
                          </div>
                       </td>
-                      <td className="px-6 py-5">
-                         <div className="flex items-center gap-2">
-                            <div className={cn("w-2 h-2 rounded-full", product.barcode ? "bg-green-500" : "bg-gray-300")} title="POS Ready" />
-                            <div className={cn("w-2 h-2 rounded-full", product.image ? "bg-blue-500" : "bg-gray-300")} title="Storefront Sync" />
-                            <div className={cn("w-2 h-2 rounded-full", product.allowedDistricts ? "bg-indigo-500" : "bg-gray-300")} title="Logistics Routing" />
+                      <td className="px-4 py-2.5">
+                         <div className="flex items-center gap-1.5">
+                            <div className={cn("w-1.5 h-1.5 rounded-full", product.barcode ? "bg-green-500" : "bg-gray-300")} title="POS Ready" />
+                            <div className={cn("w-1.5 h-1.5 rounded-full", product.image ? "bg-blue-500" : "bg-gray-300")} title="Storefront Sync" />
                          </div>
                       </td>
-                      <td className="px-6 py-5 text-right">
+                      <td className="px-4 py-2.5 text-right">
                          <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button className="p-2.5 hover:bg-white rounded-xl transition-all shadow-sm border border-transparent hover:border-surface-border">
-                               <Edit2 className="w-4 h-4 text-muted-foreground" />
+                            <button className="p-1.5 hover:bg-white rounded-lg transition-all border border-transparent hover:border-surface-border">
+                               <Edit2 className="w-3 h-3 text-muted-foreground" />
                             </button>
                             <button 
                               onClick={(e) => { e.stopPropagation(); handleDelete(product.id); }}
-                              className="p-2.5 hover:bg-red-500/10 rounded-xl transition-all border border-transparent hover:border-red-500/20"
+                              className="p-1.5 hover:bg-red-500/10 rounded-lg transition-all border border-transparent hover:border-red-500/20"
                             >
-                               <Trash2 className="w-4 h-4 text-red-500" />
+                               <Trash2 className="w-3 h-3 text-red-500" />
                             </button>
                          </div>
                       </td>
@@ -257,16 +249,17 @@ export default function MerchantCatalogPage() {
               </table>
             </div>
 
-            <div className="p-6 border-t border-surface-border flex items-center justify-between bg-gray-50/30">
-               <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Viewing {filteredProducts.length} of {products.length} products</p>
-               <div className="flex items-center gap-3">
-                  <button disabled className="px-5 py-2.5 rounded-xl border border-surface-border text-[10px] font-bold uppercase tracking-widest disabled:opacity-30 hover:bg-white transition-all">Previous</button>
-                  <button disabled className="px-5 py-2.5 rounded-xl border border-surface-border text-[10px] font-bold uppercase tracking-widest disabled:opacity-30 hover:bg-white transition-all">Next</button>
+            <div className="p-3 border-t border-surface-border flex items-center justify-between bg-gray-50/30">
+               <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Showing {filteredProducts.length} of {products.length}</p>
+               <div className="flex items-center gap-2">
+                  <button disabled className="px-3 py-1.5 rounded-lg border border-surface-border text-[9px] font-bold uppercase tracking-widest disabled:opacity-30 hover:bg-white">Prev</button>
+                  <button disabled className="px-3 py-1.5 rounded-lg border border-surface-border text-[9px] font-bold uppercase tracking-widest disabled:opacity-30 hover:bg-white">Next</button>
                </div>
             </div>
           </div>
         </div>
       </div>
+
 
       {/* Side Drawer: Product Detail & Edit */}
       {isDrawerOpen && selectedProduct && (

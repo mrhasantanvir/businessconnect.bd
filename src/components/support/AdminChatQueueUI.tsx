@@ -140,7 +140,7 @@ export function AdminChatQueueUI({ initialChats, currentAdminId }: { initialChat
                <div className="flex flex-col gap-1.5 max-w-[80%] self-start items-start">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-[10px] font-black text-[#64748B] uppercase tracking-tighter">{activeChat.user.name} (Merchant)</span>
-                    <span className="text-[9px] font-bold text-[#A1A1AA] uppercase">{new Date(activeChat.createdAt).toLocaleTimeString()}</span>
+                    <span className="text-[9px] font-bold text-[#A1A1AA] uppercase">{new Date(activeChat.createdAt).toLocaleTimeString("en-US")}</span>
                   </div>
                   <div className="p-4 text-sm font-medium shadow-sm border bg-white border-[#E5E7EB]">
                     {activeChat.description}
@@ -157,7 +157,7 @@ export function AdminChatQueueUI({ initialChats, currentAdminId }: { initialChat
                         {msg.userId === currentAdminId ? "Official Agent (You)" : activeChat.user.name}
                      </span>
                      <span className="text-[9px] font-bold text-[#A1A1AA] uppercase">
-                        {isMounted ? new Date(msg.createdAt).toLocaleTimeString() : "..."}
+                        {isMounted ? new Date(msg.createdAt).toLocaleTimeString("en-US") : "..."}
                      </span>
                    </div>
                    <div className={`p-4 text-sm font-medium shadow-sm border ${

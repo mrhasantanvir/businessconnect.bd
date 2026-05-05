@@ -91,7 +91,7 @@ export function OrderStatusPage({ order, store, slug }: { order: any, store: any
                      </div>
                      <div className="text-center">
                         <p className={cn("text-[9px] font-bold uppercase tracking-widest", step.status !== "pending" ? "text-slate-900" : "text-slate-300")}>{step.label}</p>
-                        {step.date && <p className="text-[8px] font-bold text-slate-400 mt-1 uppercase">{new Date(step.date).toLocaleDateString()}</p>}
+                        {step.date && <p className="text-[8px] font-bold text-slate-400 mt-1 uppercase">{new Date(step.date).toLocaleDateString("en-US")}</p>}
                      </div>
                   </div>
                ))}

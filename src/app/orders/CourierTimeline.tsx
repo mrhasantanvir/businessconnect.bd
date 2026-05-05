@@ -76,7 +76,7 @@ export function CourierTimeline({ orderId }: { orderId: string }) {
         <div className="space-y-6 pt-4 border-t border-gray-50 ">
            <div className="flex items-center gap-4 opacity-70">
               <Clock className="w-4 h-4 text-gray-400" />
-              <p className="text-[11px] font-bold text-gray-500 uppercase tracking-widest">Tracking Info Updated: {new Date().toLocaleTimeString()}</p>
+              <p className="text-[11px] font-bold text-gray-500 uppercase tracking-widest">Tracking Info Updated: {new Date().toLocaleTimeString("en-US")}</p>
            </div>
         </div>
       </div>

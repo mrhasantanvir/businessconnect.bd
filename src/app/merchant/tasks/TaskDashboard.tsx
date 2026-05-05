@@ -219,7 +219,7 @@ export default function TaskDashboard({ tasks = [], staff = [] }: { tasks: any[]
                               </div>
                               <div className="flex items-center gap-1.5 text-[9px] font-bold text-gray-400 uppercase">
                                  <Clock className="w-3 h-3" />
-                                 Due {task.deadline ? new Date(task.deadline).toLocaleDateString() : 'ASAP'}
+                                 Due {task.deadline ? new Date(task.deadline).toLocaleDateString("en-US") : 'ASAP'}
                               </div>
                            </div>
                         </td>

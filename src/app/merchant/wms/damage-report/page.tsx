@@ -68,7 +68,7 @@ export default async function DamageReportPage() {
                        </td>
                        <td className="px-6 py-4 text-right">
                           <div className="flex items-center justify-end gap-2 text-[10px] text-gray-400 font-mono">
-                             <Calendar className="w-3 h-3" /> {new Date(log.createdAt).toLocaleDateString()}
+                             <Calendar className="w-3 h-3" /> {new Date(log.createdAt).toLocaleDateString("en-US")}
                           </div>
                        </td>
                     </tr>
