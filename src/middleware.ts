@@ -43,7 +43,7 @@ export default async function middleware(req: NextRequest) {
 
   // 7. Multi-tenant Rewrite Logic
   const hostname = req.headers.get("host") || "";
-  const platformDomain = "localhost:3030"; 
+  const platformDomain = "businessconnect.bd"; 
   
   if (hostname !== platformDomain && !path.startsWith("/api") && !path.startsWith("/_next")) {
     const isSubdomain = hostname.endsWith(`.${platformDomain}`);

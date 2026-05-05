@@ -22,35 +22,45 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getSession();
+  let session = null;
+  try {
+    session = await getSession();
+  } catch (error) {
+    console.error("Failed to get session:", error);
+  }
+
   let activationStatus = "ACTIVE"; // Default for staff/admin
-  
   let adminNotifications = 0;
 
-  if (session?.role === "MERCHANT" && session?.merchantStoreId) {
-     const store = await prisma.merchantStore.findUnique({
-        where: { id: session.merchantStoreId },
-        select: { activationStatus: true, invoices: { where: { status: 'PENDING', dueDate: { lt: new Date() } } } }
-     });
-     activationStatus = store?.activationStatus || "PENDING";
-     
-     if (store?.invoices && store.invoices.length > 0) {
-        activationStatus = "BILLING_RESTRICTED";
-     }
-  } else if (session?.role === "STAFF" && session?.userId) {
-     const profile = await prisma.staffProfile.findUnique({
-        where: { userId: session.userId },
-        select: { status: true }
-     });
-     if (profile?.status === "ONBOARDING") {
-        activationStatus = "STAFF_ONBOARDING";
-     } else if (profile?.status === "SUSPENDED") {
-        activationStatus = "SUSPENDED";
-     }
-  } else if (session?.role === "SUPER_ADMIN") {
-     const pendingOnboarding = await prisma.merchantStore.count({ where: { activationStatus: "PENDING" } });
-     const pendingDocs = await prisma.merchantStore.count({ where: { activationStatus: "DOCUMENTS_REJECTED" } });
-     adminNotifications = pendingOnboarding + pendingDocs;
+  try {
+    if (session?.role === "MERCHANT" && session?.merchantStoreId) {
+       const store = await prisma.merchantStore.findUnique({
+          where: { id: session.merchantStoreId },
+          select: { activationStatus: true, invoices: { where: { status: 'PENDING', dueDate: { lt: new Date() } } } }
+       });
+       activationStatus = store?.activationStatus || "PENDING";
+       
+       if (store?.invoices && store.invoices.length > 0) {
+          activationStatus = "BILLING_RESTRICTED";
+       }
+    } else if (session?.role === "STAFF" && session?.userId) {
+       const profile = await prisma.staffProfile.findUnique({
+          where: { userId: session.userId },
+          select: { status: true }
+       });
+       if (profile?.status === "ONBOARDING") {
+          activationStatus = "STAFF_ONBOARDING";
+       } else if (profile?.status === "SUSPENDED") {
+          activationStatus = "SUSPENDED";
+       }
+    } else if (session?.role === "SUPER_ADMIN") {
+       const pendingOnboarding = await prisma.merchantStore.count({ where: { activationStatus: "PENDING" } });
+       const pendingDocs = await prisma.merchantStore.count({ where: { activationStatus: "DOCUMENTS_REJECTED" } });
+       adminNotifications = pendingOnboarding + pendingDocs;
+    }
+  } catch (error) {
+    console.error("Database access error in RootLayout:", error);
+    // Fallback to default values if DB is down
   }
 
   return (

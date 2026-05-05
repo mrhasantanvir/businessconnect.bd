@@ -4,11 +4,11 @@ credentials-file: C:\Users\whmroot\.cloudflared\094d579e-06a6-4e78-8554-992bf307
 ingress:
   # Main Domain
   - hostname: businessconnect.bd
-    service: http://localhost:3040
+    service: http://localhost:3050
   
   # Wildcard for Storefronts (e.g. gadget-gear.businessconnect.bd)
   - hostname: "*.businessconnect.bd"
-    service: http://localhost:3040
+    service: http://localhost:3050
 
   # Default 404
   - service: http_status:404
