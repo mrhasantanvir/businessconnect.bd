@@ -560,10 +560,9 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
           </table>
         </div>
       </div>
-    </div>
+        </div>
+      )}
 
-
-      {/* Add Staff Modal */}
       {isAddModalOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-[2px] z-50 flex items-center justify-center p-4">
            <div className="bg-white rounded-[4px] w-full max-w-lg p-6 md:p-8 shadow-xl relative animate-in fade-in zoom-in duration-200">
