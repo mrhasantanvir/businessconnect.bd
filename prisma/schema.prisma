@@ -1003,6 +1003,16 @@ model SystemSettings {
   pusherKey           String?
   pusherSecret        String?
   pusherCluster       String?
+  firebaseApiKey      String?
+  firebaseAuthDomain  String?
+  firebaseDatabaseUrl String?
+  firebaseProjectId   String?
+  firebaseStorageBucket String?
+  firebaseMessagingSenderId String?
+  firebaseAppId       String?
+  firebaseClientEmail String?
+  firebasePrivateKey  String?  @db.Text
+  realtimeProvider    String   @default("PUSHER") // PUSHER, FIREBASE
   smtpHost            String?
   smtpPort            Int?     @default(587)
   smtpUser            String?

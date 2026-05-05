@@ -770,3 +770,25 @@ export async function cleanGarbageDataAction(options: GarbageCleanOptions) {
     return { success: false, error: error.message };
   }
 }
+export async function testPushNotificationAction(token: string) {
+  try {
+    const session = await getSession();
+    if (!session || session.role !== "SUPER_ADMIN") throw new Error("Unauthorized");
+
+    const { adminMessaging } = await import("@/lib/firebase-admin");
+    
+    const message = {
+      notification: {
+        title: "BusinessConnect Test",
+        body: "Your Push Notification system is working! 🎉",
+      },
+      token: token,
+    };
+
+    const response = await adminMessaging.send(message);
+    return { success: true, messageId: response };
+  } catch (error: any) {
+    console.error("FCM Test Error:", error);
+    return { success: false, error: error.message || "Failed to send push notification." };
+  }
+}

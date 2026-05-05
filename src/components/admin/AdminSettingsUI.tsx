@@ -539,39 +539,156 @@ function SmsSettings({ settings, onSave, saving }: any) {
 }
 
 function RealtimeSettings({ settings, onSave, saving }: any) {
+  const [provider, setProvider] = useState(settings?.realtimeProvider ?? "PUSHER");
+  
+  // Pusher State
   const [appId, setAppId] = useState(settings?.pusherAppId ?? "");
   const [key, setKey] = useState(settings?.pusherKey ?? "");
   const [secret, setSecret] = useState(settings?.pusherSecret ?? "");
   const [cluster, setCluster] = useState(settings?.pusherCluster ?? "ap1");
 
+  // Firebase State
+  const [fbApiKey, setFbApiKey] = useState(settings?.firebaseApiKey ?? "");
+  const [fbAuthDomain, setFbAuthDomain] = useState(settings?.firebaseAuthDomain ?? "");
+  const [fbDbUrl, setFbDbUrl] = useState(settings?.firebaseDatabaseUrl ?? "");
+  const [fbProjectId, setFbProjectId] = useState(settings?.firebaseProjectId ?? "");
+  const [fbStorageBucket, setFbStorageBucket] = useState(settings?.firebaseStorageBucket ?? "");
+  const [fbMessagingSenderId, setFbMessagingSenderId] = useState(settings?.firebaseMessagingSenderId ?? "");
+  const [fbAppId, setFbAppId] = useState(settings?.firebaseAppId ?? "");
+  const [fbClientEmail, setFbClientEmail] = useState(settings?.firebaseClientEmail ?? "");
+  const [fbPrivateKey, setFbPrivateKey] = useState(settings?.firebasePrivateKey ?? "");
+
   return (
-    <div className="space-y-8 max-w-3xl">
+    <div className="space-y-8 max-w-4xl">
       <div className="space-y-4">
         <h3 className="text-xl font-bold text-[#0F172A] flex items-center gap-2">
-           <Bell className="w-6 h-6" /> Real-time Support (Pusher)
+           <Bell className="w-6 h-6" /> Real-time Support Configuration
         </h3>
-        <p className="text-sm text-[#64748B]">Manage Pusher credentials for instant notifications and live chat sync.</p>
+        <p className="text-sm text-[#64748B]">Choose your real-time infrastructure provider. Firebase is recommended for better scalability and cost-efficiency.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Input label="Pusher App ID" value={appId} onChange={setAppId} />
-        <Input label="Pusher Key" value={key} onChange={setKey} />
-        <Input label="Pusher Secret" value={secret} onChange={setSecret} type="password" />
-        <Input label="Cluster" value={cluster} onChange={setCluster} />
+      <div className="flex gap-4 p-1 bg-gray-100 rounded-none w-fit">
+        <button 
+          onClick={() => setProvider("PUSHER")}
+          className={`px-6 py-2 text-xs font-bold transition-all ${provider === "PUSHER" ? "bg-white text-[#1E40AF] shadow-sm" : "text-[#64748B] hover:text-[#0F172A]"}`}
+        >
+          Pusher Channels
+        </button>
+        <button 
+          onClick={() => setProvider("FIREBASE")}
+          className={`px-6 py-2 text-xs font-bold transition-all ${provider === "FIREBASE" ? "bg-white text-[#1E40AF] shadow-sm" : "text-[#64748B] hover:text-[#0F172A]"}`}
+        >
+          Firebase Realtime
+        </button>
       </div>
+
+      {provider === "PUSHER" ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in duration-300">
+          <Input label="Pusher App ID" value={appId} onChange={setAppId} />
+          <Input label="Pusher Key" value={key} onChange={setKey} />
+          <Input label="Pusher Secret" value={secret} onChange={setSecret} type="password" />
+          <Input label="Cluster" value={cluster} onChange={setCluster} />
+        </div>
+      ) : (
+        <div className="space-y-6 animate-in fade-in duration-300">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Input label="API Key" value={fbApiKey} onChange={setFbApiKey} />
+            <Input label="Project ID" value={fbProjectId} onChange={setFbProjectId} />
+            <Input label="Database URL" value={fbDbUrl} onChange={setFbDbUrl} placeholder="https://your-app.firebaseio.com" />
+            <Input label="Auth Domain" value={fbAuthDomain} onChange={setFbAuthDomain} />
+            <Input label="App ID" value={fbAppId} onChange={setFbAppId} />
+            <Input label="Messaging Sender ID" value={fbMessagingSenderId} onChange={setFbMessagingSenderId} />
+          </div>
+          
+          <div className="pt-6 border-t border-gray-100 space-y-6">
+            <div className="flex flex-col">
+              <h4 className="text-sm font-bold text-[#0F172A]">Service Account (Admin SDK)</h4>
+              <p className="text-[10px] text-[#64748B] font-bold uppercase mt-1">Required for server-side push notifications</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Input label="Client Email" value={fbClientEmail} onChange={setFbClientEmail} />
+              <Input label="Storage Bucket" value={fbStorageBucket} onChange={setFbStorageBucket} />
+            </div>
+            <Input label="Private Key" value={fbPrivateKey} onChange={setFbPrivateKey} type="password" multiline placeholder="-----BEGIN PRIVATE KEY-----\n..." />
+          </div>
+
+          <div className="pt-8 border-t border-gray-100 space-y-4">
+            <div className="flex flex-col">
+                <h4 className="text-sm font-bold text-[#0F172A] uppercase tracking-tight">FCM Diagnostics</h4>
+                <p className="text-[10px] text-[#64748B] font-bold uppercase tracking-widest">Test Push Notification Service</p>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row gap-4">
+                <input 
+                  type="text" 
+                  id="test-fcm-token"
+                  placeholder="Enter Device FCM Token..." 
+                  className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-none focus:outline-none focus:ring-2 focus:ring-[#1E40AF] text-xs font-bold"
+                />
+                <button
+                  id="test-fcm-btn"
+                  onClick={async () => {
+                      const input = document.getElementById('test-fcm-token') as HTMLInputElement;
+                      const token = input.value;
+                      if (!token) return alert("Please enter a device FCM token first.");
+                      
+                      const btn = document.getElementById('test-fcm-btn');
+                      if (btn) {
+                        btn.innerHTML = "Sending...";
+                        (btn as HTMLButtonElement).disabled = true;
+                      }
+
+                      try {
+                        const { testPushNotificationAction } = await import('@/app/admin/settings/actions');
+                        const res = await testPushNotificationAction(token);
+                        if (res.success) {
+                            alert("✅ Push Notification Sent! Message ID: " + res.messageId);
+                        } else {
+                            alert("❌ Failed to send Notification: " + res.error);
+                        }
+                      } catch (err: any) {
+                        alert("❌ Error: " + err.message);
+                      } finally {
+                        if (btn) {
+                            btn.innerHTML = "Test Push Notification";
+                            (btn as HTMLButtonElement).disabled = false;
+                        }
+                      }
+                  }}
+                  className="px-6 py-3 bg-white text-[#1E40AF] border border-[#1E40AF] font-bold text-[10px] uppercase tracking-widest rounded-none hover:bg-gray-50 transition-all whitespace-nowrap"
+                >
+                  Test Push Notification
+                </button>
+            </div>
+            <p className="text-[9px] text-[#A1A1AA] font-bold leading-relaxed">
+              Note: To test this, you need a Device Registration Token from a client browser or mobile app.
+            </p>
+          </div>
+        </div>
+      )}
 
       <button
         disabled={saving}
         onClick={() => onSave({ 
+          realtimeProvider: provider,
           pusherAppId: appId,
           pusherKey: key,
           pusherSecret: secret,
-          pusherCluster: cluster
+          pusherCluster: cluster,
+          firebaseApiKey: fbApiKey,
+          firebaseAuthDomain: fbAuthDomain,
+          firebaseDatabaseUrl: fbDbUrl,
+          firebaseProjectId: fbProjectId,
+          firebaseStorageBucket: fbStorageBucket,
+          firebaseMessagingSenderId: fbMessagingSenderId,
+          firebaseAppId: fbAppId,
+          firebaseClientEmail: fbClientEmail,
+          firebasePrivateKey: fbPrivateKey,
         })}
-        className="px-6 py-3 bg-[#1E40AF] text-white font-bold text-sm rounded-none hover:bg-[#1E3A8A] transition-all flex items-center gap-2 disabled:opacity-50"
+        className="px-6 py-3 bg-[#1E40AF] text-white font-bold text-sm rounded-none hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50 shadow-lg"
       >
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-        Save Pusher Configuration
+        Save Real-time Configuration
       </button>
     </div>
   );
