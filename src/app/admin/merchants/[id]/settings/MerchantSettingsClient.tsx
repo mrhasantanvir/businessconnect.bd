@@ -210,6 +210,7 @@ export function MerchantSettingsClient({ merchant }: { merchant: any }) {
                         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">SIP Balance</p>
                         <span className="text-xl font-bold text-slate-900">{merchant.sipBalance.toLocaleString("en-US")}</span>
                       </div>
+                    </div>
                   </div>
                </div>
             </div>
