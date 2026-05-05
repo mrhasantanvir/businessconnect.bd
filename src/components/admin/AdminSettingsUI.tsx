@@ -1072,6 +1072,11 @@ function DbClusterSettings({ settings, onSave, saving }: any) {
   const [status, setStatus] = useState<string | null>(null);
   const [testReport, setTestReport] = useState<any[]>([]);
 
+  const isSelfHostedProvider = provider === "SELF_HOSTED_VM";
+  const isCloudProvider = ["AZURE_MYSQL", "AWS_RDS", "GCP_SQL"].includes(provider);
+  const isAzureProvider = provider === "AZURE_MYSQL";
+  const isGcpProvider = provider === "GCP_SQL";
+
   const savePayload = {
     dbClusterEnabled: enabled,
     dbClusterProvider: provider,
@@ -1164,12 +1169,6 @@ function DbClusterSettings({ settings, onSave, saving }: any) {
         <Input label="Region" value={region} onChange={setRegion} />
         <Input label="Primary DB URL" value={primaryUrl} onChange={setPrimaryUrl} type="password" />
         <Input label="Proxy / Router URL (optional)" value={proxyUrl} onChange={setProxyUrl} type="password" />
-        <Input label="Cloud API Key / Client ID" value={apiKey} onChange={setApiKey} type="password" />
-        <Input label="Cloud API Secret" value={apiSecret} onChange={setApiSecret} type="password" />
-        <Input label="Tenant ID" value={tenantId} onChange={setTenantId} />
-        <Input label="Subscription ID" value={subscriptionId} onChange={setSubscriptionId} />
-        <Input label="Resource Group" value={resourceGroup} onChange={setResourceGroup} />
-        <Input label="Project ID (optional)" value={projectId} onChange={setProjectId} />
         <Input label="Write Node 1 URL" value={write1} onChange={setWrite1} type="password" />
         <Input label="Write Node 2 URL" value={write2} onChange={setWrite2} type="password" />
         <Input label="Read Node 1 URL" value={read1} onChange={setRead1} type="password" />
@@ -1186,9 +1185,36 @@ function DbClusterSettings({ settings, onSave, saving }: any) {
           onChange={setReadNodesText}
           multiline
         />
+
+        {isCloudProvider && (
+          <>
+            <Input
+              label={isAzureProvider ? "Azure Client ID / API Key" : isGcpProvider ? "GCP Service Account Key / API Key" : "AWS Access Key ID"}
+              value={apiKey}
+              onChange={setApiKey}
+              type="password"
+            />
+            <Input
+              label={isAzureProvider ? "Azure Client Secret" : isGcpProvider ? "GCP Service Account Secret" : "AWS Secret Access Key"}
+              value={apiSecret}
+              onChange={setApiSecret}
+              type="password"
+            />
+            {isAzureProvider && (
+              <>
+                <Input label="Tenant ID" value={tenantId} onChange={setTenantId} />
+                <Input label="Subscription ID" value={subscriptionId} onChange={setSubscriptionId} />
+                <Input label="Resource Group" value={resourceGroup} onChange={setResourceGroup} />
+              </>
+            )}
+            {isGcpProvider && (
+              <Input label="GCP Project ID" value={projectId} onChange={setProjectId} />
+            )}
+          </>
+        )}
       </div>
 
-      {provider === "SELF_HOSTED_VM" && (
+      {isSelfHostedProvider && (
         <div className="border border-amber-200 bg-amber-50 p-6 space-y-6">
           <div>
             <h4 className="text-sm font-bold text-amber-800 uppercase tracking-wider">Ubuntu VM MySQL Cluster Provisioning</h4>
