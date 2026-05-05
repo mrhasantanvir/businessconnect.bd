@@ -72,7 +72,20 @@ model User {
   initiatedTransfers  StockTransfer[]
   payoutRequests      PayoutRequest[]
   invoices            Invoice[]
+  pushTokens          PushToken[]
 }
+
+model PushToken {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  deviceType String? // WEB, ANDROID, IOS
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
 
 model MerchantStore {
   id                   String                @id @default(cuid())

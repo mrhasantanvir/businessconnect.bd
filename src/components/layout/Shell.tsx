@@ -58,7 +58,51 @@ import { Providers } from "./Providers";
 import { UserDropdown } from "./new_ui/header/HeaderComponents";
 import { ActivationCelebration } from "../merchant/ActivationCelebration";
 import { APP_VERSION } from "@/config/version";
+import { savePushTokenAction } from "@/app/actions/notification";
 
+function usePushNotifications(user: any) {
+  useEffect(() => {
+    if (typeof window === 'undefined' || !user?.id || !('Notification' in window)) return;
+
+    const initializeFCM = async () => {
+      try {
+        const { getMessaging, getToken, onMessage } = await import('firebase/messaging');
+        const { app } = await import('@/lib/firebase');
+        
+        const messaging = getMessaging(app);
+
+        // Request permission
+        const permission = await Notification.requestPermission();
+        if (permission !== 'granted') return;
+
+        // Get token
+        const token = await getToken(messaging);
+
+        if (token) {
+          await savePushTokenAction(token, 'WEB');
+          console.log('[FCM] Token saved successfully');
+        }
+
+        // Listen for foreground messages
+        onMessage(messaging, (payload) => {
+          console.log('[FCM] Message received in foreground:', payload);
+          if (payload.notification) {
+             new Notification(payload.notification.title || 'Notification', {
+               body: payload.notification.body,
+               icon: '/favicon.ico'
+             });
+          }
+        });
+
+      } catch (error) {
+        console.error('[FCM] Error initializing:', error);
+      }
+    };
+
+    const timeout = setTimeout(initializeFCM, 3000);
+    return () => clearTimeout(timeout);
+  }, [user?.id]);
+}
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -72,6 +116,9 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
   const { language, setLanguage, t } = useLanguage();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const router = useRouter();
+
+  // Initialize Push Notifications
+  usePushNotifications(user);
 
   useEffect(() => {
     if (user?.activationStatus === "STAFF_ONBOARDING" && !pathname.startsWith("/staff/onboarding")) {

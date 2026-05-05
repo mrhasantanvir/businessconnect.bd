@@ -92,7 +92,8 @@ export async function createTaskAction(data: {
   if (task.assigneeId && task.assignee?.email) {
     const confirmationUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://businessconnect.bd'}/merchant/tasks/confirm?id=${task.id}`;
     
-    await sendEmail({
+    // 1. Send Email (Legacy)
+    sendEmail({
       to: task.assignee.email,
       subject: `[Task Notification] New Assignment: ${task.title}`,
       html: `
@@ -118,13 +119,22 @@ export async function createTaskAction(data: {
           </div>
         </div>
       `
-    });
+    }).catch(console.error);
+
+    // 2. Send Push Notification (New)
+    const { NotificationService } = await import("@/services/NotificationService");
+    NotificationService.sendToUser(
+      task.assigneeId,
+      "New Task Assigned! 📋",
+      `You have a new task: ${task.title}. Click to confirm and start.`,
+      { taskId: task.id, type: "TASK_ASSIGNMENT" }
+    ).catch(console.error);
 
     await prisma.taskActivity.create({
       data: {
         taskId: task.id,
         type: "EMAIL_SENT",
-        message: `Notification email sent to ${task.assignee.name}`
+        message: `Notification email and Push sent to ${task.assignee.name}`
       }
     });
   }
@@ -271,7 +281,8 @@ export async function forwardTaskAction(taskId: string, newAssigneeId: string) {
   if (task.assigneeId && task.assignee?.email) {
     const confirmationUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://businessconnect.bd'}/merchant/tasks/confirm?id=${task.id}`;
     
-    await sendEmail({
+    // 1. Email (Legacy)
+    sendEmail({
       to: task.assignee.email,
       subject: `[Task Forwarded] New Assignment: ${task.title}`,
       html: `
@@ -297,14 +308,23 @@ export async function forwardTaskAction(taskId: string, newAssigneeId: string) {
           </div>
         </div>
       `
-    });
+    }).catch(console.error);
+
+    // 2. Push Notification (New)
+    const { NotificationService } = await import("@/services/NotificationService");
+    NotificationService.sendToUser(
+      task.assigneeId,
+      "Task Forwarded to You! 🚀",
+      `A new task has been forwarded: ${task.title}. Click to confirm.`,
+      { taskId: task.id, type: "TASK_FORWARDED" }
+    ).catch(console.error);
 
     await prisma.taskActivity.create({
       data: {
         taskId: task.id,
         userId: session.userId,
         type: "EMAIL_SENT",
-        message: `Forwarding notification email sent to ${task.assignee.name}`
+        message: `Forwarding notification email and Push sent to ${task.assignee.name}`
       }
     });
   } else {

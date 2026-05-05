@@ -70,6 +70,23 @@ export async function placeOrderAction(data: {
     }).catch(console.error);
   }
 
+  // 4. Send Push Notification to Store Owner (New)
+  if (store?.ownerId) {
+    (async () => {
+       try {
+          const { NotificationService } = await import("@/services/NotificationService");
+          await NotificationService.sendToUser(
+            store.ownerId,
+            "New Order Received! 💰",
+            `Order #${order.id.slice(-6).toUpperCase()} for ৳${order.total} from ${order.customerName}.`,
+            { orderId: order.id, type: "NEW_ORDER" }
+          );
+       } catch (err) {
+          console.error("FCM Order Notification Error:", err);
+       }
+    })();
+  }
+
   revalidatePath("/orders"); 
   revalidatePath(`/s/${store?.slug}/order/${order.id}`);
   
