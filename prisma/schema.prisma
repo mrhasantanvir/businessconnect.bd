@@ -158,6 +158,12 @@ model MerchantStore {
   transactions         PaymentTransaction[]
   payoutRequests       PayoutRequest[]
   products             Product[]
+  
+  leads                Lead[]
+  deals                Deal[]
+  recurringTransactions RecurringTransaction[]
+  leavePolicies        LeavePolicy[]
+  leaveRequests        LeaveRequest[]
   reportSubscriptions  ReportSubscription[]
   returnRequests       ReturnRequest[]
   shippingRates        ShippingRate[]
@@ -175,13 +181,10 @@ model MerchantStore {
   accountCategories    AccountCategory[]
   ledgerTransactions   LedgerTransaction[]
   budgets              Budget[]
-  recurringTransactions RecurringTransaction[]
   businessAccounts     BusinessAccount[]
   staffProfiles        StaffProfile[]
   roles                Role[]
   deviceLicenses       DeviceLicense[]
-  leavePolicies        LeavePolicy[]
-  leaveRequests        LeaveRequest[]
   // Tracking & Analytics
   googleAnalyticsId    String?
   gtmId                String?
@@ -789,6 +792,12 @@ model Product {
   length            Float?           @default(0)
   wholesalePrice    Float?           @default(0)
   minWholesaleQty   Int?             @default(0)
+  
+  // Enterprise Inventory
+  currency          String           @default("BDT")
+  expiryDate        DateTime?
+  batchNumber       String?
+  
   isHomeDelivery    Boolean          @default(true)
   isCollectionPoint Boolean          @default(false)
   allowedCouriers   String?
@@ -1527,6 +1536,13 @@ model Invoice {
   invoiceUrl      String?
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
+  
+  // Enterprise Billing
+  recurringInterval String?      // MONTHLY, WEEKLY
+  vatAmount         Float         @default(0)
+  currency          String        @default("BDT")
+  reconciled        Boolean       @default(false)
+  
   userId          String?
   user            User?         @relation(fields: [userId], references: [id])
   merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
@@ -1648,4 +1664,43 @@ model DevelopmentLog {
   version       String
   createdAt     DateTime @default(now())
   details       String?  @db.Text
+}
+
+model Lead {
+  id              String         @id @default(cuid())
+  merchantStoreId String
+  name            String
+  email           String?
+  phone           String
+  source          String?        // Facebook, Website, Manual
+  status          String         @default("NEW") // NEW, CONTACTED, QUALIFIED, LOST
+  score           Int            @default(0)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  merchantStore   MerchantStore  @relation(fields: [merchantStoreId], references: [id])
+  activities      LeadActivity[]
+  deals           Deal[]
+}
+
+model Deal {
+  id              String        @id @default(cuid())
+  merchantStoreId String
+  leadId          String
+  title           String
+  value           Float
+  stage           String        @default("PROSPECTING") // PROSPECTING, PROPOSAL, NEGOTIATION, WON, LOST
+  expectedClose   DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  lead            Lead          @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
+}
+
+model LeadActivity {
+  id        String   @id @default(cuid())
+  leadId    String
+  type      String   // CALL, EMAIL, CHAT, NOTE
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  lead      Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
 }
