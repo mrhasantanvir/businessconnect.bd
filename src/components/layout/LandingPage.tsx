@@ -11,7 +11,7 @@ import {
 import Link from "next/link";
 
 const R = { sm: "6px", md: "10px", lg: "14px", xl: "20px", "2xl": "28px", "3xl": "36px", pill: "9999px" };
-const FONT: React.CSSProperties = { fontFamily: "'Plus Jakarta Sans', Inter, -apple-system, BlinkMacSystemFont, sans-serif" };
+const FONT: React.CSSProperties = { fontFamily: "var(--font-jakarta), Inter, -apple-system, BlinkMacSystemFont, sans-serif" };
 const BLUE = "#1D4ED8";
 const DARK = "#0F172A";
 

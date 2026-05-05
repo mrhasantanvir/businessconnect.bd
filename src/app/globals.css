@@ -61,8 +61,8 @@
   --global-radius: 0px; /* Sharp Square */
 }
 
-/* Global Reset */
-* {
+/* Global Reset — sharp corners everywhere EXCEPT the landing page */
+*:not(.landing-page):not(.landing-page *) {
   border-radius: var(--global-radius) !important;
 }
 
@@ -172,7 +172,13 @@ p { font-size: 14px; color: #111827; }
     --radius-full: 9999px;
   }
 
-  /* Reset global h1/h2/h3/p overrides inside landing page so clamp() sizes work */
+  /* Font family — use the Next.js-loaded variable */
+  .landing-page,
+  .landing-page * {
+    font-family: var(--font-jakarta), Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  /* Reset global h1/h2/h3/p overrides so clamp() inline sizes work */
   .landing-page h1,
   .landing-page h2,
   .landing-page h3 {
@@ -180,8 +186,10 @@ p { font-size: 14px; color: #111827; }
     font-weight: unset;
     letter-spacing: unset;
     color: unset;
+    line-height: unset;
   }
   .landing-page p {
     font-size: unset;
     color: unset;
+    line-height: unset;
   }
