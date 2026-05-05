@@ -157,7 +157,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                           <div>
                              <h4 className="text-xs md:text-sm font-bold text-[#0F172A] ">{item.product?.name || item.name || "Product Deleted"}</h4>
                              <p className="text-[9px] md:text-[10px] font-bold text-gray-400 mt-1 uppercase tracking-widest leading-none">
-                                ৳{item.price.toLocaleString()} • Qty: {item.quantity} 
+                                ৳{item.price.toLocaleString("en-US")} • Qty: {item.quantity} 
                              </p>
                           </div>
                        </div>

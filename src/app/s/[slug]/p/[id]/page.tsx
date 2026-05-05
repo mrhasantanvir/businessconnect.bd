@@ -95,8 +95,8 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
                   </div>
                   <h2 className="text-2xl lg:text-2xl font-bold tracking-tight uppercase leading-none text-slate-900">{product.name}</h2>
                   <div className="flex items-baseline gap-4">
-                     <span className="text-2xl font-bold text-indigo-600 tracking-tight">৳{product.price.toLocaleString()}</span>
-                     <span className="text-xl font-bold text-slate-300 line-through tracking-tight">৳{(product.price * 1.2).toLocaleString()}</span>
+                     <span className="text-2xl font-bold text-indigo-600 tracking-tight">৳{product.price.toLocaleString("en-US")}</span>
+                     <span className="text-xl font-bold text-slate-300 line-through tracking-tight">৳{(product.price * 1.2).toLocaleString("en-US")}</span>
                   </div>
                </div>
 
@@ -120,7 +120,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
                      <div className="p-6 bg-white rounded-[32px] border border-slate-100 space-y-2">
                         <Truck className="w-6 h-6 text-indigo-600" />
                         <h4 className="text-[10px] font-bold uppercase tracking-widest">Free Shipping</h4>
-                        <p className="text-[9px] font-bold text-slate-400 uppercase">On all orders over ৳৫০০</p>
+                        <p className="text-[9px] font-bold text-slate-400 uppercase">On all orders over ৳500</p>
                      </div>
                      <div className="p-6 bg-white rounded-[32px] border border-slate-100 space-y-2">
                         <RotateCcw className="w-6 h-6 text-indigo-600" />

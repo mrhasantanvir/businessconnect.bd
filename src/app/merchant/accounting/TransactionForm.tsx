@@ -131,7 +131,7 @@ export function TransactionForm({ branches, categories, accounts }: { branches: 
              >
                <option value="">None (Internal Log Only)</option>
                {accounts.map(acc => (
-                 <option key={acc.id} value={acc.id}>{acc.name} (৳{acc.balance.toLocaleString()})</option>
+                 <option key={acc.id} value={acc.id}>{acc.name} (৳{acc.balance.toLocaleString("en-US")})</option>
                ))}
              </select>
            </div>

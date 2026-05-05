@@ -20,7 +20,7 @@ export async function sendOrderNotification({ order, store, customerEmail }: { o
         <div style="padding: 24px; background-color: #ffffff; border-radius: 16px; border: 1px solid #f3f4f6; margin-bottom: 32px;">
           <h2 style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: #9ca3af; margin-bottom: 12px;">Order Summary</h2>
           <p style="font-size: 14px; font-weight: 700; margin: 0;">Order ID: #${order.id.slice(-8).toUpperCase()}</p>
-          <p style="font-size: 14px; font-weight: 700; margin: 4px 0;">Total Amount: ৳${order.total.toLocaleString()}</p>
+          <p style="font-size: 14px; font-weight: 700; margin: 4px 0;">Total Amount: ৳${order.total.toLocaleString("en-US")}</p>
         </div>
 
         <a href="${orderUrl}" style="display: inline-block; padding: 16px 32px; background-color: #111827; color: #ffffff; text-decoration: none; border-radius: 12px; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em;">

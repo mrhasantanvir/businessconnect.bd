@@ -124,7 +124,7 @@ export function AutomationDashboard({ initialCarts }: { initialCarts: any[] }) {
                           </div>
                        </td>
                        <td className="px-10 py-8 text-sm font-black text-slate-900  tracking-tight">
-                          ৳{(JSON.parse(cart.cartData || "{}").total || 0).toLocaleString()}
+                          ৳{(JSON.parse(cart.cartData || "{}").total || 0).toLocaleString("en-US")}
                        </td>
                        <td className="px-10 py-8">
                           <span className={cn(

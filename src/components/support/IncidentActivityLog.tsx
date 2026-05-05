@@ -65,7 +65,7 @@ export function IncidentActivityLog({ activities }: IncidentActivityLogProps) {
                      {activity.user?.name || "System"}
                   </span>
                   <span>•</span>
-                  <span>{new Date(activity.createdAt).toLocaleString()}</span>
+                  <span>{new Date(activity.createdAt).toLocaleString("en-US")}</span>
                </div>
             </div>
           </div>

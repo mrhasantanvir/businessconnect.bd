@@ -202,19 +202,14 @@ export function MerchantSettingsClient({ merchant }: { merchant: any }) {
 
                   <div className="pt-8 border-t border-slate-100 space-y-6">
                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                           <MessageSquare className="w-4 h-4 text-blue-500" />
-                           <span className="text-[10px] font-bold text-slate-400 uppercase">Current SMS</span>
-                        </div>
-                        <span className="text-xl font-bold text-slate-900">৳{merchant.smsBalance.toLocaleString()}</span>
-                     </div>
-                     <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                           <Phone className="w-4 h-4 text-emerald-500" />
-                           <span className="text-[10px] font-bold text-slate-400 uppercase">Current SIP</span>
-                        </div>
-                        <span className="text-xl font-bold text-slate-900">{merchant.sipBalance.toLocaleString()}</span>
-                     </div>
+                      <div>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">SMS Balance</p>
+                        <span className="text-xl font-bold text-slate-900">৳{merchant.smsBalance.toLocaleString("en-US")}</span>
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">SIP Balance</p>
+                        <span className="text-xl font-bold text-slate-900">{merchant.sipBalance.toLocaleString("en-US")}</span>
+                      </div>
                   </div>
                </div>
             </div>

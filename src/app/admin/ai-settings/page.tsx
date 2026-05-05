@@ -367,11 +367,11 @@ export default async function AiSettingsPage() {
                <div className="pt-4 border-t border-gray-100 grid grid-cols-2 gap-4">
                   <div>
                      <div className="text-[8px] font-bold uppercase text-gray-500">Total Inferences</div>
-                     <div className="text-lg font-bold">{totalInferences.toLocaleString()}</div>
+                     <div className="text-lg font-bold">{totalInferences.toLocaleString("en-US")}</div>
                   </div>
                   <div>
                      <div className="text-[8px] font-bold uppercase text-gray-500">Revenue (Estimated)</div>
-                     <div className="text-lg font-bold">৳ {(totalInferences * (settings?.aiCreditPrice || 0.5)).toLocaleString()}</div>
+                     <div className="text-lg font-bold">৳ {(totalInferences * (settings?.aiCreditPrice || 0.5)).toLocaleString("en-US")}</div>
                   </div>
                </div>
                <div className="pt-4 border-t border-gray-100 space-y-2">
@@ -379,7 +379,7 @@ export default async function AiSettingsPage() {
                   {providerCallCounts.map((item) => (
                     <div key={item.provider} className="flex items-center justify-between text-xs">
                       <span className="font-semibold text-gray-700">{item.label}</span>
-                      <span className="font-bold text-[#0F172A]">{item.count.toLocaleString()} calls</span>
+                      <span className="font-bold text-[#0F172A]">{item.count.toLocaleString("en-US")} calls</span>
                     </div>
                   ))}
                </div>
@@ -401,7 +401,7 @@ export default async function AiSettingsPage() {
                            <div key={provider} className="group border-b border-gray-50 pb-3 last:border-0">
                               <div className="flex items-center justify-between text-xs font-bold mb-1">
                                  <span className="text-gray-900">{info.label}</span>
-                                 <span className="text-emerald-600">{(stat._count._all).toLocaleString()} reqs</span>
+                                 <span className="text-emerald-600">{(stat._count._all).toLocaleString("en-US")} reqs</span>
                               </div>
                               <div className="flex items-center justify-between text-[10px] font-medium text-gray-400">
                                  <span>Monthly Usage</span>

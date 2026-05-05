@@ -108,7 +108,7 @@ export function OrderStatusPage({ order, store, slug }: { order: any, store: any
                   <div className="space-y-1">
                      <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Order Information</p>
                      <p className="text-xs font-bold text-slate-900">Invoice: #INV-{order.id.slice(-6).toUpperCase()}</p>
-                     <p className="text-xs font-bold text-slate-900">Date: {new Date(order.createdAt).toLocaleDateString()}</p>
+                     <p className="text-xs font-bold text-slate-900">Date: {new Date(order.createdAt).toLocaleDateString("en-US")}</p>
                   </div>
                </div>
                <div className="text-right space-y-4">
@@ -170,8 +170,8 @@ export function OrderStatusPage({ order, store, slug }: { order: any, store: any
                               <p className="text-[8px] font-bold text-slate-400 uppercase mt-1">SKU: {item.product?.sku || "N/A"}</p>
                            </td>
                            <td className="py-6 text-center text-[11px] font-bold text-slate-900">{item.quantity}</td>
-                           <td className="py-6 text-right text-[11px] font-bold text-slate-900">৳{item.price.toLocaleString()}</td>
-                           <td className="py-6 text-right text-[11px] font-bold text-indigo-600">৳{(item.price * item.quantity).toLocaleString()}</td>
+                           <td className="py-6 text-right text-[11px] font-bold text-slate-900">৳{item.price.toLocaleString("en-US")}</td>
+                           <td className="py-6 text-right text-[11px] font-bold text-indigo-600">৳{(item.price * item.quantity).toLocaleString("en-US")}</td>
                         </tr>
                      ))}
                   </tbody>
@@ -183,7 +183,7 @@ export function OrderStatusPage({ order, store, slug }: { order: any, store: any
                <div className="w-full max-w-[300px] space-y-4">
                   <div className="flex justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                      <span>Subtotal</span>
-                     <span className="text-slate-900 font-bold">৳{order.total.toLocaleString()}</span>
+                     <span className="text-slate-900 font-bold">৳{order.total.toLocaleString("en-US")}</span>
                   </div>
                   <div className="flex justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                      <span>Shipping Fee</span>
@@ -191,7 +191,7 @@ export function OrderStatusPage({ order, store, slug }: { order: any, store: any
                   </div>
                   <div className="pt-4 flex justify-between items-end border-t border-slate-100">
                      <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-900">Total Paid</span>
-                     <span className="text-2xl font-bold text-indigo-600 tracking-tight leading-none">৳{order.total.toLocaleString()}</span>
+                     <span className="text-2xl font-bold text-indigo-600 tracking-tight leading-none">৳{order.total.toLocaleString("en-US")}</span>
                   </div>
                </div>
             </div>

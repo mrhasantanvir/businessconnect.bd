@@ -127,7 +127,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                           </div>
                        </div>
                        <div className="text-right">
-                          <div className="text-sm font-bold text-[#0F172A] ">৳{item.price.toLocaleString()}</div>
+                          <div className="text-sm font-bold text-[#0F172A] ">৳{item.price.toLocaleString("en-US")}</div>
                           <div className="text-[10px] font-bold text-gray-400">Unit Price</div>
                        </div>
                     </div>
@@ -137,7 +137,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                   <div className="w-full max-w-xs space-y-4">
                      <div className="flex justify-between text-[10px] font-bold text-gray-500 uppercase">
                         <span>Items Subtotal</span>
-                        <span>৳{order.total.toLocaleString()}</span>
+                        <span>৳{order.total.toLocaleString("en-US")}</span>
                      </div>
                      <div className="flex justify-between text-[10px] font-bold text-gray-500 uppercase">
                         <span>Shipping Fee</span>
@@ -145,7 +145,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                      </div>
                      <div className="pt-4 border-t border-[#F1F5F9]  flex justify-between">
                         <span className="text-sm font-bold text-[#0F172A]  uppercase">Grand Total</span>
-                        <span className="text-xl font-bold text-indigo-600">৳{order.total.toLocaleString()}</span>
+                        <span className="text-xl font-bold text-indigo-600">৳{order.total.toLocaleString("en-US")}</span>
                      </div>
                   </div>
                </div>

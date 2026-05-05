@@ -121,7 +121,7 @@ export function ReconciliationTable({ initialOrders }: { initialOrders: any[] })
                    <td className="px-10 py-8 text-center">
                       <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-50  rounded-full border border-slate-100 ">
                          <Banknote className="w-3.5 h-3.5 text-emerald-500" />
-                         <span className="text-sm font-black text-slate-900 ">৳{order.total.toLocaleString()}</span>
+                         <span className="text-sm font-black text-slate-900 ">৳{order.total.toLocaleString("en-US")}</span>
                       </div>
                    </td>
                    <td className="px-10 py-8 text-right">

@@ -122,7 +122,7 @@ export function AccountManager({ branches, accounts }: { branches: any[], accoun
                   <h4 className="text-sm font-black text-slate-900 truncate uppercase tracking-tighter">{acc.name}</h4>
                   <p className="text-[10px] font-bold text-slate-400 mt-0.5">{acc.accountNumber || "Direct Access"}</p>
                   <div className="mt-4 pt-4 border-t border-slate-200">
-                     <p className="text-xl font-black text-slate-900">৳{acc.balance.toLocaleString()}</p>
+                     <p className="text-xl font-black text-slate-900">৳{acc.balance.toLocaleString("en-US")}</p>
                   </div>
                </div>
             ))}

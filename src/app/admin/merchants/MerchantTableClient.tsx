@@ -100,11 +100,11 @@ export function MerchantTableClient({ merchants, settings }: { merchants: any[],
                     <div className="flex flex-col gap-2">
                       <div className="flex items-center gap-2">
                          <MessageSquare className="w-3.5 h-3.5 text-slate-400" />
-                         <span className="text-xs font-black text-slate-700 tracking-tighter">৳{m.smsBalance.toLocaleString()}</span>
+                         <span className="text-xs font-black text-slate-700 tracking-tighter">৳{m.smsBalance.toLocaleString("en-US")}</span>
                       </div>
                       <div className="flex items-center gap-2">
                          <Phone className="w-3.5 h-3.5 text-slate-400" />
-                         <span className="text-xs font-black text-slate-700 tracking-tighter">{m.sipBalance.toLocaleString()}</span>
+                         <span className="text-xs font-black text-slate-700 tracking-tighter">{m.sipBalance.toLocaleString("en-US")}</span>
                       </div>
                     </div>
                   </td>

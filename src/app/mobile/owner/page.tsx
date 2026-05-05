@@ -85,7 +85,7 @@ export default function MobileOwnerPage() {
                    <div className="flex justify-between items-start mb-4">
                      <div>
                        <div className="text-xs font-semibold text-[#A1A1AA] uppercase">Today's Revenue</div>
-                       <div className="text-2xl font-bold text-foreground">৳ {pulseData?.revenueToday.toLocaleString() || 0}</div>
+                       <div className="text-2xl font-bold text-foreground">৳ {pulseData?.revenueToday.toLocaleString("en-US") || 0}</div>
                      </div>
                      <div className={`font-bold text-xs px-2 py-1 rounded-lg flex items-center gap-1 ${Number(pulseData?.revenueTrend) >= 0 ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
                         {Number(pulseData?.revenueTrend) >= 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />} 

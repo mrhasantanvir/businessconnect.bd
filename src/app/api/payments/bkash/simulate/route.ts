@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
           <div class="p-8 space-y-6">
             <div class="flex justify-between items-center pb-4 border-b border-gray-100">
               <span class="text-slate-400 text-xs font-bold uppercase tracking-widest">Amount to Pay</span>
-              <span class="text-2xl font-black text-slate-900 italic">৳${amount.toLocaleString()}</span>
+              <span class="text-2xl font-black text-slate-900 italic">৳${amount.toLocaleString("en-US")}</span>
             </div>
             
             <div class="space-y-4">

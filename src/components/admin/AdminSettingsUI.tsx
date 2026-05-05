@@ -1826,7 +1826,7 @@ function MaintenanceSettings() {
                 <div className="grid grid-cols-2 gap-1">
                   {Object.entries(garbageResult.counts || {}).map(([k, v]) => (
                     <p key={k} className={`text-xs ${garbageResult.dryRun ? "text-blue-700" : "text-green-700"}`}>
-                      <span className="font-medium">{k}:</span> {v.toLocaleString()} records
+                      <span className="font-medium">{k}:</span> {v.toLocaleString("en-US")} records
                     </p>
                   ))}
                 </div>

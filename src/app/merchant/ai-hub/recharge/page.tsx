@@ -52,7 +52,7 @@ export default function RechargeAiPage() {
               <div className="space-y-4">
                  <div className="text-xs font-bold uppercase tracking-widest opacity-50">{pack.label}</div>
                  <div className="text-2xl font-bold text-[#0F172A] ">
-                    {pack.units.toLocaleString()} <span className="text-sm opacity-50">Units</span>
+                    {pack.units.toLocaleString("en-US")} <span className="text-sm opacity-50">Units</span>
                  </div>
               </div>
               <div className="pt-6 border-t border-gray-100 ">

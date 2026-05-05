@@ -109,7 +109,7 @@ export function RecurringManager({ categories, branches, recurrings }: { categor
                      </div>
                   </div>
                   <div className="text-right">
-                     <p className="text-sm font-black text-[#BEF264]">৳{r.amount.toLocaleString()}</p>
+                     <p className="text-sm font-black text-[#BEF264]">৳{r.amount.toLocaleString("en-US")}</p>
                   </div>
                </div>
             ))}

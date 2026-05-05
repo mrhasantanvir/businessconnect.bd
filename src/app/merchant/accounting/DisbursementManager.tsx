@@ -97,7 +97,7 @@ export function DisbursementManager({ accounts, branches }: { accounts: any[], b
                   >
                      <option value="">Select Account</option>
                      {accounts.map(acc => (
-                        <option key={acc.id} value={acc.id}>{acc.name} (৳{acc.balance.toLocaleString()})</option>
+                        <option key={acc.id} value={acc.id}>{acc.name} (৳{acc.balance.toLocaleString("en-US")})</option>
                      ))}
                   </select>
                </div>

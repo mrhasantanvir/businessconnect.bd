@@ -463,7 +463,7 @@ export default function TaskDrawer({
                        <div className="pb-6">
                           <p className="text-[11px] font-bold text-[#0F172A] uppercase tracking-tight">{activity.type.replace(/_/g, ' ')}</p>
                           <p className="text-[11px] font-medium text-gray-500 mt-0.5 leading-relaxed">{activity.message}</p>
-                          <p className="text-[8px] font-bold text-gray-300 uppercase mt-1">{new Date(activity.createdAt).toLocaleString()}</p>
+                          <p className="text-[8px] font-bold text-gray-300 uppercase mt-1">{new Date(activity.createdAt).toLocaleString("en-US")}</p>
                        </div>
                     </div>
                  ))}

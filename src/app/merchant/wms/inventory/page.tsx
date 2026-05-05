@@ -111,7 +111,7 @@ export default async function InventoryOverviewPage() {
                                   </span>
                                </td>
                                <td className="px-6 py-4 text-right text-[10px] text-gray-400 font-medium">
-                                  {new Date(st.updatedAt).toLocaleString()}
+                                  {new Date(st.updatedAt).toLocaleString("en-US")}
                                </td>
                             </tr>
                           ))}

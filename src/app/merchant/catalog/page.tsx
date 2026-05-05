@@ -219,7 +219,7 @@ export default function MerchantCatalogPage() {
                       </td>
                       <td className="px-6 py-5">
                          <div className="space-y-1">
-                            <p className="font-bold text-foreground">৳{product.price.toLocaleString()}</p>
+                            <p className="font-bold text-foreground">৳{product.price.toLocaleString("en-US")}</p>
                             <div className="flex items-center gap-2">
                                <span className={cn(
                                  "text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full border",
@@ -317,7 +317,7 @@ export default function MerchantCatalogPage() {
                       <div className="grid grid-cols-2 gap-4">
                          <div className="p-4 rounded-2xl bg-gray-50 border border-surface-border">
                             <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-tight">Current Price</p>
-                            <p className="text-lg font-bold text-foreground">৳{selectedProduct.price.toLocaleString()}</p>
+                            <p className="text-lg font-bold text-foreground">৳{selectedProduct.price.toLocaleString("en-US")}</p>
                          </div>
                          <div className="p-4 rounded-2xl bg-gray-50 border border-surface-border">
                             <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-tight">In Stock</p>

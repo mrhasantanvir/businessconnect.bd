@@ -59,7 +59,7 @@ export function BranchLedger({ transactions }: { transactions: any[] }) {
                      </td>
                      <td className="px-8 py-6 text-right">
                         <span className={`text-lg font-black ${trx.type === "INCOME" ? 'text-emerald-600' : 'text-slate-900'}`}>
-                           {trx.type === "INCOME" ? "+" : "-"} ৳{trx.amount.toLocaleString()}
+                           {trx.type === "INCOME" ? "+" : "-"} ৳{trx.amount.toLocaleString("en-US")}
                         </span>
                      </td>
                      <td className="px-8 py-6 text-right opacity-0 group-hover:opacity-100 transition-all">

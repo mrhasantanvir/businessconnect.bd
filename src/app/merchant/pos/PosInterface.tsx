@@ -257,20 +257,20 @@ export function PosInterface({ initialProducts }: { initialProducts: any[] }) {
          <div className="bg-slate-50 p-8 rounded-[40px] space-y-4 relative z-10 border border-slate-100 shadow-sm">
             <div className="flex justify-between items-center text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                <span>{t("subtotal")}</span>
-               <span>৳{subtotal.toLocaleString()}</span>
+               <span>৳{subtotal.toLocaleString("en-US")}</span>
             </div>
             <div className="flex justify-between items-center text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                <span>VAT ({taxRate}%)</span>
-               <span>৳{taxAmount.toLocaleString()}</span>
+               <span>৳{taxAmount.toLocaleString("en-US")}</span>
             </div>
             <div className="flex justify-between items-center text-[10px] font-bold text-red-500 uppercase tracking-widest">
                <span>{t("discount")}</span>
-               <span>- ৳{discount.toLocaleString()}</span>
+               <span>- ৳{discount.toLocaleString("en-US")}</span>
             </div>
             <div className="pt-4 border-t border-slate-200 flex justify-between items-end">
                <div>
                   <p className="text-[9px] font-bold uppercase text-indigo-600 tracking-widest leading-none mb-1">{t("total_payable")}</p>
-                  <h3 className="text-lg font-bold tracking-tight text-slate-900">৳{grandTotal.toLocaleString()}</h3>
+                  <h3 className="text-lg font-bold tracking-tight text-slate-900">৳{grandTotal.toLocaleString("en-US")}</h3>
                </div>
                <div className="flex gap-2">
                   {[
@@ -373,7 +373,7 @@ export function PosInterface({ initialProducts }: { initialProducts: any[] }) {
          <div className="text-center space-y-2 border-b border-dashed border-black pb-4 mb-4">
             <h1 className="text-lg font-bold uppercase">{printConfig.storeName}</h1>
             <p>Customer: {customer.name || 'Guest'}</p>
-            <p suppressHydrationWarning>{new Date().toLocaleString()}</p>
+            <p suppressHydrationWarning>{new Date().toLocaleString("en-US")}</p>
          </div>
          <div className="space-y-2 mb-4">
             {cart.map(item => (

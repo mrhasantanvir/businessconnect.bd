@@ -23,7 +23,7 @@ export function HydratedDate({ date, className, options }: HydratedDateProps) {
     const d = new Date(date);
     return (
       <span className={className}>
-        {d.toLocaleString(undefined, options)}
+        {d.toLocaleString("en-US", options)}
       </span>
     );
   } catch (e) {

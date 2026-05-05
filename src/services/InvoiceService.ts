@@ -29,7 +29,7 @@ export class InvoiceService {
     doc.setTextColor(100, 116, 139);
     doc.text(`Invoice ID: ${transaction.id.toUpperCase()}`, 15, 68);
     doc.text(`Trx ID: ${transaction.trxId || 'N/A'}`, 15, 73);
-    doc.text(`Date: ${new Date(transaction.createdAt).toLocaleString()}`, 15, 78);
+    doc.text(`Date: ${new Date(transaction.createdAt).toLocaleString("en-US")}`, 15, 78);
 
     // Bill To
     doc.setFontSize(12);
@@ -47,9 +47,9 @@ export class InvoiceService {
     const tableData = [
       [
         transaction.type.replace('_', ' '),
-        `৳${transaction.amount.toLocaleString()}`,
+        `৳${transaction.amount.toLocaleString("en-US")}`,
         transaction.credits > 0 ? `${transaction.credits} Units` : 'N/A',
-        `৳${transaction.amount.toLocaleString()}`
+        `৳${transaction.amount.toLocaleString("en-US")}`
       ]
     ];
 
@@ -71,7 +71,7 @@ export class InvoiceService {
     doc.text("Total Amount Paid:", 135, finalY + 10);
     doc.setFontSize(14);
     doc.setTextColor(30, 64, 175);
-    doc.text(`BDT ${transaction.amount.toLocaleString()}`, 170, finalY + 10);
+    doc.text(`BDT ${transaction.amount.toLocaleString("en-US")}`, 170, finalY + 10);
 
     // Footer
     doc.setTextColor(150, 150, 150);

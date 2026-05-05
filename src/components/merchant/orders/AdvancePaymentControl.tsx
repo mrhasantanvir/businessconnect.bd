@@ -46,7 +46,7 @@ export function AdvancePaymentControl({
             <Wallet className="w-4 h-4" /> Advance Payment
           </h4>
           {currentAdvance > 0 && (
-            <div className="text-xs font-black text-green-600">৳{currentAdvance.toLocaleString()} Received</div>
+            <div className="text-xs font-black text-green-600">৳{currentAdvance.toLocaleString("en-US")} Received</div>
           )}
        </div>
 

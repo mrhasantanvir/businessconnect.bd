@@ -257,14 +257,14 @@ export default function ReportsPage() {
               <div className="space-y-12">
                  {reportType === "SALES" && (
                    <>
-                     <Metric label="Total Revenue Generated" value={`৳${data.summary.totalRevenue.toLocaleString()}`} icon={TrendingUp} />
+                     <Metric label="Total Revenue Generated" value={`৳${data.summary.totalRevenue.toLocaleString("en-US")}`} icon={TrendingUp} />
                      <Metric label="Transaction Volume" value={data.summary.orderCount} icon={LayoutGrid} />
                      <Metric label="Average Basket Value" value={`৳${data.summary.avgOrderValue.toFixed(0)}`} icon={RefreshCw} />
                    </>
                  )}
                  {reportType === "INVENTORY" && (
                    <>
-                     <Metric label="Total Stock Value" value={`৳${data.summary.totalValue.toLocaleString()}`} icon={Package} />
+                     <Metric label="Total Stock Value" value={`৳${data.summary.totalValue.toLocaleString("en-US")}`} icon={Package} />
                      <Metric label="Catalog Depth" value={data.summary.itemCount} icon={LayoutGrid} />
                      <Metric label="Critical Out of Stock" value={data.summary.outOfStock} icon={RefreshCw} color="text-red-400" />
                    </>
@@ -314,7 +314,7 @@ export default function ReportsPage() {
                       <tr key={i} className="hover:bg-gray-50  transition-colors group">
                          {Object.values(row).map((val: any, j: number) => (
                            <td key={j} className="px-8 py-6 text-xs font-bold text-[#0F172A] ">
-                             {typeof val === 'number' ? val.toLocaleString() : val}
+                             {typeof val === 'number' ? val.toLocaleString("en-US") : val}
                            </td>
                          ))}
                       </tr>

@@ -86,7 +86,7 @@ export default async function ReturnsHubPage() {
                             ))}
                          </div>
                          <div className="mt-4 text-[10px] text-gray-400">
-                            Received at Hub: {ret.warehouse?.name || 'TBD'} • {new Date(ret.createdAt).toLocaleString()}
+                            Received at Hub: {ret.warehouse?.name || 'TBD'} • {new Date(ret.createdAt).toLocaleString("en-US")}
                          </div>
                       </div>
                     );

@@ -61,7 +61,7 @@ export function StorefrontProvider({ children, storeId }: { children: React.Reac
   const formatPrice = (price: number) => {
     const { symbol, rate } = CURRENCIES[currencyCode];
     const converted = price * rate;
-    return `${symbol}${converted.toLocaleString(undefined, { minimumFractionDigits: currencyCode === "BDT" ? 0 : 2, maximumFractionDigits: 2 })}`;
+    return `${symbol}${converted.toLocaleString("en-US", { minimumFractionDigits: currencyCode === "BDT" ? 0 : 2, maximumFractionDigits: 2 })}`;
   };
 
   useEffect(() => {

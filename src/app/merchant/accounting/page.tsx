@@ -122,14 +122,14 @@ export default async function MerchantAccountingPage() {
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-2">
                      <TrendingUp className="w-3 h-3 text-emerald-500" /> Total Revenue
                   </p>
-                  <p className="text-2xl font-bold text-slate-900 tracking-tight">৳{totalIncome.toLocaleString()}</p>
+                  <p className="text-2xl font-bold text-slate-900 tracking-tight">৳{totalIncome.toLocaleString("en-US")}</p>
                </div>
                <div className="px-10 py-8 bg-slate-900 text-white rounded-[40px] shadow-2xl shadow-indigo-100 flex flex-col justify-center min-w-[220px] relative overflow-hidden">
                   <div className="absolute inset-0 bg-indigo-600/10 group-hover:bg-indigo-600/20 transition-all" />
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 relative z-10 flex items-center gap-2">
                      <Landmark className="w-3 h-3 text-[#BEF264]" /> Cash Liquidity
                   </p>
-                  <p className="text-2xl font-bold text-[#BEF264] tracking-tight relative z-10">৳{totalLiquidity.toLocaleString()}</p>
+                  <p className="text-2xl font-bold text-[#BEF264] tracking-tight relative z-10">৳{totalLiquidity.toLocaleString("en-US")}</p>
                </div>
             </div>
          </div>
@@ -186,18 +186,18 @@ export default async function MerchantAccountingPage() {
                                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                                 <span className="text-[10px] font-bold text-slate-500 uppercase group-hover:text-slate-400 tracking-tight">Gross Inflow</span>
                              </div>
-                             <span className="text-sm font-bold text-slate-900 group-hover:text-white">৳{bs.income.toLocaleString()}</span>
+                             <span className="text-sm font-bold text-slate-900 group-hover:text-white">৳{bs.income.toLocaleString("en-US")}</span>
                           </div>
                           <div className="flex items-center justify-between">
                              <div className="flex items-center gap-2">
                                 <div className="w-1.5 h-1.5 rounded-full bg-rose-500" />
                                 <span className="text-[10px] font-bold text-slate-500 uppercase group-hover:text-slate-400 tracking-tight">Operating Cost</span>
                              </div>
-                             <span className="text-sm font-bold text-slate-900 group-hover:text-white">৳{bs.expense.toLocaleString()}</span>
+                             <span className="text-sm font-bold text-slate-900 group-hover:text-white">৳{bs.expense.toLocaleString("en-US")}</span>
                           </div>
                           <div className="pt-5 border-t border-slate-200 group-hover:border-slate-800 flex items-center justify-between">
                              <span className="text-xs font-bold text-slate-900 uppercase group-hover:text-slate-400 tracking-tight">Branch Yield</span>
-                             <span className={`text-xl font-bold ${bs.profit >= 0 ? 'text-emerald-600 group-hover:text-[#BEF264]' : 'text-rose-600'}`}>৳{bs.profit.toLocaleString()}</span>
+                             <span className={`text-xl font-bold ${bs.profit >= 0 ? 'text-emerald-600 group-hover:text-[#BEF264]' : 'text-rose-600'}`}>৳{bs.profit.toLocaleString("en-US")}</span>
                           </div>
                        </div>
                     </div>
@@ -226,7 +226,7 @@ export default async function MerchantAccountingPage() {
                   <div className="pt-8 border-t border-white/10 flex items-center justify-between">
                      <div className="flex flex-col">
                         <span className="text-[9px] font-bold uppercase tracking-widest text-indigo-300">Net Profit</span>
-                        <span className="text-2xl font-bold">৳{netProfit.toLocaleString()}</span>
+                        <span className="text-2xl font-bold">৳{netProfit.toLocaleString("en-US")}</span>
                      </div>
                      <div className="w-12 h-12 rounded-full border-2 border-white/20 flex items-center justify-center group-hover:scale-110 transition-transform">
                         <TrendingUp className="w-5 h-5 text-[#BEF264]" />
@@ -253,7 +253,7 @@ export default async function MerchantAccountingPage() {
                               </p>
                            </div>
                         </div>
-                        <span className={`text-xs font-bold ${t.type === 'INCOME' ? 'text-emerald-600' : 'text-slate-900'}`}>৳{t.amount.toLocaleString()}</span>
+                        <span className={`text-xs font-bold ${t.type === 'INCOME' ? 'text-emerald-600' : 'text-slate-900'}`}>৳{t.amount.toLocaleString("en-US")}</span>
                      </div>
                   ))}
                </div>

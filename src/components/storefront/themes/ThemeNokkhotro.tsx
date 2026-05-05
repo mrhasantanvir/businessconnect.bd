@@ -107,7 +107,7 @@ export function ThemeNokkhotro({ store, brandColor }: { store: any, brandColor: 
                            <div className="space-y-4 mb-6">
                               <div className="flex justify-between text-[10px] font-bold uppercase">
                                  <span>Subtotal</span>
-                                 <span>৳{cartTotal.toLocaleString()}</span>
+                                 <span>৳{cartTotal.toLocaleString("en-US")}</span>
                               </div>
                            </div>
                         )}
@@ -190,7 +190,7 @@ export function ThemeNokkhotro({ store, brandColor }: { store: any, brandColor: 
       <section className="bg-white border-y border-slate-100 py-12 px-8">
          <div className="max-w-[1400px] mx-auto grid grid-cols-2 lg:grid-cols-4 gap-12">
             {[
-               { icon: Truck, label: "Free Shipping", sub: "Orders over ৳৫০০" },
+               { icon: Truck, label: "Free Shipping", sub: "Orders over ৳500" },
                { icon: CheckCircle2, label: "Organic Certified", sub: "100% Pesticide Free" },
                { icon: RotateCcw, label: "Instant Replace", sub: "7 Days Easy Returns" },
                { icon: ShieldCheck, label: "Secure Payment", sub: "bKash, Nagad & Cards" }

@@ -120,14 +120,14 @@ export default async function AdminBillingControlPage(props: Props) {
               <Wallet className="w-24 h-24" />
            </div>
            <p className="text-[10px] font-bold text-indigo-300 uppercase tracking-widest mb-1">Current Revenue ({currentMonth})</p>
-           <p className="text-2xl font-bold">৳{(currentRevenue._sum.amount || 0).toLocaleString()}</p>
+           <p className="text-2xl font-bold">৳{(currentRevenue._sum.amount || 0).toLocaleString("en-US")}</p>
         </div>
         <div className="p-6 bg-slate-900 text-white rounded-[32px] shadow-sm relative overflow-hidden group">
            <div className="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform">
               <Wallet className="w-24 h-24" />
            </div>
            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Last Month Revenue ({lastMonth})</p>
-           <p className="text-2xl font-bold">৳{(lastRevenue._sum.amount || 0).toLocaleString()}</p>
+           <p className="text-2xl font-bold">৳{(lastRevenue._sum.amount || 0).toLocaleString("en-US")}</p>
         </div>
       </div>
 
@@ -177,11 +177,11 @@ export default async function AdminBillingControlPage(props: Props) {
          <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="p-8 bg-indigo-50 rounded-[32px] flex flex-col justify-center">
                <p className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mb-1">Total SMS Floating</p>
-               <p className="text-2xl font-bold text-indigo-600">{totalSmsInSystem.toLocaleString()}</p>
+               <p className="text-2xl font-bold text-indigo-600">{totalSmsInSystem.toLocaleString("en-US")}</p>
             </div>
             <div className="p-8 bg-emerald-50 rounded-[32px] flex flex-col justify-center">
                <p className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest mb-1">Total SIP Minutes Floating</p>
-               <p className="text-2xl font-bold text-emerald-600">{totalSipInSystem.toLocaleString()}</p>
+               <p className="text-2xl font-bold text-emerald-600">{totalSipInSystem.toLocaleString("en-US")}</p>
             </div>
          </div>
       </div>

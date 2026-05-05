@@ -197,9 +197,14 @@ export default async function AdminIncidentDetailPage({
                         </a>
                       )}
                     </div>
-                    <span className="text-[10px] text-[#A1A1AA] font-medium px-1">
-                      {msg.user.name} · {new Date(msg.createdAt).toLocaleString()}
-                    </span>
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center text-[10px] font-bold text-slate-500 uppercase">
+                        {msg.user.name?.slice(0, 2) ?? "?"}
+                      </div>
+                      <span className="text-xs font-bold text-slate-900">
+                        {msg.user.name} · {new Date(msg.createdAt).toLocaleString("en-US")}
+                      </span>
+                    </div>
                   </div>
                 </div>
               );

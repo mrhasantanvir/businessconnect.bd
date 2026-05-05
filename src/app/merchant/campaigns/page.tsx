@@ -54,8 +54,8 @@ export default async function MarketingDashboard() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
          {[
-           { label: "Total Sent SMS", value: stats.totalSent.toLocaleString(), icon: Send, color: "bg-indigo-500" },
-           { label: "Marketing Spend", value: `৳${stats.totalCost.toLocaleString()}`, icon: CreditCard, color: "bg-orange-500" },
+           { label: "Total Sent SMS", value: stats.totalSent.toLocaleString("en-US"), icon: Send, color: "bg-indigo-500" },
+           { label: "Marketing Spend", value: `৳${stats.totalCost.toLocaleString("en-US")}`, icon: CreditCard, color: "bg-orange-500" },
            { label: "Active Broadcasts", value: stats.activeCampaigns, icon: Megaphone, color: "bg-[#BEF264] text-green-900" }
          ].map((stat, i) => (
            <div key={i} className="bg-white  border border-gray-100  p-6 rounded-[32px] flex items-center gap-6 shadow-sm">
@@ -124,7 +124,7 @@ export default async function MarketingDashboard() {
                           </div>
                        </td>
                        <td className="px-6 py-7 text-right font-bold">
-                          <div className="text-sm">৳{c.totalCost.toLocaleString()}</div>
+                          <div className="text-sm">৳{c.totalCost.toLocaleString("en-US")}</div>
                        </td>
                        <td className="px-10 py-7 text-right">
                           <Link 

@@ -104,7 +104,7 @@ export function BudgetPlanner({ categories, branches, budgets }: { categories: a
                         <p className="text-xs font-bold text-slate-400 mt-0.5">{budget.branch?.name || "Global Strategy"}</p>
                      </div>
                      <div className="text-right">
-                        <p className="text-sm font-black text-slate-900">৳{spent.toLocaleString()} / ৳{budget.amount.toLocaleString()}</p>
+                        <p className="text-sm font-black text-slate-900">৳{spent.toLocaleString("en-US")} / ৳{budget.amount.toLocaleString("en-US")}</p>
                         <p className={`text-[9px] font-black uppercase tracking-tighter mt-1 ${isOver ? 'text-rose-500' : 'text-emerald-500'}`}>
                            {isOver ? 'Exceeded limit' : 'Within Budget'}
                         </p>

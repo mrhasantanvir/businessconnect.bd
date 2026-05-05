@@ -126,7 +126,7 @@ export function CartAndCheckout({ storeId }: { storeId: string }) {
         <ShoppingCart className="w-5 h-5" />
         <span className="font-bold text-sm tracking-tight">{cart.length} Items</span>
         <span className="h-4 w-px bg-white/20 mx-1"></span>
-        <span className="font-bold text-sm">৳{total.toLocaleString()}</span>
+        <span className="font-bold text-sm">৳{total.toLocaleString("en-US")}</span>
       </button>
 
       {/* Cart Drawer */}
@@ -156,7 +156,7 @@ export function CartAndCheckout({ storeId }: { storeId: string }) {
                     </div>
                     <div className="flex-1">
                       <h4 className="font-bold text-gray-900 leading-tight">{item.name}</h4>
-                      <p className="text-sm font-bold text-indigo-600 mt-1">৳{item.price.toLocaleString()}</p>
+                      <p className="text-sm font-bold text-indigo-600 mt-1">৳{item.price.toLocaleString("en-US")}</p>
                     </div>
                     <div className="flex items-center bg-gray-50 rounded-xl border p-1">
                        <button onClick={() => updateQuantity(item.id, -1)} className="p-1 hover:bg-white rounded-lg transition-colors"><Minus className="w-4 h-4" /></button>
@@ -173,7 +173,7 @@ export function CartAndCheckout({ storeId }: { storeId: string }) {
                  <>
                    <div className="flex justify-between items-center mb-6">
                       <span className="font-bold text-gray-400 uppercase tracking-widest text-xs">Total Amount</span>
-                      <span className="text-2xl font-black text-gray-900">৳{total.toLocaleString()}</span>
+                      <span className="text-2xl font-black text-gray-900">৳{total.toLocaleString("en-US")}</span>
                    </div>
                    <button 
                      disabled={cart.length === 0}

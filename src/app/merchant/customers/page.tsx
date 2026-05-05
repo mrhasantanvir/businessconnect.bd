@@ -130,13 +130,13 @@ export default async function CustomerDirectoryPage() {
                        <td className="px-6 py-7 text-center">
                           <div className="flex flex-col items-center">
                              <div className="text-sm font-bold text-indigo-500">
-                                {c.loyaltyPoints.toLocaleString()}
+                                {c.loyaltyPoints.toLocaleString("en-US")}
                              </div>
                              <div className="text-[9px] font-bold text-gray-400 uppercase mt-1">Earned Points</div>
                           </div>
                        </td>
                        <td className="px-6 py-7 text-right">
-                          <div className="text-xl font-bold text-[#0F172A] ">৳{c.totalSpend.toLocaleString()}</div>
+                          <div className="text-xl font-bold text-[#0F172A] ">৳{c.totalSpend.toLocaleString("en-US")}</div>
                           <div className="text-[9px] font-bold text-gray-400 uppercase mt-1">Total Value (LTV)</div>
                        </td>
                        <td className="px-10 py-7 text-right">

@@ -130,7 +130,7 @@ export function Theme_1({ store, brandColor }: ThemeProps) {
                   <div className="px-2 md:px-4 space-y-1.5 md:space-y-2 text-center">
                      <h3 className="text-[10px] md:text-xs font-bold uppercase tracking-[0.1em] text-gray-400 group-hover:text-indigo-600 transition-all duration-500 line-clamp-1">{product.name}</h3>
                      <div className="flex items-center justify-center gap-2 md:gap-3">
-                        <span className="text-sm md:text-xl font-bold">৳{product.price.toLocaleString()}</span>
+                        <span className="text-sm md:text-xl font-bold">৳{product.price.toLocaleString("en-US")}</span>
                      </div>
                      <div className="pt-1 md:pt-2 md:opacity-0 md:group-hover:opacity-100 transition-all md:translate-y-2 md:group-hover:translate-y-0">
                         <AddToCartButton product={{ id: product.id, name: product.name, price: product.price, image: product.image }} />

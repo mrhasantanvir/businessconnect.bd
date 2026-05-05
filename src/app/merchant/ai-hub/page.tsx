@@ -56,7 +56,7 @@ export default async function MerchantAiHubPage() {
                <div>
                   <div className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-1">Available Units</div>
                   <div className="text-2xl font-bold text-[#0F172A]  tracking-tight">
-                    {store.aiBalance.toLocaleString()}
+                    {store.aiBalance.toLocaleString("en-US")}
                   </div>
                </div>
             </div>

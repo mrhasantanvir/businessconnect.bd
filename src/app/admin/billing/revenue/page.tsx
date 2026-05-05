@@ -96,7 +96,7 @@ export default async function AdminRevenuePage() {
                <DollarSign className="w-20 h-20 text-slate-900" />
             </div>
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Total Lifecycle Revenue</p>
-            <p className="text-2xl font-bold text-slate-900">৳{totalRevenue.toLocaleString()}</p>
+            <p className="text-2xl font-bold text-slate-900">৳{totalRevenue.toLocaleString("en-US")}</p>
             <div className="mt-4 flex items-center gap-1.5">
                <span className="text-[10px] font-bold bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded-full">+12.5%</span>
                <span className="text-[10px] font-bold text-slate-400">vs overall target</span>
@@ -108,7 +108,7 @@ export default async function AdminRevenuePage() {
                <TrendingUp className="w-20 h-20" />
             </div>
             <p className="text-[10px] font-bold text-indigo-200 uppercase tracking-widest mb-2">Current Month Revenue</p>
-            <p className="text-2xl font-bold">৳{currentMonthRevenue.toLocaleString()}</p>
+            <p className="text-2xl font-bold">৳{currentMonthRevenue.toLocaleString("en-US")}</p>
             <div className="mt-4 flex items-center gap-1.5">
                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${revenueChange >= 0 ? 'bg-white/20 text-white' : 'bg-rose-400 text-white'}`}>
                   {revenueChange >= 0 ? '+' : ''}{revenueChange.toFixed(1)}%
@@ -134,7 +134,7 @@ export default async function AdminRevenuePage() {
                <Activity className="w-20 h-20" />
             </div>
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Last Month Final</p>
-            <p className="text-2xl font-bold">৳{lastMonthRevenue.toLocaleString()}</p>
+            <p className="text-2xl font-bold">৳{lastMonthRevenue.toLocaleString("en-US")}</p>
             <div className="mt-4 flex items-center gap-1.5 text-slate-400">
                <span className="text-[10px] font-bold uppercase tracking-widest">{format(lastMonthStart, "MMMM yyyy")}</span>
             </div>
@@ -151,7 +151,7 @@ export default async function AdminRevenuePage() {
                   <div key={item.type} className="group">
                      <div className="flex justify-between items-end mb-2">
                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{item.type.replace('_', ' ')}</span>
-                        <span className="font-bold text-slate-900">৳{item._sum.amount.toLocaleString()}</span>
+                        <span className="font-bold text-slate-900">৳{item._sum.amount.toLocaleString("en-US")}</span>
                      </div>
                      <div className="w-full bg-slate-50 h-3 rounded-full overflow-hidden border border-slate-100">
                         <div 
@@ -210,7 +210,7 @@ export default async function AdminRevenuePage() {
                               </div>
                            </td>
                            <td className="px-8 py-6">
-                              <div className="text-lg font-bold text-slate-900 tracking-tight">৳{tx.amount.toLocaleString()}</div>
+                              <div className="text-lg font-bold text-slate-900 tracking-tight">৳{tx.amount.toLocaleString("en-US")}</div>
                               <div className="text-[9px] font-bold text-emerald-500 uppercase tracking-widest">Successful</div>
                            </td>
                            <td className="px-8 py-6 text-right">
@@ -239,7 +239,7 @@ export default async function AdminRevenuePage() {
                      <CreditCard className="w-4 h-4" />
                   </div>
                </div>
-               <p className="text-2xl font-bold text-slate-900 tracking-tight">৳{method._sum.amount.toLocaleString()}</p>
+               <p className="text-2xl font-bold text-slate-900 tracking-tight">৳{method._sum.amount.toLocaleString("en-US")}</p>
                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Total processed via {method.paymentMethod}</p>
             </div>
          ))}

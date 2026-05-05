@@ -134,7 +134,7 @@ export default async function SuperAdminDashboard() {
              <div className="w-12 h-12 bg-[#FEF2F2] rounded-2xl flex items-center justify-center text-[#DC2626]">
                 <TrendingUp className="w-6 h-6" />
              </div>
-             <span className="text-[10px] font-bold text-[#16A34A] bg-[#F0FDF4] px-2 py-0.5 rounded-full">+৳ {totalGmv.toLocaleString()}</span>
+             <span className="text-[10px] font-bold text-[#16A34A] bg-[#F0FDF4] px-2 py-0.5 rounded-full">+৳ {totalGmv.toLocaleString("en-US")}</span>
           </div>
           <div className="text-2xl font-bold text-[#0F172A]">৳ {(totalGmv / 1000).toFixed(1)}k</div>
           <div className="text-xs font-bold text-[#64748B] uppercase tracking-wider mt-1">Total GMV (Lifecycle)</div>
@@ -230,7 +230,7 @@ export default async function SuperAdminDashboard() {
                   <div>
                     <div className="flex justify-between items-end mb-2">
                        <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">SaaS Subscriptions</span>
-                       <span className="font-bold text-gray-900">৳{saasRevenue.toLocaleString()}</span>
+                       <span className="font-bold text-gray-900">৳{saasRevenue.toLocaleString("en-US")}</span>
                     </div>
                     <div className="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
                        <div className="bg-indigo-600 h-full rounded-full" style={{ width: `${(saasRevenue / (saasRevenue + creditsRevenue + 1)) * 100}%` }}></div>
@@ -239,7 +239,7 @@ export default async function SuperAdminDashboard() {
                   <div>
                     <div className="flex justify-between items-end mb-2">
                        <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Resource Credits</span>
-                       <span className="font-bold text-gray-900">৳{creditsRevenue.toLocaleString()}</span>
+                       <span className="font-bold text-gray-900">৳{creditsRevenue.toLocaleString("en-US")}</span>
                     </div>
                     <div className="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
                        <div className="bg-green-500 h-full rounded-full" style={{ width: `${(creditsRevenue / (saasRevenue + creditsRevenue + 1)) * 100}%` }}></div>
@@ -249,7 +249,7 @@ export default async function SuperAdminDashboard() {
                <div className="mt-8 pt-6 border-t border-gray-100 flex justify-between items-center">
                   <div className="flex flex-col">
                      <span className="text-xs font-bold text-gray-400">Total Pipeline</span>
-                     <span className="text-xl font-bold text-indigo-600">৳{(saasRevenue + creditsRevenue).toLocaleString()}</span>
+                     <span className="text-xl font-bold text-indigo-600">৳{(saasRevenue + creditsRevenue).toLocaleString("en-US")}</span>
                   </div>
                   <a href="/admin/billing/revenue" className="p-3 bg-slate-900 text-white rounded-2xl hover:bg-black transition-all shadow-lg shadow-slate-100">
                      <ArrowUpRight className="w-5 h-5" />

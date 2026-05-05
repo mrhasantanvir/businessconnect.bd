@@ -159,8 +159,8 @@ export default function UnifiedMetaHubPage() {
             {activeTab === 'ADS' && (
                <div className="space-y-8 animate-in slide-in-from-right-4">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                     <ROICard title="Total Sales" value={`৳ ${roi?.totalRevenue.toLocaleString()}`} icon={TrendingUp} color="blue" />
-                     <ROICard title="Ad Spend (Est.)" value={`৳ ${roi?.adSpend.toLocaleString()}`} icon={BarChart3} color="orange" />
+                     <ROICard title="Total Sales" value={`৳ ${roi?.totalRevenue.toLocaleString("en-US")}`} icon={TrendingUp} color="blue" />
+                     <ROICard title="Ad Spend (Est.)" value={`৳ ${roi?.adSpend.toLocaleString("en-US")}`} icon={BarChart3} color="orange" />
                      <ROICard title="Hub ROAS" value={`${roi?.roas}x`} icon={Zap} color="green" />
                   </div>
 

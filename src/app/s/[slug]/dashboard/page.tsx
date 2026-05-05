@@ -143,13 +143,13 @@ export default async function CustomerDashboardPage({ params }: { params: { slug
                                    {order.status}
                                 </span>
                              </div>
-                             <p className="text-[9px] font-bold text-slate-400 uppercase mt-1">Ordered on {new Date(order.createdAt).toLocaleDateString()}</p>
+                             <p className="text-[9px] font-bold text-slate-400 uppercase mt-1">Ordered on {new Date(order.createdAt).toLocaleDateString("en-US")}</p>
                           </div>
                        </div>
                        <div className="flex items-center gap-8">
                           <div className="text-right">
                              <p className="text-[10px] font-bold text-slate-400 uppercase">Total Amount</p>
-                             <p className="text-xl font-bold text-slate-900 tracking-tight">৳{order.total.toLocaleString()}</p>
+                             <p className="text-xl font-bold text-slate-900 tracking-tight">৳{order.total.toLocaleString("en-US")}</p>
                           </div>
                           <button className="w-12 h-12 bg-slate-50 text-slate-900 text-slate-900 rounded-2xl flex items-center justify-center text-slate-300 group-hover:bg-indigo-600 group-hover:text-white transition-all">
                              <ChevronRight className="w-6 h-6" />

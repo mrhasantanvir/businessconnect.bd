@@ -117,7 +117,7 @@ export default async function MerchantIncidentsPage() {
                      </span>
                   </td>
                   <td className="px-6 py-5 text-[11px] text-[#A1A1AA] font-medium">
-                     {new Date(inc.updatedAt).toLocaleString()}
+                     {new Date(inc.updatedAt).toLocaleString("en-US")}
                   </td>
                   <td className="px-6 py-5 text-center">
                     <Link href={`/support/incidents/${inc.id}`} className="p-2 hover:bg-white rounded-xl transition-all shadow-sm group-hover:shadow group-hover:text-[#1E40AF] inline-flex">

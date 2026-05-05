@@ -165,7 +165,7 @@ export function OrdersTableV2({ orders }: { orders: any[] }) {
                           </div>
                        </td>
                         <td className="px-6 py-6 align-top text-right pr-8">
-                           <div className="font-black text-[#0F172A]">৳{order.total.toLocaleString()}</div>
+                           <div className="font-black text-[#0F172A]">৳{order.total.toLocaleString("en-US")}</div>
                            <div className="mt-2 flex flex-col items-end gap-1.5">
                               <span className={`text-[9px] font-black px-2 py-0.5 rounded border ${
                                  order.status === 'DELIVERED' ? 'border-green-600 bg-green-50 text-green-700' : 

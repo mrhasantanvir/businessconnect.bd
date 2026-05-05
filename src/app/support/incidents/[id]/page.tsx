@@ -58,7 +58,7 @@ export default async function MerchantIncidentDetailPage({ params }: { params: P
               <span className="text-[10px] font-bold bg-[#F1F5F9] text-[#64748B] px-2 py-1 rounded">{incident.category}</span>
             </div>
             <h1 className="text-2xl font-bold text-[#0F172A]">{incident.subject}</h1>
-            <p className="text-sm text-[#64748B] mt-1">Opened {new Date(incident.createdAt).toLocaleString()}</p>
+            <p className="text-sm text-[#64748B] mt-1">Opened {new Date(incident.createdAt).toLocaleString("en-US")}</p>
           </div>
           <div className="flex flex-col items-end gap-2 shrink-0">
             <div className="flex items-center gap-2">

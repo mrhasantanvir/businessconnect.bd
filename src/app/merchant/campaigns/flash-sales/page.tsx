@@ -87,7 +87,7 @@ export default function FlashSalesPage() {
          {[
            { label: "Active Campaigns", value: String(activeCampaigns).padStart(2, '0'), sub: "Currently Live", icon: Clock4, color: "text-amber-500", bg: "bg-amber-500/10" },
            { label: "Items Discounted", value: String(totalItems), sub: "Across all sales", icon: Package, color: "text-blue-500", bg: "bg-blue-500/10" },
-           { label: "Gross Revenue", value: `৳${totalRevenue.toLocaleString()}`, sub: "Total Lifetime", icon: TrendingUp, color: "text-green-500", bg: "bg-green-500/10" },
+           { label: "Gross Revenue", value: `৳${totalRevenue.toLocaleString("en-US")}`, sub: "Total Lifetime", icon: TrendingUp, color: "text-green-500", bg: "bg-green-500/10" },
          ].map((stat, i) => (
            <div key={i} className="p-8 rounded-[40px] bg-white  border border-slate-100  shadow-sm hover:shadow-xl transition-all group">
               <div className="flex items-center justify-between mb-4">
@@ -159,7 +159,7 @@ export default function FlashSalesPage() {
                            </td>
                            <td className="px-10 py-8">
                               <div className="space-y-1">
-                                 <div className="text-sm font-bold text-slate-900 ">৳{revenue.toLocaleString()}</div>
+                                 <div className="text-sm font-bold text-slate-900 ">৳{revenue.toLocaleString("en-US")}</div>
                                  <div className="text-[10px] font-bold text-green-600 uppercase tracking-widest">{totalSold} Units Dispatched</div>
                               </div>
                            </td>

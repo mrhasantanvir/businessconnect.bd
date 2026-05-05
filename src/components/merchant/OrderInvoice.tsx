@@ -98,8 +98,8 @@ export function OrderInvoice({ order, store }: { order: any, store: any }) {
                        <p className="text-[9px] font-bold text-slate-400 uppercase mt-1">SKU: {item.product.id.slice(0, 8)}</p>
                     </td>
                     <td className="py-8 text-center text-xs font-bold text-slate-900">{item.quantity}</td>
-                    <td className="py-8 text-right text-xs font-bold text-slate-500">৳{item.price.toLocaleString()}</td>
-                    <td className="py-8 text-right text-sm font-bold text-slate-900">৳{(item.price * item.quantity).toLocaleString()}</td>
+                    <td className="py-8 text-right text-xs font-bold text-slate-500">৳{item.price.toLocaleString("en-US")}</td>
+                    <td className="py-8 text-right text-sm font-bold text-slate-900">৳{(item.price * item.quantity).toLocaleString("en-US")}</td>
                  </tr>
                ))}
             </tbody>
@@ -133,12 +133,12 @@ export function OrderInvoice({ order, store }: { order: any, store: any }) {
          <div className="space-y-6">
             <div className="flex justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                <span>Subtotal</span>
-               <span className="text-slate-900">৳{subtotal.toLocaleString()}</span>
+               <span className="text-slate-900">৳{subtotal.toLocaleString("en-US")}</span>
             </div>
             {store.isVatEnabled && (
                <div className="flex justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                   <span>VAT ({store.vatRate}%)</span>
-                  <span className="text-slate-900">৳{vat.toLocaleString()}</span>
+                  <span className="text-slate-900">৳{vat.toLocaleString("en-US")}</span>
                </div>
             )}
             <div className="flex justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest">
@@ -147,7 +147,7 @@ export function OrderInvoice({ order, store }: { order: any, store: any }) {
             </div>
             <div className="pt-6 border-t border-slate-200 flex justify-between items-end">
                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-indigo-600">Total Amount</span>
-               <span className="text-2xl font-bold text-slate-900 tracking-tight leading-none">৳{grandTotal.toLocaleString()}</span>
+               <span className="text-2xl font-bold text-slate-900 tracking-tight leading-none">৳{grandTotal.toLocaleString("en-US")}</span>
             </div>
          </div>
       </div>

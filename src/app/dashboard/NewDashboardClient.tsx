@@ -84,7 +84,7 @@ export default function NewDashboardClient({
                       </span>
                     </td>
                     <td className="px-6 py-4 text-right font-bold text-gray-900 text-sm">
-                      ৳{order.total.toLocaleString()}
+                      ৳{order.total.toLocaleString("en-US")}
                     </td>
                   </tr>
                 ))}

@@ -50,9 +50,9 @@ export default async function AnalyticsDashboardPage() {
     .slice(0, 4);
 
   const stats = [
-    { label: "Gross Volume", value: `৳${totalSales.toLocaleString()}`, trend: "+12%", positive: true, icon: DollarSign },
+    { label: "Gross Volume", value: `৳${totalSales.toLocaleString("en-US")}`, trend: "+12%", positive: true, icon: DollarSign },
     { label: "Orders", value: totalOrders.toString(), trend: "+5%", positive: true, icon: ShoppingBag },
-    { label: "AOV", value: `৳${Math.round(aov).toLocaleString()}`, trend: "-2%", positive: false, icon: TrendingUp },
+    { label: "AOV", value: `৳${Math.round(aov).toLocaleString("en-US")}`, trend: "-2%", positive: false, icon: TrendingUp },
     { label: "Visits", value: "24.5k", trend: "+18%", positive: true, icon: Users },
   ];
 
@@ -140,7 +140,7 @@ export default async function AnalyticsDashboardPage() {
                           <p className="text-[8px] font-bold text-slate-400 uppercase">{p.quantity} Sold</p>
                        </div>
                        <div className="text-right shrink-0">
-                          <p className="text-[11px] font-bold text-indigo-600">৳{p.sales.toLocaleString()}</p>
+                          <p className="text-[11px] font-bold text-indigo-600">৳{p.sales.toLocaleString("en-US")}</p>
                        </div>
                     </div>
                   ))}

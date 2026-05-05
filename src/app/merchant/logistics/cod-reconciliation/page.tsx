@@ -42,7 +42,7 @@ export default async function CodReconciliationPage() {
          </div>
 
          <div className="grid grid-cols-2 gap-4">
-            <StatCard label="Outstanding COD" value={`৳${totalOutstanding.toLocaleString()}`} icon={Banknote} color="text-indigo-500" />
+            <StatCard label="Outstanding COD" value={`৳${totalOutstanding.toLocaleString("en-US")}`} icon={Banknote} color="text-indigo-500" />
             <StatCard label="Pending Parcels" value={orders.length} icon={Truck} color="text-amber-500" />
          </div>
       </div>

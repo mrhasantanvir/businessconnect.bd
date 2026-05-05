@@ -498,7 +498,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                     </span>
                   </td>
                   <td className="px-6 py-4">
-                    <p className="text-[13px] font-bold text-[#0F172A]">৳{member.staffProfile?.baseSalary?.toLocaleString()}</p>
+                    <p className="text-[13px] font-bold text-[#0F172A]">৳{member.staffProfile?.baseSalary?.toLocaleString("en-US")}</p>
                     <p className="text-[10px] font-medium text-gray-400 uppercase">{member.staffProfile?.wageType}</p>
                   </td>
                   <td className="px-6 py-4 text-right relative">
@@ -1497,7 +1497,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
                               <p className="text-[10px] text-gray-400 font-medium truncate max-w-[300px] mt-0.5">{device.userAgent}</p>
                               <div className="flex items-center gap-3 mt-1">
                                  <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-1">
-                                    <Clock className="w-3 h-3" /> Last used: {new Date(device.lastUsedAt).toLocaleString()}
+                                    <Clock className="w-3 h-3" /> Last used: {new Date(device.lastUsedAt).toLocaleString("en-US")}
                                  </p>
                                  <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">
                                     IP: {device.ipAddress || "Unknown"}

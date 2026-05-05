@@ -83,7 +83,7 @@ export default async function MerchantBillingPage() {
                                    <p className="text-sm font-bold text-slate-900 uppercase tracking-tight">{inv.billingCycle}</p>
                                 </td>
                                 <td className="py-5">
-                                   <p className="text-sm font-bold text-indigo-600">৳{inv.amount.toLocaleString()}</p>
+                                   <p className="text-sm font-bold text-indigo-600">৳{inv.amount.toLocaleString("en-US")}</p>
                                 </td>
                                 <td className="py-5">
                                    <p className="text-xs font-bold text-slate-500 uppercase">{new Date(inv.dueDate).toLocaleDateString()}</p>
@@ -243,11 +243,11 @@ export default async function MerchantBillingPage() {
                        </div>
                        <div>
                          <p className="text-sm font-medium text-gray-800 uppercase tracking-tight">{tx.type.replace('_', ' ')}</p>
-                         <p className="text-[10px] text-gray-400">{new Date(tx.createdAt).toLocaleString()}</p>
+                         <p className="text-[10px] text-gray-400">{new Date(tx.createdAt).toLocaleString("en-US")}</p>
                        </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-bold text-green-600">৳{tx.amount.toLocaleString()}</p>
+                      <p className="text-sm font-bold text-green-600">৳{tx.amount.toLocaleString("en-US")}</p>
                       {tx.invoiceUrl ? (
                          <a 
                            href={tx.invoiceUrl} 
