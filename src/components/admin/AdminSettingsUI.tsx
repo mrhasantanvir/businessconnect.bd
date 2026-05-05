@@ -618,47 +618,79 @@ function RealtimeSettings({ settings, onSave, saving }: any) {
                 <p className="text-[10px] text-[#64748B] font-bold uppercase tracking-widest">Test Push Notification Service</p>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-4">
-                <input 
-                  type="text" 
-                  id="test-fcm-token"
-                  placeholder="Enter Device FCM Token..." 
-                  className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-none focus:outline-none focus:ring-2 focus:ring-[#1E40AF] text-xs font-bold"
-                />
-                <button
-                  id="test-fcm-btn"
-                  onClick={async () => {
-                      const input = document.getElementById('test-fcm-token') as HTMLInputElement;
-                      const token = input.value;
-                      if (!token) return alert("Please enter a device FCM token first.");
-                      
-                      const btn = document.getElementById('test-fcm-btn');
-                      if (btn) {
-                        btn.innerHTML = "Sending...";
-                        (btn as HTMLButtonElement).disabled = true;
-                      }
+            <div className="flex flex-col gap-4">
+                <div className="flex flex-col sm:flex-row gap-4">
+                    <input 
+                      type="text" 
+                      id="test-fcm-token"
+                      placeholder="Enter Device FCM Token..." 
+                      className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-none focus:outline-none focus:ring-2 focus:ring-[#1E40AF] text-xs font-bold"
+                    />
+                    <button
+                      id="test-fcm-btn"
+                      onClick={async () => {
+                          const input = document.getElementById('test-fcm-token') as HTMLInputElement;
+                          const token = input.value;
+                          if (!token) return alert("Please enter a device FCM token first.");
+                          
+                          const btn = document.getElementById('test-fcm-btn');
+                          if (btn) {
+                            btn.innerHTML = "Sending...";
+                            (btn as HTMLButtonElement).disabled = true;
+                          }
 
-                      try {
-                        const { testPushNotificationAction } = await import('@/app/admin/settings/actions');
-                        const res = await testPushNotificationAction(token);
-                        if (res.success) {
-                            alert("✅ Push Notification Sent! Message ID: " + res.messageId);
-                        } else {
-                            alert("❌ Failed to send Notification: " + res.error);
+                          try {
+                            const { testPushNotificationAction } = await import('@/app/admin/settings/actions');
+                            const res = await testPushNotificationAction(token);
+                            if (res.success) {
+                                alert("✅ Push Notification Sent! Message ID: " + res.messageId);
+                            } else {
+                                alert("❌ Failed to send Notification: " + res.error);
+                            }
+                          } catch (err: any) {
+                            alert("❌ Error: " + err.message);
+                          } finally {
+                            if (btn) {
+                                btn.innerHTML = "Test Push Notification";
+                                (btn as HTMLButtonElement).disabled = false;
+                            }
+                          }
+                      }}
+                      className="px-6 py-3 bg-white text-[#1E40AF] border border-[#1E40AF] font-bold text-[10px] uppercase tracking-widest rounded-none hover:bg-gray-50 transition-all whitespace-nowrap"
+                    >
+                      Test Push Notification
+                    </button>
+                </div>
+
+                <div className="p-4 bg-gray-50 border border-dashed border-gray-300 space-y-3">
+                   <p className="text-[10px] font-bold text-[#64748B] uppercase">Debug Helper</p>
+                   <button 
+                     onClick={async () => {
+                        try {
+                           const { getToken, getMessaging } = await import('firebase/messaging');
+                           const { app } = await import('@/lib/firebase');
+                           const messaging = getMessaging(app);
+                           
+                           const permission = await Notification.requestPermission();
+                           if (permission === 'granted') {
+                              const token = await getToken(messaging, { 
+                                vapidKey: 'BMYtH7U7p6E... (Optional)' 
+                              });
+                              const input = document.getElementById('test-fcm-token') as HTMLInputElement;
+                              if (input) input.value = token;
+                              alert("✅ Device Token generated and filled!");
+                           } else {
+                              alert("❌ Notification permission denied.");
+                           }
+                        } catch (err: any) {
+                           alert("❌ Error generating token: " + err.message);
                         }
-                      } catch (err: any) {
-                        alert("❌ Error: " + err.message);
-                      } finally {
-                        if (btn) {
-                            btn.innerHTML = "Test Push Notification";
-                            (btn as HTMLButtonElement).disabled = false;
-                        }
-                      }
-                  }}
-                  className="px-6 py-3 bg-white text-[#1E40AF] border border-[#1E40AF] font-bold text-[10px] uppercase tracking-widest rounded-none hover:bg-gray-50 transition-all whitespace-nowrap"
-                >
-                  Test Push Notification
-                </button>
+                     }}
+                     className="text-[10px] font-bold text-[#1E40AF] hover:underline flex items-center gap-2"
+                   >
+                     🚀 Get My Current Device Token
+                   </button>
+                </div>
             </div>
             <p className="text-[9px] text-[#A1A1AA] font-bold leading-relaxed">
               Note: To test this, you need a Device Registration Token from a client browser or mobile app.
