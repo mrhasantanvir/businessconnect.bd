@@ -1,673 +1,613 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect } from "react";
 import {
-  Check, Menu, X, ArrowRight, Globe, Shield,
-  Users, Zap, Database, Sparkles, Box,
-  Smartphone, CreditCard, PieChart, Bell, Star,
-  Package, TrendingUp, Layers, Truck, BarChart3,
-  MessageSquare, Lock, RefreshCw, ChevronRight,
-  Building2, Cpu, FileText, HeadphonesIcon
+  Check, Menu, X, ArrowRight, ChevronDown, ChevronUp,
+  Globe, Shield, Users, Zap, Database, Box,
+  CreditCard, Bell, Star, Package, TrendingUp,
+  Truck, BarChart3, MessageSquare, Lock,
+  Building2, Cpu, FileText, HeadphonesIcon, Layers
 } from "lucide-react";
 import Link from "next/link";
 
+const R = { sm: "6px", md: "10px", lg: "14px", xl: "20px", "2xl": "28px", "3xl": "36px", pill: "9999px" };
+const FONT: React.CSSProperties = { fontFamily: "'Plus Jakarta Sans', Inter, -apple-system, BlinkMacSystemFont, sans-serif" };
+const BLUE = "#1D4ED8";
+const DARK = "#0F172A";
+
 export function LandingPageContent() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [activeFeature, setActiveFeature] = useState(0);
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
+  useEffect(() => { setMounted(true); }, []);
   if (!mounted) return null;
 
   const navLinks = ["Features", "How it Works", "Solutions", "Integrations"];
 
-  const stats = [
-    { value: "2,000+", label: "Active Merchants" },
-    { value: "500K+", label: "Orders Processed" },
-    { value: "99.9%", label: "Uptime SLA" },
-    { value: "64", label: "Districts Covered" },
+  const faqs = [
+    { q: "How do I get started with BusinessConnect?", a: "Sign up for a free account, add your products using our AI engine, connect your preferred couriers and payment methods, and start receiving orders — all within 30 minutes. No developer or technical setup required." },
+    { q: "Which courier services are integrated?", a: "We support Pathao, Steadfast, RedX, and Paperfly natively. Booking, waybill generation, and live tracking are all done from within the BusinessConnect dashboard." },
+    { q: "Is BusinessConnect suitable for small businesses?", a: "Absolutely. We have merchants starting from 5 orders a day all the way to 700+ orders a day. Our platform scales with you and pricing is based on your usage — you only pay for what you need." },
+    { q: "How does the AI product listing work?", a: "Upload a photo or type a product name. Our Gemini AI engine generates a full product listing — title, description, category, SEO tags — in under 3 seconds. It supports both Bangla and English." },
+    { q: "Is my business data secure?", a: "Yes. All data is encrypted at rest and in transit. We use bank-grade TLS 1.3 encryption, role-based access control, and maintain 99.9% uptime with full audit logs." },
   ];
 
-  const coreFeatures = [
-    {
-      icon: Cpu,
-      tag: "AI-Powered",
-      title: "Gemini AI Product Engine",
-      desc: "Generate complete product listings — title, description, SEO tags, and category — in under 3 seconds. Feed a photo or a few keywords and let our AI do the rest. Supports Bangla and English.",
-      points: ["Auto-title & description generation", "Smart category mapping", "Bulk upload with AI fill", "SEO-optimized by default"],
-      color: "blue",
-    },
-    {
-      icon: Database,
-      tag: "Inventory",
-      title: "Multi-Channel Inventory Hub",
-      desc: "One source of truth for your entire stock. Sync in real-time across your online store, physical outlets, and third-party marketplaces. Never oversell again.",
-      points: ["Live stock sync across all channels", "Low-stock alerts & auto-reorder", "Batch and serial number tracking", "Multi-warehouse management"],
-      color: "emerald",
-    },
-    {
-      icon: Truck,
-      tag: "Logistics",
-      title: "1-Click Courier Booking",
-      desc: "Book Pathao, Steadfast, RedX, and Paperfly directly from your dashboard. Auto-generate waybills, track shipments live, and handle returns — all in one place.",
-      points: ["Pathao, Steadfast, RedX, Paperfly", "Auto waybill generation", "Live shipment tracking", "Automated return handling"],
-      color: "violet",
-    },
-    {
-      icon: BarChart3,
-      tag: "Analytics",
-      title: "Real-Time Business Intelligence",
-      desc: "Powerful dashboards that show you what's working and what's not. From product-level ROI to district-wise sales heatmaps — make every decision with data.",
-      points: ["Revenue & profit dashboards", "Product performance ranking", "District-wise sales heatmap", "Custom report builder"],
-      color: "amber",
-    },
-    {
-      icon: Users,
-      tag: "Team",
-      title: "Staff & Role Management",
-      desc: "Scale your team safely. Assign granular permissions by role, track activity logs, and manage your entire workforce across departments and locations.",
-      points: ["Role-based access control (RBAC)", "Activity & audit logs", "Multi-location team support", "Performance tracking per staff"],
-      color: "rose",
-    },
-    {
-      icon: CreditCard,
-      tag: "Payments",
-      title: "Integrated Payment Gateway",
-      desc: "Accept payments via bKash, Nagad, SSLCOMMERZ, and bank transfer. Reconcile automatically and get detailed financial reports at the end of every day.",
-      points: ["bKash, Nagad, SSLCOMMERZ", "Auto payment reconciliation", "Daily financial summaries", "Refund & dispute management"],
-      color: "teal",
-    },
-  ];
-
-  const steps = [
-    {
-      step: "01",
-      title: "Create Your Store",
-      desc: "Sign up and configure your store in minutes. Add your branding, set your currency, and connect your bank — no technical setup required.",
-      icon: Building2,
-    },
-    {
-      step: "02",
-      title: "Add Your Products with AI",
-      desc: "Upload photos or paste product names. Our Gemini AI fills in everything else — descriptions, tags, categories, and SEO metadata — instantly.",
-      icon: Cpu,
-    },
-    {
-      step: "03",
-      title: "Start Selling & Shipping",
-      desc: "Receive orders, book couriers in 1 click, and watch your business grow — all from a single dashboard designed for Bangladesh's market.",
-      icon: TrendingUp,
-    },
-  ];
-
-  const integrations = [
-    { name: "Pathao", category: "Courier", color: "bg-red-50 text-red-600 border-red-100" },
-    { name: "Steadfast", category: "Courier", color: "bg-blue-50 text-blue-600 border-blue-100" },
-    { name: "RedX", category: "Courier", color: "bg-orange-50 text-orange-600 border-orange-100" },
-    { name: "Paperfly", category: "Courier", color: "bg-sky-50 text-sky-600 border-sky-100" },
-    { name: "bKash", category: "Payment", color: "bg-pink-50 text-pink-600 border-pink-100" },
-    { name: "Nagad", category: "Payment", color: "bg-orange-50 text-orange-700 border-orange-100" },
-    { name: "SSLCOMMERZ", category: "Payment", color: "bg-green-50 text-green-700 border-green-100" },
-    { name: "Gemini AI", category: "AI Engine", color: "bg-blue-50 text-blue-700 border-blue-100" },
-  ];
+  const partners = ["Pathao", "Steadfast", "RedX", "bKash", "Nagad", "SSLCOMMERZ", "Paperfly", "Gemini AI"];
 
   const reviews = [
-    {
-      name: "Ariful Islam",
-      role: "CEO, GadgetGear BD",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Arif",
-      content: "We went from 50 to 700+ daily orders without hiring extra staff. The AI product listing and auto courier booking alone save us 4 hours every single day.",
-      rating: 5,
-      metric: "14x order growth",
-    },
-    {
-      name: "Sultana Razia",
-      role: "Founder, Bloom Fashion",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sultana",
-      content: "Managing 3 warehouses across Dhaka, Chittagong, and Sylhet is now effortless. The inventory sync is flawless and their support team knows the BD market inside out.",
-      rating: 5,
-      metric: "3 warehouses, 1 dashboard",
-    },
-    {
-      name: "Tanvir Ahmed",
-      role: "Operations Head, TechHub BD",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Tanvir",
-      content: "The Pathao and Steadfast integrations are seamless. We book 200+ shipments daily with 2 clicks. The real-time tracking dashboard is a game changer for our team.",
-      rating: 5,
-      metric: "200+ shipments/day, 2 clicks",
-    },
+    { name: "Ariful Islam", role: "CEO, GadgetGear BD", content: "BusinessConnect is one of the best decisions we've ever made for our store. Our order volume tripled in 3 months and the AI product listing alone saves us hours every day.", rating: 5, seed: "Arif" },
+    { name: "Sultana Razia", role: "Founder, Bloom Fashion", content: "Managing 3 warehouses used to be a nightmare. Now everything syncs in real-time. Their support team understands the Bangladesh market inside out and responds within hours.", rating: 5, seed: "Sultana" },
   ];
 
-  const colorMap: Record<string, { bg: string; text: string; badge: string; dot: string }> = {
-    blue:    { bg: "bg-blue-50",   text: "text-blue-600",   badge: "bg-blue-100 text-blue-700",   dot: "bg-blue-500" },
-    emerald: { bg: "bg-emerald-50",text: "text-emerald-600",badge: "bg-emerald-100 text-emerald-700", dot: "bg-emerald-500" },
-    violet:  { bg: "bg-violet-50", text: "text-violet-600", badge: "bg-violet-100 text-violet-700", dot: "bg-violet-500" },
-    amber:   { bg: "bg-amber-50",  text: "text-amber-600",  badge: "bg-amber-100 text-amber-700",  dot: "bg-amber-500" },
-    rose:    { bg: "bg-rose-50",   text: "text-rose-600",   badge: "bg-rose-100 text-rose-700",    dot: "bg-rose-500" },
-    teal:    { bg: "bg-teal-50",   text: "text-teal-600",   badge: "bg-teal-100 text-teal-700",    dot: "bg-teal-500" },
-  };
-
   return (
-    <div className="landing-page min-h-screen bg-white text-slate-900 antialiased" style={{ fontFamily: "'Plus Jakarta Sans', Inter, -apple-system, BlinkMacSystemFont, sans-serif" }}>
+    <div className="landing-page min-h-screen bg-white text-slate-900 antialiased overflow-x-hidden" style={FONT}>
 
-      {/* Top Accent Bar */}
-      <div className="fixed top-0 w-full h-[3px] bg-gradient-to-r from-[#1E40AF] via-[#2563EB] to-[#16A34A] z-[2000]" />
+      {/* ─── Ambient gradient orbs ─── */}
+      <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", overflow: "hidden" }}>
+        <div style={{ position: "absolute", top: "-10%", left: "-5%", width: 700, height: 700, borderRadius: "50%", background: "radial-gradient(circle, rgba(219,234,254,0.55) 0%, transparent 60%)" }} />
+        <div style={{ position: "absolute", top: "20%", right: "-10%", width: 600, height: 600, borderRadius: "50%", background: "radial-gradient(circle, rgba(253,242,248,0.50) 0%, transparent 60%)" }} />
+        <div style={{ position: "absolute", bottom: "10%", left: "20%", width: 500, height: 500, borderRadius: "50%", background: "radial-gradient(circle, rgba(240,253,244,0.45) 0%, transparent 60%)" }} />
+      </div>
 
-      {/* Navigation */}
-      <nav className="fixed top-[3px] w-full z-[1000] bg-white/90 backdrop-blur-xl border-b border-gray-100/80 h-[68px] flex items-center">
-        <div className="max-w-7xl mx-auto px-6 w-full flex items-center justify-between">
-          <div className="flex items-center gap-12">
-            <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="w-9 h-9 bg-[#1E40AF] rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
-                <Box className="w-5 h-5 text-white" />
+      {/* ─── NAV ─── */}
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000, background: "rgba(255,255,255,0.88)", backdropFilter: "blur(16px)", borderBottom: "1px solid rgba(226,232,240,0.7)", height: 64 }}>
+        <div className="max-w-6xl mx-auto px-6 h-full flex items-center justify-between">
+          <div className="flex items-center gap-10">
+            <Link href="/" className="flex items-center gap-2">
+              <div style={{ width: 32, height: 32, borderRadius: R.md, background: BLUE, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <Box size={16} className="text-white" />
               </div>
-              <span className="font-extrabold text-[1.1rem] tracking-tight text-[#0F172A]">BusinessConnect</span>
+              <span className="font-extrabold text-slate-900" style={{ fontSize: "1rem" }}>BusinessConnect.</span>
             </Link>
-            <div className="hidden lg:flex items-center gap-8">
-              {navLinks.map((item) => (
-                <a key={item} href={`#${item.toLowerCase().replace(/\s+/g, "-")}`}
-                  className="text-sm font-semibold text-gray-500 hover:text-[#1E40AF] transition-colors">
-                  {item}
-                </a>
+            <div className="hidden lg:flex items-center gap-7">
+              {navLinks.map(n => (
+                <a key={n} href={`#${n.toLowerCase().replace(/\s+/g, "-")}`} className="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">{n}</a>
               ))}
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <Link href="/login" className="hidden sm:block text-sm font-bold text-[#1E40AF] px-4 py-2 rounded-lg hover:bg-blue-50 transition-colors">
-              Sign in
-            </Link>
-            <Link href="/register"
-              className="bg-[#1E40AF] text-white px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-[#1E3A8A] transition-all shadow-md shadow-blue-500/15 hover:shadow-blue-500/25 hover:scale-[1.02]">
-              Get Started Free
-            </Link>
-            <button className="lg:hidden p-2 text-gray-500 hover:text-gray-800" onClick={() => setIsMenuOpen(true)}>
-              <Menu size={22} />
-            </button>
+          <div className="flex items-center gap-2">
+            <Link href="/login" className="hidden sm:block text-sm font-semibold text-slate-600 px-4 py-2 hover:text-blue-700 transition-colors rounded-lg hover:bg-blue-50">Sign In</Link>
+            <Link href="/register" className="text-sm font-bold text-white px-5 py-2.5 hover:opacity-90 transition-opacity" style={{ background: DARK, borderRadius: R.pill }}>Sign up Free</Link>
+            <button className="lg:hidden p-2 text-slate-500" onClick={() => setMenuOpen(true)}><Menu size={20} /></button>
           </div>
         </div>
       </nav>
 
-      {/* Mobile Nav Drawer */}
-      {isMenuOpen && (
-        <div className="fixed inset-0 z-[5000] bg-white flex flex-col lg:hidden">
-          <div className="h-[68px] px-6 border-b border-gray-100 flex items-center justify-between">
-            <span className="font-extrabold text-lg">BusinessConnect</span>
-            <button onClick={() => setIsMenuOpen(false)}><X size={26} className="text-gray-400" /></button>
+      {/* Mobile drawer */}
+      {menuOpen && (
+        <div className="fixed inset-0 z-[5000] bg-white flex flex-col" style={FONT}>
+          <div className="h-16 px-6 border-b border-slate-100 flex items-center justify-between">
+            <span className="font-extrabold text-slate-900">BusinessConnect.</span>
+            <button onClick={() => setMenuOpen(false)}><X size={22} className="text-slate-400" /></button>
           </div>
-          <div className="p-8 flex flex-col gap-8 text-xl font-bold text-[#0F172A]">
-            {navLinks.map(item => (
-              <a key={item} href={`#${item.toLowerCase().replace(/\s+/g, "-")}`} onClick={() => setIsMenuOpen(false)}>{item}</a>
-            ))}
-            <div className="h-px bg-gray-100" />
-            <Link href="/register" className="text-[#1E40AF]">Get Started Free →</Link>
+          <div className="p-8 flex flex-col gap-6 text-lg font-semibold text-slate-900">
+            {navLinks.map(n => <a key={n} href={`#${n.toLowerCase().replace(/\s+/g, "-")}`} onClick={() => setMenuOpen(false)} className="hover:text-blue-700 transition-colors">{n}</a>)}
+            <div className="h-px bg-slate-100" />
+            <Link href="/register" className="text-blue-700 font-bold">Sign up Free →</Link>
           </div>
         </div>
       )}
 
-      {/* ─── HERO ─── */}
-      <section className="pt-36 md:pt-52 pb-24 px-6 relative overflow-hidden">
-        {/* Background grid */}
-        <div className="absolute inset-0 -z-10"
-          style={{ backgroundImage: "radial-gradient(circle at 1px 1px, #e2e8f0 1px, transparent 0)", backgroundSize: "40px 40px" }} />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-gradient-to-b from-blue-500/8 to-transparent rounded-full blur-3xl -z-10" />
+      <div style={{ position: "relative", zIndex: 1 }}>
 
-        <div className="max-w-5xl mx-auto text-center space-y-8">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-50 border border-blue-100 rounded-full">
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-            <span className="text-xs font-bold uppercase tracking-widest text-[#1E40AF]">Now serving 2,000+ merchants across Bangladesh</span>
-          </div>
+        {/* ═══════════════════════
+            HERO
+        ═══════════════════════ */}
+        <section style={{ paddingTop: 128, paddingBottom: 0, textAlign: "center" }}>
+          <div className="max-w-3xl mx-auto px-6" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 24 }}>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-[#0F172A] leading-[1.08] tracking-tight">
-            The Business OS<br />
-            <span className="relative inline-block">
-              <span className="text-[#1E40AF]">Built for Bangladesh.</span>
-              <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 400 12" fill="none">
-                <path d="M2 9 Q100 2 200 8 Q300 14 398 6" stroke="#16A34A" strokeWidth="3" strokeLinecap="round" fill="none" />
-              </svg>
-            </span>
-          </h1>
-
-          <p className="text-lg md:text-xl text-gray-500 max-w-2xl mx-auto font-medium leading-relaxed">
-            One platform to run your entire business — AI product listings, inventory sync, courier booking, payments, and analytics. No integrations headache. Just results.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-            <Link href="/register"
-              className="bg-[#1E40AF] text-white px-8 py-4 rounded-2xl font-bold text-base hover:bg-[#1E3A8A] transition-all shadow-2xl shadow-blue-500/20 hover:scale-[1.03] active:scale-95 flex items-center justify-center gap-2">
-              Start for Free <ArrowRight size={18} />
-            </Link>
-            <Link href="/login"
-              className="bg-white border border-gray-200 text-gray-700 px-8 py-4 rounded-2xl font-bold text-base hover:bg-gray-50 transition-all flex items-center justify-center gap-2">
-              Sign In to Dashboard
-            </Link>
-          </div>
-
-          <p className="text-xs text-gray-400 font-medium">No credit card required &nbsp;·&nbsp; Free to get started &nbsp;·&nbsp; Cancel anytime</p>
-        </div>
-      </section>
-
-      {/* ─── STATS STRIP ─── */}
-      <section className="py-16 border-y border-gray-100 bg-slate-50/50">
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {stats.map((s, i) => (
-              <div key={i} className="space-y-1">
-                <div className="text-3xl md:text-4xl font-extrabold text-[#1E40AF]">{s.value}</div>
-                <div className="text-sm font-semibold text-gray-500 uppercase tracking-wide">{s.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── FEATURES ─── */}
-      <section id="features" className="py-20 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20 space-y-5">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-[#1E40AF] rounded-full text-xs font-bold uppercase tracking-widest">
-              <Layers size={13} /> Platform Features
+            <div className="inline-flex items-center gap-2 font-semibold text-slate-600" style={{ padding: "5px 14px", borderRadius: R.pill, background: "rgba(255,255,255,0.9)", border: "1px solid #E2E8F0", fontSize: "0.72rem", letterSpacing: "0.01em" }}>
+              <span style={{ display: "inline-block", width: 6, height: 6, borderRadius: "50%", background: "#6366F1" }} />
+              Top Business Platform of Bangladesh
             </div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-[#0F172A] leading-tight">
-              Everything your business needs,<br className="hidden md:block" /> in one place
-            </h2>
-            <p className="text-lg text-gray-500 max-w-2xl mx-auto font-medium">
-              Purpose-built for Bangladesh's e-commerce ecosystem — from AI cataloging to local courier integrations.
+
+            <h1 className="font-extrabold text-slate-900 tracking-tight" style={{ fontSize: "clamp(2.2rem, 5vw, 3.6rem)", lineHeight: 1.12, maxWidth: 700 }}>
+              Smarter Operations,<br />Stronger Bangladesh Business
+            </h1>
+
+            <p className="text-slate-500 font-medium" style={{ fontSize: "1.02rem", lineHeight: 1.75, maxWidth: 500 }}>
+              BusinessConnect helps you automate relationships, streamline sales processes, and make data-driven decisions — so you can focus on closing more deals.
             </p>
+
+            <Link href="/register" className="inline-flex items-center gap-2 font-bold text-white hover:opacity-90 transition-opacity" style={{ padding: "13px 28px", background: DARK, borderRadius: R.pill, fontSize: "0.9rem" }}>
+              Get Started <ArrowRight size={16} />
+            </Link>
+
+            <p className="text-slate-400 font-medium" style={{ fontSize: "0.75rem" }}>No credit card required · Free to get started</p>
           </div>
 
-          {/* Feature Tabs */}
-          <div className="flex flex-wrap justify-center gap-3 mb-16">
-            {coreFeatures.map((f, i) => {
-              const c = colorMap[f.color];
-              return (
-                <button key={i} onClick={() => setActiveFeature(i)}
-                  className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all border ${
-                    activeFeature === i
-                      ? `${c.bg} ${c.text} border-transparent shadow-sm`
-                      : "bg-white text-gray-500 border-gray-200 hover:border-gray-300"
-                  }`}>
-                  {f.title.split(" ")[0]} {f.title.split(" ")[1]}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Active Feature Detail */}
-          {(() => {
-            const f = coreFeatures[activeFeature];
-            const c = colorMap[f.color];
-            const Icon = f.icon;
-            return (
-              <div className={`rounded-[40px] border p-10 md:p-16 ${c.bg} border-transparent`}>
-                <div className="flex flex-col lg:flex-row gap-16 items-start">
-                  <div className="flex-1 space-y-8">
-                    <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest ${c.badge}`}>
-                      <Icon size={13} /> {f.tag}
+          {/* Hero dashboard mockup */}
+          <div className="max-w-4xl mx-auto px-6" style={{ marginTop: 56, paddingBottom: 0 }}>
+            <div style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: "24px 24px 0 0", boxShadow: "0 -4px 60px rgba(0,0,0,0.06), 0 20px 80px rgba(0,0,0,0.08)", overflow: "hidden" }}>
+              {/* Window chrome */}
+              <div style={{ background: "#F8FAFC", borderBottom: "1px solid #E2E8F0", padding: "10px 16px", display: "flex", alignItems: "center", gap: 8 }}>
+                <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#FCA5A5" }} />
+                <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#FDE68A" }} />
+                <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#A7F3D0" }} />
+                <div style={{ flex: 1, margin: "0 12px", height: 22, background: "#EFF6FF", borderRadius: R.pill, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <span style={{ fontSize: "0.6rem", color: "#64748B", fontWeight: 600 }}>businessconnect.bd/dashboard</span>
+                </div>
+              </div>
+              {/* Dashboard content */}
+              <div style={{ padding: 20, background: "#FAFAFA" }}>
+                <div className="grid grid-cols-4 gap-3" style={{ marginBottom: 16 }}>
+                  {[
+                    { label: "Today's Revenue", val: "৳1,24,800", change: "+18%", bg: "#EFF6FF", accent: "#2563EB" },
+                    { label: "Active Orders",   val: "247",       change: "+32%", bg: "#F0FDF4", accent: "#16A34A" },
+                    { label: "In Transit",      val: "89",        change: "Live",  bg: "#FFF7ED", accent: "#D97706" },
+                    { label: "AI Products",     val: "1,204",     change: "+55%", bg: "#F5F3FF", accent: "#7C3AED" },
+                  ].map(({ label, val, change, bg, accent }) => (
+                    <div key={label} style={{ background: "white", border: "1px solid #F1F5F9", borderRadius: R.lg, padding: "14px 16px" }}>
+                      <div style={{ fontSize: "0.6rem", fontWeight: 700, color: "#94A3B8", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8 }}>{label}</div>
+                      <div style={{ fontSize: "1.2rem", fontWeight: 900, color: DARK, lineHeight: 1.1 }}>{val}</div>
+                      <div style={{ marginTop: 6, fontSize: "0.62rem", fontWeight: 700, color: accent, background: bg, display: "inline-block", padding: "2px 7px", borderRadius: R.pill }}>{change}</div>
                     </div>
-                    <h3 className="text-2xl md:text-3xl font-extrabold text-[#0F172A] leading-tight">{f.title}</h3>
-                    <p className="text-lg text-gray-600 leading-relaxed font-medium">{f.desc}</p>
-                    <ul className="space-y-4">
-                      {f.points.map((pt, j) => (
-                        <li key={j} className="flex items-center gap-3 text-base font-semibold text-[#0F172A]">
-                          <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${c.dot}`}>
-                            <Check size={11} className="text-white" />
-                          </div>
-                          {pt}
-                        </li>
+                  ))}
+                </div>
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="col-span-2" style={{ background: "white", border: "1px solid #F1F5F9", borderRadius: R.lg, padding: "16px 18px" }}>
+                    <div style={{ fontSize: "0.72rem", fontWeight: 700, color: DARK, marginBottom: 14 }}>Revenue Overview</div>
+                    <div className="flex items-end gap-2" style={{ height: 72 }}>
+                      {[38,55,42,70,58,82,65,90,72,85,60,95].map((h, i) => (
+                        <div key={i} style={{ flex: 1, height: `${h}%`, background: i >= 9 ? "#2563EB" : "#DBEAFE", borderRadius: "4px 4px 0 0", transition: "all 0.3s" }} />
                       ))}
-                    </ul>
-                    <Link href="/register"
-                      className={`inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-bold text-sm text-white transition-all hover:opacity-90 ${c.dot}`}>
-                      Explore This Feature <ChevronRight size={16} />
-                    </Link>
+                    </div>
+                    <div className="flex justify-between" style={{ marginTop: 8 }}>
+                      {["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"].map(m => (
+                        <div key={m} style={{ fontSize: "0.5rem", color: "#94A3B8", fontWeight: 600 }}>{m}</div>
+                      ))}
+                    </div>
                   </div>
-                  {/* Visual mockup panel */}
-                  <div className="flex-1 w-full">
-                    <div className="bg-white rounded-[28px] shadow-2xl p-8 space-y-6 border border-white/80">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${c.bg}`}>
-                            <Icon size={20} className={c.text} />
-                          </div>
-                          <div>
-                            <div className="h-3 w-28 bg-slate-200 rounded-full" />
-                            <div className="h-2 w-16 bg-slate-100 rounded-full mt-2" />
-                          </div>
+                  <div style={{ background: "white", border: "1px solid #F1F5F9", borderRadius: R.lg, padding: "16px 18px" }}>
+                    <div style={{ fontSize: "0.72rem", fontWeight: 700, color: DARK, marginBottom: 10 }}>Recent Orders</div>
+                    {["#5821 Chittagong", "#5820 Dhaka", "#5819 Sylhet", "#5818 Rajshahi"].map((o, i) => (
+                      <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, padding: "7px 0", borderBottom: i < 3 ? "1px solid #F8FAFC" : "none" }}>
+                        <div style={{ width: 22, height: 22, borderRadius: R.sm, background: "#F1F5F9", flexShrink: 0 }} />
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: "0.65rem", fontWeight: 700, color: DARK }}>{o}</div>
                         </div>
-                        <Bell size={18} className="text-slate-300" />
+                        <div style={{ fontSize: "0.55rem", fontWeight: 700, color: "#059669", background: "#D1FAE5", padding: "2px 7px", borderRadius: R.pill }}>Confirmed</div>
                       </div>
-                      <div className="space-y-3">
-                        {f.points.map((_, j) => (
-                          <div key={j} className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl">
-                            <div className={`w-3 h-3 rounded-full shrink-0 ${c.dot}`} />
-                            <div className="flex-1">
-                              <div className={`h-2.5 rounded-full ${c.bg}`} style={{ width: `${60 + j * 10}%` }} />
-                            </div>
-                            <div className="h-2 w-8 bg-slate-200 rounded-full" />
-                          </div>
-                        ))}
-                      </div>
-                      <div className="flex items-end gap-2 h-20 pt-2">
-                        {[55, 70, 45, 90, 65, 80, 50, 75, 85, 60].map((h, i) => (
-                          <div key={i} className={`flex-1 rounded-full ${c.bg} opacity-80`} style={{ height: `${h}%` }} />
-                        ))}
-                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════
+            TRUST STRIP
+        ═══════════════════════ */}
+        <section style={{ padding: "44px 24px 36px", borderBottom: "1px solid #F1F5F9" }}>
+          <div className="max-w-4xl mx-auto text-center">
+            <p className="text-slate-400 font-semibold uppercase tracking-widest" style={{ fontSize: "0.65rem", marginBottom: 28 }}>Trusted integrations powering 2,000+ stores</p>
+            <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
+              {partners.map(p => (
+                <div key={p} className="font-extrabold text-slate-300 hover:text-slate-500 transition-colors" style={{ fontSize: "0.8rem", letterSpacing: "0.04em" }}>{p}</div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════
+            FEATURE 1 — AI Products
+        ═══════════════════════ */}
+        <section id="features" style={{ padding: "88px 24px" }}>
+          <div className="max-w-6xl mx-auto">
+            <div className="flex flex-col lg:flex-row items-center gap-16">
+              {/* Left text */}
+              <div style={{ flex: "0 0 44%", display: "flex", flexDirection: "column", gap: 20 }}>
+                <div className="inline-flex items-center gap-1.5 font-semibold text-slate-500" style={{ fontSize: "0.68rem", letterSpacing: "0.05em" }}>
+                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#6366F1", display: "inline-block" }} />
+                  Data & AI
+                </div>
+                <h2 className="font-extrabold text-slate-900 tracking-tight" style={{ fontSize: "clamp(1.8rem, 3vw, 2.6rem)", lineHeight: 1.15 }}>
+                  Selling Digital Products Is Easier.
+                </h2>
+                <p className="text-slate-500 font-medium" style={{ fontSize: "0.93rem", lineHeight: 1.75 }}>
+                  Digital Products Are The Future. Start Being Profitable For Smart Entrepreneurs. Our Gemini AI generates full product listings — title, description, SEO tags — in under 3 seconds.
+                </p>
+                <Link href="/register" className="inline-flex items-center gap-2 font-bold text-white hover:opacity-90 transition-opacity self-start" style={{ padding: "10px 22px", background: DARK, borderRadius: R.pill, fontSize: "0.84rem" }}>
+                  Learn More <ArrowRight size={14} />
+                </Link>
+                {/* Stat cards row */}
+                <div className="flex gap-4" style={{ marginTop: 8 }}>
+                  <div style={{ background: "white", border: "1px solid #F1F5F9", borderRadius: R.xl, padding: "14px 18px", boxShadow: "0 2px 12px rgba(0,0,0,0.04)", flex: 1 }}>
+                    <div style={{ fontSize: "0.58rem", fontWeight: 700, color: "#94A3B8", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 6 }}>AI Products Generated</div>
+                    <div style={{ fontSize: "1.5rem", fontWeight: 900, color: DARK, lineHeight: 1 }}>8,429,782</div>
+                    <div style={{ fontSize: "0.62rem", fontWeight: 700, color: "#16A34A", marginTop: 4 }}>↑ Higher Than Last Month</div>
+                  </div>
+                  <div style={{ background: "white", border: "1px solid #F1F5F9", borderRadius: R.xl, padding: "14px 18px", boxShadow: "0 2px 12px rgba(0,0,0,0.04)", flex: 1 }}>
+                    <div style={{ fontSize: "0.58rem", fontWeight: 700, color: "#94A3B8", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 6 }}>Offline Sales</div>
+                    <div style={{ fontSize: "1.5rem", fontWeight: 900, color: DARK, lineHeight: 1 }}>৳9,983,410</div>
+                    <div style={{ fontSize: "0.62rem", fontWeight: 700, color: "#16A34A", marginTop: 4 }}>↑ Higher Than Last Month</div>
+                  </div>
+                </div>
+              </div>
+              {/* Right mockup */}
+              <div style={{ flex: 1, width: "100%" }}>
+                <div style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: R["2xl"], boxShadow: "0 8px 48px rgba(0,0,0,0.07)", overflow: "hidden" }}>
+                  <div style={{ background: "#F8FAFC", borderBottom: "1px solid #F1F5F9", padding: "10px 16px", display: "flex", gap: 6, alignItems: "center" }}>
+                    <div style={{ fontSize: "0.7rem", fontWeight: 700, color: DARK }}>Store Order Analysis</div>
+                    <div style={{ marginLeft: "auto", display: "flex", gap: 6 }}>
+                      {["Online","Offline"].map((l, i) => (
+                        <div key={l} className="flex items-center gap-1">
+                          <div style={{ width: 6, height: 6, borderRadius: "50%", background: i === 0 ? "#2563EB" : "#E2E8F0" }} />
+                          <span style={{ fontSize: "0.58rem", fontWeight: 600, color: "#94A3B8" }}>{l}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div style={{ padding: 20 }}>
+                    <div className="flex items-end gap-3 justify-center" style={{ height: 120, marginBottom: 8 }}>
+                      {[
+                        { on: 68, off: 42 }, { on: 80, off: 55 }, { on: 55, off: 38 },
+                        { on: 92, off: 65 }, { on: 74, off: 50 }, { on: 85, off: 60 },
+                        { on: 60, off: 44 }, { on: 95, off: 70 },
+                      ].map((d, i) => (
+                        <div key={i} style={{ display: "flex", gap: 2, alignItems: "flex-end", flex: 1 }}>
+                          <div style={{ flex: 1, height: `${d.on}%`, background: "#2563EB", borderRadius: "3px 3px 0 0" }} />
+                          <div style={{ flex: 1, height: `${d.off}%`, background: "#DBEAFE", borderRadius: "3px 3px 0 0" }} />
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex justify-between">
+                      {["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug"].map(m => (
+                        <div key={m} style={{ fontSize: "0.55rem", color: "#94A3B8", fontWeight: 600, flex: 1, textAlign: "center" }}>{m}</div>
+                      ))}
                     </div>
                   </div>
                 </div>
               </div>
-            );
-          })()}
-
-          {/* Feature Grid Summary */}
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 mt-16">
-            {coreFeatures.map((f, i) => {
-              const c = colorMap[f.color];
-              const Icon = f.icon;
-              return (
-                <button key={i} onClick={() => setActiveFeature(i)}
-                  className={`p-7 text-left rounded-[28px] border transition-all group ${
-                    activeFeature === i ? `${c.bg} border-transparent shadow-md` : "bg-white border-slate-100 hover:bg-slate-50 hover:border-slate-300 hover:shadow-md"
-                  }`}>
-                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-5 ${c.bg} group-hover:scale-105 transition-transform`}>
-                    <Icon size={22} className={c.text} />
-                  </div>
-                  <div className={`text-[10px] font-bold uppercase tracking-widest mb-2 ${c.text}`}>{f.tag}</div>
-                  <h4 className="font-extrabold text-[#0F172A] mb-2">{f.title}</h4>
-                  <p className="text-sm text-gray-500 font-medium leading-relaxed line-clamp-2">{f.desc}</p>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── HOW IT WORKS ─── */}
-      <section id="how-it-works" className="py-20 px-6 bg-slate-50/60 border-y border-gray-100">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-20 space-y-5">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-200 rounded-full text-xs font-bold uppercase tracking-widest text-gray-600">
-              <RefreshCw size={13} /> How It Works
             </div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-[#0F172A] leading-tight">
-              Go live in under 30 minutes
-            </h2>
-            <p className="text-lg text-gray-500 max-w-xl mx-auto font-medium">
-              No developers needed. No complex setup. Just sign up and start selling.
-            </p>
           </div>
+        </section>
 
-          <div className="grid md:grid-cols-3 gap-8 relative">
-            {/* Connector line */}
-            <div className="hidden md:block absolute top-14 left-1/3 right-1/3 h-0.5 bg-gradient-to-r from-blue-200 to-blue-200" />
-
-            {steps.map((step, i) => {
-              const Icon = step.icon;
-              return (
-                <div key={i} className="relative bg-white rounded-[32px] p-10 border border-slate-100 hover:border-blue-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-200 text-center space-y-6">
-                  <div className="w-14 h-14 bg-[#1E40AF] text-white rounded-2xl flex items-center justify-center mx-auto shadow-lg shadow-blue-500/20">
-                    <Icon size={26} />
+        {/* ═══════════════════════
+            FEATURE 2 — CRM / Business
+        ═══════════════════════ */}
+        <section style={{ padding: "0 24px 88px" }}>
+          <div className="max-w-6xl mx-auto">
+            <div className="flex flex-col lg:flex-row items-center gap-16">
+              {/* Left mockup: activity card */}
+              <div style={{ flex: 1, width: "100%" }}>
+                <div style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: R["2xl"], boxShadow: "0 8px 48px rgba(0,0,0,0.07)", padding: 24 }}>
+                  <div style={{ fontSize: "0.8rem", fontWeight: 700, color: DARK, marginBottom: 16 }}>Recent Activity</div>
+                  <div className="flex gap-2" style={{ marginBottom: 14 }}>
+                    {["All","Selling","Marketing"].map((t, i) => (
+                      <div key={t} style={{ padding: "5px 12px", borderRadius: R.pill, fontSize: "0.68rem", fontWeight: 700, background: i === 0 ? "#1D4ED8" : "#F8FAFC", color: i === 0 ? "white" : "#94A3B8", border: i === 0 ? "none" : "1px solid #E2E8F0", cursor: "pointer" }}>{t}</div>
+                    ))}
                   </div>
-                  <div className="absolute top-6 right-8 text-5xl font-black text-gray-100 select-none">{step.step}</div>
-                  <h3 className="text-xl font-extrabold text-[#0F172A]">{step.title}</h3>
-                  <p className="text-gray-500 font-medium leading-relaxed text-sm">{step.desc}</p>
+                  {[
+                    { name: "Stone Black Jacket", price: "৳2,800", event: "New Order", time: "10 min ago", bg: "#1D4ED8" },
+                    { name: "Premium T-Shirt",    price: "৳1,400", event: "Restocked",  time: "25 min ago", bg: "#059669" },
+                    { name: "Summer Hoodie",      price: "৳3,200", event: "Shipped",    time: "1 hr ago",   bg: "#D97706" },
+                  ].map(({ name, price, event, time, bg }) => (
+                    <div key={name} className="flex items-center gap-3" style={{ padding: "10px 0", borderBottom: "1px solid #F8FAFC" }}>
+                      <div style={{ width: 36, height: 36, borderRadius: R.md, background: bg, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <Package size={16} className="text-white" />
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: "0.78rem", fontWeight: 700, color: DARK }}>{name}</div>
+                        <div style={{ fontSize: "0.62rem", fontWeight: 600, color: "#94A3B8" }}>{event} · {time}</div>
+                      </div>
+                      <div style={{ fontSize: "0.82rem", fontWeight: 800, color: DARK }}>{price}</div>
+                    </div>
+                  ))}
                 </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── SOLUTIONS ─── */}
-      <section id="solutions" className="py-20 px-6 overflow-hidden">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-20">
-          <div className="flex-1 space-y-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-[#1E40AF] rounded-full text-xs font-bold uppercase tracking-widest">
-              <Globe size={13} /> Enterprise Solutions
+              </div>
+              {/* Right text */}
+              <div style={{ flex: "0 0 44%", display: "flex", flexDirection: "column", gap: 20 }}>
+                <div className="inline-flex items-center gap-1.5 font-semibold text-slate-500" style={{ fontSize: "0.68rem", letterSpacing: "0.05em" }}>
+                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#10B981", display: "inline-block" }} />
+                  Platform Features
+                </div>
+                <h2 className="font-extrabold text-slate-900 tracking-tight" style={{ fontSize: "clamp(1.7rem, 2.8vw, 2.4rem)", lineHeight: 1.2 }}>
+                  What Can Our Business OS Do For You?
+                </h2>
+                <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                  {[
+                    { icon: Cpu,      color: "#EFF6FF", ic: "#2563EB", title: "AI Product Management",   desc: "Generate complete listings in seconds using Gemini AI. Bangla and English supported." },
+                    { icon: BarChart3, color: "#FFF7ED", ic: "#D97706", title: "Smart Data Analytics",    desc: "Get Real-Time Reports And Insights To Help Make Better Decisions Across Your Store." },
+                    { icon: Truck,    color: "#F0FDF4", ic: "#16A34A", title: "1-Click Courier Booking",  desc: "Book Pathao, Steadfast, RedX from your dashboard with auto waybill generation." },
+                    { icon: Shield,   color: "#F5F3FF", ic: "#7C3AED", title: "Bank-Grade Security",      desc: "Role-based access, encrypted data, audit logs — fully compliant and secure." },
+                  ].map(({ icon: Ic, color, ic, title, desc }) => (
+                    <div key={title} className="flex items-start gap-4" style={{ padding: "14px 16px", background: "white", border: "1px solid #F1F5F9", borderRadius: R.lg, boxShadow: "0 1px 4px rgba(0,0,0,0.03)" }}>
+                      <div style={{ width: 36, height: 36, background: color, borderRadius: R.md, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        <Ic size={17} style={{ color: ic }} />
+                      </div>
+                      <div>
+                        <div style={{ fontSize: "0.83rem", fontWeight: 700, color: DARK, marginBottom: 3 }}>{title}</div>
+                        <div style={{ fontSize: "0.76rem", fontWeight: 500, color: "#64748B", lineHeight: 1.55 }}>{desc}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <Link href="/register" className="inline-flex items-center gap-2 font-bold text-white hover:opacity-90 transition-opacity self-start" style={{ padding: "10px 22px", background: DARK, borderRadius: R.pill, fontSize: "0.84rem", marginTop: 4 }}>
+                  Learn More <ArrowRight size={14} />
+                </Link>
+              </div>
             </div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-[#0F172A] leading-tight">
-              A unified ecosystem<br /> for Digital Bangladesh
-            </h2>
-            <p className="text-lg text-gray-500 leading-relaxed font-medium">
-              We've built every module from the ground up so they work together seamlessly. No messy third-party integrations, no data silos — just one clean workflow from order to delivery.
-            </p>
-            <div className="grid sm:grid-cols-2 gap-5">
-              {[
-                { icon: FileText, label: "Automated Invoice & Billing" },
-                { icon: Truck, label: "Real-time Shipment Tracking" },
-                { icon: Package, label: "Multi-warehouse Support" },
-                { icon: Shield, label: "Local VAT & Tax Ready" },
-                { icon: MessageSquare, label: "Built-in Customer CRM" },
-                { icon: Lock, label: "Bank-grade Data Security" },
-              ].map(({ icon: Icon, label }) => (
-                <div key={label} className="flex items-center gap-3 p-4 bg-blue-50/60 rounded-2xl border border-blue-100/50">
-                  <div className="w-8 h-8 bg-blue-100 rounded-xl flex items-center justify-center shrink-0">
-                    <Icon size={16} className="text-[#1E40AF]" />
+          </div>
+        </section>
+
+        {/* ═══════════════════════
+            TESTIMONIALS
+        ═══════════════════════ */}
+        <section style={{ padding: "80px 24px", background: "#FAFAFA", borderTop: "1px solid #F1F5F9", borderBottom: "1px solid #F1F5F9" }}>
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center" style={{ marginBottom: 56 }}>
+              <div className="inline-flex items-center gap-1.5 font-semibold text-slate-500" style={{ fontSize: "0.68rem", letterSpacing: "0.05em", marginBottom: 14 }}>
+                <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#F59E0B", display: "inline-block" }} />
+                Our Testimonial
+              </div>
+              <h2 className="font-extrabold text-slate-900 tracking-tight" style={{ fontSize: "clamp(1.7rem, 3vw, 2.4rem)", lineHeight: 1.15 }}>
+                What Our Customers Say
+              </h2>
+              <p className="text-slate-500 font-medium" style={{ marginTop: 10, fontSize: "0.88rem", maxWidth: 400, margin: "10px auto 0" }}>
+                Not How Companies can Move more Steadfast That Same Business Goals
+              </p>
+              <div style={{ marginTop: 20 }}>
+                <Link href="/register" className="inline-flex items-center gap-2 font-bold text-white hover:opacity-90 transition-opacity" style={{ padding: "10px 22px", background: DARK, borderRadius: R.pill, fontSize: "0.84rem" }}>
+                  See All Testimonials <ArrowRight size={14} />
+                </Link>
+              </div>
+            </div>
+
+            <div className="flex flex-col lg:flex-row gap-8">
+              {/* Left stat */}
+              <div style={{ flex: "0 0 200px", display: "flex", flexDirection: "column", justifyContent: "center", gap: 36 }}>
+                <div>
+                  <div className="font-extrabold" style={{ fontSize: "3rem", color: DARK, lineHeight: 1 }}>৳2.5M</div>
+                  <div style={{ fontSize: "0.75rem", fontWeight: 600, color: "#94A3B8", marginTop: 6 }}>Revenue Generated</div>
+                </div>
+                <div>
+                  <div className="font-extrabold" style={{ fontSize: "3rem", color: DARK, lineHeight: 1 }}>45%</div>
+                  <div style={{ fontSize: "0.75rem", fontWeight: 600, color: "#94A3B8", marginTop: 6 }}>Online Revenue Growth</div>
+                </div>
+              </div>
+              {/* Right testimonials */}
+              <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16 }}>
+                {reviews.map((r, i) => (
+                  <div key={i} style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: R.xl, padding: "28px 28px 24px", boxShadow: "0 2px 12px rgba(0,0,0,0.04)" }}>
+                    <div className="flex gap-0.5" style={{ marginBottom: 14 }}>
+                      {[...Array(r.rating)].map((_, j) => <Star key={j} size={13} className="fill-amber-400 text-amber-400" />)}
+                    </div>
+                    <p className="text-slate-700 font-medium" style={{ fontSize: "0.93rem", lineHeight: 1.75, marginBottom: 18 }}>
+                      &ldquo;{r.content}&rdquo;
+                    </p>
+                    <div className="flex items-center gap-3">
+                      <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${r.seed}`} alt={r.name} style={{ width: 36, height: 36, borderRadius: "50%", background: "#F1F5F9" }} />
+                      <div>
+                        <div style={{ fontSize: "0.84rem", fontWeight: 700, color: DARK }}>{r.name}</div>
+                        <div style={{ fontSize: "0.68rem", fontWeight: 600, color: "#94A3B8" }}>{r.role}</div>
+                      </div>
+                    </div>
                   </div>
-                  <span className="font-bold text-sm text-[#0F172A]">{label}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════
+            FEATURE 3 — Build/Grow
+        ═══════════════════════ */}
+        <section id="solutions" style={{ padding: "88px 24px" }}>
+          <div className="max-w-6xl mx-auto">
+            <div className="flex flex-col lg:flex-row items-center gap-16">
+              {/* Left text */}
+              <div style={{ flex: "0 0 44%", display: "flex", flexDirection: "column", gap: 20 }}>
+                <div className="inline-flex items-center gap-1.5 font-semibold text-slate-500" style={{ fontSize: "0.68rem", letterSpacing: "0.05em" }}>
+                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#2563EB", display: "inline-block" }} />
+                  Order Features
+                </div>
+                <h2 className="font-extrabold text-slate-900 tracking-tight" style={{ fontSize: "clamp(1.7rem, 2.8vw, 2.4rem)", lineHeight: 1.2 }}>
+                  BusinessConnect Helps You Build Beautiful Store Operations
+                </h2>
+                <p className="text-slate-500 font-medium" style={{ fontSize: "0.9rem", lineHeight: 1.7 }}>
+                  Providing Customer Service In One Platform. Our Responsive Landing Page Works On All Devices. With A Fully Redesigned Project Management Experience.
+                </p>
+                <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                  {[
+                    { ic: "🤖", label: "Simply AI-Powered", desc: "Auto-fill product listings, packaging and web page items now use AI features." },
+                    { ic: "🎯", label: "Easy To Customize", desc: "Add custom landing packaging and web page features by category and brand." },
+                    { ic: "⚡", label: "Made With Tailwind CSS", desc: "Modern stacking packages and web page features now use Tail-wind for free." },
+                  ].map(({ ic, label, desc }) => (
+                    <div key={label} className="flex items-start gap-4" style={{ padding: "14px 0" }}>
+                      <div style={{ width: 36, height: 36, borderRadius: R.md, background: "#F8FAFC", border: "1px solid #F1F5F9", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1rem", flexShrink: 0 }}>{ic}</div>
+                      <div>
+                        <div style={{ fontSize: "0.85rem", fontWeight: 700, color: DARK, marginBottom: 3 }}>{label}</div>
+                        <div style={{ fontSize: "0.76rem", fontWeight: 500, color: "#64748B", lineHeight: 1.55 }}>{desc}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {/* Right mockup */}
+              <div style={{ flex: 1 }}>
+                <div style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: R["2xl"], boxShadow: "0 8px 48px rgba(0,0,0,0.07)", padding: 24 }}>
+                  <div className="flex items-center justify-between" style={{ marginBottom: 16 }}>
+                    <div style={{ fontSize: "0.78rem", fontWeight: 700, color: DARK }}>Store Order Analysis</div>
+                    <div className="flex gap-4">
+                      {["Statistics","Sales","Insight"].map((t, i) => (
+                        <span key={t} style={{ fontSize: "0.62rem", fontWeight: 700, color: i === 0 ? "#2563EB" : "#94A3B8", paddingBottom: 2, borderBottom: i === 0 ? "2px solid #2563EB" : "none", cursor: "pointer" }}>{t}</span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex items-end gap-2 justify-center" style={{ height: 120 }}>
+                    {[
+                      ["৳2k","#EFF6FF"],["৳4k","#EFF6FF"],["৳5k","#EFF6FF"],["৳3k","#EFF6FF"],
+                      ["৳7k","#2563EB"],["৳6k","#2563EB"],["৳8k","#2563EB"],
+                    ].map(([label, color], i) => (
+                      <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", flex: 1 }}>
+                        <div style={{ fontSize: "0.5rem", color: "#94A3B8", fontWeight: 700, marginBottom: 4 }}>{label}</div>
+                        <div style={{ width: "100%", background: color, borderRadius: "5px 5px 0 0", height: `${[35,50,62,42,85,72,95][i]}%`, border: "1px solid rgba(0,0,0,0.04)" }} />
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex justify-around" style={{ marginTop: 8 }}>
+                    {["Jan","Feb","Mar","Apr","May","Jun","Jul"].map(m => (
+                      <div key={m} style={{ fontSize: "0.55rem", color: "#94A3B8", fontWeight: 600 }}>{m}</div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════
+            FAQ
+        ═══════════════════════ */}
+        <section style={{ padding: "80px 24px", background: "#FAFAFA", borderTop: "1px solid #F1F5F9" }}>
+          <div className="max-w-3xl mx-auto">
+            <div className="text-center" style={{ marginBottom: 48 }}>
+              <div className="inline-flex items-center gap-1.5 font-semibold text-slate-500" style={{ fontSize: "0.68rem", letterSpacing: "0.05em", marginBottom: 14 }}>
+                <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#F43F5E", display: "inline-block" }} />
+                Our FAQs
+              </div>
+              <h2 className="font-extrabold text-slate-900 tracking-tight" style={{ fontSize: "clamp(1.7rem, 3vw, 2.4rem)", lineHeight: 1.15, marginBottom: 10 }}>
+                Business OS Sales FAQs
+              </h2>
+              <p className="text-slate-500 font-medium" style={{ fontSize: "0.88rem", maxWidth: 420, margin: "0 auto 20px" }}>
+                As a leading digital merchant agency, we are dedicated to providing comprehensive educational resources and answering frequently asked questions to help our clients.
+              </p>
+              <div className="flex items-center justify-center gap-3">
+                <Link href="/register" className="inline-flex items-center gap-2 font-bold text-white hover:opacity-90 transition-opacity" style={{ padding: "10px 22px", background: DARK, borderRadius: R.pill, fontSize: "0.84rem" }}>
+                  More Questions <ArrowRight size={14} />
+                </Link>
+                <Link href="/login" className="inline-flex items-center gap-2 font-bold text-slate-700 hover:bg-slate-100 transition-colors" style={{ padding: "10px 22px", background: "white", border: "1.5px solid #E2E8F0", borderRadius: R.pill, fontSize: "0.84rem" }}>
+                  Contact Us
+                </Link>
+              </div>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {faqs.map((f, i) => (
+                <div key={i} style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: R.xl, overflow: "hidden" }}>
+                  <button className="w-full text-left flex items-center justify-between gap-4 font-semibold text-slate-900 hover:bg-slate-50 transition-colors"
+                    style={{ padding: "18px 22px", fontSize: "0.875rem" }}
+                    onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                    {f.q}
+                    {openFaq === i ? <ChevronUp size={16} className="text-slate-400 shrink-0" /> : <ChevronDown size={16} className="text-slate-400 shrink-0" />}
+                  </button>
+                  {openFaq === i && (
+                    <div style={{ padding: "0 22px 18px", fontSize: "0.855rem", color: "#64748B", lineHeight: 1.75, fontWeight: 500, borderTop: "1px solid #F1F5F9" }}>
+                      <div style={{ paddingTop: 14 }}>{f.a}</div>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
-            <Link href="/register"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-[#0F172A] text-white rounded-2xl font-bold text-sm hover:bg-[#1E293B] transition-all">
-              Explore Enterprise Solutions <ArrowRight size={16} />
-            </Link>
           </div>
-          {/* Dashboard Preview */}
-          <div className="flex-1 relative w-full max-w-lg mx-auto">
-            <div className="absolute -inset-8 bg-blue-500/5 blur-[80px] rounded-full" />
-            <div className="relative bg-white rounded-[44px] border border-gray-100 shadow-2xl p-8 space-y-6">
-              <div className="flex items-center justify-between pb-4 border-b border-gray-100">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-[#1E40AF] rounded-lg flex items-center justify-center">
-                    <Box size={16} className="text-white" />
-                  </div>
-                  <div>
-                    <div className="h-2.5 w-28 bg-slate-200 rounded-full" />
-                    <div className="h-2 w-16 bg-slate-100 rounded-full mt-1.5" />
-                  </div>
-                </div>
-                <div className="flex gap-2">
-                  <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                  <div className="text-[10px] font-bold text-green-600">LIVE</div>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                {[
-                  { label: "Today's Revenue", val: "৳1,24,800", color: "bg-blue-50", icon: TrendingUp, iconColor: "text-blue-500" },
-                  { label: "Active Orders", val: "247", color: "bg-emerald-50", icon: Package, iconColor: "text-emerald-500" },
-                  { label: "In Transit", val: "89", color: "bg-amber-50", icon: Truck, iconColor: "text-amber-500" },
-                  { label: "Low Stock Items", val: "12", color: "bg-rose-50", icon: Bell, iconColor: "text-rose-500" },
-                ].map(({ label, val, color, icon: Icon, iconColor }) => (
-                  <div key={label} className={`${color} rounded-2xl p-5 space-y-3`}>
-                    <Icon size={18} className={iconColor} />
-                    <div className="text-lg font-black text-[#0F172A]">{val}</div>
-                    <div className="text-[10px] font-bold text-gray-500 uppercase tracking-wide">{label}</div>
-                  </div>
-                ))}
-              </div>
-              <div className="space-y-3">
-                <div className="text-xs font-bold text-gray-400 uppercase tracking-widest">Recent Orders</div>
-                {["Order #5821 · Chittagong", "Order #5820 · Dhaka", "Order #5819 · Sylhet"].map((o, i) => (
-                  <div key={i} className="flex items-center justify-between py-3 border-b border-gray-50 last:border-0">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-slate-100 rounded-xl" />
-                      <div>
-                        <div className="text-xs font-bold text-[#0F172A]">{o}</div>
-                        <div className="h-1.5 w-16 bg-slate-100 rounded mt-1" />
-                      </div>
-                    </div>
-                    <div className="px-3 py-1 bg-green-100 text-green-700 text-[10px] font-bold rounded-full">Confirmed</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ─── INTEGRATIONS ─── */}
-      <section id="integrations" className="py-16 px-6 bg-slate-50/50 border-y border-gray-100">
-        <div className="max-w-5xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-200 rounded-full text-xs font-bold uppercase tracking-widest text-gray-500 mb-8">
-            <Zap size={13} className="text-amber-500" /> Native Integrations
-          </div>
-          <h2 className="text-2xl md:text-3xl font-extrabold text-[#0F172A] mb-4">
-            Connects with the tools you already use
-          </h2>
-          <p className="text-base text-gray-500 font-medium mb-16 max-w-xl mx-auto">
-            Pre-built integrations with Bangladesh's top couriers, payment gateways, and AI services — ready on day one.
-          </p>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {integrations.map((item) => (
-              <div key={item.name} className={`flex flex-col items-center gap-3 p-6 bg-white rounded-[24px] border transition-all duration-150 cursor-default hover:shadow-lg hover:-translate-y-0.5 ${item.color.split(" ").find(c => c.startsWith("border-")) || "border-gray-100"}`}>
-                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-lg font-black ${item.color}`}>
-                  {item.name.charAt(0)}
+        {/* ═══════════════════════
+            FOOTER CTA
+        ═══════════════════════ */}
+        <section style={{ padding: "72px 24px 0" }}>
+          <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-8" style={{ paddingBottom: 64, borderBottom: "1px solid #F1F5F9" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <div style={{ width: 32, height: 32, borderRadius: R.md, background: BLUE, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <Box size={16} className="text-white" />
                 </div>
-                <div className="font-extrabold text-sm text-[#0F172A]">{item.name}</div>
-                <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{item.category}</div>
+                <span className="font-extrabold" style={{ fontSize: "1rem" }}>BusinessConnect.</span>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── TESTIMONIALS ─── */}
-      <section className="py-20 px-6 overflow-hidden relative">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/4 blur-[120px] rounded-full -mr-48 -mt-48" />
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-16">
-            <div className="space-y-5 max-w-xl">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-amber-50 text-amber-700 rounded-full text-xs font-bold uppercase tracking-widest">
-                <Star size={12} className="fill-current" /> Merchant Stories
-              </div>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-[#0F172A] leading-tight">
-                Trusted by merchants<br /> scaling across Bangladesh
+              <h2 className="font-extrabold text-slate-900 tracking-tight" style={{ fontSize: "clamp(1.5rem, 2.5vw, 2.2rem)", lineHeight: 1.2, maxWidth: 360 }}>
+                Are You Interested With BusinessConnect?
               </h2>
+              <div>
+                <Link href="/register" className="inline-flex items-center gap-2 font-bold text-white hover:opacity-90 transition-opacity" style={{ padding: "11px 24px", background: DARK, borderRadius: R.pill, fontSize: "0.875rem" }}>
+                  Contact Sales
+                </Link>
+              </div>
             </div>
-            <div className="flex gap-4 shrink-0">
-              <div className="bg-blue-50 px-8 py-6 rounded-3xl border border-blue-100 text-center">
-                <div className="text-3xl font-extrabold text-[#1E40AF]">4.9</div>
-                <div className="flex gap-0.5 justify-center mt-1.5">
-                  {[...Array(5)].map((_, i) => <Star key={i} size={14} className="fill-amber-400 text-amber-400" />)}
+            {/* Decorative mockup */}
+            <div style={{ flex: 1, maxWidth: 480 }}>
+              <div style={{ background: "white", border: "1px solid #E2E8F0", borderRadius: R["2xl"], padding: 20, boxShadow: "0 4px 24px rgba(0,0,0,0.06)" }}>
+                <div className="flex items-center gap-2.5" style={{ marginBottom: 14 }}>
+                  <div style={{ width: 28, height: 28, borderRadius: R.sm, background: BLUE, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Box size={13} className="text-white" />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ height: 8, width: 110, background: "#E2E8F0", borderRadius: R.pill }} />
+                    <div style={{ height: 6, width: 68, background: "#F1F5F9", borderRadius: R.pill, marginTop: 5 }} />
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#10B981" }} />
+                    <span style={{ fontSize: "0.55rem", fontWeight: 700, color: "#059669" }}>LIVE</span>
+                  </div>
                 </div>
-                <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-2">Avg Rating</div>
+                <div className="grid grid-cols-3 gap-2">
+                  {[["Revenue","৳1,24,800","#EFF6FF"],["Orders","247","#F0FDF4"],["Returns","3","#FFF1F2"]].map(([label, val, bg]) => (
+                    <div key={label} style={{ background: bg, borderRadius: R.md, padding: "10px 12px" }}>
+                      <div style={{ fontSize: "0.55rem", fontWeight: 700, color: "#94A3B8", textTransform: "uppercase", marginBottom: 4 }}>{label}</div>
+                      <div style={{ fontSize: "0.95rem", fontWeight: 900, color: DARK }}>{val}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            {reviews.map((review, i) => (
-              <div key={i} className="p-8 bg-white border border-slate-100 rounded-[36px] shadow-sm hover:shadow-xl hover:border-blue-100 transition-all flex flex-col">
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex gap-1">
-                    {[...Array(review.rating)].map((_, j) => (
-                      <Star key={j} size={14} className="fill-amber-400 text-amber-400" />
-                    ))}
+        </section>
+
+        {/* ═══════════════════════
+            FOOTER
+        ═══════════════════════ */}
+        <footer style={{ padding: "40px 24px 32px", background: "white" }}>
+          <div className="max-w-6xl mx-auto">
+            <div className="flex flex-col md:flex-row justify-between items-start gap-12" style={{ marginBottom: 36 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div className="flex items-center gap-2">
+                  <div style={{ width: 28, height: 28, borderRadius: R.md, background: BLUE, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Box size={14} className="text-white" />
                   </div>
-                  <div className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100">
-                    {review.metric}
-                  </div>
+                  <span className="font-extrabold text-slate-900" style={{ fontSize: "0.95rem" }}>BusinessConnect.</span>
                 </div>
-                <p className="text-base font-medium text-slate-600 leading-relaxed flex-1 mb-8">
-                  &ldquo;{review.content}&rdquo;
+                <p className="text-slate-400 font-medium" style={{ fontSize: "0.8rem", lineHeight: 1.6, maxWidth: 220 }}>
+                  The AI-First Business OS for Bangladesh's digital economy.
                 </p>
-                <div className="flex items-center gap-4 pt-6 border-t border-slate-50">
-                  <div className="w-11 h-11 rounded-2xl bg-slate-100 overflow-hidden border-2 border-white shadow-sm">
-                    <img src={review.image} alt={review.name} className="w-full h-full object-cover" />
-                  </div>
-                  <div>
-                    <h4 className="font-extrabold text-[#0F172A] text-sm">{review.name}</h4>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{review.role}</p>
-                  </div>
-                </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── FINAL CTA ─── */}
-      <section className="py-20 px-6">
-        <div className="max-w-4xl mx-auto bg-[#0F172A] rounded-[48px] px-10 py-20 text-center relative overflow-hidden">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-blue-500/15 blur-[80px] rounded-full" />
-          <div className="relative z-10 space-y-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 text-white rounded-full text-xs font-bold uppercase tracking-widest">
-              <HeadphonesIcon size={13} /> Dedicated Support Included
-            </div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-white leading-tight">
-              Ready to grow your<br /> business faster?
-            </h2>
-            <p className="text-gray-400 text-lg max-w-xl mx-auto font-medium">
-              Join 2,000+ merchants already using BusinessConnect. Get full platform access and our onboarding team will guide you step by step.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/register"
-                className="bg-[#BEF264] text-[#0F172A] px-10 py-4 rounded-2xl font-extrabold text-base hover:scale-[1.03] transition-all shadow-2xl shadow-lime-400/10 flex items-center justify-center gap-2">
-                Get Started — It&apos;s Free <ArrowRight size={18} />
-              </Link>
-              <Link href="/login"
-                className="bg-white/10 text-white border border-white/20 px-10 py-4 rounded-2xl font-bold text-base hover:bg-white/15 transition-all flex items-center justify-center gap-2">
-                Sign In
-              </Link>
-            </div>
-            <p className="text-xs text-gray-600 font-medium">No credit card required &nbsp;·&nbsp; Setup in under 30 minutes</p>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── FOOTER ─── */}
-      <footer className="bg-white py-20 px-6 border-t border-gray-100">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-12 mb-16">
-          <div className="md:col-span-2 space-y-6">
-            <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 bg-[#1E40AF] rounded-xl flex items-center justify-center">
-                <Box size={18} className="text-white" />
-              </div>
-              <span className="font-extrabold text-xl tracking-tight">BusinessConnect</span>
-            </div>
-            <p className="text-gray-500 font-medium leading-relaxed text-sm max-w-xs">
-              The AI-First Business Operating System designed for Bangladesh's digital economy. From inventory to delivery, we automate it all.
-            </p>
-            <div className="flex items-center gap-2 text-xs font-bold text-gray-400">
-              <div className="w-2 h-2 bg-green-500 rounded-full" />
-              All systems operational
-            </div>
-          </div>
-          {[
-            {
-              heading: "Product",
-              links: ["AI Product Engine", "Inventory Hub", "Logistics & Courier", "Payments", "Analytics", "Staff Management"],
-            },
-            {
-              heading: "Solutions",
-              links: ["Retail & E-commerce", "Wholesale & B2B", "Multi-location Brands", "Enterprise"],
-            },
-            {
-              heading: "Company",
-              links: ["About Us", "Privacy Policy", "Terms of Service", "Help Center", "Contact"],
-            },
-          ].map(({ heading, links }) => (
-            <div key={heading}>
-              <h4 className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#0F172A] mb-6">{heading}</h4>
-              <ul className="space-y-4">
-                {links.map(l => (
-                  <li key={l} className="text-sm font-semibold text-gray-400 hover:text-[#1E40AF] cursor-pointer transition-colors">{l}</li>
+              <div className="flex flex-wrap gap-12">
+                {[
+                  { heading: "Company",          links: ["Security", "Brand Guidelines", "Careers"] },
+                  { heading: "Career",            links: ["Jobs", "Hiring", "Internship"] },
+                  { heading: "Legal Information", links: ["Privacy Policy", "Terms of Service", "Cookie Policy"] },
+                ].map(({ heading, links }) => (
+                  <div key={heading}>
+                    <div style={{ fontSize: "0.72rem", fontWeight: 700, color: DARK, marginBottom: 14, textTransform: "uppercase", letterSpacing: "0.06em" }}>{heading}</div>
+                    <ul style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                      {links.map(l => <li key={l} className="text-slate-400 hover:text-slate-700 cursor-pointer transition-colors font-medium" style={{ fontSize: "0.82rem" }}>{l}</li>)}
+                    </ul>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
-          ))}
-        </div>
-        <div className="max-w-7xl mx-auto pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs font-bold text-gray-300 tracking-widest uppercase">© 2026 BusinessConnect.bd — The Pride of Digital Bangladesh</p>
-          <div className="flex items-center gap-3 opacity-40">
-            <div className="w-8 h-5 bg-red-600 rounded-sm" />
-            <div className="w-8 h-5 bg-emerald-600 rounded-sm" />
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4" style={{ paddingTop: 24, borderTop: "1px solid #F1F5F9" }}>
+              <div className="flex items-center gap-2">
+                <div style={{ width: 24, height: 24, borderRadius: R.md, background: BLUE, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <Box size={12} className="text-white" />
+                </div>
+                <span style={{ fontSize: "0.75rem", fontWeight: 700, color: DARK }}>BusinessConnect.</span>
+                <span style={{ fontSize: "0.7rem", color: "#CBD5E1", fontWeight: 500 }}>Home · About Us · Reviews</span>
+              </div>
+              <p style={{ fontSize: "0.72rem", color: "#CBD5E1", fontWeight: 500 }}>© 2026 BusinessConnect.bd — Terms & Conditions · Privacy Policy</p>
+              <div className="flex items-center gap-2">
+                {["f","ig","tw","yt","in"].map(s => (
+                  <div key={s} style={{ width: 28, height: 28, borderRadius: "50%", background: "#F1F5F9", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <span style={{ fontSize: "0.55rem", fontWeight: 800, color: "#94A3B8", textTransform: "lowercase" }}>{s}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
-      </footer>
+        </footer>
+
+      </div>
     </div>
   );
 }
