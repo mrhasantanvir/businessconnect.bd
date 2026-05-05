@@ -180,6 +180,8 @@ model MerchantStore {
   staffProfiles        StaffProfile[]
   roles                Role[]
   deviceLicenses       DeviceLicense[]
+  leavePolicies        LeavePolicy[]
+  leaveRequests        LeaveRequest[]
   // Tracking & Analytics
   googleAnalyticsId    String?
   gtmId                String?
@@ -643,6 +645,10 @@ model StaffProfile {
   commissions     StaffCommission[]
   hasAcceptedChatPolicy Boolean @default(false)
   chatPolicyAcceptedAt DateTime?
+  
+  // Leave Management
+  leaveBalance    String?           @db.Text // JSON: { "casual": 12, "sick": 10 }
+  leaveRequests   LeaveRequest[]
 }
 
 model StaffDocument {
@@ -705,8 +711,41 @@ model StaffActivityFrame {
   mouseClicks   Int          @default(0)
   activityScore Float        @default(0)
   screenshotUrl String?
+  appLogs       Json?        // Tracked applications
+  urlLogs       Json?        // Tracked websites
   createdAt     DateTime     @default(now())
   workLog       StaffWorkLog @relation(fields: [workLogId], references: [id], onDelete: Cascade)
+}
+
+model LeavePolicy {
+  id              String        @id @default(cuid())
+  merchantStoreId String
+  name            String        // e.g. "Standard 2026"
+  casualDays      Int           @default(12)
+  sickDays        Int           @default(10)
+  otherDays       Int           @default(0)
+  isActive        Boolean       @default(true)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
+}
+
+model LeaveRequest {
+  id              String        @id @default(cuid())
+  staffProfileId  String
+  merchantStoreId String
+  type            String        // CASUAL, SICK, UNPAID
+  reason          String?       @db.Text
+  startDate       DateTime
+  endDate         DateTime
+  totalDays       Int
+  status          String        @default("PENDING") // PENDING, APPROVED, REJECTED
+  approvedById    String?
+  rejectionReason String?       @db.Text
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  staffProfile    StaffProfile  @relation(fields: [staffProfileId], references: [id], onDelete: Cascade)
+  merchantStore   MerchantStore @relation(fields: [merchantStoreId], references: [id])
 }
 
 model IncrementRule {
@@ -745,6 +784,11 @@ model Product {
   brandId           String?
   unitType          String           @default("piece")
   unitWeight        Float?
+  width             Float?           @default(0)
+  height            Float?           @default(0)
+  length            Float?           @default(0)
+  wholesalePrice    Float?           @default(0)
+  minWholesaleQty   Int?             @default(0)
   isHomeDelivery    Boolean          @default(true)
   isCollectionPoint Boolean          @default(false)
   allowedCouriers   String?
@@ -756,6 +800,10 @@ model Product {
   seoTitle          String?
   seoDescription    String?
   seoKeywords       String?
+  ogImage           String?
+  ogTitle           String?
+  ogDescription     String?
+  jsonLdData        Json?
   schemaConfig      String?
   image             String?
   externalSource    String?
@@ -767,6 +815,8 @@ model Product {
   flashSaleItems    FlashSaleItem[]
   inventoryLogs     InventoryLog[]
   orderItems        OrderItem[]
+  variations        ProductVariation[]
+  gallery           ProductImage[]
   merchantStore     MerchantStore    @relation(fields: [merchantStoreId], references: [id])
   brand             Brand?           @relation(fields: [brandId], references: [id])
   createdBy         String?
@@ -776,6 +826,38 @@ model Product {
   warehouseStocks   WarehouseStock[]
 
   @@unique([merchantStoreId, sku], name: "merchantStoreId_sku")
+}
+
+model ProductVariation {
+  id              String        @id @default(cuid())
+  productId       String
+  name            String        // e.g., "Red / XL"
+  sku             String?
+  barcode         String?
+  price           Float?        // If null, uses base product price
+  purchasePrice   Float?        @default(0)
+  stock           Int           @default(0)
+  image           String?
+  attributes      Json?         // e.g., { "color": "Red", "size": "XL" }
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  product         Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@index([sku])
+}
+
+model ProductImage {
+  id              String        @id @default(cuid())
+  productId       String
+  url             String
+  alt             String?
+  isProcessed     Boolean       @default(false)
+  originalUrl     String?
+  createdAt       DateTime      @default(now())
+  product         Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
 }
 
 model FlashSale {

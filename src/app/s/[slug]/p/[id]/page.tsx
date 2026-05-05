@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import React from "react";
 import { db as prisma } from "@/lib/db";
 import { 
@@ -19,17 +20,40 @@ import Link from "next/link";
 import { ProductReviews } from "@/components/storefront/ProductReviews";
 import { TrackingScripts } from "@/components/storefront/TrackingScripts";
 
+export async function generateMetadata({ params }: { params: { slug: string, id: string } }): Promise<Metadata> {
+  const { id } = await params;
+  const product = await prisma.product.findUnique({
+    where: { id }
+  });
+
+  if (!product) return { title: "Product Not Found" };
+
+  return {
+    title: product.ogTitle || `${product.name} | BusinessConnect`,
+    description: product.ogDescription || product.seoDescription || product.description,
+    openGraph: {
+      title: product.ogTitle || product.name,
+      description: product.ogDescription || product.description || undefined,
+      images: [product.ogImage || product.image || ""],
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: product.ogTitle || product.name,
+      description: product.ogDescription || product.description || undefined,
+      images: [product.ogImage || product.image || ""],
+    },
+  };
+}
+
 export default async function ProductDetailPage({ params }: { params: { slug: string, id: string } }) {
   const { slug, id } = await params;
 
   const product = await prisma.product.findUnique({
     where: { id },
     include: {
-      // category: true, // Temporarily disabled due to Prisma Client Sync Issue
-      // reviews: {
-      //   include: { customer: true },
-      //   orderBy: { createdAt: "desc" }
-      // }
+      category: true,
+      gallery: true,
     }
   }) as any;
 
@@ -44,8 +68,32 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
     ? reviews.reduce((acc: any, r: any) => acc + r.rating, 0) / reviews.length 
     : 5;
 
+  const jsonLd = {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": product.name,
+    "image": [product.image, ...(product.gallery?.map((g: any) => g.url) || [])],
+    "description": product.description,
+    "sku": product.sku,
+    "brand": {
+      "@type": "Brand",
+      "name": store.name
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": `https://${store.slug}.businessconnect.bd/p/${product.id}`,
+      "priceCurrency": "BDT",
+      "price": product.price,
+      "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#F9FAFB] text-[#0F172A] font-sans pb-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <TrackingScripts store={store as any} />
       
       {/* 1. Detail Header */}
