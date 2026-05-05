@@ -1,5 +1,5 @@
 import { db as prisma } from '@/lib/db';
-import { adminMessaging } from '@/lib/firebase-admin';
+import { getAdminMessaging } from '@/lib/firebase-admin';
 
 export class NotificationService {
   /**
@@ -21,13 +21,14 @@ export class NotificationService {
       const tokenList = tokens.map(t => t.token);
 
       // 2. Send multicast message via Firebase
+      const messaging = await getAdminMessaging();
       const message = {
         notification: { title, body },
         data: data || {},
         tokens: tokenList,
       };
 
-      const response = await adminMessaging.sendEachForMulticast(message);
+      const response = await messaging.sendEachForMulticast(message);
       
       // 3. Clean up invalid tokens if any
       if (response.failureCount > 0) {

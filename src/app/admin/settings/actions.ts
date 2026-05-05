@@ -775,7 +775,8 @@ export async function testPushNotificationAction(token: string) {
     const session = await getSession();
     if (!session || session.role !== "SUPER_ADMIN") throw new Error("Unauthorized");
 
-    const { adminMessaging } = await import("@/lib/firebase-admin");
+    const { getAdminMessaging } = await import("@/lib/firebase-admin");
+    const messaging = await getAdminMessaging();
     
     const message = {
       notification: {
@@ -785,7 +786,7 @@ export async function testPushNotificationAction(token: string) {
       token: token,
     };
 
-    const response = await adminMessaging.send(message);
+    const response = await messaging.send(message);
     return { success: true, messageId: response };
   } catch (error: any) {
     console.error("FCM Test Error:", error);
