@@ -561,8 +561,7 @@ export function StaffManagementClient({ initialStaff }: { initialStaff: any[] })
         </div>
       </div>
     </div>
-    )}
-)}
+
 
       {/* Add Staff Modal */}
       {isAddModalOpen && (
