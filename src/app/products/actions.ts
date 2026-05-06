@@ -112,6 +112,12 @@ export async function createProductAction(data: {
       seoDescription: data.seoDescription,
       seoKeywords: data.seoKeywords,
       image: data.image,
+      wholesalePrice: (data as any).wholesalePrice || 0,
+      minWholesaleQty: (data as any).minWholesaleQty || 0,
+      width: (data as any).width || 0,
+      height: (data as any).height || 0,
+      length: (data as any).length || 0,
+      handlingClass: (data as any).handlingClass || "GENERAL",
       merchantStoreId: session.merchantStoreId,
       createdBy: session.userId,
       updatedBy: session.userId
