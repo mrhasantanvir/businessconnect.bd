@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+import { askAI } from "@/lib/ai/gateway";
 
 export async function POST(req: NextRequest) {
   try {
@@ -17,13 +15,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "No image provided" }, { status: 400 });
     }
 
-    // Convert file to base64 for Gemini
+    // Convert file to base64
     const bytes = await image.arrayBuffer();
     const buffer = Buffer.from(bytes);
-    const base64Image = buffer.toString("base64");
+    const base64Image = `data:${image.type};base64,${buffer.toString("base64")}`;
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-    
     const prompt = `
       Analyze this product image and provide:
       1. A professional product name (max 50 chars).
@@ -33,20 +29,12 @@ export async function POST(req: NextRequest) {
       Return ONLY as JSON: {"name": "...", "category": "...", "brand": "...", "description": "..."}
     `;
 
-    const result = await model.generateContent([
-      prompt,
-      {
-        inlineData: {
-          data: base64Image,
-          mimeType: image.type
-        }
-      }
-    ]);
+    const { content } = await askAI(prompt, { 
+      imageUrl: base64Image, 
+      jsonMode: true 
+    });
 
-    const responseText = result.response.text();
-    const jsonStr = responseText.match(/\{.*\}/s)?.[0] || "{}";
-    const data = JSON.parse(jsonStr);
-
+    const data = JSON.parse(content);
     return NextResponse.json(data);
   } catch (error: any) {
     console.error("Vision AI Error:", error);
