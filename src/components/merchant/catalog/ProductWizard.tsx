@@ -100,19 +100,27 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
     setIsAiLoading(true);
     try {
        const result = await importProductFromChinaUrlAction(importUrl);
-       setFormData(prev => ({
-         ...prev,
-         name: result.data.name,
-         description: result.data.description,
-         price: result.data.price.toString(),
-         stock: result.data.stock.toString(),
-         image: result.data.images[0],
-         categoryId: categories.find(c => c.name.toLowerCase().includes(result.data.category.toLowerCase()))?.id || ""
-       }));
-       setTab("general");
+       if (result.success && result.data) {
+          setFormData(prev => ({
+            ...prev,
+            name: result.data.name,
+            description: result.data.description,
+            price: result.data.price?.toString() || "",
+            stock: result.data.stock?.toString() || "",
+            image: result.data.images?.[0] || prev.image,
+            categoryId: categories.find(c => c.name.toLowerCase().includes(result.data.category?.toLowerCase() || ""))?.id || ""
+          }));
+          setTab("general");
+       } else {
+          setSource("ai_context");
+          const msg = result.error === "SITE_BLOCKED" 
+            ? "Sync Blocked by Provider. Please use 'AI Context Paste' below." 
+            : "Connection Timeout. Please try again or use AI Context.";
+          alert(msg);
+       }
     } catch (err) { 
        setSource("ai_context");
-       alert("Automated Sync Blocked. Please use 'AI Context Paste' below to extract data manually."); 
+       alert("Network error. Please use manual AI Context Paste."); 
     } finally {
        setIsAiLoading(false);
     }

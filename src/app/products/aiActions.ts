@@ -84,48 +84,35 @@ export async function importProductFromChinaUrlAction(url: string) {
           'Accept-Language': 'en-US,en;q=0.9',
           'Referer': 'https://www.google.com/'
         },
-        cache: 'no-store'
+        cache: 'no-store',
+        signal: AbortSignal.timeout(15000) // 15s timeout
      });
      
-     if (!res.ok) throw new Error("Failed to reach URL");
+     if (!res.ok) return { success: false, error: "SITE_BLOCKED" };
      
      const html = await res.text();
      
-     // Targeted Extraction: AliExpress stores data in large JSON objects inside script tags
-     // We look for 'window.runParams' or similar patterns which contain the full product spec
-     let contextData = html.slice(0, 30000); // Default fallback
-     
+     let contextData = html.slice(0, 30000); 
      const scriptMatch = html.match(/window\.runParams\s*=\s*({.*?});/s) || 
                          html.match(/data:\s*({.*?}),\s*csrfToken/s) ||
                          html.match(/_itemDetailData\s*=\s*({.*?});/s);
 
      if (scriptMatch && scriptMatch[1]) {
-        contextData = scriptMatch[1].slice(0, 20000); // Use the concentrated JSON data
+        contextData = scriptMatch[1].slice(0, 20000);
      }
 
      const prompt = `
-       You are an Expert Scraper. Analyze this e-commerce product data and extract:
+       Extract product details from: ${contextData}
        URL: ${url}
-       Data Snippet: ${contextData}
-
-       STRICT JSON RESPONSE:
-       {
-         "name": "Full title",
-         "description": "Rich description with specs",
-         "price": float_value,
-         "stock": integer,
-         "category": "category_name",
-         "brand": "brand_name",
-         "images": ["url1", "url2"]
-       }
+       Return ONLY JSON: {"name": "title", "description": "desc", "price": 0, "stock": 100, "images": ["url"]}
      `;
 
      const { content } = await askAI(prompt, { 
        jsonMode: true,
-       systemPrompt: "You are a professional scraper AI. Extract product data accurately from raw JSON/HTML snippets."
+       systemPrompt: "Professional Scraper AI."
      });
+     
      const parsedData = JSON.parse(content);
-
      return {
        success: true,
        data: {
@@ -135,6 +122,6 @@ export async function importProductFromChinaUrlAction(url: string) {
      };
   } catch (error: any) {
      console.error("URL Import Error:", error.message);
-     throw new Error("Extraction failed. Site protected or context missing.");
+     return { success: false, error: error.message || "TIMEOUT" };
   }
 }
