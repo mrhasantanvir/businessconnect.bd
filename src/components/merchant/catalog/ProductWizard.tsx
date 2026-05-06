@@ -5,7 +5,7 @@ import {
   Plus, Upload, Sparkles, Check, ChevronRight, ChevronLeft, 
   Tag, Scale, Truck, Globe, ShoppingBag, DollarSign, 
   Layers, Package, MapPin, Search, Barcode, Trash2, Image as ImageIcon, ShieldCheck,
-  RefreshCw, Wand2, Scissors, Zap, Download, Globe2, Save, Gift
+  RefreshCw, Wand2, Scissors, Zap, Download, Globe2, Save, Gift, Loader2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { bdDistricts } from "@/lib/data/districts";
@@ -100,7 +100,7 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
       }
 
     } catch (err) {
-      alert("AI Processing failed.");
+      console.error(err);
     } finally {
       setIsUploading(false);
       setIsAiLoading(false);
@@ -121,9 +121,8 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
          image: result.data.images[0],
          categoryId: categories.find(c => c.name.toLowerCase().includes(result.data.category.toLowerCase()))?.id || ""
        }));
-       alert("External Node Synchronized! 🌍");
     } catch (err) {
-       alert("Import failed.");
+       console.error(err);
     } finally {
        setIsAiLoading(false);
     }
@@ -144,10 +143,9 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
           categoryId: formData.categoryId || undefined,
           brandId: formData.brandId || undefined,
         });
-        alert("Intelligent Product Successfully Launched! 🚀");
         window.location.href = "/merchant/catalog";
       } catch (err) {
-        alert("Launch sequence failure.");
+        console.error(err);
       }
     });
   };
@@ -156,22 +154,22 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
   const prevStep = () => setStep(prev => Math.max(prev - 1, 1));
 
   return (
-    <div className="w-full max-w-6xl bg-white  rounded-[48px] shadow-2xl border border-surface-border overflow-hidden flex flex-col md:flex-row min-h-[750px]">
+    <div className="w-full max-w-6xl mx-auto bg-white/40 backdrop-blur-2xl rounded-[48px] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.1)] border border-white/60 overflow-hidden flex flex-col md:flex-row min-h-[780px] animate-in zoom-in-95 duration-700">
       
-      {/* Sidebar: Step Progress */}
-      <div className="w-full md:w-80 bg-gray-50/50  p-10 border-b md:border-b-0 md:border-r border-surface-border flex flex-col justify-between">
+      {/* Premium Glass Sidebar */}
+      <div className="w-full md:w-80 bg-slate-900/5 backdrop-blur-md p-10 border-b md:border-b-0 md:border-r border-white/40 flex flex-col justify-between">
         <div className="space-y-12">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-primary-blue flex items-center justify-center shadow-xl shadow-primary-blue/20">
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-2xl bg-indigo-600 flex items-center justify-center shadow-xl shadow-indigo-200">
               <Zap className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h2 className="font-semibold text-base uppercase tracking-tighter text-foreground">AI Product Launch</h2>
-              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Vision-First Workflow</p>
+              <h2 className="font-black text-lg uppercase tracking-tighter text-slate-900 leading-none">Product Studio</h2>
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Enterprise Launchpad</p>
             </div>
           </div>
 
-          <div className="space-y-8">
+          <div className="space-y-10">
             {steps.map((s) => {
               const Icon = s.icon;
               const isActive = step === s.id;
@@ -180,412 +178,369 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
                 <div key={s.id} className="flex items-center gap-5 relative group cursor-pointer" onClick={() => step > s.id && setStep(s.id)}>
                   <div className={cn(
                     "w-12 h-12 rounded-2xl border-2 flex items-center justify-center transition-all duration-500 z-10",
-                    isActive ? "border-primary-blue bg-primary-blue text-white scale-110 shadow-2xl shadow-primary-blue/30" : 
-                    isCompleted ? "border-green-500 bg-green-500 text-white" : "border-surface-border bg-white  text-muted-foreground"
+                    isActive ? "border-indigo-600 bg-indigo-600 text-white scale-110 shadow-xl shadow-indigo-100" : 
+                    isCompleted ? "border-green-500 bg-green-500 text-white" : "border-slate-200 bg-white text-slate-300"
                   )}>
                     {isCompleted ? <Check className="w-6 h-6" /> : <Icon className="w-5 h-5" />}
                   </div>
                   <div className="flex flex-col">
-                    <span className={cn("text-[10px] font-black uppercase tracking-[0.2em]", isActive ? "text-primary-blue" : "text-muted-foreground")}>{s.sub}</span>
-                    <span className={cn("text-base font-black tracking-tight", isActive ? "text-foreground" : "text-muted-foreground/60")}>{s.name}</span>
+                    <span className={cn("text-[9px] font-black uppercase tracking-widest", isActive ? "text-indigo-600" : "text-slate-400")}>{s.sub}</span>
+                    <span className={cn("text-base font-black tracking-tight", isActive ? "text-slate-900" : "text-slate-400")}>{s.name}</span>
                   </div>
-                  {s.id !== 4 && (
-                    <div className={cn("absolute left-6 top-12 w-0.5 h-8 -ml-[1px] transition-colors duration-500", isCompleted ? "bg-green-500" : "bg-surface-border")} />
-                  )}
                 </div>
               );
             })}
           </div>
         </div>
 
-        <div className="p-6 rounded-[32px] bg-gradient-to-br from-indigo-50 to-blue-50   border border-indigo-100 ">
+        <div className="p-6 rounded-[32px] bg-indigo-600 p-8 text-white shadow-2xl shadow-indigo-200 relative overflow-hidden group">
+           <Sparkles className="absolute -right-4 -bottom-4 w-24 h-24 text-white/10 group-hover:rotate-12 transition-all duration-1000" />
            <div className="flex items-center gap-2 mb-3">
-             <Sparkles className="w-5 h-5 text-indigo-600" />
-             <span className="text-xs font-black text-indigo-900  uppercase tracking-widest">Neural Sync</span>
+             <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
+             <span className="text-[10px] font-black uppercase tracking-widest">Neural Link Active</span>
            </div>
-           <p className="text-[11px] font-bold text-indigo-800/60  leading-relaxed uppercase">
-             Automated category detection and content generation enabled.
+           <p className="text-[11px] font-bold leading-relaxed uppercase opacity-80">
+             Vision-First workflow enabled for automated category & SEO mapping.
            </p>
         </div>
       </div>
 
-      {/* Main Content Area */}
-      <div className="flex-1 p-8 md:p-12 flex flex-col relative overflow-hidden bg-white ">
+      {/* Main Studio Area */}
+      <div className="flex-1 p-8 md:p-14 flex flex-col relative overflow-hidden">
         
-        {/* Import Bar */}
+        {/* Futuristic URL Node */}
         {step === 1 && (
-           <div className="mb-10 animate-in slide-in-from-top-4 duration-500">
-              <div className="flex items-center gap-3 bg-gray-50  p-2 rounded-[28px] border border-surface-border focus-within:border-primary-blue transition-all">
-                 <div className="w-12 h-12 rounded-[20px] bg-white  flex items-center justify-center text-primary-blue shadow-sm">
+           <div className="mb-12 animate-in slide-in-from-top-6 duration-700">
+              <div className="flex items-center gap-4 bg-white/60 border border-white p-3 rounded-[32px] shadow-sm focus-within:shadow-xl focus-within:border-indigo-600/30 transition-all">
+                 <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center text-white shadow-lg">
                     <Globe2 className="w-5 h-5" />
                  </div>
                  <input 
                    value={importUrl}
                    onChange={(e) => setImportUrl(e.target.value)}
-                   placeholder="Import from Alibaba, 1688, Amazon, etc..."
-                   className="flex-1 bg-transparent border-none outline-none text-sm font-bold text-foreground px-2"
+                   placeholder="Neural Sync: Alibaba, Amazon, 1688 URL..."
+                   className="flex-1 bg-transparent border-none outline-none text-sm font-bold text-slate-800 placeholder:text-slate-300"
                  />
                  <button 
                    onClick={handleImportUrl}
-                   className="px-6 py-3 bg-foreground text-background rounded-[20px] text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all"
+                   disabled={isAiLoading}
+                   className="px-8 h-12 bg-indigo-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-lg shadow-indigo-100 disabled:opacity-50"
                  >
-                    Import Node
+                    {isAiLoading ? <Loader2 className="w-4 h-4 animate-spin mx-auto" /> : "Import Node"}
                  </button>
               </div>
            </div>
         )}
 
-        {/* Step 1: Vision Hub */}
-        {step === 1 && (
-          <div className="animate-in fade-in slide-in-from-right-8 duration-500 h-full flex flex-col">
-            <div className="flex items-center justify-between mb-8">
-               <h3 className="text-lg font-semibold text-foreground tracking-tighter">Vision <span className="text-primary-blue">Intelligence</span></h3>
-               {formData.image && (
-                  <div className="flex gap-2">
-                     <button className="flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-indigo-50 hover:text-indigo-600 transition-all border border-gray-100">
-                        <Scissors className="w-3 h-3" /> Remove BG
-                     </button>
-                     <button className="flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-amber-50 hover:text-amber-600 transition-all border border-gray-100">
-                        <Layers className="w-3 h-3" /> Add Mockup
-                     </button>
-                  </div>
-               )}
-            </div>
+        {/* Content Modules */}
+        <div className="flex-1 flex flex-col">
+          {step === 1 && (
+            <div className="animate-in fade-in slide-in-from-right-10 duration-700 h-full flex flex-col">
+              <div className="flex items-center justify-between mb-10">
+                 <h3 className="text-2xl font-black text-slate-900 tracking-tighter uppercase">Vision <span className="text-indigo-600">Intelligence</span></h3>
+                 <div className="flex gap-3">
+                    <div className="h-2 w-2 rounded-full bg-indigo-600 animate-ping" />
+                    <span className="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Real-time Detection</span>
+                 </div>
+              </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 flex-1">
-               <div className="space-y-6">
-                  <div 
-                    onClick={() => fileInputRef.current?.click()}
-                    className={cn(
-                      "relative group w-full aspect-square rounded-[40px] border-4 border-dashed flex flex-col items-center justify-center cursor-pointer transition-all overflow-hidden",
-                      formData.image ? "border-green-500/20 bg-green-50/5" : "border-surface-border bg-gray-50/50 hover:border-primary-blue/30"
-                    )}
-                  >
-                     {isUploading ? (
-                        <div className="flex flex-col items-center gap-4">
-                           <RefreshCw className="w-12 h-12 text-primary-blue animate-spin" />
-                           <p className="text-xs font-black uppercase tracking-widest animate-pulse">Scanning Image Paths...</p>
-                        </div>
-                     ) : formData.image ? (
-                        <>
-                           <img src={formData.image} className="w-full h-full object-cover transition-transform group-hover:scale-105" />
-                           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                              <Plus className="w-10 h-10 text-white" />
-                           </div>
-                        </>
-                     ) : (
-                        <div className="flex flex-col items-center gap-4 p-10 text-center">
-                           <div className="w-20 h-20 rounded-[32px] bg-white flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform">
-                              <Upload className="w-8 h-8 text-primary-blue" />
-                           </div>
-                           <div>
-                              <p className="text-base font-black text-foreground">Upload Media</p>
-                              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-1">Vision Engine will Detect Context</p>
-                           </div>
-                        </div>
-                     )}
-                     <input ref={fileInputRef} type="file" className="hidden" onChange={handleFileChange} accept="image/*" />
-                  </div>
-               </div>
-
-               <div className="space-y-8 py-4">
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest flex items-center gap-2">
-                       <Sparkles className="w-3 h-3 text-primary-blue" /> Suggested Name
-                    </label>
-                    <input 
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      placeholder={isAiLoading ? "AI processing..." : "Waiting for image..."}
-                      className="w-full bg-transparent border-b-2 border-surface-border focus:border-primary-blue outline-none py-3 text-2xl font-black text-foreground tracking-tight transition-all"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 gap-6">
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Auto-detected Category</label>
-                      <select 
-                        name="categoryId"
-                        value={formData.categoryId}
-                        onChange={handleInputChange}
-                        className="w-full bg-gray-50  border border-surface-border rounded-2xl p-5 text-sm font-black outline-none focus:ring-4 focus:ring-primary-blue/10 uppercase tracking-widest"
-                      >
-                        <option value="">Select Category</option>
-                        {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-                      </select>
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Brand Suggestion</label>
-                      <select 
-                        name="brandId"
-                        value={formData.brandId}
-                        onChange={handleInputChange}
-                        className="w-full bg-gray-50  border border-surface-border rounded-2xl p-5 text-sm font-black outline-none focus:ring-4 focus:ring-primary-blue/10 uppercase tracking-widest"
-                      >
-                        <option value="">No Brand (Generic)</option>
-                        {brands.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
-                      </select>
-                    </div>
-                  </div>
-               </div>
-            </div>
-
-            <div className="flex justify-end pt-10 border-t border-surface-border mt-auto">
-               <button 
-                 onClick={nextStep}
-                 disabled={!formData.image || isAiLoading}
-                 className="group flex items-center gap-3 px-10 py-5 bg-primary-blue text-white rounded-3xl text-sm font-black uppercase tracking-widest hover:bg-black transition-all shadow-2xl disabled:opacity-50"
-               >
-                  Sync AI Copy <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-               </button>
-            </div>
-          </div>
-        )}
-
-        {/* Step 2: AI Copywriter */}
-        {step === 2 && (
-          <div className="animate-in fade-in slide-in-from-right-8 duration-500 h-full flex flex-col">
-            <div className="flex items-center justify-between mb-8">
-               <h3 className="text-lg font-semibold text-foreground tracking-tighter">AI <span className="text-indigo-600">Copywriter</span></h3>
-               <button 
-                 onClick={async () => {
-                    setIsAiLoading(true);
-                    const content = await generateAILongDescriptionAction({ name: formData.name, category: "Product" });
-                    setFormData({...formData, description: content.longDescription, shortDescription: content.shortDescription, tagline: content.tagline});
-                    setIsAiLoading(false);
-                 }}
-                 className="flex items-center gap-2 px-6 py-3 bg-indigo-50 text-indigo-600 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all"
-               >
-                  <RefreshCw className={cn("w-4 h-4", isAiLoading && "animate-spin")} /> Regenerate Neural Text
-               </button>
-            </div>
-
-            <div className="space-y-8 flex-1 overflow-y-auto pr-2 custom-scrollbar">
-               <div className="space-y-2">
-                  <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Marketing Tagline</label>
-                  <input 
-                    name="tagline"
-                    value={formData.tagline}
-                    onChange={handleInputChange}
-                    placeholder="Short catchy tagline..."
-                    className="w-full bg-indigo-50/30  border border-indigo-100  rounded-[20px] px-6 py-4 text-base font-black text-indigo-900  outline-none"
-                  />
-               </div>
-
-               <div className="space-y-2">
-                  <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Short Description</label>
-                  <textarea 
-                    name="shortDescription"
-                    value={formData.shortDescription}
-                    onChange={handleInputChange}
-                    rows={2}
-                    className="w-full bg-gray-50  border border-surface-border rounded-[24px] p-6 text-sm font-bold text-foreground outline-none resize-none"
-                  />
-               </div>
-
-               <div className="space-y-2">
-                  <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Long Description (AI Optimized)</label>
-                  <textarea 
-                    name="description"
-                    value={formData.description}
-                    onChange={handleInputChange}
-                    rows={10}
-                    className="w-full bg-gray-50  border border-surface-border rounded-[32px] p-8 text-sm font-medium text-foreground outline-none leading-relaxed"
-                  />
-               </div>
-            </div>
-
-            <div className="flex justify-between pt-10 border-t border-surface-border mt-8">
-               <button onClick={prevStep} className="flex items-center gap-2 px-8 py-5 text-sm font-black uppercase tracking-widest text-muted-foreground hover:text-foreground">
-                  <ChevronLeft className="w-5 h-5" /> Back
-               </button>
-               <button onClick={nextStep} className="flex items-center gap-3 px-10 py-5 bg-primary-blue text-white rounded-3xl text-sm font-black uppercase tracking-widest hover:bg-black transition-all">
-                  Configure Commerce <ChevronRight className="w-5 h-5" />
-               </button>
-            </div>
-          </div>
-        )}
-
-        {/* Step 3: Commerce Ops */}
-        {step === 3 && (
-          <div className="animate-in fade-in slide-in-from-right-8 duration-500 h-full flex flex-col">
-            <h3 className="text-lg font-semibold text-foreground mb-8 tracking-tighter">Commerce <span className="text-amber-500">Infrastructure</span></h3>
-            <div className="space-y-10 flex-1 overflow-y-auto pr-2 custom-scrollbar">
-                
-                {/* Price & Margin Matrix */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                  <div className="p-6 rounded-[32px] bg-white  border border-surface-border shadow-lg space-y-4">
-                    <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-500"><Download className="w-5 h-5" /></div>
-                    <div className="space-y-1">
-                      <label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Purchase Price</label>
-                      <input type="number" name="purchasePrice" value={formData.purchasePrice} onChange={handleInputChange} className="text-xl font-black text-foreground bg-transparent border-none outline-none w-full" placeholder="0.00" />
-                    </div>
-                  </div>
-                  
-                  <div className="p-6 rounded-[32px] bg-white  border border-surface-border shadow-lg space-y-4">
-                    <div className="w-12 h-12 rounded-xl bg-primary-blue/10 flex items-center justify-center text-primary-blue"><DollarSign className="w-5 h-5" /></div>
-                    <div className="space-y-1">
-                      <label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Retail Price</label>
-                      <input type="number" name="price" value={formData.price} onChange={handleInputChange} className="text-xl font-black text-foreground bg-transparent border-none outline-none w-full" placeholder="0.00" />
-                    </div>
-                  </div>
-
-                  <div className="p-6 rounded-[32px] bg-white  border border-surface-border shadow-lg space-y-4">
-                    <div className="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center text-red-500"><Gift className="w-5 h-5" /></div>
-                    <div className="space-y-1">
-                      <label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Discount Price</label>
-                      <input type="number" name="discountPrice" value={formData.discountPrice} onChange={handleInputChange} className="text-xl font-black text-foreground bg-transparent border-none outline-none w-full text-red-500" placeholder="0.00" />
-                    </div>
-                  </div>
-
-                  <div className={cn(
-                    "p-6 rounded-[32px] border transition-all flex flex-col justify-between group cursor-pointer",
-                    formData.isFreeDelivery ? "bg-green-500/10 border-green-500 shadow-xl" : "bg-white  border-surface-border"
-                  )} onClick={() => setFormData({...formData, isFreeDelivery: !formData.isFreeDelivery})}>
-                    <div className="flex items-center justify-between">
-                       <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center transition-colors", formData.isFreeDelivery ? "bg-green-500 text-white" : "bg-gray-100 text-muted-foreground")}><Truck className="w-5 h-5" /></div>
-                       <div className={cn("w-10 h-5 rounded-full relative transition-all", formData.isFreeDelivery ? "bg-green-500" : "bg-gray-300")}><div className={cn("absolute top-0.5 w-4 h-4 bg-white rounded-full transition-all shadow-sm", formData.isFreeDelivery ? "right-0.5" : "left-0.5")} /></div>
-                    </div>
-                    <div className="mt-2">
-                       <p className="text-[9px] font-black uppercase text-muted-foreground tracking-widest leading-none mb-1">Shipping Policy</p>
-                       <h4 className="text-xs font-black text-foreground uppercase tracking-tight">{formData.isFreeDelivery ? "Free Delivery" : "Paid Delivery"}</h4>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Inventory & POS */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="p-8 rounded-[40px] bg-white  border border-surface-border shadow-xl space-y-4">
-                    <div className="w-14 h-14 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-500"><Package className="w-7 h-7" /></div>
-                    <div className="space-y-1"><label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Vault Inventory</label><input type="number" name="stock" value={formData.stock} onChange={handleInputChange} className="text-3xl font-black text-foreground bg-transparent border-none outline-none w-full tracking-tight" placeholder="0" /></div>
-                  </div>
-                  <div className="p-8 rounded-[40px] bg-white  border border-surface-border shadow-xl space-y-4">
-                    <div className="w-14 h-14 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-500"><Barcode className="w-7 h-7" /></div>
-                    <div className="space-y-1"><label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">POS / SKU Barcode</label><input type="text" name="barcode" value={formData.barcode} onChange={handleInputChange} className="text-2xl font-black text-foreground bg-transparent border-none outline-none w-full font-mono tracking-tighter" placeholder="AUTO-GEN" /></div>
-                  </div>
-                </div>
-
-                {/* Financial Policy Integration */}
-                <div className="space-y-6 bg-gray-50/50  p-10 rounded-[48px] border border-surface-border">
-                   <div className="flex items-center gap-3 mb-6"><div className="w-1.5 h-6 bg-primary-blue rounded-full" /><h4 className="text-xl font-black text-foreground tracking-tighter uppercase">Financial Policy Integration</h4></div>
-                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                      {[{ id: "COD", label: "Cash on Delivery", sub: "Pay at doorstep", icon: ShoppingBag }, { id: "FULL_ADVANCE", label: "Full Advance", sub: "Payment upfront", icon: ShieldCheck }, { id: "PARTIAL_ADVANCE", label: "Partial Payment", sub: "Booking amount", icon: RefreshCw }].map((policy) => (
-                        <button key={policy.id} type="button" onClick={() => setFormData({ ...formData, paymentPolicy: policy.id })} className={cn("p-8 rounded-[32px] border transition-all text-left group flex flex-col gap-4", formData.paymentPolicy === policy.id ? "bg-white  border-primary-blue shadow-2xl" : "bg-white  border-surface-border")}>
-                           <policy.icon className={cn("w-8 h-8 transition-colors", formData.paymentPolicy === policy.id ? "text-primary-blue" : "text-muted-foreground")} />
-                           <div><p className="text-base font-black text-foreground tracking-tight">{policy.label}</p><p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{policy.sub}</p></div>
-                        </button>
-                      ))}
-                   </div>
-
-                   {formData.paymentPolicy === "PARTIAL_ADVANCE" && (
-                      <div className="mt-8 p-8 bg-blue-50/50  rounded-[40px] border border-blue-100  animate-in slide-in-from-top-4">
-                         <label className="text-[10px] font-black uppercase text-blue-800  tracking-widest block mb-4">Set Advance Booking Amount (BDT)</label>
-                         <div className="flex items-center gap-6">
-                            <span className="text-4xl font-black text-blue-600">৳</span>
-                            <input 
-                              type="number"
-                              name="partialAmount"
-                              value={formData.partialAmount}
-                              onChange={handleInputChange}
-                              className="bg-transparent border-b-4 border-blue-200  focus:border-blue-500 outline-none text-4xl font-black text-blue-900  w-full"
-                              placeholder="e.g. 500"
-                            />
-                         </div>
-                         <p className="text-xs font-bold text-blue-800/50  uppercase mt-4">This amount will be verified via SMS/Gateway before the order hits the dashboard.</p>
-                      </div>
-                   )}
-                </div>
-            </div>
-
-            <div className="flex justify-between pt-10 border-t border-surface-border mt-auto">
-               <button onClick={prevStep} className="flex items-center gap-2 px-8 py-5 text-sm font-black uppercase tracking-widest text-muted-foreground hover:text-foreground"><ChevronLeft className="w-5 h-5" /> Back</button>
-               <button onClick={nextStep} className="flex items-center gap-3 px-10 py-5 bg-primary-blue text-white rounded-3xl text-sm font-black uppercase tracking-widest hover:bg-black transition-all shadow-2xl">Finalize Node <ChevronRight className="w-5 h-5" /></button>
-            </div>
-          </div>
-        )}
-
-        {/* Step 4: Logistics & SEO */}
-        {step === 4 && (
-          <div className="animate-in fade-in slide-in-from-right-8 duration-500 h-full flex flex-col">
-            <div className="flex items-center justify-between mb-8">
-               <div className="flex items-center gap-4">
-                  <h3 className="text-lg font-semibold text-foreground tracking-tighter">Logistics <span className="text-indigo-600">& SEO</span></h3>
-                  {formData.isFreeDelivery && (
-                     <div className="px-4 py-1.5 bg-green-500 text-white rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-2 animate-pulse">
-                        <Zap className="w-3 h-3" /> Free Shipping Enabled
-                     </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 flex-1">
+                 <div 
+                  onClick={() => fileInputRef.current?.click()}
+                  className={cn(
+                    "relative group w-full aspect-square rounded-[48px] border-4 border-dashed transition-all overflow-hidden cursor-pointer",
+                    formData.image ? "border-green-500/20 bg-slate-50" : "border-slate-200 bg-slate-50/50 hover:border-indigo-400"
                   )}
-               </div>
-               <button 
-                 onClick={async () => {
-                    setIsAiLoading(true);
-                    const seo = await generateProductSEOAction({ name: formData.name, description: formData.description });
-                    setFormData({...formData, seoTitle: seo.title, seoDescription: seo.description, seoKeywords: seo.keywords});
-                    setIsAiLoading(false);
-                 }}
-                 className="flex items-center gap-2 px-6 py-3 bg-primary-blue/5 text-primary-blue rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-primary-blue hover:text-white transition-all"
-               >
-                  <RefreshCw className={cn("w-4 h-4", isAiLoading && "animate-spin")} /> SEO Neural Fill
-               </button>
-            </div>
+                 >
+                    {isUploading ? (
+                       <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center gap-4 z-20">
+                          <Loader2 className="w-12 h-12 text-indigo-600 animate-spin" />
+                          <p className="text-[10px] font-black uppercase tracking-widest text-indigo-600 animate-pulse">Neural Path Scan...</p>
+                       </div>
+                    ) : formData.image ? (
+                       <img src={formData.image} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+                    ) : (
+                       <div className="flex flex-col items-center gap-6 p-12 text-center h-full justify-center">
+                          <div className="w-24 h-24 rounded-[40px] bg-white shadow-2xl shadow-indigo-100 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                             <Upload className="w-10 h-10 text-indigo-600" />
+                          </div>
+                          <div>
+                             <p className="text-lg font-black text-slate-800 uppercase tracking-tight">Upload Media</p>
+                             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-2 max-w-[200px]">Vision engine will detect materials, colors & context</p>
+                          </div>
+                       </div>
+                    )}
+                    <input ref={fileInputRef} type="file" className="hidden" onChange={handleFileChange} accept="image/*" />
+                 </div>
 
-            <div className="space-y-8 flex-1 overflow-y-auto pr-2 custom-scrollbar">
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className={cn("space-y-4 transition-opacity", formData.isFreeDelivery && "opacity-50 pointer-events-none")}>
-                     <div className="flex items-center gap-2 mb-1"><Globe className="w-4 h-4 text-primary-blue" /><label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Logistics Territory Reach</label></div>
-                     <div className="grid grid-cols-2 gap-2">
-                        {["Dhaka Only", "All Bangladesh", "Outside Dhaka", "Custom Districts"].map((zone) => (
-                           <button key={zone} type="button" onClick={() => setFormData({ ...formData, allowedDistricts: zone })} className={cn("px-4 py-3 rounded-2xl text-[10px] font-black uppercase tracking-tighter border transition-all flex items-center justify-center text-center", formData.allowedDistricts === zone ? "bg-primary-blue text-white border-primary-blue shadow-lg" : "bg-gray-50  border-surface-border text-muted-foreground")}>{zone}</button>
+                 <div className="space-y-10 py-4">
+                    <div className="space-y-3">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                         <Sparkles className="w-3.5 h-3.5 text-indigo-600" /> Neural suggested name
+                      </label>
+                      <input 
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        placeholder={isAiLoading ? "Processing neural paths..." : "Awaiting visual data..."}
+                        className="w-full bg-transparent border-b-4 border-slate-100 focus:border-indigo-600 outline-none py-4 text-3xl font-black text-slate-900 tracking-tight transition-all placeholder:text-slate-200"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-8">
+                       <div className="space-y-3">
+                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Mapped Category</label>
+                          <select 
+                            name="categoryId"
+                            value={formData.categoryId}
+                            onChange={handleInputChange}
+                            className="w-full bg-slate-50 border-none rounded-[24px] p-6 text-xs font-black outline-none focus:ring-4 focus:ring-indigo-600/10 uppercase tracking-widest text-slate-700 appearance-none shadow-sm"
+                          >
+                             <option value="">SELECT GLOBAL CATEGORY</option>
+                             {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                          </select>
+                       </div>
+                       <div className="space-y-3">
+                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Brand Authority</label>
+                          <select 
+                            name="brandId"
+                            value={formData.brandId}
+                            onChange={handleInputChange}
+                            className="w-full bg-slate-50 border-none rounded-[24px] p-6 text-xs font-black outline-none focus:ring-4 focus:ring-indigo-600/10 uppercase tracking-widest text-slate-700 appearance-none shadow-sm"
+                          >
+                             <option value="">GENERIC (NO BRAND)</option>
+                             {brands.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
+                          </select>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+
+              <div className="mt-auto pt-10 border-t border-slate-100 flex justify-end">
+                 <button 
+                  onClick={nextStep}
+                  disabled={!formData.image || isAiLoading}
+                  className="group flex items-center gap-4 px-12 h-16 bg-slate-900 text-white rounded-[24px] text-xs font-black uppercase tracking-[0.2em] hover:bg-indigo-600 transition-all shadow-2xl disabled:opacity-50"
+                 >
+                    Next Engine <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                 </button>
+              </div>
+            </div>
+          )}
+
+          {step === 2 && (
+            <div className="animate-in fade-in slide-in-from-right-10 duration-700 h-full flex flex-col">
+               <div className="flex items-center justify-between mb-10">
+                  <h3 className="text-2xl font-black text-slate-900 tracking-tighter uppercase">AI <span className="text-indigo-600">Copywriter</span></h3>
+                  <button 
+                    onClick={async () => {
+                       setIsAiLoading(true);
+                       const content = await generateAILongDescriptionAction({ name: formData.name, category: "Product" });
+                       setFormData({...formData, description: content.longDescription, shortDescription: content.shortDescription, tagline: content.tagline});
+                       setIsAiLoading(false);
+                    }}
+                    className="flex items-center gap-3 px-8 py-4 bg-indigo-50 text-indigo-600 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all shadow-sm"
+                  >
+                     <RefreshCw className={cn("w-4 h-4", isAiLoading && "animate-spin")} /> Regenerate Neural Context
+                  </button>
+               </div>
+
+               <div className="space-y-10 flex-1 overflow-y-auto pr-4 custom-scrollbar">
+                  <div className="space-y-3">
+                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Marketing Neural Tagline</label>
+                     <input 
+                      name="tagline"
+                      value={formData.tagline}
+                      onChange={handleInputChange}
+                      className="w-full bg-indigo-50/50 border border-indigo-100 rounded-[24px] px-8 py-5 text-lg font-black text-indigo-900 outline-none"
+                      placeholder="Marketing headline..."
+                     />
+                  </div>
+                  <div className="space-y-3">
+                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Executive Summary</label>
+                     <textarea 
+                      name="shortDescription"
+                      value={formData.shortDescription}
+                      onChange={handleInputChange}
+                      rows={2}
+                      className="w-full bg-slate-50 border-none rounded-[28px] p-8 text-sm font-bold text-slate-800 outline-none resize-none shadow-sm"
+                     />
+                  </div>
+                  <div className="space-y-3">
+                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">AI Generated Narrative</label>
+                     <textarea 
+                      name="description"
+                      value={formData.description}
+                      onChange={handleInputChange}
+                      rows={8}
+                      className="w-full bg-slate-50 border-none rounded-[32px] p-10 text-sm font-medium text-slate-600 outline-none leading-relaxed shadow-inner"
+                     />
+                  </div>
+               </div>
+
+               <div className="mt-8 pt-8 border-t border-slate-100 flex justify-between">
+                  <button onClick={prevStep} className="flex items-center gap-3 text-xs font-black uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-colors">
+                     <ChevronLeft className="w-5 h-5" /> Previous
+                  </button>
+                  <button onClick={nextStep} className="group flex items-center gap-4 px-12 h-16 bg-slate-900 text-white rounded-[24px] text-xs font-black uppercase tracking-[0.2em] hover:bg-indigo-600 transition-all shadow-2xl">
+                     Commerce Ops <ChevronRight className="w-5 h-5" />
+                  </button>
+               </div>
+            </div>
+          )}
+
+          {step === 3 && (
+            <div className="animate-in fade-in slide-in-from-right-10 duration-700 h-full flex flex-col">
+               <h3 className="text-2xl font-black text-slate-900 tracking-tighter uppercase mb-10">Commerce <span className="text-amber-500">Infrastructure</span></h3>
+               <div className="space-y-12 flex-1 overflow-y-auto pr-4 custom-scrollbar">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                     <StatBox icon={Download} label="Purchase Rate" value={formData.purchasePrice} name="purchasePrice" onChange={handleInputChange} color="blue" />
+                     <StatBox icon={DollarSign} label="Retail Price" value={formData.price} name="price" onChange={handleInputChange} color="indigo" />
+                     <StatBox icon={Gift} label="Discounted" value={formData.discountPrice} name="discountPrice" onChange={handleInputChange} color="rose" />
+                     <div 
+                        onClick={() => setFormData({...formData, isFreeDelivery: !formData.isFreeDelivery})}
+                        className={cn("p-6 rounded-[32px] border-2 transition-all flex flex-col justify-between cursor-pointer group", formData.isFreeDelivery ? "bg-green-500 border-green-500 shadow-xl shadow-green-100" : "bg-white border-slate-100 hover:border-indigo-600/30")}
+                     >
+                        <Truck className={cn("w-8 h-8", formData.isFreeDelivery ? "text-white" : "text-slate-300")} />
+                        <div className="mt-4">
+                           <p className={cn("text-[9px] font-black uppercase tracking-widest", formData.isFreeDelivery ? "text-white/70" : "text-slate-400")}>Shipping Policy</p>
+                           <h4 className={cn("text-xs font-black uppercase tracking-tight", formData.isFreeDelivery ? "text-white" : "text-slate-900")}>{formData.isFreeDelivery ? "Free Delivery" : "Paid Delivery"}</h4>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                     <div className="p-8 rounded-[40px] bg-slate-50 border border-slate-100 space-y-4">
+                        <div className="flex items-center gap-3"><div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-amber-500 shadow-sm"><Package className="w-5 h-5" /></div><span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Inventory Status</span></div>
+                        <input type="number" name="stock" value={formData.stock} onChange={handleInputChange} className="text-4xl font-black text-slate-900 bg-transparent border-none outline-none w-full tracking-tighter" placeholder="0" />
+                     </div>
+                     <div className="p-8 rounded-[40px] bg-slate-50 border border-slate-100 space-y-4">
+                        <div className="flex items-center gap-3"><div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-indigo-500 shadow-sm"><Barcode className="w-5 h-5" /></div><span className="text-[10px] font-black uppercase tracking-widest text-slate-400">POS / SKU Integration</span></div>
+                        <input type="text" name="barcode" value={formData.barcode} onChange={handleInputChange} className="text-3xl font-black text-slate-900 bg-transparent border-none outline-none w-full font-mono tracking-tighter" placeholder="AUTO-NODE-GEN" />
+                     </div>
+                  </div>
+
+                  <div className="space-y-6">
+                     <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest">Settlement Protocols</h4>
+                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {[
+                           { id: "COD", label: "Cash On Delivery", icon: ShoppingBag },
+                           { id: "FULL_ADVANCE", label: "Full Advance", icon: ShieldCheck },
+                           { id: "PARTIAL_ADVANCE", label: "Partial Booking", icon: RefreshCw }
+                        ].map((p) => (
+                           <button 
+                              key={p.id} 
+                              onClick={() => setFormData({...formData, paymentPolicy: p.id})}
+                              className={cn("p-8 rounded-[32px] border-2 transition-all flex flex-col gap-6 text-left", formData.paymentPolicy === p.id ? "bg-white border-indigo-600 shadow-xl shadow-indigo-50" : "bg-slate-50 border-slate-50 hover:border-slate-200")}
+                           >
+                              <p.icon className={cn("w-8 h-8", formData.paymentPolicy === p.id ? "text-indigo-600" : "text-slate-300")} />
+                              <span className={cn("text-sm font-black uppercase tracking-tighter", formData.paymentPolicy === p.id ? "text-slate-900" : "text-slate-400")}>{p.label}</span>
+                           </button>
                         ))}
                      </div>
-                     {formData.isFreeDelivery && <p className="text-[10px] font-black text-green-600 uppercase">Automatic Zero-Rate Configured</p>}
                   </div>
-                  <div className="space-y-4">
-                     <div className="flex items-center gap-2 mb-1"><Truck className="w-4 h-4 text-indigo-500" /><label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Enabled Delivery Pipelines</label></div>
-                     <div className="grid grid-cols-2 gap-2">
-                        {["STEADFAST", "REDX", "PATHAO", "SUNDARBAN", "PAPERFLY"].map((courier) => {
-                           const isSelected = formData.allowedCouriers.includes(courier);
-                           return (
-                              <button key={courier} type="button" onClick={() => { const next = isSelected ? formData.allowedCouriers.filter(c => c !== courier) : [...formData.allowedCouriers, courier]; setFormData({ ...formData, allowedCouriers: next }); }} className={cn("p-3 rounded-2xl text-[10px] font-black border transition-all flex items-center justify-between", isSelected ? "bg-indigo-500/10 border-indigo-500 text-indigo-600 shadow-sm" : "bg-gray-50  border-surface-border text-muted-foreground")}>{courier}<div className={cn("w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all", isSelected ? "bg-indigo-500 border-indigo-500 text-white" : "border-gray-200")}>{isSelected && <Check className="w-2.5 h-2.5" />}</div></button>
-                           );
-                        })}
+               </div>
+
+               <div className="mt-8 pt-8 border-t border-slate-100 flex justify-between">
+                  <button onClick={prevStep} className="flex items-center gap-3 text-xs font-black uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-colors">
+                     <ChevronLeft className="w-5 h-5" /> Previous
+                  </button>
+                  <button onClick={nextStep} className="group flex items-center gap-4 px-12 h-16 bg-slate-900 text-white rounded-[24px] text-xs font-black uppercase tracking-[0.2em] hover:bg-indigo-600 transition-all shadow-2xl">
+                     Logistics Sync <ChevronRight className="w-5 h-5" />
+                  </button>
+               </div>
+            </div>
+          )}
+
+          {step === 4 && (
+            <div className="animate-in fade-in slide-in-from-right-10 duration-700 h-full flex flex-col">
+               <div className="flex items-center justify-between mb-10">
+                  <h3 className="text-2xl font-black text-slate-900 tracking-tighter uppercase">Logistics <span className="text-indigo-600">& SEO</span></h3>
+                  <button 
+                    onClick={async () => {
+                       setIsAiLoading(true);
+                       const seo = await generateProductSEOAction({ name: formData.name, description: formData.description });
+                       setFormData({...formData, seoTitle: seo.title, seoDescription: seo.description, seoKeywords: seo.keywords});
+                       setIsAiLoading(false);
+                    }}
+                    className="flex items-center gap-3 px-8 py-4 bg-indigo-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all shadow-lg"
+                  >
+                     <RefreshCw className={cn("w-4 h-4", isAiLoading && "animate-spin")} /> SEO Neural Optimizer
+                  </button>
+               </div>
+
+               <div className="space-y-12 flex-1 overflow-y-auto pr-4 custom-scrollbar">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                     <div className="space-y-6">
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Logistics Territory</label>
+                        <div className="grid grid-cols-2 gap-3">
+                           {["Dhaka Only", "All Bangladesh", "Outside Dhaka", "Global Shipping"].map((z) => (
+                              <button key={z} onClick={() => setFormData({...formData, allowedDistricts: z})} className={cn("px-6 py-4 rounded-2xl text-[10px] font-black border transition-all uppercase", formData.allowedDistricts === z ? "bg-indigo-600 text-white border-indigo-600 shadow-lg" : "bg-slate-50 border-slate-50 text-slate-400")}>{z}</button>
+                           ))}
+                        </div>
+                     </div>
+                     <div className="space-y-6">
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Delivery Pipelines</label>
+                        <div className="grid grid-cols-2 gap-3">
+                           {["STEADFAST", "REDX", "PATHAO", "SUNDARBAN"].map((c) => {
+                              const sel = formData.allowedCouriers.includes(c);
+                              return (
+                                 <button key={c} onClick={() => { const next = sel ? formData.allowedCouriers.filter(x => x !== c) : [...formData.allowedCouriers, c]; setFormData({...formData, allowedCouriers: next}); }} className={cn("px-6 py-4 rounded-2xl text-[10px] font-black border transition-all flex items-center justify-between uppercase", sel ? "bg-white border-indigo-600 text-indigo-600 shadow-md" : "bg-slate-50 border-slate-50 text-slate-400")}>{c}{sel && <Check className="w-4 h-4" />}</button>
+                              );
+                           })}
+                        </div>
+                     </div>
+                  </div>
+
+                  <div className="p-10 bg-slate-900 rounded-[48px] text-white space-y-8 relative overflow-hidden">
+                     <Globe className="absolute -right-10 -bottom-10 w-48 h-48 text-white/5" />
+                     <div className="flex items-center gap-3 relative z-10"><div className="w-2 h-6 bg-indigo-500 rounded-full" /><h4 className="text-xl font-black uppercase tracking-tight">Neural SEO Bridge</h4></div>
+                     <div className="grid grid-cols-1 gap-8 relative z-10">
+                        <div className="space-y-2">
+                           <label className="text-[9px] font-black uppercase tracking-widest text-indigo-400">Meta Title Index</label>
+                           <input value={formData.seoTitle} onChange={(e) => setFormData({...formData, seoTitle: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-sm font-bold text-white outline-none focus:border-indigo-500" />
+                        </div>
+                        <div className="space-y-2">
+                           <label className="text-[9px] font-black uppercase tracking-widest text-indigo-400">Meta Description Engine</label>
+                           <textarea value={formData.seoDescription} onChange={(e) => setFormData({...formData, seoDescription: e.target.value})} rows={3} className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-sm font-medium text-white/80 outline-none focus:border-indigo-500 resize-none" />
+                        </div>
                      </div>
                   </div>
                </div>
 
-               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
-                  <div className={cn("p-6 rounded-[32px] border transition-all flex flex-col gap-4", (formData.isHomeDelivery || formData.isFreeDelivery) ? "bg-white  border-green-500/30 shadow-lg" : "bg-white  border-surface-border")}>
-                     <div className="flex items-center justify-between"><div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center", (formData.isHomeDelivery || formData.isFreeDelivery) ? "bg-green-500/10 text-green-600" : "bg-gray-100 text-muted-foreground")}><Truck className="w-6 h-6" /></div><button type="button" onClick={() => setFormData({...formData, isHomeDelivery: !formData.isHomeDelivery})} className={cn("w-12 h-6 rounded-full relative transition-all", (formData.isHomeDelivery || formData.isFreeDelivery) ? "bg-green-500" : "bg-gray-300")}><div className={cn("absolute top-1 w-4 h-4 bg-white rounded-full transition-all shadow-sm", (formData.isHomeDelivery || formData.isFreeDelivery) ? "right-1" : "left-1")} /></button></div>
-                     <div><p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest leading-none mb-1">Doorstep Service</p><h4 className="text-sm font-black text-foreground uppercase tracking-tight">Home Delivery</h4></div>
-                  </div>
-                  <div className={cn("p-6 rounded-[32px] border transition-all flex flex-col gap-4", formData.isCollectionPoint ? "bg-white  border-blue-500/30 shadow-lg" : "bg-white  border-surface-border")}>
-                     <div className="flex items-center justify-between"><div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center", formData.isCollectionPoint ? "bg-blue-500/10 text-blue-600" : "bg-gray-100 text-muted-foreground")}><MapPin className="w-6 h-6" /></div><button type="button" onClick={() => setFormData({...formData, isCollectionPoint: !formData.isCollectionPoint})} className={cn("w-12 h-6 rounded-full relative transition-all", formData.isCollectionPoint ? "bg-blue-500" : "bg-gray-300")}><div className={cn("absolute top-1 w-4 h-4 bg-white rounded-full transition-all shadow-sm", formData.isCollectionPoint ? "right-1" : "left-1")} /></button></div>
-                     <div><p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest leading-none mb-1">Pickup Points</p><h4 className="text-sm font-black text-foreground uppercase tracking-tight">Collect Point</h4></div>
-                  </div>
-                  <div className="p-6 rounded-[32px] bg-white  border border-surface-border flex flex-col gap-4">
-                     <div className="w-12 h-12 rounded-2xl bg-gray-100  flex items-center justify-center text-muted-foreground"><Layers className="w-6 h-6" /></div>
-                     <div><p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest mb-1 leading-none">Shipping Type</p><select name="shippingType" value={formData.shippingType} onChange={handleInputChange} className="w-full bg-transparent text-sm font-black text-foreground focus:outline-none uppercase tracking-tight"><option value="GENERAL">General eCommerce</option><option value="WEIGHT_BASED">Weight Based (KG)</option><option value="LIQUID_BASED">Liquid Based (Ltr)</option></select></div>
-                  </div>
-               </div>
-
-               <div className="p-10 bg-gray-50  rounded-[48px] border border-surface-border space-y-6">
-                  <div className="flex items-center gap-3"><div className="w-1.5 h-6 bg-indigo-600 rounded-full" /><h4 className="text-xl font-black text-foreground tracking-tighter uppercase">Neural SEO Metadata</h4></div>
-                  <div className="space-y-4">
-                     <div className="space-y-1"><label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">SEO Optimized Title</label><input name="seoTitle" value={formData.seoTitle} onChange={handleInputChange} className="w-full bg-white  border border-surface-border rounded-2xl px-6 py-3 text-sm font-bold text-foreground outline-none focus:ring-2 focus:ring-indigo-600/20" /></div>
-                     <div className="space-y-1"><label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Meta Neural Description</label><textarea name="seoDescription" value={formData.seoDescription} onChange={handleInputChange} rows={3} className="w-full bg-white  border border-surface-border rounded-2xl px-6 py-3 text-sm font-medium text-foreground outline-none focus:ring-2 focus:ring-indigo-600/20 resize-none" /></div>
-                  </div>
+               <div className="mt-8 pt-8 border-t border-slate-100 flex justify-between">
+                  <button onClick={prevStep} className="flex items-center gap-3 text-xs font-black uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-colors">
+                     <ChevronLeft className="w-5 h-5" /> Previous
+                  </button>
+                  <button onClick={handleSubmit} disabled={isPending} className="group flex items-center gap-4 px-16 h-16 bg-indigo-600 text-white rounded-[24px] text-xs font-black uppercase tracking-[0.3em] hover:bg-slate-900 transition-all shadow-[0_20px_40px_rgba(79,70,229,0.3)]">
+                     {isPending ? <Loader2 className="w-6 h-6 animate-spin" /> : <Save className="w-6 h-6" />} Launch Product
+                  </button>
                </div>
             </div>
-
-            <div className="flex justify-between pt-10 border-t border-surface-border mt-8">
-               <button onClick={prevStep} className="flex items-center gap-2 px-8 py-5 text-sm font-black uppercase tracking-widest text-muted-foreground hover:text-foreground"><ChevronLeft className="w-5 h-5" /> Back</button>
-               <button onClick={handleSubmit} disabled={isPending} className="flex items-center gap-3 px-12 py-5 bg-primary-blue text-white rounded-3xl text-sm font-black uppercase tracking-widest hover:bg-black transition-all shadow-2xl">{isPending ? <RefreshCw className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />} Deploy to Catalog</button>
-            </div>
-          </div>
-        )}
-
+          )}
+        </div>
       </div>
+    </div>
+  );
+}
+
+function StatBox({ icon: Icon, label, value, name, onChange, color }: any) {
+  const colors: any = {
+    blue: "bg-blue-50 text-blue-500",
+    indigo: "bg-indigo-50 text-indigo-500",
+    rose: "bg-rose-50 text-rose-500",
+  };
+
+  return (
+    <div className="p-6 rounded-[32px] bg-white border border-slate-100 shadow-xl shadow-slate-100/50 space-y-4 hover:border-indigo-600/20 transition-all group">
+       <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center shadow-sm", colors[color])}><Icon className="w-5 h-5" /></div>
+       <div className="space-y-1">
+          <label className="text-[9px] font-black uppercase tracking-widest text-slate-400">{label}</label>
+          <div className="flex items-center gap-1">
+             <span className="text-xl font-black text-slate-900/40 leading-none mt-1">৳</span>
+             <input type="number" name={name} value={value} onChange={onChange} className="text-xl font-black text-slate-900 bg-transparent border-none outline-none w-full tracking-tight" placeholder="0.00" />
+          </div>
+       </div>
     </div>
   );
 }

@@ -2,43 +2,36 @@
 
 import { generateAiResponse } from "@/lib/ai/inference";
 import { getSession } from "@/lib/auth";
+import { askAI } from "@/lib/ai/gateway";
 
 export async function analyzeProductImageAction(imageUrl: string) {
   const session = await getSession();
   if (!session || !session.merchantStoreId) throw new Error("Unauthorized");
 
   const prompt = `
-    Analyze this product image URL: ${imageUrl}
-    (Simulate image recognition)
-    
-    Return a JSON with:
-    {
-      "suggestedName": "A catchy product name",
-      "category": "Detected category",
-      "brand": "Suggested brand if applicable",
-      "tags": ["tag1", "tag2"],
-      "confidence": 0.95
-    }
+    Analyze this product image and provide:
+    1. A professional, catchy product name (max 50 chars).
+    2. The most suitable category (one word).
+    3. Brand name if visible (else 'Generic').
+    4. 5 relevant tags for searching.
+    Return ONLY as JSON: {"suggestedName": "...", "category": "...", "brand": "...", "tags": [...]}
   `;
 
-  // In a real scenario, we'd use a vision model (e.g., gpt-4o or gemini-pro-vision)
-  const responseText = await generateAiResponse({
-    merchantStoreId: session.merchantStoreId,
-    prompt: prompt,
-    context: "Product Vision Expert",
-    model: "gpt-4o" 
+  const { content } = await askAI(prompt, { 
+    imageUrl, 
+    jsonMode: true,
+    systemPrompt: "You are a product vision expert. Analyze images and return structured JSON only."
   });
 
   try {
-    const jsonString = responseText!.replace(/```json/g, "").replace(/```/g, "").trim();
+    const jsonString = content.replace(/```json/g, "").replace(/```/g, "").trim();
     return JSON.parse(jsonString);
   } catch (error) {
     return {
        suggestedName: "New Product",
        category: "General",
        brand: "Generic",
-       tags: ["new"],
-       confidence: 0.5
+       tags: ["new"]
     };
   }
 }
@@ -83,17 +76,32 @@ export async function importProductFromChinaUrlAction(url: string) {
   const session = await getSession();
   if (!session || !session.merchantStoreId) throw new Error("Unauthorized");
 
-  // Mocking China URL Import logic (Alibaba, 1688, etc.)
-  return {
-    success: true,
-    data: {
-      name: "Imported Product from China",
-      description: "Extracted from " + url,
-      price: 1500,
-      stock: 100,
-      images: ["https://picsum.photos/800/800"],
-      brand: "Imported",
-      category: "Global Import"
-    }
-  };
+  try {
+     // Fetch content via proxy/server
+     const res = await fetch(url, {
+        headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' }
+     });
+     const html = await res.text();
+     const cleanHtml = html.slice(0, 15000); // Higher limit for product pages
+
+     const prompt = `
+       Analyze this e-commerce HTML and extract product details:
+       Return ONLY as JSON: {"name": "...", "description": "...", "price": 0, "stock": 100, "category": "...", "brand": "..."}
+       HTML: ${cleanHtml}
+     `;
+
+     const { content } = await askAI(prompt, { jsonMode: true });
+     const parsedData = JSON.parse(content);
+
+     return {
+       success: true,
+       data: {
+         ...parsedData,
+         images: ["https://picsum.photos/800/800"] // Scrapers usually need specific logic for images, keeping a placeholder for now or using the first detected img
+       }
+     };
+  } catch (error) {
+     console.error("URL Import Error:", error);
+     throw new Error("Failed to extract data from URL.");
+  }
 }
