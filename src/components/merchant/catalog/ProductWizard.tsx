@@ -7,10 +7,10 @@ import {
   Layers, Package, MapPin, Search, Barcode, Trash2, Image as ImageIcon, ShieldCheck,
   RefreshCw, Wand2, Scissors, Zap, Download, Globe2, Save, Gift, Loader2,
   MoreVertical, ExternalLink, AlertCircle, Link as LinkIcon, FileText, Database,
-  Eye, Facebook, Share2, Info, Terminal
+  Eye, Facebook, Share2, Info, Terminal, X
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { createProductAction, uploadProductImageAction } from "@/app/products/actions";
+import { createProductAction, uploadProductImageAction, downloadExternalImageAction } from "@/app/products/actions";
 import { analyzeProductImageAction, generateAILongDescriptionAction, importProductFromChinaUrlAction } from "@/app/products/aiActions";
 
 interface ProductWizardProps {
@@ -30,6 +30,7 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
   const [importUrl, setImportUrl] = useState("");
   const [aiContext, setAiContext] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const galleryInputRef = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -63,6 +64,7 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
     seoDescription: "",
     seoKeywords: "",
     image: null as string | null,
+    gallery: [] as string[],
     shortDescription: "",
     tagline: "",
   });
@@ -72,26 +74,59 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setIsUploading(true);
+  const syncExternalImages = async (mainUrl: string, galleryUrls: string[]) => {
     setIsAiLoading(true);
-    const uploadData = new FormData();
-    uploadData.append("file", file);
     try {
-      const result = await uploadProductImageAction(uploadData);
-      setFormData(prev => ({ ...prev, image: result.url }));
-      const analysis = await analyzeProductImageAction(result.url);
+      // 1. Sync Main Image
+      const mainLocal = await downloadExternalImageAction(mainUrl);
+      
+      // 2. Sync Gallery Images
+      const galleryLocals = await Promise.all(
+        galleryUrls.slice(0, 6).map(url => downloadExternalImageAction(url))
+      );
+      
       setFormData(prev => ({
         ...prev,
-        name: analysis.suggestedName,
-        categoryId: categories.find(c => c.name.toLowerCase().includes(analysis.category.toLowerCase()))?.id || "",
-        brandId: brands.find(b => b.name.toLowerCase().includes(analysis.brand.toLowerCase()))?.id || "",
+        image: mainLocal.url,
+        gallery: galleryLocals.map(l => l.url)
       }));
+    } catch (err) { console.error("Sync Error:", err); }
+    finally { setIsAiLoading(false); }
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>, type: 'main' | 'gallery') => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+    
+    setIsUploading(true);
+    try {
+      if (type === 'main') {
+        const uploadData = new FormData();
+        uploadData.append("file", files[0]);
+        const result = await uploadProductImageAction(uploadData);
+        setFormData(prev => ({ ...prev, image: result.url }));
+        
+        // Auto analyze if name is empty
+        if (!formData.name) {
+          const analysis = await analyzeProductImageAction(result.url);
+          setFormData(prev => ({
+            ...prev,
+            name: analysis.suggestedName,
+            categoryId: categories.find(c => c.name.toLowerCase().includes(analysis.category.toLowerCase()))?.id || "",
+            brandId: brands.find(b => b.name.toLowerCase().includes(analysis.brand.toLowerCase()))?.id || "",
+          }));
+        }
+      } else {
+        const newImages = await Promise.all(Array.from(files).map(async file => {
+           const uploadData = new FormData();
+           uploadData.append("file", file);
+           const res = await uploadProductImageAction(uploadData);
+           return res.url;
+        }));
+        setFormData(prev => ({ ...prev, gallery: [...prev.gallery, ...newImages] }));
+      }
     } catch (err) { console.error(err); } finally {
       setIsUploading(false);
-      setIsAiLoading(false);
     }
   };
 
@@ -107,20 +142,19 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
             description: result.data.description,
             price: result.data.price?.toString() || "",
             stock: result.data.stock?.toString() || "",
-            image: result.data.images?.[0] || prev.image,
             categoryId: categories.find(c => c.name.toLowerCase().includes(result.data.category?.toLowerCase() || ""))?.id || ""
           }));
+          
+          // Trigger Local Sync
+          await syncExternalImages(result.data.images[0], result.data.images.slice(1));
           setTab("general");
        } else {
           setSource("ai_context");
-          const msg = result.error === "SITE_BLOCKED" 
-            ? "Sync Blocked by Provider. Please use 'AI Context Paste' below." 
-            : "Connection Timeout. Please try again or use AI Context.";
-          alert(msg);
+          alert("Automated Sync Blocked. Using AI Context Fallback.");
        }
     } catch (err) { 
        setSource("ai_context");
-       alert("Network error. Please use manual AI Context Paste."); 
+       alert("Network error. Using AI Context Paste."); 
     } finally {
        setIsAiLoading(false);
     }
@@ -130,7 +164,7 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
     if (!aiContext) return;
     setIsAiLoading(true);
     try {
-       const res = await fetch("/api/merchant/ai-studio/vision", { // Re-using vision or creating a dedicated parser
+       const res = await fetch("/api/merchant/ai-studio/vision", {
           method: "POST",
           body: JSON.stringify({ context: aiContext, type: "html_extraction" })
        });
@@ -140,8 +174,10 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
          name: result.name,
          description: result.description,
          price: result.price?.toString() || "",
-         image: result.images?.[0] || prev.image,
        }));
+       if (result.images && result.images.length > 0) {
+          await syncExternalImages(result.images[0], result.images.slice(1));
+       }
        setTab("general");
     } catch (err) { alert("AI could not parse the provided context."); } finally {
        setIsAiLoading(false);
@@ -173,20 +209,27 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
     });
   };
 
+  const removeGalleryImage = (index: number) => {
+    setFormData(prev => ({
+      ...prev,
+      gallery: prev.gallery.filter((_, i) => i !== index)
+    }));
+  };
+
   return (
     <div className="w-full max-w-[1280px] mx-auto pb-20">
       
       {/* 1. SOURCE SELECTOR */}
       <div className="bg-white border border-slate-100 rounded-3xl p-1.5 mb-8 flex items-center justify-between shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
          <div className="flex items-center gap-1">
-            <SourceBtn active={source === "manual"} icon={FileText} label="Manual" onClick={() => setSource("manual")} />
-            <SourceBtn active={source === "url"} icon={Globe} label="Auto Sync" onClick={() => setSource("url")} />
-            <SourceBtn active={source === "ai_context"} icon={Terminal} label="AI Context Paste" onClick={() => setSource("ai_context")} />
+            <SourceBtn active={source === "manual"} icon={FileText} label="Manual Entry" onClick={() => setSource("manual")} />
+            <SourceBtn active={source === "url"} icon={Globe} label="Smart URL Sync" onClick={() => setSource("url")} />
+            <SourceBtn active={source === "ai_context"} icon={Terminal} label="Neural Context" onClick={() => setSource("ai_context")} />
          </div>
          <div className="hidden md:flex items-center gap-4 px-6 border-l border-slate-50">
             <div className="flex items-center gap-2">
                <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
-               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Global Engine v2.0</span>
+               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Global Asset Engine</span>
             </div>
          </div>
       </div>
@@ -199,36 +242,36 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
                <input 
                   value={importUrl}
                   onChange={(e) => setImportUrl(e.target.value)}
-                  placeholder="Paste product link (Aliexpress, Amazon, etc)..."
+                  placeholder="Paste link (Aliexpress, etc) for automated image/data sync..."
                   className="w-full pl-12 pr-4 h-14 bg-white/5 border border-white/10 text-sm font-medium text-white outline-none focus:border-indigo-500 rounded-2xl transition-all"
                />
             </div>
             <button onClick={handleImportUrl} disabled={isAiLoading} className="w-full md:w-auto h-14 px-10 bg-indigo-600 text-white text-[11px] font-black uppercase tracking-widest hover:bg-indigo-500 rounded-2xl disabled:opacity-50 transition-all shadow-xl">
-               {isAiLoading ? "Syncing..." : "Sync Engine"}
+               {isAiLoading ? "Syncing Media..." : "Launch Sync"}
             </button>
          </div>
       )}
 
-      {/* AI CONTEXT PASTE (The Bulletproof Solution) */}
+      {/* AI CONTEXT PASTE */}
       {source === "ai_context" && (
          <div className="bg-slate-900 rounded-[40px] p-10 mb-8 space-y-6 shadow-2xl animate-in slide-in-from-top-4">
             <div className="flex items-center justify-between">
                <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white"><Terminal className="w-5 h-5" /></div>
                   <div>
-                     <h3 className="text-white text-sm font-black uppercase tracking-tight">AI Neural Context Extraction</h3>
-                     <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest">Paste HTML Source or Text if automated sync fails.</p>
+                     <h3 className="text-white text-sm font-black uppercase tracking-tight">Neural Asset Extraction</h3>
+                     <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest">Paste HTML Source (Ctrl+U) to extract blocked images/data.</p>
                   </div>
                </div>
-               <button onClick={handleAiContextExtraction} disabled={isAiLoading || !aiContext} className="px-10 h-12 bg-white text-black text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-indigo-500 hover:text-white transition-all disabled:opacity-30">
-                  {isAiLoading ? "Extracting..." : "AI Extract All"}
+               <button onClick={handleAiContextExtraction} disabled={isAiLoading || !aiContext} className="px-10 h-12 bg-white text-black text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-indigo-500 hover:text-white transition-all">
+                  {isAiLoading ? "Extracting..." : "Process Context"}
                </button>
             </div>
             <textarea 
                value={aiContext}
                onChange={(e) => setAiContext(e.target.value)}
-               placeholder="Press Ctrl+U on product page, copy some text or HTML, and paste here..."
-               className="w-full h-48 bg-white/5 border border-white/10 p-6 text-xs font-mono text-indigo-300 outline-none focus:border-indigo-500 rounded-2xl resize-none"
+               placeholder="Paste HTML or Text from product page here..."
+               className="w-full h-48 bg-white/5 border border-white/10 p-6 text-xs font-mono text-indigo-300 outline-none focus:border-indigo-500 rounded-2xl resize-none shadow-inner"
             />
          </div>
       )}
@@ -247,9 +290,9 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
                <div className="p-6 bg-gradient-to-br from-indigo-600 to-blue-700 rounded-3xl text-white shadow-xl shadow-indigo-100">
                   <div className="flex items-center gap-2 mb-3">
                      <Sparkles className="w-4 h-4 text-white/80" />
-                     <span className="text-[10px] font-black uppercase tracking-widest">Neural Assistant</span>
+                     <span className="text-[10px] font-black uppercase tracking-widest">Neural Sync</span>
                   </div>
-                  <p className="text-[10px] font-medium leading-relaxed opacity-80 uppercase">AI is analyzing your input for optimized SEO schema and market positioning.</p>
+                  <p className="text-[10px] font-medium leading-relaxed opacity-80 uppercase">All external images are automatically downloaded to local storage for visibility.</p>
                </div>
             </div>
          </div>
@@ -269,20 +312,41 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
                      <input name="name" value={formData.name} onChange={handleInputChange} placeholder="Product Title..." className="w-full bg-slate-50 border-none h-16 px-6 text-xl font-black text-slate-900 outline-none focus:ring-4 focus:ring-indigo-600/5 rounded-2xl transition-all" />
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                     <div className="space-y-3">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Market Category</label>
-                        <select name="categoryId" value={formData.categoryId} onChange={handleInputChange} className="w-full bg-slate-50 border-none h-14 px-6 text-xs font-bold text-slate-700 outline-none focus:ring-4 focus:ring-indigo-600/5 rounded-2xl appearance-none">
-                           <option value="">UNCATEGORIZED</option>
-                           {categories.map(c => <option key={c.id} value={c.id}>{c.name.toUpperCase()}</option>)}
-                        </select>
-                     </div>
-                     <div className="space-y-3">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Brand Authority</label>
-                        <select name="brandId" value={formData.brandId} onChange={handleInputChange} className="w-full bg-slate-50 border-none h-14 px-6 text-xs font-bold text-slate-700 outline-none focus:ring-4 focus:ring-indigo-600/5 rounded-2xl appearance-none">
-                           <option value="">GENERIC (NO BRAND)</option>
-                           {brands.map(b => <option key={b.id} value={b.id}>{b.name.toUpperCase()}</option>)}
-                        </select>
+                  {/* IMAGES SECTION */}
+                  <div className="space-y-6">
+                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {/* MAIN IMAGE */}
+                        <div className="col-span-1 space-y-3">
+                           <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Master Visual</label>
+                           <div onClick={() => fileInputRef.current?.click()} className="aspect-square bg-slate-50 border-2 border-dashed border-slate-200 rounded-[32px] flex items-center justify-center cursor-pointer group hover:border-indigo-400 transition-all overflow-hidden relative">
+                              {isUploading ? <Loader2 className="w-8 h-8 animate-spin text-indigo-600" /> : 
+                              formData.image ? <img src={formData.image} className="w-full h-full object-cover" /> : 
+                              <div className="flex flex-col items-center gap-2">
+                                 <Plus className="w-6 h-6 text-indigo-600" />
+                                 <span className="text-[9px] font-black text-slate-400 uppercase">Main</span>
+                              </div>}
+                              <input ref={fileInputRef} type="file" className="hidden" onChange={(e) => handleFileChange(e, 'main')} />
+                           </div>
+                        </div>
+
+                        {/* GALLERY GRID */}
+                        <div className="col-span-2 space-y-3">
+                           <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Gallery Assets ({formData.gallery.length})</label>
+                           <div className="grid grid-cols-4 gap-4">
+                              {formData.gallery.map((img, idx) => (
+                                 <div key={idx} className="aspect-square bg-slate-50 rounded-2xl relative group overflow-hidden border border-slate-100 shadow-sm">
+                                    <img src={img} className="w-full h-full object-cover" />
+                                    <button onClick={() => removeGalleryImage(idx)} className="absolute top-1 right-1 w-6 h-6 bg-rose-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"><X className="w-3 h-3" /></button>
+                                 </div>
+                              ))}
+                              {formData.gallery.length < 8 && (
+                                 <div onClick={() => galleryInputRef.current?.click()} className="aspect-square bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl flex items-center justify-center cursor-pointer hover:border-indigo-400 transition-all">
+                                    <Plus className="w-5 h-5 text-slate-300" />
+                                    <input ref={galleryInputRef} type="file" multiple className="hidden" onChange={(e) => handleFileChange(e, 'gallery')} />
+                                 </div>
+                              )}
+                           </div>
+                        </div>
                      </div>
                   </div>
 
@@ -299,32 +363,6 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
                         </button>
                      </div>
                      <textarea name="description" value={formData.description} onChange={handleInputChange} rows={8} className="w-full bg-slate-50 border-none p-8 text-sm font-medium text-slate-600 outline-none focus:ring-4 focus:ring-indigo-600/5 rounded-[32px] leading-relaxed resize-none shadow-inner" />
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
-                     <div className="space-y-4">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Product Media Gallery</label>
-                        <div onClick={() => fileInputRef.current?.click()} className="aspect-video bg-slate-50 border-2 border-dashed border-slate-200 rounded-[32px] flex items-center justify-center cursor-pointer group hover:border-indigo-400 hover:bg-slate-100/50 transition-all overflow-hidden relative">
-                           {isUploading ? <Loader2 className="w-8 h-8 animate-spin text-indigo-600" /> : 
-                           formData.image ? <img src={formData.image} className="w-full h-full object-cover transition-transform group-hover:scale-105 duration-700" /> : 
-                           <div className="flex flex-col items-center gap-3">
-                              <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                                 <Plus className="w-6 h-6 text-indigo-600" />
-                              </div>
-                              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Upload Main Image</span>
-                           </div>}
-                           <input ref={fileInputRef} type="file" className="hidden" onChange={handleFileChange} />
-                        </div>
-                     </div>
-                     <div className="flex flex-col justify-center gap-4 bg-slate-50/50 p-8 rounded-[32px] border border-slate-50">
-                        <h4 className="text-[10px] font-black uppercase text-slate-400">Media Enhancer</h4>
-                        <button className="h-12 bg-white text-[10px] font-black uppercase tracking-widest text-slate-600 hover:bg-slate-900 hover:text-white rounded-2xl shadow-sm transition-all flex items-center justify-center gap-2">
-                           <Scissors className="w-4 h-4" /> Remove Background
-                        </button>
-                        <button className="h-12 bg-white text-[10px] font-black uppercase tracking-widest text-slate-600 hover:bg-slate-900 hover:text-white rounded-2xl shadow-sm transition-all flex items-center justify-center gap-2">
-                           <Zap className="w-4 h-4" /> HD Upscale (4K)
-                        </button>
-                     </div>
                   </div>
                </div>
             )}
@@ -442,20 +480,6 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
                         </div>
                      </div>
                   </div>
-
-                  <div className="bg-slate-900 p-8 rounded-[40px] text-white flex items-center justify-between shadow-2xl relative overflow-hidden">
-                     <Share2 className="absolute -right-6 -bottom-6 w-32 h-32 text-white/5" />
-                     <div className="flex items-center gap-4 relative z-10">
-                        <div className="w-12 h-12 bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl flex items-center justify-center"><ShieldCheck className="w-6 h-6 text-indigo-400" /></div>
-                        <div>
-                           <h4 className="text-sm font-black uppercase tracking-tight leading-none mb-1">JSON-LD Schema Guard</h4>
-                           <p className="text-[10px] font-bold text-white/40 uppercase tracking-widest">Automated Search Engine Compliance.</p>
-                        </div>
-                     </div>
-                     <div className="px-6 py-2 bg-green-500 text-white rounded-full text-[10px] font-black uppercase tracking-widest relative z-10 animate-pulse">
-                        Engine Nominal
-                     </div>
-                  </div>
                </div>
             )}
 
@@ -478,11 +502,11 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
             </div>
             <button 
                onClick={handleSubmit}
-               disabled={isPending}
+               disabled={isPending || isAiLoading}
                className="flex-1 md:flex-none px-16 h-16 bg-slate-900 text-white text-[12px] font-black uppercase tracking-[0.3em] hover:bg-indigo-600 transition-all rounded-[24px] shadow-2xl flex items-center justify-center gap-4 group"
             >
-               {isPending ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5 group-hover:scale-110 transition-transform" />}
-               Publish to Store
+               {isPending || isAiLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5 group-hover:scale-110 transition-transform" />}
+               {isAiLoading ? "Processing Media..." : "Publish to Store"}
             </button>
          </div>
       </div>
