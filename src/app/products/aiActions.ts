@@ -77,31 +77,53 @@ export async function importProductFromChinaUrlAction(url: string) {
   if (!session || !session.merchantStoreId) throw new Error("Unauthorized");
 
   try {
-     // Fetch content via proxy/server
+     // Fetch content via proxy/server with a more common browser user-agent
      const res = await fetch(url, {
-        headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' }
+        headers: { 
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.9'
+        },
+        cache: 'no-store'
      });
+     
+     if (!res.ok) throw new Error("Failed to reach URL");
+     
      const html = await res.text();
-     const cleanHtml = html.slice(0, 15000); // Higher limit for product pages
+     // Extract critical product data points from HTML even if JS is needed
+     const cleanHtml = html.slice(0, 20000); 
 
      const prompt = `
-       Analyze this e-commerce HTML and extract product details:
-       Return ONLY as JSON: {"name": "...", "description": "...", "price": 0, "stock": 100, "category": "...", "brand": "..."}
-       HTML: ${cleanHtml}
+       You are an e-commerce data extractor. Extract product details from this HTML:
+       URL: ${url}
+       HTML Snippet: ${cleanHtml}
+
+       Return ONLY a JSON object:
+       {
+         "name": "Full product title",
+         "description": "Cleaned long description",
+         "price": numerical_price_only,
+         "stock": 100,
+         "category": "Detected category",
+         "brand": "Detected brand"
+       }
      `;
 
-     const { content } = await askAI(prompt, { jsonMode: true });
+     const { content } = await askAI(prompt, { 
+       jsonMode: true,
+       systemPrompt: "You are a professional web scraper AI. Extract product data accurately."
+     });
      const parsedData = JSON.parse(content);
 
      return {
        success: true,
        data: {
          ...parsedData,
-         images: ["https://picsum.photos/800/800"] // Scrapers usually need specific logic for images, keeping a placeholder for now or using the first detected img
+         images: ["https://picsum.photos/800/800"] // Scrapers usually need specific logic for images
        }
      };
-  } catch (error) {
-     console.error("URL Import Error:", error);
-     throw new Error("Failed to extract data from URL.");
+  } catch (error: any) {
+     console.error("URL Import Error:", error.message);
+     throw new Error("Failed to extract data. This site might be protected or require JavaScript.");
   }
 }
