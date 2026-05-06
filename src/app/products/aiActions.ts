@@ -77,12 +77,12 @@ export async function importProductFromChinaUrlAction(url: string) {
   if (!session || !session.merchantStoreId) throw new Error("Unauthorized");
 
   try {
-     // Fetch content via proxy/server with a more common browser user-agent
      const res = await fetch(url, {
         headers: { 
-          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
           'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
-          'Accept-Language': 'en-US,en;q=0.9'
+          'Accept-Language': 'en-US,en;q=0.9',
+          'Referer': 'https://www.google.com/'
         },
         cache: 'no-store'
      });
@@ -90,28 +90,39 @@ export async function importProductFromChinaUrlAction(url: string) {
      if (!res.ok) throw new Error("Failed to reach URL");
      
      const html = await res.text();
-     // Extract critical product data points from HTML even if JS is needed
-     const cleanHtml = html.slice(0, 20000); 
+     
+     // Targeted Extraction: AliExpress stores data in large JSON objects inside script tags
+     // We look for 'window.runParams' or similar patterns which contain the full product spec
+     let contextData = html.slice(0, 30000); // Default fallback
+     
+     const scriptMatch = html.match(/window\.runParams\s*=\s*({.*?});/s) || 
+                         html.match(/data:\s*({.*?}),\s*csrfToken/s) ||
+                         html.match(/_itemDetailData\s*=\s*({.*?});/s);
+
+     if (scriptMatch && scriptMatch[1]) {
+        contextData = scriptMatch[1].slice(0, 20000); // Use the concentrated JSON data
+     }
 
      const prompt = `
-       You are an e-commerce data extractor. Extract product details from this HTML:
+       You are an Expert Scraper. Analyze this e-commerce product data and extract:
        URL: ${url}
-       HTML Snippet: ${cleanHtml}
+       Data Snippet: ${contextData}
 
-       Return ONLY a JSON object:
+       STRICT JSON RESPONSE:
        {
-         "name": "Full product title",
-         "description": "Cleaned long description",
-         "price": numerical_price_only,
-         "stock": 100,
-         "category": "Detected category",
-         "brand": "Detected brand"
+         "name": "Full title",
+         "description": "Rich description with specs",
+         "price": float_value,
+         "stock": integer,
+         "category": "category_name",
+         "brand": "brand_name",
+         "images": ["url1", "url2"]
        }
      `;
 
      const { content } = await askAI(prompt, { 
        jsonMode: true,
-       systemPrompt: "You are a professional web scraper AI. Extract product data accurately."
+       systemPrompt: "You are a professional scraper AI. Extract product data accurately from raw JSON/HTML snippets."
      });
      const parsedData = JSON.parse(content);
 
@@ -119,11 +130,11 @@ export async function importProductFromChinaUrlAction(url: string) {
        success: true,
        data: {
          ...parsedData,
-         images: ["https://picsum.photos/800/800"] // Scrapers usually need specific logic for images
+         images: (parsedData.images && parsedData.images.length > 0) ? parsedData.images : ["https://picsum.photos/800/800"]
        }
      };
   } catch (error: any) {
      console.error("URL Import Error:", error.message);
-     throw new Error("Failed to extract data. This site might be protected or require JavaScript.");
+     throw new Error("Extraction failed. Site protected or context missing.");
   }
 }
