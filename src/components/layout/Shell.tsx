@@ -42,7 +42,8 @@ import {
   Database,
   X,
   Settings,
-  User
+  User,
+  Briefcase
 } from "lucide-react";
 import { FileSpreadsheet } from "lucide-react";
 import Link from "next/link";
