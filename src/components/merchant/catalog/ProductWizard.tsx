@@ -7,7 +7,7 @@ import {
   Layers, Package, MapPin, Search, Barcode, Trash2, Image as ImageIcon, ShieldCheck,
   RefreshCw, Wand2, Scissors, Zap, Download, Globe2, Save, Gift, Loader2,
   MoreVertical, ExternalLink, AlertCircle, Link as LinkIcon, FileText, Database,
-  Eye, Facebook, Share2, Info
+  Eye, Facebook, Share2, Info, Terminal
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createProductAction, uploadProductImageAction } from "@/app/products/actions";
@@ -19,7 +19,7 @@ interface ProductWizardProps {
 }
 
 type TabType = "general" | "pricing" | "logistics" | "seo";
-type SourceType = "manual" | "url" | "csv";
+type SourceType = "manual" | "url" | "ai_context";
 
 export default function ProductWizard({ categories, brands }: ProductWizardProps) {
   const [tab, setTab] = useState<TabType>("general");
@@ -28,6 +28,7 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
   const [isAiLoading, setIsAiLoading] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [importUrl, setImportUrl] = useState("");
+  const [aiContext, setAiContext] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState({
@@ -109,7 +110,32 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
          categoryId: categories.find(c => c.name.toLowerCase().includes(result.data.category.toLowerCase()))?.id || ""
        }));
        setTab("general");
-    } catch (err) { alert("Failed to extract data. The site might be protected."); } finally {
+    } catch (err) { 
+       setSource("ai_context");
+       alert("Automated Sync Blocked. Please use 'AI Context Paste' below to extract data manually."); 
+    } finally {
+       setIsAiLoading(false);
+    }
+  };
+
+  const handleAiContextExtraction = async () => {
+    if (!aiContext) return;
+    setIsAiLoading(true);
+    try {
+       const res = await fetch("/api/merchant/ai-studio/vision", { // Re-using vision or creating a dedicated parser
+          method: "POST",
+          body: JSON.stringify({ context: aiContext, type: "html_extraction" })
+       });
+       const result = await res.json();
+       setFormData(prev => ({
+         ...prev,
+         name: result.name,
+         description: result.description,
+         price: result.price?.toString() || "",
+         image: result.images?.[0] || prev.image,
+       }));
+       setTab("general");
+    } catch (err) { alert("AI could not parse the provided context."); } finally {
        setIsAiLoading(false);
     }
   };
@@ -142,22 +168,22 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
   return (
     <div className="w-full max-w-[1280px] mx-auto pb-20">
       
-      {/* 1. MODERN SOURCE SELECTOR */}
+      {/* 1. SOURCE SELECTOR */}
       <div className="bg-white border border-slate-100 rounded-3xl p-1.5 mb-8 flex items-center justify-between shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
          <div className="flex items-center gap-1">
-            <SourceBtn active={source === "manual"} icon={FileText} label="Manual Entry" onClick={() => setSource("manual")} />
-            <SourceBtn active={source === "url"} icon={Globe} label="Smart URL Import" onClick={() => setSource("url")} />
-            <SourceBtn active={source === "csv"} icon={Database} label="Bulk CSV" onClick={() => setSource("csv")} />
+            <SourceBtn active={source === "manual"} icon={FileText} label="Manual" onClick={() => setSource("manual")} />
+            <SourceBtn active={source === "url"} icon={Globe} label="Auto Sync" onClick={() => setSource("url")} />
+            <SourceBtn active={source === "ai_context"} icon={Terminal} label="AI Context Paste" onClick={() => setSource("ai_context")} />
          </div>
          <div className="hidden md:flex items-center gap-4 px-6 border-l border-slate-50">
             <div className="flex items-center gap-2">
                <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
-               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Neural Hub Active</span>
+               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Global Engine v2.0</span>
             </div>
          </div>
       </div>
 
-      {/* URL Import Module (Modern Design) */}
+      {/* URL Import Module */}
       {source === "url" && (
          <div className="bg-slate-900 rounded-3xl p-6 mb-8 flex flex-col md:flex-row items-center gap-4 shadow-2xl animate-in slide-in-from-top-4 duration-500">
             <div className="flex-1 w-full relative">
@@ -169,16 +195,40 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
                   className="w-full pl-12 pr-4 h-14 bg-white/5 border border-white/10 text-sm font-medium text-white outline-none focus:border-indigo-500 rounded-2xl transition-all"
                />
             </div>
-            <button onClick={handleImportUrl} disabled={isAiLoading} className="w-full md:w-auto h-14 px-10 bg-indigo-600 text-white text-[11px] font-black uppercase tracking-widest hover:bg-indigo-500 rounded-2xl disabled:opacity-50 transition-all shadow-xl shadow-indigo-600/20">
-               {isAiLoading ? "Synchronizing..." : "Extract Data"}
+            <button onClick={handleImportUrl} disabled={isAiLoading} className="w-full md:w-auto h-14 px-10 bg-indigo-600 text-white text-[11px] font-black uppercase tracking-widest hover:bg-indigo-500 rounded-2xl disabled:opacity-50 transition-all shadow-xl">
+               {isAiLoading ? "Syncing..." : "Sync Engine"}
             </button>
+         </div>
+      )}
+
+      {/* AI CONTEXT PASTE (The Bulletproof Solution) */}
+      {source === "ai_context" && (
+         <div className="bg-slate-900 rounded-[40px] p-10 mb-8 space-y-6 shadow-2xl animate-in slide-in-from-top-4">
+            <div className="flex items-center justify-between">
+               <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white"><Terminal className="w-5 h-5" /></div>
+                  <div>
+                     <h3 className="text-white text-sm font-black uppercase tracking-tight">AI Neural Context Extraction</h3>
+                     <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest">Paste HTML Source or Text if automated sync fails.</p>
+                  </div>
+               </div>
+               <button onClick={handleAiContextExtraction} disabled={isAiLoading || !aiContext} className="px-10 h-12 bg-white text-black text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-indigo-500 hover:text-white transition-all disabled:opacity-30">
+                  {isAiLoading ? "Extracting..." : "AI Extract All"}
+               </button>
+            </div>
+            <textarea 
+               value={aiContext}
+               onChange={(e) => setAiContext(e.target.value)}
+               placeholder="Press Ctrl+U on product page, copy some text or HTML, and paste here..."
+               className="w-full h-48 bg-white/5 border border-white/10 p-6 text-xs font-mono text-indigo-300 outline-none focus:border-indigo-500 rounded-2xl resize-none"
+            />
          </div>
       )}
 
       {/* 2. PREMIUM EDITOR FRAME */}
       <div className="bg-white border border-slate-100 rounded-[32px] shadow-[0_20px_50px_rgba(0,0,0,0.03)] flex flex-col md:flex-row min-h-[750px] overflow-hidden">
          
-         {/* SOFT SIDEBAR NAVIGATION */}
+         {/* SIDEBAR NAVIGATION */}
          <div className="w-full md:w-72 bg-slate-50/50 p-8 space-y-2 border-b md:border-b-0 md:border-r border-slate-50">
             <TabBtn active={tab === "general"} icon={ShoppingBag} label="General Hub" onClick={() => setTab("general")} />
             <TabBtn active={tab === "pricing"} icon={DollarSign} label="Price & Stock" onClick={() => setTab("pricing")} />
@@ -202,18 +252,13 @@ export default function ProductWizard({ categories, brands }: ProductWizardProps
             {/* GENERAL TAB */}
             {tab === "general" && (
                <div className="space-y-10 animate-in fade-in duration-700">
-                  <div className="flex items-center justify-between">
-                     <SectionTitle title="General Information" sub="Base identity and visual assets." />
-                     <div className="flex -space-x-2">
-                        {[1,2,3].map(i => <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-slate-100" />)}
-                     </div>
-                  </div>
+                  <SectionTitle title="General Information" sub="Base identity and visual assets." />
                   
                   <div className="space-y-3">
                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
                         <Info className="w-3 h-3" /> Product Display Title
                      </label>
-                     <input name="name" value={formData.name} onChange={handleInputChange} placeholder="Modern eCommerce Title..." className="w-full bg-slate-50 border-none h-16 px-6 text-xl font-black text-slate-900 outline-none focus:ring-4 focus:ring-indigo-600/5 rounded-2xl transition-all" />
+                     <input name="name" value={formData.name} onChange={handleInputChange} placeholder="Product Title..." className="w-full bg-slate-50 border-none h-16 px-6 text-xl font-black text-slate-900 outline-none focus:ring-4 focus:ring-indigo-600/5 rounded-2xl transition-all" />
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
