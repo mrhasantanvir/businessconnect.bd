@@ -84,3 +84,29 @@ export async function bookCourierAction(orderId: string, provider: "STEADFAST" |
 
   throw new Error("Courier provider not implemented yet");
 }
+
+export async function updateOrderStatusAction(orderId: string, status: string) {
+  const session = await getSession();
+  if (!session || !session.merchantStoreId) throw new Error("Unauthorized");
+
+  const order = await prisma.order.findUnique({
+    where: { id: orderId }
+  });
+
+  if (!order) throw new Error("Order not found");
+
+  await prisma.order.update({
+    where: { id: orderId },
+    data: { status: status as any }
+  });
+
+  await logOrderActivity({
+    orderId,
+    userId: session.userId,
+    type: "STATUS_UPDATE",
+    message: `Order status manually transitioned to ${status.replace(/_/g, " ")} via Enterprise Workspace.`
+  });
+
+  revalidatePath("/orders");
+  return { success: true };
+}

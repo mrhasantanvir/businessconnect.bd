@@ -2,8 +2,7 @@ import React from "react";
 import { db as prisma } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { Truck } from "lucide-react";
-import { OrderOverview } from "./OrderOverview";
+import { OrderWorkspace } from "./OrderWorkspace";
 
 import { hasPermission } from "@/lib/permissions";
 
@@ -54,29 +53,34 @@ export default async function OrdersManagementPage() {
     }
   });
 
+  const orders = await prisma.order.findMany({
+    where: { merchantStoreId: session.merchantStoreId },
+    include: {
+       items: { include: { product: true } }
+    },
+    orderBy: { createdAt: "desc" },
+    take: 50 // Load recent 50 for workspace performance
+  });
+
   return (
-    <div className="w-full max-w-7xl mx-auto space-y-4 md:space-y-6 animate-in fade-in duration-500 pb-20 px-4 md:px-0">
+    <div className="w-full max-w-[1600px] mx-auto space-y-4 md:space-y-6 animate-in fade-in duration-500 pb-20 px-4 md:px-0">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-100 pb-6">
         <div>
           <div className="flex items-center gap-2 mb-1">
              <div className="w-2 h-6 bg-indigo-600 rounded-full"></div>
-             <h1 className="text-xl md:text-2xl font-bold text-[#0F172A] uppercase tracking-tight">Orders <span className="text-indigo-600">& Dispatch</span></h1>
+             <h1 className="text-xl md:text-2xl font-bold text-[#0F172A] uppercase tracking-tight">Order <span className="text-indigo-600">Workspace</span></h1>
           </div>
-          <p className="text-gray-400 text-[10px] md:text-xs font-bold uppercase tracking-widest">Automation & Fulfillment Hub</p>
+          <p className="text-gray-400 text-[10px] md:text-xs font-bold uppercase tracking-widest">Enterprise Command & Dispatch Center</p>
         </div>
         <div className="flex items-center gap-3">
            <div className="bg-gray-50 text-gray-500 px-3 py-1.5 rounded-full text-[9px] font-bold uppercase tracking-widest border border-gray-100 flex items-center gap-2">
               <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
-              Network Sync: Active
+              Real-time Intelligence Active
            </div>
         </div>
       </div>
 
-      <OrderOverview 
-        statsData={statsData} 
-        todaysPendingData={todaysPendingData} 
-        damagedCount={damagedCount} 
-      />
+      <OrderWorkspace initialOrders={orders} statsData={statsData} />
     </div>
   );
 }
