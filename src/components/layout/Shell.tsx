@@ -245,12 +245,6 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
          { icon: PhoneCall, label: "Platform Chat", href: "/support/platform-chat", roles: ["MERCHANT", "STAFF"], permission: "orders:view" },
        ]
     },
-    {
-       group: "Account Security",
-       version: APP_VERSION.features.accountSecurity,
-       items: [
-         { icon: User, label: "Profile & Security", href: "/settings/profile", roles: ["MERCHANT", "SUPER_ADMIN", "STAFF"] },
-       ]
     }
   ];
 
