@@ -244,7 +244,6 @@ export function Shell({ children, user }: { children: React.ReactNode, user?: an
          { icon: AlertCircle, label: "Tickets", href: "/support/incidents", roles: ["MERCHANT", "STAFF"], permission: "orders:view" },
          { icon: PhoneCall, label: "Platform Chat", href: "/support/platform-chat", roles: ["MERCHANT", "STAFF"], permission: "orders:view" },
        ]
-    },
     }
   ];
 
