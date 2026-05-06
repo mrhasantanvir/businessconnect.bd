@@ -182,30 +182,3 @@ export async function deleteProductAction(id: string) {
   revalidatePath("/merchant/catalog");
   return { success: true };
 }
-
-export async function downloadExternalImageAction(url: string) {
-  const session = await getSession();
-  if (!session || !session.merchantStoreId) throw new Error("Unauthorized");
-
-  try {
-    // Handle protocol-relative URLs (e.g., //ae01.alicdn.com/...)
-    const fullUrl = url.startsWith("//") ? `https:${url}` : url;
-    
-    const response = await fetch(fullUrl, {
-       headers: { 'User-Agent': 'Mozilla/5.0' }
-    });
-    if (!response.ok) throw new Error(`Failed to fetch image: ${response.statusText}`);
-    
-    const arrayBuffer = await response.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-    
-    const filename = `sync-${Date.now()}-${Math.random().toString(36).substring(7)}.jpg`;
-    const uploadPath = path.join(process.cwd(), "public", "uploads", "products", filename);
-    
-    await writeFile(uploadPath, buffer);
-    return { url: `/uploads/products/${filename}` };
-  } catch (error: any) {
-    console.error("Download Error:", error.message);
-    return { url: url }; // Fallback to original if download fails
-  }
-}
